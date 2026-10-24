@@ -29,7 +29,7 @@ Build cost: **₹4,243–4,397** (Monte Carlo of the parts list); the limit is �
 - **Robustness:** it beats the weight rule in **all 46** assumption-sensitivity scenarios and in 14 of 15 stress cases. In the 15th (10% guest days) the rule catches more but fires about 30× more false alerts.
 - **Care loop:** in simulation, 92% of red alerts get a clinical review before the hospital visit, versus 27% with a single SMS.
 - **Circuit:** LTspice puts every path within 0.05% of the exact answer. A Monte Carlo of 100 stools built from 5% parts keeps 99% of readings within 2%. It also changed the design: the bias resistors are now 10 MΩ.
-- **Heart rate on real ECG:** PhysioNet BIDMC CHF, 3 records: mean sensitivity 93%, heart-rate error 0.66 bpm.
+- **Heart rate on real ECG:** all 15 PhysioNet BIDMC CHF records: median heart-rate error 0.15 bpm, 13 of 15 records within 0.5 bpm, 96% of 30-second windows within 5 bpm. It fails on chf12, a very noisy recording.
 
 Details: `reports/phase1_summary.md`, `reports/phase2_summary.md`, `sim/circuit/HOW_TO_VERIFY.md`.
 
