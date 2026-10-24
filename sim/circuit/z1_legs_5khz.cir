@@ -1,0 +1,81 @@
+* HridayMitra v3 - Z1 legs path, tetrapolar, 5 kHz
+* Excitation -> 4.7k -> forefoot plates; heel plates sense; INA gain 10; ratio against 220 ohm sense resistor
+.param f=5k Rc=1k fl=1 selv=0
+
+* supply and 1.65 V reference (U1A buffer)
+V1 vcc 0 3.3
+R1 vcc vrefin 10k
+R2 vrefin 0 10k
+C1 vrefin 0 10u
+Bu1a vref 0 V=limit(V(vrefin),0.05,3.25)
+
+* excitation: ESP32 DAC cosine, scale 1/2 (about 0.83 V peak), AC coupled, U1B buffer
+Vdac dac 0 SIN(1.65 0.83 {f})
+C2 dac excin 1u
+R3 excin vref 100k
+Bu1b excout 0 V=limit(V(excin),0.05,3.25)
+
+* current path
+C3 excout n1 1u
+R4 n1 injA 4.7k
+C4 injB ret 1u
+R5 ret vref 220
+
+* body: electrode contacts, feet, two legs (Cole model: Re || Ri+Cm), pelvis
+Rci1 injA a1 {Rc}
+Rfa a1 a2 10
+ReL a2 p1 {290/fl}
+RiL a2 m1 650
+CmL m1 p1 3.39n
+Rp p1 p2 25
+ReR p2 b2 {290/fl}
+RiR p2 m2 650
+CmR m2 b2 3.39n
+Rfb b2 b1 10
+Rci2 b1 injB {Rc}
+
+* sensing: heel plates, contact, 1k protection, 1M bias to VREF
+Rcs1 a2 sa_raw {Rc}
+Rcs2 b2 sb_raw {Rc}
+R6 sa_raw sa 1k
+R7 sb_raw sb 1k
+R8 sa vref 10Meg
+R9 sb vref 10Meg
+
+* DC definition of floating body nodes (1G to VREF)
+Rd1 n1 vref 1G
+Rd2 injA vref 1G
+Rd3 a1 vref 1G
+Rd4 a2 vref 1G
+Rd5 p1 vref 1G
+Rd6 p2 vref 1G
+Rd7 b2 vref 1G
+Rd8 b1 vref 1G
+Rd9 injB vref 1G
+Rd10 m1 vref 1G
+Rd11 m2 vref 1G
+
+* selector (74HC4053 sections X and Y): low = body, high = across R5; Ron 100 ohm
+Vsel sel 0 {selv}
+Bch chi 0 V=V(sel)
+Bcl clo 0 V=3.3-V(sel)
+.model SW SW(Ron=100 Roff=1G Vt=1.65 Vh=0.1)
+S1 inp sa clo 0 SW
+S2 inp ret chi 0 SW
+S3 inn sb clo 0 SW
+S4 inn vref chi 0 SW
+
+* instrumentation amplifier (gain 10, REF = VREF), then RC filter to ADC pin
+Bina ina 0 V=limit(V(vref)+10*(V(inp)-V(inn)),0.05,3.25)
+R11 ina adc 1.5k
+C5 adc 0 10n
+Radc adc 0 10Meg
+
+.tran 0 0.12 0 2u
+.step param selv list 0 3.3
+.step param Rc list 100 1k 3k 10k
+.step param fl list 0.9 1 1.1
+.meas TRAN vpp PP V(adc) FROM=0.04 TO=0.12
+.meas TRAN ipk MAX abs(I(R4)) FROM=0.04 TO=0.12
+.save V(adc) I(R4)
+.end

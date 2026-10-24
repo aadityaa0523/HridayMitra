@@ -1,0 +1,328 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>HridayMitra Build Guide v3</title>
+<style>
+@page { size: A4; margin: 13mm 12mm; }
+body { font-family: "Segoe UI", Arial, sans-serif; font-size: 9pt; line-height: 1.4; color: #1b2427; }
+h1 { font-size: 18pt; line-height: 1.15; margin: 4px 0 6px; color: #0d4f52; }
+h2 { font-size: 12.5pt; color: #0d4f52; border-bottom: 1.5px solid #0d6b6e; padding-bottom: 2px; margin: 16px 0 6px; break-after: avoid; }
+h3 { font-size: 10pt; margin: 10px 0 4px; break-after: avoid; }
+p, li { margin: 3px 0; }
+ol, ul { margin: 3px 0 5px; padding-left: 18px; }
+table { border-collapse: collapse; width: 100%; margin: 5px 0 8px; font-size: 8pt; }
+th, td { border: 1px solid #cfd8da; padding: 3px 5px; vertical-align: top; text-align: left; }
+th { background: #e6f1f1; }
+tr { break-inside: avoid; }
+td.r { text-align: right; white-space: nowrap; }
+tr.sec td { background: #f2f7f7; font-weight: 700; }
+tr.new td { background: #fff6dc; }
+.eyebrow { font-size: 8pt; letter-spacing: .08em; text-transform: uppercase; color: #0d6b6e; font-weight: 600; }
+.warn { font-weight: 600; color: #8a5300; }
+.box { border: 1px solid #cfd8da; border-radius: 5px; padding: 6px 10px; margin: 6px 0; background: #fafcfc; break-inside: avoid; }
+.chg { border: 1px solid #e6cf9f; background: #fff8ea; border-radius: 5px; padding: 6px 10px; margin: 6px 0; }
+.small { font-size: 7.8pt; color: #5b6a6f; }
+code { font-family: Consolas, monospace; font-size: 8pt; }
+</style></head><body>
+
+<div class="eyebrow">Transfinitte · Hardware track · Prototype build guide · v3 (24 Oct 2026)</div>
+<h1>HridayMitra: requirements, parts list and complete build guide</h1>
+<p class="warn">Monitoring only, not a diagnosis tool. Never test on a person with a pacemaker or defibrillator. Circuit values are starting values: check them in LTspice before you build.</p>
+
+<div class="chg"><b>What changed in v3 (cost trim, team-approved)</b>
+<ul>
+<li><b>Product parts list is now ₹4,695 at safe prices</b> (was ₹7,095), about ₹305 under the ₹5,000 limit.</li>
+<li><b>One HX711 for all four load cells.</b> The 4 half-bridge cells are wired as one full bridge, the same way a bathroom scale is wired. Total weight and stand-up speed are unchanged; we lose the per-corner readings. This frees GPIO26, 27 and 33.</li>
+<li><b>Voice from the ESP32's own flash memory.</b> The DFPlayer and microSD card are gone. Prompts are stored in flash and played through the second DAC (GPIO26) into a PAM8403 amplifier and the same 4 Ω 3 W speaker.</li>
+<li><b>No boot pins used any more.</b> The path-select lines moved from GPIO12 and GPIO0 to the freed GPIO33 and GPIO27.</li>
+<li><b>Trimmed prices:</b> resistors and capacitors are counted as used, panel buttons replace arcade buttons, one 18650 cell, one perfboard, and a plain stool.</li>
+</ul>
+<b>What changed in v2</b>
+<ul>
+<li><b>Lung fluid is now measured physically.</b> The 4 hand strips are wired as electrodes. Two 74HC4052 switches pick 4 current paths (legs, arms, right side, left side), and the ESP32 computes a <b>trunk (chest) impedance</b>. This replaces the simulation-only chest belt. New rows and wiring are marked in yellow.</li>
+<li><b>Prices revised from Indian retail listings</b> (Probots, Robocraze, Hubtronics, Robu, Thingbits, Zbotic, IndiaMART), searched on 24 Oct 2026. ✓ = found online; the rest are estimates.</li>
+<li><b>The ESP32 is already bought.</b> It costs nothing more to buy, but its market price (₹499) is counted in the product parts list.</li>
+<li><b>Instrumentation amplifier fixed.</b> The INA128 and AD620 need at least about 4.5 V, so they won't run on our single 3.3 V supply. Use the INA126 (SOIC, on an adapter) or an INA333 breakout. The fallback is a 3-op-amp version built from 2 × MCP6002.</li>
+<li>Battery, voice and button prices went up; the totals are recomputed in section 3.</li>
+</ul>
+<b>Changed after the simulations (24 Oct 2026): fit these on the build</b>
+<ul>
+<li class="new"><b>R8 and R9 are now 10 MΩ, not 1 MΩ.</b> An LTspice Monte Carlo of 100 stools built from 5% parts, on random bodies and skin contacts, found that with 1 MΩ, 1 in 100 stools read more than 7.6% wrong (worst 12%) and the chest value was unusable. Cause: a dry return foot moves the whole body's voltage, and unequal sense contacts against 1 MΩ turn that into a false difference. With 10 MΩ, 99% of readings are within 2%, a +10% fluid change is measured within 0.13 points, and the amplifier never clips (input bias current included). The price is the same. Files: <code>sim/circuit/montecarlo.py</code>, <code>HOW_TO_VERIFY.md</code>.</li>
+<li class="new"><b>Mains hum (simulated):</b> 230 V / 50 Hz coupled into the body and sense wires, on battery and with a phone charger plugged in. The 5 kHz Goertzel reading stayed within 0.17% in every case, while a plain peak-to-peak reading was up to 18% wrong with the charger plugged in. So: <b>the firmware must use the Goertzel amplitude, never peak-to-peak</b>, and <b>measure on battery with the charger unplugged</b> (this is also the safety rule). Use short sense wires (shielded cable from the plates if longer than about 30 cm). File: <code>sim/circuit/hum.py</code>.</li>
+<li class="new"><b>Toe rings:</b> a metal ring bridging a foot's two plates reads 58–86% too high. The alert engine now rejects any leg reading more than 25% from last week's normal and the stool asks the patient to place their feet again. Keep the plate gap at least 8 cm (build pack).</li>
+</ul></div>
+
+<h2>1. What the PS requires (our checklist)</h2>
+<table>
+<tr><th>Rule</th><th>How the prototype meets it</th></tr>
+<tr><td>Under 2 min a day, no all-day patch</td><td>A seated check of about 75–90 s, plus 20 s in the evening. The amulet is worn like a pendant, not stuck on</td></tr>
+<tr><td>Local language, little reading</td><td>Voice prompts, 3 lights, big buttons</td></tr>
+<tr><td>Power cuts, weak internet</td><td>Battery, offline logic on the ESP32, SMS over 2G (not on Jio)</td></tr>
+<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,837 at the lowest prices found, ₹4,695 at safe prices</b> (section 3), about ₹305 headroom. Confirm with a real cart</td></tr>
+</table>
+<table>
+<tr><th>Warning sign</th><th>Measured by</th></tr>
+<tr><td>Weight gain</td><td>4 load cells under the plate, wired as one bridge into one HX711</td></tr>
+<tr><td>Faster resting heart rate</td><td>MAX30102 finger clip (ECG optional)</td></tr>
+<tr><td>Faster breathing</td><td>Amulet motion sensor at night (experimental), plus symptom questions</td></tr>
+<tr><td>Less activity</td><td>Amulet steps, stand-up speed from the load cells, missed check-ins</td></tr>
+<tr><td>Fluid in legs</td><td>Foot-to-foot impedance at 5 kHz (50 kHz in simulation), trended against the patient's own baseline</td></tr>
+<tr class="new"><td>Fluid in lungs</td><td><b>Trunk (chest) impedance from 4 hand + 4 foot electrodes</b>: Z<sub>trunk</sub> = (Z<sub>right side</sub> + Z<sub>left side</sub> − Z<sub>arms</sub> − Z<sub>legs</sub>) ÷ 2, trended against the patient's baseline. Supported by SpO₂, symptoms and night sit-ups</td></tr>
+<tr><td>Trouble breathing lying flat</td><td>Amulet posture and night sit-ups, plus the pillow question</td></tr>
+</table>
+<p><b>Deliverables:</b> user journey; block diagram; schematic of the impedance circuit with the ESP32; parts list in INR; simulation proof (LTspice, Wokwi, Python); code with a personal baseline and a reason for every alert; a simple status screen; 200+ synthetic patients with sensitivity, specificity, median lead time and false alerts per patient-month on a patient-level split; BIDMC heart-rate test; public GitHub with setup steps; 2-page report; 5-minute pitch; the "not a diagnosis tool" disclaimer.</p>
+<p><b>Judging:</b> sensing creativity 20, ease and long-term use 20, software 20, hardware and simulation 15, science and honest testing 15, cost, India fit and pitch 10.</p>
+
+<h2>2. What is physical, and what is simulated</h2>
+<table>
+<tr><th>Physical (build)</th><th>Simulated or shown on screen only</th></tr>
+<tr><td>
+<ul>
+<li>Stool on a plywood plate with 4 load cells (weight)</li>
+<li>Finger pulse and SpO₂</li>
+<li>3 lights and 3 buttons</li>
+<li><b>Leg and trunk (lung) impedance at 5 kHz</b>: resistor phantom test first, then real foot plates and hand strips</li>
+<li>Laptop running the alert engine</li>
+<li>Amulet with motion sensor over Bluetooth, if time</li>
+<li>SMS by SIM800L, if time</li>
+</ul></td>
+<td>
+<ul>
+<li>Impedance at 50 kHz and the full circuit (LTspice)</li>
+<li>The 200+ synthetic patients and all metrics</li>
+<li>The break-it demo</li>
+<li>The family and ASHA message sequence (phone mock-up)</li>
+</ul></td></tr>
+</table>
+<p><b>Block flow:</b> electrodes and sensors → ESP32 (readings, quality checks, lights, buttons) → USB serial JSON → laptop alert engine → state back to the ESP32 lights, SMS to a phone.</p>
+
+<h2>3. Complete parts list (revised prices)</h2>
+<p class="small">Tiers: <b>Must</b> = needed for the tier-A demo. <b>Should</b> = brownie points if time allows. <b>Nice</b> = polish. <b>Own</b> = you have it. Prices are in ₹: <b>Low</b> = cheapest listing found; <b>Plan</b> = the trimmed safe price we budget (v3). ✓ = found online on 24 Oct 2026 (prices and stock change); unmarked = estimate. Yellow rows are new or changed in v2 or v3.</p>
+<table>
+<tr><th>#</th><th>Part and values</th><th>Qty</th><th>Used for</th><th>Tier</th><th class="r">Low ₹</th><th class="r">Plan ₹</th><th>Source</th></tr>
+<tr class="sec"><td colspan="8">A. Parts you already own (₹0 to buy; their market price is counted in the product parts list)</td></tr>
+<tr class="new"><td>1</td><td>ESP32 WROOM-32 DevKit (classic). <b>Already bought.</b> Has the DAC used for the impedance signal</td><td>1</td><td>Station brain</td><td>Own</td><td class="r">0</td><td class="r">0</td><td>Market ₹499 ✓ (Amazon.in, tracked)</td></tr>
+<tr><td>2</td><td>AD8232 ECG module. Optional rhythm check from the hand electrodes. Not in the product parts list</td><td>1</td><td>Bonus</td><td>Own</td><td class="r">0</td><td class="r">0</td><td>Market ₹443–528 ✓</td></tr>
+<tr><td>3</td><td>ESP32-S3 Sense. Demo stand-in for the amulet brain; turn the camera off</td><td>1</td><td>Amulet (demo)</td><td>Own</td><td class="r">0</td><td class="r">0</td><td>Product uses ESP32-C3 SuperMini ₹230 ✓</td></tr>
+<tr><td>4</td><td>Buttons, joystick. Use 3 push buttons: green, red, SOS</td><td>3</td><td>Answers, SOS</td><td>Own</td><td class="r">0</td><td class="r">0</td><td></td></tr>
+
+<tr class="sec"><td colspan="8">B. Sensing and signal chain</td></tr>
+<tr class="new"><td>5</td><td><b>4 × 50 kg half-bridge load cells (loose) + 1 HX711</b>, wired as one full bridge (bathroom-scale wiring, section 4)</td><td>4 + 1</td><td>Weight</td><td>Must</td><td class="r">360</td><td class="r">410</td><td>Loose cells ~₹80–90 each + HX711 ~₹40–50 (estimate); full sets are ₹136 ✓ (Robocraze)</td></tr>
+<tr class="new"><td>6</td><td>MAX30102 module, I2C 0x57, 3.3 V</td><td>1</td><td>Pulse, SpO₂</td><td>Must</td><td class="r">130</td><td class="r">139</td><td>Hubtronics ✓; Probots (in stock) ✓</td></tr>
+<tr class="new"><td>7</td><td><b>INA126 (SOIC-8) on a SOIC-to-DIP adapter</b>, single 3.3 V, gain 10 with RG 16 kΩ. Alternative: INA333 breakout. <b>Do not use INA128 or AD620</b> (they need about 4.5 V or more). Fallback: 3-op-amp version from 2 × MCP6002 + 1% resistors</td><td>1</td><td>Reads body voltage</td><td>Must</td><td class="r">154</td><td class="r">154</td><td>Robu INA126 ₹139 ✓ (out of stock); adapter ₹15</td></tr>
+<tr class="new"><td>8</td><td>Dual op-amp, DIP-8: MCP6022 (rail-to-rail, 10 MHz) or <b>MCP6002</b> (fine at 5 kHz)</td><td>1</td><td>Vref and excitation buffer</td><td>Must</td><td class="r">46</td><td class="r">46</td><td>Hubtronics MCP6002 ₹46 ✓; MCP6022 not found in India</td></tr>
+<tr class="new"><td>9</td><td>74HC4053 analog switch, DIP-16 (CD4053 works too). Selects body voltage or current-sense voltage</td><td>1</td><td>Measurement select</td><td>Must</td><td class="r">22</td><td class="r">30</td><td>Probots CD4053 ✓; 74HC family ~₹30 ✓</td></tr>
+<tr class="new"><td>9b</td><td><b>74HC4052 dual 4-channel analog switch, DIP-16</b> (CD4052 works). U4 picks the current pair, U5 picks the sense pair: legs, arms, right side, left side</td><td>2</td><td>Lung-fluid paths</td><td>Must</td><td class="r">44</td><td class="r">60</td><td>Estimate (same family as CD4051 ₹22 ✓)</td></tr>
+<tr class="new"><td>10</td><td>DIP sockets: 2 × 8-pin, 3 × 16-pin</td><td>5</td><td>Easy part swaps</td><td>Must</td><td class="r">15</td><td class="r">25</td><td></td></tr>
+<tr class="new"><td>11</td><td>Resistors, 1% metal film, ¼ W: 10k ×3, 10 kΩ volume pot ×1 (audio), 100k ×1, 4.7k ×1, 220R ×4 (R5 + 3 LEDs), 16k ×1 (or 15k + 1k), <b>10M ×2</b>, 1k ×6, 1.5k ×1, 2.2k ×1. Phantom: 330R ×4, 47R ×1, 33R ×1, 680R, 1k</td><td>~32</td><td>Impedance circuit, LEDs, phantom</td><td>Must</td><td class="r">40</td><td class="r">60</td><td></td></tr>
+<tr><td>12</td><td>Capacitors: 1 µF X7R or film (16 V+) ×4, 100 nF ×8, 10 µF ×3, 10 nF ×2, 100 pF ×2 spare, 1000 µF 10 V electrolytic ×1</td><td>~20</td><td>Coupling, decoupling, filters</td><td>Must</td><td class="r">50</td><td class="r">80</td><td></td></tr>
+<tr><td>13</td><td>Diodes: 1N5819 Schottky ×2 (reverse-polarity protection), 1N4148 ×4 spare</td><td>6</td><td>Protection</td><td>Must</td><td class="r">10</td><td class="r">15</td><td></td></tr>
+<tr><td>14</td><td>LEDs 5 mm: green, amber, red (with the 220R resistors above)</td><td>3</td><td>Status lights</td><td>Must</td><td class="r">10</td><td class="r">15</td><td></td></tr>
+
+<tr class="sec"><td colspan="8">C. Frame, electrodes, wiring</td></tr>
+<tr class="new"><td>15</td><td>Stool: a plain sturdy plastic or steel stool, seat about 40–45 cm (≥150 kg rated). Foldable all-in-one is the product design for later</td><td>1</td><td>Body</td><td>Must</td><td class="r">250</td><td class="r">300</td><td>Local</td></tr>
+<tr><td>16</td><td>Plywood plate, about 40 × 40 cm, 12–18 mm thick</td><td>1</td><td>Weighing platform</td><td>Must</td><td class="r">80</td><td class="r">120</td><td>Local</td></tr>
+<tr><td>17</td><td>M5 bolts, nuts, washers: M5 × 30 mm ×8, nuts ×8, washers ×16, plus 5 mm spacers or 3 mm plywood strips</td><td>1 set</td><td>Mount load cells</td><td>Must</td><td class="r">40</td><td class="r">60</td><td>Local</td></tr>
+<tr><td>18</td><td>Rubber feet, under the free end of each load cell</td><td>4</td><td>Floor contact</td><td>Must</td><td class="r">20</td><td class="r">30</td><td>Local</td></tr>
+<tr><td>19</td><td>PVC pipe 25 mm, 1 m, with flange and elbow</td><td>1 set</td><td>Handle post</td><td>Must</td><td class="r">100</td><td class="r">150</td><td>Local</td></tr>
+<tr class="new"><td>20</td><td>Stainless-steel (304) strips: 4 foot plates about 8 × 5 cm and <b>4 hand strips about 10 × 2 cm, now all wired</b>. Round all edges</td><td>8</td><td>Electrodes (legs + lungs)</td><td>Must</td><td class="r">200</td><td class="r">220</td><td>SS304 ₹190–250/kg ✓ (IndiaMART) + cutting</td></tr>
+<tr class="new"><td>21</td><td>Shielded 4-core cable: about 3 m for the feet <b>+ 2 m up the post for the hands</b></td><td>2</td><td>Electrode wiring</td><td>Must</td><td class="r">80</td><td class="r">100</td><td></td></tr>
+<tr><td>22</td><td>Hookup wire 22 AWG: red, black, plus 2 colours, about 3 m each</td><td>1 set</td><td>Wiring</td><td>Must</td><td class="r">40</td><td class="r">50</td><td></td></tr>
+<tr><td>23</td><td>Project box about 150 × 100 × 50 mm, fixed under the seat</td><td>1</td><td>Electronics enclosure</td><td>Must</td><td class="r">60</td><td class="r">80</td><td></td></tr>
+<tr><td>24</td><td>Breadboards, jumper wires: 2 × 830-point, M-M, M-F and F-F sets</td><td>1 set</td><td>Prototyping (demo only)</td><td>Must</td><td class="r">120</td><td class="r">200</td><td></td></tr>
+<tr><td>25</td><td>Screws, M3 standoffs, cable ties, heat-shrink, tape, velcro, hot-glue sticks</td><td>1 set</td><td>Assembly</td><td>Must</td><td class="r">60</td><td class="r">70</td><td></td></tr>
+<tr><td>26</td><td>Solder, flux (if you don't already have them)</td><td>1</td><td>Soldering (demo only)</td><td>Must</td><td class="r">0</td><td class="r">40</td><td></td></tr>
+<tr><td>27</td><td>5 V 2 A phone charger and cable (skip if you own one)</td><td>1</td><td>Power</td><td>Must</td><td class="r">0</td><td class="r">120</td><td>Counted at ₹150 in the product list</td></tr>
+<tr><td>28</td><td>Anti-slip mat on the foot area</td><td>1</td><td>Safety</td><td>Nice</td><td class="r">30</td><td class="r">40</td><td></td></tr>
+
+<tr class="sec"><td colspan="8">D. Messaging, voice, battery</td></tr>
+<tr class="new"><td>29</td><td>SIM800L GSM module + antenna. 2G; needs 3.4–4.4 V and 2 A bursts. Use an Airtel, Vi or BSNL SIM (not Jio)</td><td>1</td><td>SMS and calls</td><td>Should</td><td class="r">150</td><td class="r">300</td><td>Verified range ✓ (Zbotic, IndiaMART)</td></tr>
+<tr class="new"><td>30</td><td><b>One</b> 18650 cell (protected), holder, TP4056, MT3608 boost, slide switch. Use a good cell: the SIM800L draws 2 A bursts</td><td>1 set</td><td>Battery, charge, 5 V rail</td><td>Should</td><td class="r">225</td><td class="r">330</td><td>Cell ₹96–199 ✓, holder ₹69 ✓, TP4056 ₹49 ✓, MT3608 ₹35–49 ✓</td></tr>
+<tr class="new"><td>31</td><td><b>PAM8403 amplifier module + 4 Ω 3 W speaker</b> (louder for elderly users). Voice prompts stored in ESP32 flash, played from the GPIO26 DAC. No DFPlayer, no SD card</td><td>1 set</td><td>Local-language voice</td><td>Should</td><td class="r">229</td><td class="r">279</td><td>Speaker ₹199–249 ✓ (Probots); PAM8403 ~₹30 (estimate)</td></tr>
+<tr class="new"><td>32</td><td>Perfboard 7 × 9 cm + header pins, to move the circuit off the breadboard</td><td>1</td><td>Permanent circuit</td><td>Should</td><td class="r">40</td><td class="r">60</td><td></td></tr>
+<tr class="new"><td>33</td><td><b>22 mm panel push buttons</b> (green, red, SOS), big and elder-friendly. 30 mm arcade buttons (Thingbits ₹79–93 each ✓) are an upgrade</td><td>3</td><td>Answers, SOS</td><td>Nice</td><td class="r">90</td><td class="r">120</td><td>Estimate</td></tr>
+
+<tr class="sec"><td colspan="8">E. Amulet (demo)</td></tr>
+<tr class="new"><td>34</td><td>MPU6050 breakout (or LIS2DW12). The LIS3DH chip is listed obsolete; check stock</td><td>1</td><td>Steps, posture, falls</td><td>Should</td><td class="r">120</td><td class="r">150</td><td>IndiaMART ₹120 ✓; Probots ₹199 ✓</td></tr>
+<tr><td>35</td><td>LiPo 3.7 V 400 mAh with protection; check that the connector fits your board</td><td>1</td><td>Power</td><td>Should</td><td class="r">124</td><td class="r">124</td><td>200 mAh: Robocraze ₹124 ✓</td></tr>
+<tr class="new"><td>36</td><td>TP4056 USB-C charge module (skip if the board already charges LiPo)</td><td>1</td><td>Charging</td><td>Should</td><td class="r">49</td><td class="r">49</td><td>Probots ✓</td></tr>
+<tr><td>37</td><td>Vibration motor + BC547 + 1k + 1N4148</td><td>1 set</td><td>Haptic prompt</td><td>Nice</td><td class="r">30</td><td class="r">40</td><td></td></tr>
+<tr><td>38</td><td>Pendant case + cotton thread. Breakaway thread, no magnets (the night-clip version is still being decided)</td><td>1</td><td>Shell</td><td>Nice</td><td class="r">50</td><td class="r">80</td><td></td></tr>
+<tr><td>39</td><td>Pogo pins + contact board. Charging dock, no magnets</td><td>1 set</td><td>Dock</td><td>Nice</td><td class="r">40</td><td class="r">60</td><td></td></tr>
+
+<tr class="sec"><td colspan="8">F. Test rigs (not product parts, not counted)</td></tr>
+<tr><td>40</td><td>SG90 servo, as a breathing dummy for the amulet test</td><td>1</td><td>Test</td><td>Test</td><td class="r">100</td><td class="r">150</td><td></td></tr>
+<tr><td>41</td><td>1 L water bottles: 5 bottles = 5 kg calibration weight</td><td>5</td><td>Calibrate weight</td><td>Test</td><td class="r">0</td><td class="r">0</td><td></td></tr>
+<tr><td>42</td><td>Protractor, multimeter: angle checks and voltage checks</td><td>1 set</td><td>Test</td><td>Test</td><td class="r">10</td><td class="r">400</td><td></td></tr>
+</table>
+
+<h3>Totals</h3>
+<table>
+<tr><th>What</th><th class="r">Low ₹</th><th class="r">Plan ₹</th><th>Note</th></tr>
+<tr><td>To buy: Must</td><td class="r">1,931</td><td class="r">2,574</td><td></td></tr>
+<tr><td>To buy: Should</td><td class="r">937</td><td class="r">1,292</td><td></td></tr>
+<tr><td>To buy: Nice</td><td class="r">240</td><td class="r">340</td><td></td></tr>
+<tr><td>To buy: Must + Should</td><td class="r">2,868</td><td class="r">3,866</td><td></td></tr>
+<tr><td>To buy: everything</td><td class="r">3,108</td><td class="r">4,206</td><td>Test rigs not counted</td></tr>
+<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,837</b></td><td class="r"><b>4,695</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹305 under ₹5,000 at safe prices</b></td></tr>
+</table>
+<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,695</b>, about ₹305 under ₹5,000. How we got from ₹7,095:
+<ul>
+<li>price trims: load cells, counting only the resistors and capacitors used, a plain stool, typical SIM800L price, INA126, panel buttons, one perfboard, local steel</li>
+<li>one HX711 bridge instead of four sets (≈ −₹134)</li>
+<li>voice from flash through a PAM8403 instead of DFPlayer + SD (≈ −₹189)</li>
+</ul>
+Still estimates: loose load cells, PAM8403, stool, steel, PVC and the small items. Every ₹ in the report needs a cart screenshot or a link. <b>The ECG upgrade (+₹450–530) still does not fit.</b></div>
+
+<h2>4. Pin map and wiring (classic ESP32 DevKit)</h2>
+<p>This map is a proposal; check it against your board's pinout. In v3 nothing is wired to the boot pins GPIO0 and GPIO12. GPIO15 (SOS button) idles high, which is the safe boot state. Analog inputs use ADC1 pins so they work with Bluetooth on.</p>
+<table>
+<tr><th>Function</th><th>ESP32 pin</th><th>Wiring notes</th></tr>
+<tr class="new"><td>HX711 data</td><td>GPIO32</td><td>One HX711 for the full bridge of 4 cells, powered from 3.3 V</td></tr>
+<tr class="new"><td>HX711 clock</td><td>GPIO14</td><td>—</td></tr>
+<tr class="new"><td>Voice audio (DAC2)</td><td>GPIO26</td><td>GPIO26 → 1 µF → 10 kΩ volume pot → PAM8403 left input (other input to GND); PAM8403 on 5 V; speaker on its left output. Prompts are 8-bit, 8–16 kHz mono clips in flash</td></tr>
+<tr><td>Excitation (DAC)</td><td>GPIO25</td><td>5 kHz cosine, amplitude scale ½</td></tr>
+<tr><td>Impedance read (ADC)</td><td>GPIO35</td><td>From the INA126 output filter</td></tr>
+<tr><td>Measurement select</td><td>GPIO18</td><td>74HC4053: low = body, high = current sense</td></tr>
+<tr class="new"><td>Path select S0</td><td>GPIO33</td><td>To A pins of U4 and U5 (74HC4052)</td></tr>
+<tr class="new"><td>Path select S1</td><td>GPIO27</td><td>To B pins of U4 and U5</td></tr>
+<tr><td>I2C SDA, SCL</td><td>GPIO21, 22</td><td>MAX30102 (0x57)</td></tr>
+<tr><td>ECG OUT, LO+, LO−</td><td>GPIO34, 39, 36</td><td>AD8232, optional</td></tr>
+<tr><td>LEDs green, amber, red</td><td>GPIO13, 23, 2</td><td>Each through 220 Ω to GND</td></tr>
+<tr><td>Buttons green, red, SOS</td><td>GPIO4, 5, 15</td><td>To GND, using internal pull-ups</td></tr>
+<tr><td>SIM800L TX/RX (UART2)</td><td>GPIO17, 16</td><td>ESP32 TX → 1 kΩ → SIM800L RX, with 2.2 kΩ to GND (about 2.3 V). Power the SIM800L from the battery with a 1000 µF capacitor, not from the 3.3 V pin</td></tr>
+<tr class="new"><td>Free for later</td><td>GPIO19, 0, 12</td><td>GPIO19 is spare (e.g., the amulet dock detect). Avoid GPIO0 and GPIO12 (boot pins)</td></tr>
+</table>
+
+<h2>5. The impedance front end (the custom circuit): every value</h2>
+<p><b>Idea:</b> a 5 kHz sine goes through the body via two outer electrodes, and two inner electrodes measure the voltage. A small resistor (R5) in the current path measures the current. The ESP32 reads both through the same amplifier, so <b>Z = R5 × (voltage across the body ÷ voltage across R5)</b> and the gain cancels. The bias point (Vref) is 1.65 V, half of 3.3 V. <b>New in v2:</b> two 74HC4052 switches choose which electrodes carry current and which sense, so the same circuit measures four body paths.</p>
+
+<h3>Electrode names</h3>
+<table>
+<tr><th>Name</th><th>Where</th><th>Role</th></tr>
+<tr><td>LF_FORE, RF_FORE</td><td>Forefoot plates, left and right</td><td>Current</td></tr>
+<tr><td>LF_HEEL, RF_HEEL</td><td>Heel plates, left and right</td><td>Sense</td></tr>
+<tr class="new"><td>LH_OUT, RH_OUT</td><td>Outer hand strips (towards the fingers), left and right</td><td>Current</td></tr>
+<tr class="new"><td>LH_IN, RH_IN</td><td>Inner hand strips (towards the wrist), left and right</td><td>Sense</td></tr>
+</table>
+
+<h3>The four paths (S1 S0 on GPIO27, GPIO33)</h3>
+<table>
+<tr><th>S1 S0</th><th>Path</th><th>Current in → out</th><th>Sense +, −</th><th>Measures</th></tr>
+<tr><td>0 0</td><td>Z1 legs</td><td>LF_FORE → RF_FORE</td><td>LF_HEEL, RF_HEEL</td><td>left leg + right leg (leg fluid)</td></tr>
+<tr class="new"><td>0 1</td><td>Z2 arms</td><td>LH_OUT → RH_OUT</td><td>LH_IN, RH_IN</td><td>left arm + right arm</td></tr>
+<tr class="new"><td>1 0</td><td>Z3 right side</td><td>RH_OUT → RF_FORE</td><td>RH_IN, RF_HEEL</td><td>right arm + trunk + right leg</td></tr>
+<tr class="new"><td>1 1</td><td>Z4 left side</td><td>LH_OUT → LF_FORE</td><td>LH_IN, LF_HEEL</td><td>left arm + trunk + left leg</td></tr>
+</table>
+<p><b>Trunk (lung-fluid proxy):</b> Z<sub>trunk</sub> = (Z3 + Z4 − Z1 − Z2) ÷ 2. Fluid in the chest lowers Z<sub>trunk</sub>. This is the segment model used by 8-electrode body-composition scales. <span class="warn">It is untested for heart failure. The trunk is only about 20–50 Ω, while each path is a few hundred ohms, so the subtraction magnifies noise: trend it over days, never one reading.</span></p>
+
+<h3>Circuit blocks</h3>
+<table>
+<tr><th>Block</th><th>Parts and values</th><th>Connections</th></tr>
+<tr><td>Vref 1.65 V</td><td>R1 10 kΩ 1%, R2 10 kΩ 1%, C1 10 µF, U1A (op-amp) as a buffer</td><td>3V3 → R1 → node → R2 → GND; C1 from node to GND; node to U1A + input; U1A output tied to its − input = VREF</td></tr>
+<tr><td>Excitation</td><td>C2 1 µF, R3 100 kΩ, U1B buffer</td><td>GPIO25 → C2 → EXC_IN; R3 from EXC_IN to VREF; EXC_IN to U1B + input; U1B output = EXC_OUT (output tied to its − input)</td></tr>
+<tr class="new"><td>Current path + U4 (74HC4052, current pair)</td><td>C3 1 µF, R4 4.7 kΩ 1%, C4 1 µF, R5 220 Ω 1%</td><td>EXC_OUT → C3 → R4 → U4 X-common. U4 X0 = LF_FORE, X1 = LH_OUT, X2 = RH_OUT, X3 = LH_OUT. U4 Y0 = RF_FORE, Y1 = RH_OUT, Y2 = RF_FORE, Y3 = LF_FORE. U4 Y-common → C4 → RET → R5 → VREF. U4 A = GPIO33, B = GPIO27, INH = GND, VEE = GND, VCC = 3.3 V, 100 nF</td></tr>
+<tr class="new"><td>Voltage sensing + U5 (74HC4052, sense pair)</td><td>1 kΩ protection on each of the 4 sense electrodes; R8, R9 <b>10 MΩ</b> bias (not 1 MΩ: see the simulation update above)</td><td>LF_HEEL, RF_HEEL, LH_IN, RH_IN each → 1 kΩ → U5. U5 X0 = LF_HEEL, X1 = LH_IN, X2 = RH_IN, X3 = LH_IN; X-common = SA. U5 Y0 = RF_HEEL, Y1 = RH_IN, Y2 = RF_HEEL, Y3 = LF_HEEL; Y-common = SB. R8: SA to VREF; R9: SB to VREF. U5 A/B shared with U4, INH = GND, VEE = GND, VCC 3.3 V, 100 nF</td></tr>
+<tr><td>Selector (74HC4053)</td><td>Two of its three switches; both select pins on GPIO18; third switch unused (select to GND); enable to GND; VEE to GND; VCC 3.3 V; 100 nF</td><td>Switch X: X0 = SA, X1 = RET, common → INA + input. Switch Y: Y0 = SB, Y1 = VREF, common → INA − input. Select low = body, high = across R5</td></tr>
+<tr><td>Amplifier (INA126)</td><td>RG 16 kΩ (15 kΩ + 1 kΩ), gain about 10, 100 nF</td><td>REF pin to VREF; V+ 3.3 V; V− GND; RG between its two RG pins; output → R11 1.5 kΩ → GPIO35, with C5 10 nF from GPIO35 to GND</td></tr>
+<tr><td>Decoupling</td><td>100 nF at each IC supply pin, 10 µF on the 3.3 V rail</td><td>Close to the chips</td></tr>
+</table>
+<p class="small">Check pin numbers on the datasheets (INA126, MCP6022/MCP6002, 74HC4053, 74HC4052) before wiring. The 74HC4052 switch resistance (about 100 Ω at 3.3 V) sits in the current loop; it doesn't affect the result, because the current is measured across R5. All switched signals stay between 0 and 3.3 V because they are centred on VREF.</p>
+<p><b>Expected levels (estimates):</b> current about 50–100 µA peak. Across the legs about 35–70 mV peak, so 0.35–0.7 V after the amplifier. Across R5 about 11–22 mV, so 110–220 mV after the amplifier. If the R5 reading is too small, raise R5. If the body reading clips, lower the excitation scale.</p>
+<p><b>Timing:</b> 4 paths × 2 select states × about 100 ms, plus 0.2 s settling after each path change, × 3 repeats (median) = about 4–5 s, inside the 60 s sit.</p>
+
+<h3>Resistor-phantom test (do this before any person touches it)</h3>
+<ol>
+<li><b>Legs only:</b> put 330 Ω between LF_FORE and RF_FORE, with LF_HEEL on the LF_FORE end and RF_HEEL on the RF_FORE end. Path Z1 should read 330 Ω.</li>
+<li>Repeat with 680 Ω and 1 kΩ. The computed Z should follow the resistor within about 5%. If it doesn't, check the select lines, the bias resistors and the ADC sampling.</li>
+<li>Add 1–5 kΩ in series with each outer lead to mimic poor contact. Z should barely move, because the current is measured.</li>
+<li class="new"><b>Whole-body phantom (new).</b> Build a star of five resistors:
+  <ul>
+  <li>left arm 330 Ω from the left-hand node to a "chest" node</li>
+  <li>right arm 330 Ω from the right-hand node to the chest node</li>
+  <li>trunk 47 Ω from the chest node to a "pelvis" node</li>
+  <li>left leg 330 Ω from the pelvis to the left-foot node</li>
+  <li>right leg 330 Ω from the pelvis to the right-foot node</li>
+  </ul>
+  Clip each hand's OUT and IN to its hand node, and each foot's FORE and HEEL to its foot node. Expect Z1 ≈ 660, Z2 ≈ 660, Z3 ≈ Z4 ≈ 707, so Z<sub>trunk</sub> ≈ 47 Ω. Then change the trunk to 33 Ω ("more chest fluid") and check that the computed trunk drops by about 14 Ω. Report the error.</li>
+</ol>
+<p><b>Digital measurement:</b> sample GPIO35 at 40 kHz or more (ADC continuous mode). Take a Goertzel (a fast single-frequency filter) at 5 kHz over about 100 ms (a whole number of 20 ms mains cycles) for each select state, and compute the amplitude ratio. <b>Never use peak-to-peak:</b> mains hum makes it up to 18% wrong when a charger is plugged in (simulated). If the ADC is too slow, drop the excitation to 2 kHz. Let it settle for about 1 s after switching the DAC on. Use the median of three readings.</p>
+<p><b>LTspice proof (graph for the judges):</b> model each segment (arm, trunk, leg) as outside-fluid resistance in parallel with inside-fluid resistance plus membrane capacitance, and add 1–10 kΩ of contact resistance on each electrode. Sweep <b>leg fluid ±10% and trunk fluid ±10% separately</b>, at 5 kHz and 50 kHz. Show that leg fluid moves Z1, trunk fluid moves Z<sub>trunk</sub>, and contact resistance barely moves either. Report the error.</p>
+
+<h2>6. Build guide, in order (with checks)</h2>
+<table>
+<tr><th>Step</th><th>Do</th><th>Done when</th><th>Time</th></tr>
+<tr class="new"><td>1. Bring-up</td><td>Power the ESP32 from USB, blink the 3 LEDs, read the 3 buttons on serial. <b>Play one test voice clip from flash through GPIO26 → PAM8403 → speaker</b></td><td>Each LED lights, each button prints, and the clip is clear and loud</td><td>30 min</td></tr>
+<tr class="new"><td>2. Weight platform</td><td>Bolt each load cell between the plywood plate and a rubber foot, with spacers so the free end can flex. <b>Wire the 4 half-bridge cells as one full bridge</b>: the two diagonal pairs share E+ and E−, and the centre taps of opposite cells give A+ and A−, as in a standard bathroom scale. Search "4 half-bridge load cell HX711 wiring". Connect it to the one HX711 (3.3 V, GND, GPIO32 data, GPIO14 clock). Calibrate with 1, 2 and 5 L water bottles (1 L ≈ 1 kg), store the scale factor, tare on boot</td><td>5 kg reads 5 kg within about 0.1 kg at the center and at each corner</td><td>40 min</td></tr>
+<tr><td>3. Pulse sensor</td><td>MAX30102 on I2C (3.3 V); read heart rate with a library example</td><td>Heart rate matches your wrist pulse</td><td>15 min</td></tr>
+<tr><td>4. Serial protocol</td><td>Print one JSON line per check: weight, leg impedance, <b>trunk impedance</b>, pulse, SpO₂, button answers, quality. Receive the state (green, amber, red) from the laptop and set the LEDs</td><td>The laptop script prints each line, and a test state lights the LEDs</td><td>20 min</td></tr>
+<tr class="new"><td>5. Impedance board</td><td>Build the section 5 circuit on a breadboard, one block at a time: Vref, then excitation, then selector and amplifier, <b>then U4 and U5</b>. Run phantom tests 1–4</td><td>Legs phantom within about 5%; whole-body phantom gives trunk 47 → 33 Ω within ±5 Ω</td><td>90 min</td></tr>
+<tr class="new"><td>6. Frame</td><td>Fix the stool and the PVC post to the plate (bolts or flange). Fix the handle bar. <b>Wrap 2 hand strips per hand (OUT towards the fingers, IN towards the wrist, gap of 3 cm or more) and run the 4-core cable down the post.</b> Fix foot plates with a 2 cm gap between forefoot and heel plates. Insulate the metal from the frame. Mount the project box under the seat; cable ties for the leads</td><td>Nothing wobbles; no metal touches another electrode</td><td>40 min</td></tr>
+<tr class="new"><td>7. Electrodes live</td><td>Connect the foot plates and hand strips to the impedance board. Test on your own dry bare feet and dry hands, <b>only after the phantom tests pass and while on battery power</b></td><td>Stable Z1–Z4. Z1 changes when you wet your feet or lift a heel. Z2 changes when you loosen your grip</td><td>30 min</td></tr>
+<tr><td>8. Integration</td><td>Run the laptop alert engine on the serial stream. Walk through green, amber and red using the break-it demo scenarios</td><td>The LEDs follow the engine</td><td>30 min</td></tr>
+<tr><td>9. Extras</td><td>Only if time is left: SIM800L SMS (AT+CMGS), full local-language prompt set in flash, ECG on the hand electrodes, amulet</td><td>An SMS reaches a phone</td><td>As time allows</td></tr>
+</table>
+
+<h2>7. Firmware and data</h2>
+<p><b>Modules:</b> sensors (weight, impedance on 4 paths, pulse), quality checks (stillness, contact, signal), identity check (weight and impedance fit the patient), serial output, LED and button handler, and voice prompts played from flash (DAC2), plus optional SMS.</p>
+<p><b>Daily features file</b> (the contract between hardware, data and engine): <code>patient_id, day, weight_kg, leg_z_ohm, leg_z_evening_ohm, <b>arm_z_ohm, trunk_z_ohm</b>, pulse_bpm, spo2, standup_s, breathless, orthopnea, took_pills, amulet_steps, amulet_situps, quality</code>. A missing value is an empty cell, never 0.</p>
+<p><b>Quality rules:</b>
+<ul>
+<li>Reject weight unless the load is steady for 5 s.</li>
+<li>Reject an impedance path if its select-high reading is below a floor (no current flowing).</li>
+<li><b>Reject the trunk value if any of Z1–Z4 failed, or if a hand lost grip</b> (Z2 jumps above 3× its baseline).</li>
+<li>Reject pulse with a low quality score.</li>
+</ul>
+Show "no reading" instead of guessing.</p>
+<p><b>Tare:</b> zero the empty stool on every power-up. Re-check with a 5 kg known weight weekly.</p>
+
+<h2>8. Amulet prototype (if time)</h2>
+<ol>
+<li>Wire the MPU6050 to the S3 Sense: 3.3 V, GND, SDA, SCL. Read acceleration at 25–50 Hz.</li>
+<li>Compute the tilt angle from gravity: lying flat, propped, upright. Count a "sit-up" as upright for more than 5 minutes between midnight and 5 am (shorten the time for the demo).</li>
+<li>Count steps and movement minutes; flag worn or not worn from tiny movements.</li>
+<li>Send a Bluetooth notification with angle, steps, sit-up flag and the SOS press.</li>
+<li>Test angles with a protractor jig (within 5 degrees). Test breathing only with the servo breathing dummy (target: within 2 breaths a minute in at least 80% of windows), and report it as experimental.</li>
+</ol>
+<p class="small">Pendant vs night-clip mounting is still an open team decision. A free-hanging pendant swings and slides, which weakens the posture and breathing readings.</p>
+
+<h2>9. Safety and edge-case checklist</h2>
+<ul>
+<li>Battery power whenever a person touches the electrodes; never mains, and unplug the charger during a check-in (the firmware can refuse to measure while the TP4056 reports charging). Keep the current near 0.1 mA at 5 kHz and confirm against IEC 60601-1 before any real use.</li>
+<li class="new"><b>The arms and side paths send current across the chest.</b> Keep the ~0.1 mA limit in firmware (cap the DAC amplitude), and stop if the R5 reading shows more than 0.15 mA. 8-electrode body-composition scales work the same way, but our circuit is unverified.</li>
+<li>No pacemaker or defibrillator users. No magnets anywhere. All impedance off for implant patients.</li>
+<li>Round and insulate all metal edges. Keep the 18650 away from heat and metal; use a protected cell.</li>
+<li>Touch a grounded metal object before handling the ICs (static).</li>
+<li>Test with dry feet and hands only at first. Test wet feet after the circuit is verified.</li>
+</ul>
+<table>
+<tr><th>Edge case</th><th>Prototype behaviour to demo</th></tr>
+<tr><td>Guest on the stool</td><td>Weight outside the patient's band: shows "Is this Ramesh-ji?" and logs a guest</td></tr>
+<tr><td>Wet feet, jewellery</td><td>Impedance shifts; the contact check prompts; the baseline learns the patient's usual jewellery</td></tr>
+<tr class="new"><td>Loose grip on the handle</td><td>Z2 jumps; voice says "hold the handle firmly"; the trunk value becomes "no reading" for that day</td></tr>
+<tr><td>Missing or low-quality reading</td><td>"No reading", never a guess</td></tr>
+<tr><td>Missed day</td><td>Baseline kept; a reminder, then an SMS</td></tr>
+<tr><td>Amulet forgotten</td><td>"No amulet data" flag; the stool still works</td></tr>
+<tr><td>Power cut</td><td>Runs on the battery; messages queue</td></tr>
+<tr><td>False alarm causes</td><td>Cause tags: infection-like, salty meal, missed medicine</td></tr>
+</table>
+
+<h2>10. Demo script (3 minutes), pitch and definition of done</h2>
+<ol>
+<li><b>Story (20 s):</b> Ramaiah, 68, was admitted gasping at night. His weight had been rising for 9 days, and nobody knew.</li>
+<li><b>Sit on the stool (40 s):</b> weight, pulse, <b>leg fluid and chest fluid</b> appear, with a green light.</li>
+<li><b>Break it (80 s):</b> inject a guest, wet feet, a missed pill, an infection-like jump, and a real worsening (trunk impedance falling with weight rising). Show amber then red, the spoken reason, and the SMS on a phone.</li>
+<li><b>Results (30 s):</b> the four metrics against the weight-rule baseline, with limits stated.</li>
+<li><b>India and business (10 s):</b> offline, 2G SMS, ASHA loop, kit near cost plus a monthly care-loop service (hypothesis).</li>
+</ol>
+<p><b>Pitch (5 min):</b> story, problem, solution, live demo, results and honest limits, India fit and business, the ask. Record a backup demo video before the final run.</p>
+<p><b>Done means:</b> block diagram, schematic, LTspice plots, code on public GitHub with setup steps, results on 200+ virtual patients, 2-page report, pitch, disclaimer, and a working tier-A stool.</p>
+
+<h2>11. Not verified</h2>
+<ul>
+<li><b>All circuit values</b> (check in LTspice): INA126 gain and pin numbers, the 74HC4053 and <b>74HC4052</b> wiring, the ADC sampling rate, and the 5 kHz measurement accuracy.</li>
+<li><b>Trunk impedance:</b> the subtraction formula, whether a 20–50 Ω trunk is resolvable, and whether it tracks lung fluid in real people.</li>
+<li><b>New in v3:</b> the 4-cell single-bridge wiring and its corner accuracy; voice loudness and clarity from the 8-bit DAC through the PAM8403; whether the prompts fit in flash next to the firmware.</li>
+<li><b>Prices:</b> about half the rows are estimates, and several ✓ items were out of stock when checked (INA126, 18650). Also unverified: the 2G modem on your SIM, and the pin map on your board.</li>
+<li><b>Real-world behaviour:</b> amulet breathing in older people, pulse on cold or shaking fingers, and acceptance by elders.</li>
+<li><b>Real people:</b> whether the impedance, ECG and four body paths behave as designed. Use phantoms and synthetic data for every result you report.</li>
+</ul>
+</body></html>

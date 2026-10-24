@@ -1,0 +1,16 @@
+metric,value,note
+parsed_total_low,3837.0,"Rs, sum of parsed list"
+guide_total_low,3837.0,"Rs, stated in guide"
+parsed_total_plan,4695.0,"Rs, sum of parsed list"
+guide_total_plan,4695.0,"Rs, stated in guide"
+P(total<=5000),1.0,build cost only (parts)
+median,4265.4131,Rs
+p5,4187.8506,Rs
+p95,4342.9885,Rs
+volume_100_units_low,2559.2479,"ASSUMPTION: bulk prices 40% lower, Rs per unit, no shipping"
+volume_100_units_high,2985.7892,"ASSUMPTION: bulk prices 30% lower, Rs per unit, no shipping"
+top1_variance,0.4313,SIM800L GSM module + antenna
+top2_variance,0.2083,One 18650 cell
+top3_variance,0.0482,PAM8403 amplifier module + 4 Ω 3 W speaker
+top4_variance,0.047,PVC pipe 25 mm
+top5_variance,0.0464,Stool

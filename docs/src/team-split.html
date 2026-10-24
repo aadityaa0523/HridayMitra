@@ -1,0 +1,295 @@
+<title>HF Early Warning Team Split</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Public+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; roles as a stacked ledger, contracts as code panels */
+:root{
+  --bg:#f7f8f8; --surface:#ffffff; --ink:#1b2427; --muted:#5b6a6f; --line:#dde3e4;
+  --accent:#0d6b6e; --accent-soft:#e2f0f0; --grid:#f3d9dc;
+  --ok:#2a6f42; --warn:#8a5300; --bad:#b3261e;
+  --display:"Fraunces",Georgia,serif; --body:"Public Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111618; --surface:#182023; --ink:#e4ebec; --muted:#9aaaae; --line:#2a3539;
+  --accent:#5cc3c6; --accent-soft:#16302f; --grid:#3a2427;
+  --ok:#6cc58a; --warn:#e7a74a; --bad:#f08a80; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111618; --surface:#182023; --ink:#e4ebec; --muted:#9aaaae; --line:#2a3539;
+  --accent:#5cc3c6; --accent-soft:#16302f; --grid:#3a2427;
+  --ok:#6cc58a; --warn:#e7a74a; --bad:#f08a80; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+header{border-bottom:1px solid var(--line);padding-bottom:24px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:20px 20px;background-position:0 -1px}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font:600 clamp(28px,5vw,40px)/1.15 var(--display);margin:10px 0 12px;text-wrap:balance}
+h2{font:600 24px/1.25 var(--display);margin:0 0 12px;text-wrap:balance}
+h3{font:700 17px/1.3 var(--body);margin:0}
+p{margin:0;max-width:68ch}
+.lead{color:var(--muted)}
+section{display:grid;gap:14px}
+ul{margin:0;padding-left:20px;display:grid;gap:4px}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.rule{background:var(--accent-soft);border-radius:8px;padding:14px 16px}
+.rule strong{color:var(--accent)}
+.concept{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.concept div{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px;min-width:0}
+.concept h3{margin-bottom:6px}
+.flow{overflow-x:auto}
+.roles{display:grid;gap:0;border-top:1px solid var(--line)}
+.role{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.role > div{min-width:0;display:grid;gap:10px}
+.tag{font:600 13px/1.3 var(--mono);color:var(--accent)}
+.tag span{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:4px 12px;font-size:15px}
+.kv dt{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+.kv dd{margin:0;min-width:0}
+pre{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font:13px/1.55 var(--mono)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+td.r,th.r{text-align:right}
+tfoot td{font-weight:700}
+tr.sub td{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;padding-top:14px}
+.lv{display:inline-block;padding:1px 8px;border-radius:99px;font:600 12px/1.6 var(--mono)}
+.g{color:var(--ok);border:1px solid var(--ok)}.a{color:var(--warn);border:1px solid var(--warn)}.rd{color:var(--bad);border:1px solid var(--bad)}
+.note{font-size:14px;color:var(--muted)}
+.risks{display:grid;gap:10px}
+.risks div{border-left:3px solid var(--warn);padding:2px 0 2px 12px}
+@media (max-width:560px){.role{grid-template-columns:1fr;gap:8px}.kv{grid-template-columns:1fr}.kv dt{padding-top:6px}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Transfinitte · Hardware track · Team of 5</div>
+  <h1>Early warning of worsening heart failure: who builds what</h1>
+  <p class="lead">A wrist band records the patient, a bedside dock decides, and an SMS reaches the family's phone. Five jobs that run in parallel: everyone builds against the fixed file formats on this page and uses the sample rows as mock input. You only join the pieces at the final merge.</p>
+</header>
+
+<section>
+  <h2>Hour 0: decide together (30 min)</h2>
+  <div class="rule"><strong>The only shared step.</strong> Confirm the architecture below, write a name next to each role, and paste the contracts into <code>CONTRACT.md</code> in the repo. After that, <strong>nobody changes a contract without telling all five</strong>.</div>
+
+  <div class="flow"><pre>  WRIST BAND (worn day and night)       BEDSIDE DOCK (charger + brain)            PHONE
+  ┌───────────────────────────┐  BLE   ┌──────────────────────────────┐  SMS   ┌────────────────┐
+  │ MAX30102 PPG  → HR, RR,   │ ─────► │ ESP32: stores 30 days on SD,  │ ─────► │ Family phone   │
+  │   HRV                     │ sync   │ learns baseline, runs alert   │  2G/4G │ (any phone,    │
+  │ Accelerometer → activity, │ when   │ engine offline                │        │ no app needed) │
+  │   sleep, lying down       │ near   │ GSM module → SMS out          │        ├────────────────┤
+  │ Button → "breathless?"    │        │ Speaker → local-language voice│        │ Doctor phone   │
+  │ Vibration → daily nudge   │        │ 18650 backup for power cuts   │        │ (red only)     │
+  │ Flash: 7 days buffer      │        │ RTC keeps time without net    │        └────────────────┘
+  └───────────────────────────┘        └──────────────────────────────┘
+                                         later: web dashboard · auto-call clinic or ambulance</pre></div>
+
+  <div class="concept">
+    <div><h3>Why the dock decides</h3><p>The alert engine runs on the dock, not in the cloud. Power cuts and no internet don't stop it, and SMS works on a basic 2G/4G signal.</p></div>
+    <div><h3>The twist judges won't see elsewhere</h3><p><strong>Lying-down response.</strong> When the band detects the patient lying down at night, it compares breathing rate and heart rate in the first 10 minutes lying flat against the minutes just before. A growing rise points to trouble breathing when lying flat, picked up passively.</p></div>
+    <div><h3>Patient effort</h3><p>Wear it. Put it on the dock during the morning bath (about 30 min charge). Press the button once if breathless when it buzzes. Under 1 minute a day.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Gaps to close or admit</h2>
+  <div class="risks">
+    <div><strong>No weight.</strong> A band can't see fluid build-up, which is the best-evidenced signal (Chaudhry 2007). Cheapest fix: make the dock's base a load-cell plate the patient stands on while putting the band back on (+₹1,100). Otherwise say so in "limits".</div>
+    <div><strong>Wear and charging.</strong> Elderly patients take bands off. Count wear hours every day, treat low wear as "no data" (not "normal"), and SMS the family after 2 days with no wear.</div>
+    <div><strong>Wrist PPG is noisy.</strong> It is worse with movement and darker skin. Only use readings from still periods (night, rest), and leave wrist SpO2 out of the alert score.</div>
+    <div><strong>SMS limits in India.</strong> Tamil or Hindi SMS fits only 70 characters per message (English: 160). SIM800L is 2G-only and Jio has no 2G; an A7670C 4G module is safer (about ₹1,300). Sending SMS from a SIM is fine for a prototype; a real service would need TRAI DLT registration.</div>
+    <div><strong>Ambulance auto-call (later).</strong> With several false alerts per patient-month, never dispatch automatically. Escalate: SMS family → SMS doctor → call only after a human confirms or nobody responds.</div>
+  </div>
+</section>
+
+<section>
+  <h2>The five roles</h2>
+  <div class="roles">
+
+    <div class="role">
+      <div class="tag">P1 · Hardware<span>Name: ______</span></div>
+      <div>
+        <p>Design the band and the dock on paper and in simulation. Building them physically is optional.</p>
+        <dl class="kv">
+          <dt>Delivers</dt><dd>Block diagram of band + dock. Band schematic (the required custom part): ESP32-C3, MAX30102, accelerometer, LiPo + charger, pogo-pin charging, vibration motor, button. Dock schematic: ESP32, GSM module, DFPlayer + speaker, RTC, SD, 18650 backup. Wokwi simulation of the band firmware: reads the accelerometer, mocks PPG, buffers to flash, buzzes, sends over BLE or serial. Optionally, an LTspice simulation of the charging or analog PPG front end. Battery-life estimate. Parts list in INR.</dd>
+          <dt>Needs</dt><dd>Nothing from the team. Contract 1 is what the band firmware writes.</dd>
+          <dt>Output</dt><dd><code>/hardware</code>: schematics PDF, simulation screenshots, <code>bom.csv</code>, <code>band_firmware/</code></dd>
+          <dt>Done when</dt><dd>The Wokwi simulation runs with screenshots, and the parts total is under ₹5,000.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="tag">P2 · Signal processing<span>Name: ______</span></div>
+      <div>
+        <p>Turn raw band readings into one row of daily numbers.</p>
+        <dl class="kv">
+          <dt>Delivers</dt><dd><code>extract.py</code>: one day of raw PPG + accelerometer windows in, one Contract 2 row out. It computes:<ul>
+            <li>heart rate and breathing rate at rest</li>
+            <li>HRV (RMSSD)</li>
+            <li>active minutes and night wake minutes</li>
+            <li>the lying-down response</li>
+            <li>wear hours</li></ul>
+            Check accuracy on PhysioNet data:<ul>
+            <li>heart rate on the <span class="mono">BIDMC CHF</span> ECGs (named in the PS)</li>
+            <li>breathing rate from PPG on the <span class="mono">BIDMC PPG and Respiration</span> dataset</li></ul></dd>
+          <dt>Needs</dt><dd>Contracts 1 and 2 only. Make your own test signals with NeuroKit2.</dd>
+          <dt>Output</dt><dd><code>/signal</code>: <code>extract.py</code>, <code>accuracy.md</code> with error numbers, a few plots</dd>
+          <dt>Done when</dt><dd>Running <code>python extract.py raw/P001/day05</code> prints a valid Contract 2 row.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="tag">P3 · Synthetic patients<span>Name: ______</span></div>
+      <div>
+        <p>Build the virtual patients the system is tested on. This is what the 15 points for honest testing depend on.</p>
+        <dl class="kv">
+          <dt>Delivers</dt><dd>At least 100 patients × 30 days in Contract 2 format, plus the answer key (Contract 3). Every event starts worsening 3–10 days before admission: resting heart rate up 5–15 bpm, breathing rate up 3–6 per minute, activity down, lying-down response growing. Include:<ul>
+            <li>about 30% stable patients with no event</li>
+            <li>events where some signals don't move</li>
+            <li>days the band isn't worn</li>
+            <li>false triggers: a fever, a bad night's sleep, a busy day</li></ul>Write <code>DATA.md</code> explaining every rule and where each number comes from (Stehlik 2020 for heart rate, breathing rate and activity).</dd>
+          <dt>Needs</dt><dd>Contracts 2 and 3 only.</dd>
+          <dt>Output</dt><dd><code>/data</code>: <code>generate.py</code> (fixed random seed), <code>daily_features.csv</code>, <code>labels.csv</code>, <code>DATA.md</code></dd>
+          <dt>Done when</dt><dd>Re-running gives the same files, and a plot of 3 example patients looks realistic.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="tag">P4 · Alert engine + SMS<span>Name: ______</span></div>
+      <div>
+        <p>Learn each patient's normal, decide when to alert, write the SMS, and measure the results.</p>
+        <dl class="kv">
+          <dt>Delivers</dt><dd>Personal baseline: median and spread over the first 10 days with good wear. Per-signal deviation scores, combined into green / amber / red. Each alert lists its reasons. The SMS text and escalation follow Contract 6. Evaluation per Contract 4, with each patient fully in training or fully in testing. Keep the math simple enough to port to the dock's ESP32.</dd>
+          <dt>Needs</dt><dd>Contracts 2–6 only. Start on a 30-line toy generator you write yourself, then swap in P3's files at the merge.</dd>
+          <dt>Output</dt><dd><code>/engine</code>: <code>engine.py</code>, <code>sms.py</code>, <code>evaluate.py</code>, <code>alerts.json</code>, <code>results.md</code></dd>
+          <dt>Done when</dt><dd><code>python evaluate.py data/</code> prints sensitivity, specificity, median lead time and false alerts per patient-month.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="tag">P5 · Phone side, journey, pitch<span>Name: ______</span></div>
+      <div>
+        <p>Own what people see: the SMS on a phone, the web view, the story, and the repo.</p>
+        <dl class="kv">
+          <dt>Delivers</dt><dd>Create the GitHub repo at hour 0 with these folders and <code>CONTRACT.md</code>. Build a phone mock-up that replays a patient's 30 days of SMS from <code>alerts.json</code> (the demo). Build a simple web view for family or doctor with 30-day trends and alert reasons; this is the "later web app", started small. Also:<ul>
+            <li>Local-language voice lines for the dock.</li>
+            <li>One-page user journey storyboard, including the daily charging routine and why they keep wearing it for months.</li>
+            <li>Skeletons for the 2-page report and the pitch deck, with the "not a diagnosis tool" disclaimer.</li></ul></dd>
+          <dt>Needs</dt><dd>The sample rows in Contracts 2, 5 and 6 as mock data.</dd>
+          <dt>Output</dt><dd><code>/app</code>, <code>/docs</code>, <code>README.md</code> with setup steps</dd>
+          <dt>Done when</dt><dd>The demo opens on the sample files and shows a green → amber → red SMS sequence.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Contracts (freeze at hour 0)</h2>
+
+  <h3>1 · Raw band files (P1 writes, P2 reads)</h3>
+  <pre>raw/&lt;patient_id&gt;/day&lt;NN&gt;/ppg.csv     t_s,red,ir          25 Hz, one 60 s window every 10 min (every 5 min at night)
+raw/&lt;patient_id&gt;/day&lt;NN&gt;/acc.csv     t_s,ax_g,ay_g,az_g  25 Hz, continuous
+raw/&lt;patient_id&gt;/day&lt;NN&gt;/events.csv  t_s,event           button_press | worn | removed | docked
+t_s = seconds since 00:00 of that day</pre>
+
+  <h3>2 · Daily features: <code>daily_features.csv</code> (P2 and P3 write, P4 and P5 read)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Column</th><th>Type</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">patient_id</td><td>text</td><td>P001…</td></tr>
+      <tr><td class="mono">day</td><td>int</td><td>0–29</td></tr>
+      <tr><td class="mono">rest_hr_bpm</td><td>float</td><td>Median heart rate, 00:00–05:00 while asleep</td></tr>
+      <tr><td class="mono">rest_rr_bpm</td><td>float</td><td>Median breaths per minute, same window</td></tr>
+      <tr><td class="mono">hrv_rmssd_ms</td><td>float</td><td>Night HRV; secondary signal only</td></tr>
+      <tr><td class="mono">lying_rr_delta</td><td>float</td><td>Breathing rate in first 10 min lying down minus the 10 min before</td></tr>
+      <tr><td class="mono">active_min</td><td>int</td><td>Minutes of movement, 06:00–22:00</td></tr>
+      <tr><td class="mono">night_wake_min</td><td>int</td><td>Minutes awake and moving, 22:00–06:00</td></tr>
+      <tr><td class="mono">wear_h</td><td>float</td><td>Hours the band was worn</td></tr>
+      <tr><td class="mono">breathless_answer</td><td>0/1</td><td>Button after the daily buzz; 1 = yes, empty = no press</td></tr>
+      <tr><td class="mono">weight_kg</td><td>float</td><td>Only if the dock scale is built; otherwise empty</td></tr>
+      <tr><td class="mono">quality</td><td>0–1</td><td>Share of clean PPG windows; below 0.5 is ignored</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">A missing value is an empty cell, never 0. A day with <code>wear_h</code> under 12 counts as no data.</p>
+  <pre>patient_id,day,rest_hr_bpm,rest_rr_bpm,hrv_rmssd_ms,lying_rr_delta,active_min,night_wake_min,wear_h,breathless_answer,weight_kg,quality
+P001,0,64,14,32,0.5,210,25,22.5,0,,0.88
+P001,1,65,15,30,0.4,195,30,23.0,0,,0.91
+P001,24,76,19,21,3.8,90,85,21.0,1,,0.74
+P001,25,,,,,40,,6.0,,,0.30</pre>
+
+  <h3>3 · Answer key: <code>labels.csv</code> (P3 writes, P4 reads)</h3>
+  <pre>patient_id,worsen_start_day,admit_day
+P001,21,27
+P002,,            # stable patient: both empty</pre>
+
+  <h3>4 · How results are scored (P4)</h3>
+  <ul>
+    <li><strong>Caught:</strong> a red alert on any day from <code>admit_day − 14</code> to <code>admit_day − 1</code>.</li>
+    <li><strong>Lead time:</strong> <code>admit_day</code> minus the first red day in that window. Report the median.</li>
+    <li><strong>Normal days:</strong> every day of stable patients, plus days before <code>worsen_start_day</code> for patients with an event. Specificity is the share of these that are not red.</li>
+    <li><strong>False alerts:</strong> red days on normal days, counted as new alerts (consecutive red days count once), per patient per 30 days.</li>
+    <li><strong>Split:</strong> 70% of patients for tuning, 30% for testing, seed 42. Report numbers on the test patients only.</li>
+  </ul>
+
+  <h3>5 · Alerts: <code>alerts.json</code> (P4 writes, P5 reads)</h3>
+  <pre>[{"patient_id":"P001","day":24,"level":"red","score":7.4,
+  "reasons":[
+    {"feature":"rest_hr_bpm","baseline":64,"today":76,"text":"Night heart rate up 12"},
+    {"feature":"lying_rr_delta","baseline":0.5,"today":3.8,"text":"Breathing harder lying down"}]}]</pre>
+  <p class="note">Levels: <span class="lv g">green</span> <span class="lv a">amber</span> <span class="lv rd">red</span>, plus <span class="lv a">no-wear</span> after 2 days without data.</p>
+
+  <h3>6 · SMS and escalation (P4 writes, P5 shows)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Level</th><th>Sent to</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td><span class="lv g">green</span></td><td>Nobody</td><td>Weekly "all normal" SMS to family, so they trust it's working</td></tr>
+      <tr><td><span class="lv a">amber</span></td><td>Family</td><td>Once per day at most</td></tr>
+      <tr><td><span class="lv rd">red</span></td><td>Family + doctor</td><td>Repeat after 12 h if still red</td></tr>
+      <tr><td><span class="lv a">no-wear</span></td><td>Family</td><td>After 2 days with <code>wear_h</code> under 12</td></tr>
+    </tbody>
+  </table></div>
+  <pre>English (160 chars max, GSM-7):
+HF-ALERT RED P001 24-Oct: night HR 76 (usual 64), breathing harder lying down. Please call Dr Kumar today. Monitoring only, not a diagnosis.
+
+Tamil / Hindi (70 chars max per SMS): short version only, details in the English SMS.</pre>
+</section>
+
+<section>
+  <h2>Rough parts budget (P1 checks real prices)</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Part</th><th class="r">₹ (estimate)</th></tr></thead>
+    <tbody>
+      <tr class="sub"><td colspan="2">Wrist band</td></tr>
+      <tr><td>ESP32-C3 SuperMini (BLE)</td><td class="r">350</td></tr>
+      <tr><td>MAX30102 PPG module</td><td class="r">250</td></tr>
+      <tr><td>Accelerometer (MPU6050 or LIS3DH)</td><td class="r">150</td></tr>
+      <tr><td>300 mAh LiPo + TP4056 + pogo pins</td><td class="r">350</td></tr>
+      <tr><td>Vibration motor, button, strap, 3D-printed case</td><td class="r">350</td></tr>
+      <tr class="sub"><td colspan="2">Bedside dock</td></tr>
+      <tr><td>ESP32 DevKit</td><td class="r">400</td></tr>
+      <tr><td>SIM800L GSM (2G) · A7670C 4G is about ₹1,300</td><td class="r">450</td></tr>
+      <tr><td>DFPlayer Mini + speaker</td><td class="r">250</td></tr>
+      <tr><td>DS3231 clock + microSD module and card</td><td class="r">450</td></tr>
+      <tr><td>18650 cell, holder, charger, boost converter</td><td class="r">300</td></tr>
+      <tr><td>Enclosure, LEDs, charging cradle</td><td class="r">400</td></tr>
+    </tbody>
+    <tfoot><tr><td>Total</td><td class="r">3,700</td></tr></tfoot>
+  </table></div>
+  <p class="note">Choose one upgrade with the remaining ~₹1,300: the 4G module (+₹850) or the dock scale plate (+₹1,100), not both. The SIM card and recharge are a running cost, not a part.</p>
+</section>
+
+<section>
+  <h2>Final merge (all five, last ~3 hours)</h2>
+  <ul>
+    <li>P3's data goes into P4's <code>evaluate.py</code>, and the real numbers go into <code>results.md</code>.</li>
+    <li>P4's <code>alerts.json</code> and SMS texts go into P5's phone demo and web view.</li>
+    <li>The report gets P4's metrics, P2's accuracy numbers, P1's parts total, battery estimate and simulation screenshots, and P3's <code>DATA.md</code> summary.</li>
+    <li>Rehearse the 5-minute pitch twice.</li>
+  </ul>
+  <p class="note">This merge is the only point where anyone needs someone else's work. If someone falls behind, the others can still demo with the mock files.</p>
+</section>
+</div>

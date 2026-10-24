@@ -1,0 +1,8 @@
+{
+  "T": 7.0,
+  "fa_budget_per_patient_month": 0.21,
+  "frozen_at": "2026-10-24T14:25:23",
+  "train_patients": 140,
+  "test_patients": 60,
+  "train_ids_sha": "60e11ad2c089"
+}

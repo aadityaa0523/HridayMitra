@@ -1,0 +1,39 @@
+LTspice 24.1.10 for Windows
+Circuit: C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\trunk_open_me.cir
+Start Time: Sat Oct 24 16:10:10 2026
+solver = Normal
+Maximum thread count: 14
+tnom = 27
+temp = 27
+method = trap
+Direct Newton iteration for .op point succeeded.
+.step path=1
+.step path=2
+.step path=3
+.step path=4
+Total elapsed time: 1.069 seconds.
+
+Files loaded:
+C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\trunk_open_me.cir
+
+
+Measurement: vbody
+  step	PP(V(adc))	FROM	TO
+     1	1.12791275978	0.008	0.019
+     2	1.27038288116	0.008	0.019
+     3	1.24920880795	0.008	0.019
+     4	1.24920845032	0.008	0.019
+
+Measurement: vsens
+  step	PP(V(adc))	FROM	TO
+     1	0.428796887398	0.028	0.039
+     2	0.424393773079	0.028	0.039
+     3	0.425049066544	0.028	0.039
+     4	0.425049066544	0.028	0.039
+
+Measurement: zmeas
+  step	220*vbody/vsens
+     1	578.690784482
+     2	658.5493275
+     3	646.574617803
+     4	646.574432699

@@ -1,0 +1,13 @@
+numpy>=1.26
+pandas>=2.0
+scipy>=1.11
+matplotlib>=3.8
+streamlit>=1.40
+pytest>=8
+pyyaml
+wfdb>=4.1
+neurokit2>=0.2
+pymupdf>=1.24
+lxml
+beautifulsoup4
+html5lib

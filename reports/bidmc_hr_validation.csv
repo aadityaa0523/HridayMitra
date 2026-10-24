@@ -1,0 +1,4 @@
+record,fs,minutes,ref_beats,det_beats,sensitivity,ppv,hr_mae_bpm,hr_within_5bpm_pct
+chf01,250,30,1871,1869,0.9984,0.9995,0.08,100.0
+chf02,250,30,2962,2958,0.998,0.9993,0.19,100.0
+chf03,250,30,2016,1686,0.8065,0.9644,1.71,95.0

@@ -1,0 +1,43 @@
+LTspice 24.1.10 for Windows
+Circuit: C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\jewellery.cir
+Start Time: Sat Oct 24 16:07:37 2026
+solver = Normal
+Maximum thread count: 14
+tnom = 27
+temp = 27
+method = trap
+Direct Newton iteration for .op point succeeded.
+.step rj=1
+.step rj=10
+.step rj=100
+.step rj=1000
+.step rj=1000000000
+Total elapsed time: 1.396 seconds.
+
+Files loaded:
+C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\jewellery.cir
+
+
+Measurement: vbody
+  step	PP(V(adc))	FROM	TO
+     1	2.24745208025	0.008	0.019
+     2	2.24147945642	0.008	0.019
+     3	2.19032621384	0.008	0.019
+     4	1.8578158617	0.008	0.019
+     5	1.12791526318	0.008	0.019
+
+Measurement: vsens
+  step	PP(V(adc))	FROM	TO
+     1	0.458555936813	0.028	0.039
+     2	0.458413720131	0.028	0.039
+     3	0.457060337067	0.028	0.039
+     4	0.44819688797	0.028	0.039
+     5	0.428797006607	0.028	0.039
+
+Measurement: zmeas
+  step	220*vbody/vsens
+     1	1078.25331211
+     2	1075.72146897
+     3	1054.28480217
+     4	911.919516946
+     5	578.691908001
