@@ -5,7 +5,7 @@ Hum paths modelled (stray capacitances, ASSUMPTION ranges from typical biopotent
   device ground -> earth (Cdev): about 30 pF when on its battery, about 4.7 nF when a phone charger is plugged in
   (the charger's Y-capacitor ties the circuit to mains).
 The reading is taken the way the firmware does it: a 5 kHz Goertzel (single-frequency) amplitude over exactly
-20 ms (one full 50 Hz cycle), body then the 220 ohm reference. A plain peak-to-peak reading is shown for comparison.
+20 ms (one full 50 Hz cycle), body then the 100 ohm precision reference. A plain peak-to-peak reading is shown for comparison.
 Run:  python sim/circuit/hum.py        Out: hum_results.csv
 """
 import csv, pathlib
@@ -56,7 +56,7 @@ def goertzel_amp(step, a, b, fs=40e3, f0=5e3, bits=12):
 
 STEPS = [".tran 0 0.1 0 2u", ".step param path list 1 3", f".step param sc 0 {len(SC) - 1} 1",
          ".save V(adc) V(ina) V(vref)", ".options plotwinsize=0"] + pp("b", 0.02, 0.04) + pp("r", 0.07, 0.09) + [
-         ".meas TRAN zpp PARAM 220*bpp/rpp",
+         ".meas TRAN zpp PARAM 100*bpp/rpp",
          ".meas TRAN amax MAX V(ina) FROM=0.02 TO=0.09", ".meas TRAN amin MIN V(ina) FROM=0.02 TO=0.09"]
 HUM = ["* --- mains hum: 325 V peak 50 Hz between the mains wire and earth; device ground floats via Cdev ---",
        "Vmains mains earth SIN(0 325 50)", "Rearth earth 0 1T", "Cbm mains PV {cbm}", "Cbe PV earth {cbe}",
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     zpp = TP.read_meas(log, "zpp", n)
     steps, _ = read_raw(cir.with_suffix(".raw"))
     assert len(steps) == n, len(steps)
-    zg = [220 * goertzel_amp(st, 0.02, 0.04) / goertzel_amp(st, 0.07, 0.09) for st in steps]
+    zg = [100 * goertzel_amp(st, 0.02, 0.04) / goertzel_amp(st, 0.07, 0.09) for st in steps]
     amax, amin = TP.read_meas(log, "amax", n), TP.read_meas(log, "amin", n)
     rows = []
     for i in range(n):                                          # step order: path fastest, then scenario

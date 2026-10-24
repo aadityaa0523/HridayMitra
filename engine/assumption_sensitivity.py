@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT / "engine")); sys.path.insert(0, str(ROOT / "sim" / 
 import evaluate as E, alert_engine as A, baselines as B, make_patients as MP
 
 DEFAULTS = dict(MP.P)                                 # workers are reused: reset the guesses before every scenario
-T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
 N, DAYS, EVENTS, SEED = 300, 90, 0.4, 44             # fresh seed: not the cohort the threshold was tuned on
 
 # parameter: (low, high). "leg_sd_x" scales the circuit noise from the LTspice error model.
@@ -42,6 +42,9 @@ SWEEP = {
     "wet_feet_prob":          (0.0, 0.15),
     "jewellery_step_prob":    (0.0, 0.30),
     "button_error_prob":      (0.0, 0.10),
+    "ewi_bio_noise_pct":      (0.2, 1.2),          # spectroscopy: how much the water index wobbles on its own
+    "ewi_meas_noise_pct":     (0.05, 0.5),
+    "ewi_icw_ecw_person_sd":  (0.05, 0.30),
 }
 
 
@@ -87,7 +90,7 @@ def tornado(df):
     rule = df[df.side != "base"].pivot(index="parameter", columns="side", values="rule1_sensitivity").loc[d.index]
     ax[0].scatter(rule.min(axis=1), y, marker="|", s=120, color="grey", label="weight rule (worst/best)")
     ax[0].scatter(rule.max(axis=1), y, marker="|", s=120, color="grey")
-    ax[0].set_yticks(y, d.index); ax[0].set_xlabel("sensitivity (frozen v2 engine)"); ax[0].legend(loc="lower right", fontsize=8)
+    ax[0].set_yticks(y, d.index); ax[0].set_xlabel("sensitivity (frozen v3 engine)"); ax[0].legend(loc="lower right", fontsize=8)
     fa = df[df.side != "base"].pivot(index="parameter", columns="side", values="false_alerts_per_patient_month").loc[d.index]
     for side, col in (("low", "#4C78A8"), ("high", "#F58518")):
         ax[1].barh(y, fa[side] - base.false_alerts_per_patient_month, left=base.false_alerts_per_patient_month, color=col, alpha=.85)

@@ -15,7 +15,8 @@ pct = lambda x: f"{100 * x:.0f}%"
 
 
 def numbers():
-    v2 = pd.read_csv(R / "leadtime_v2_results.csv"); v2 = v2[v2.system.str.startswith("v2")].set_index("cohort")
+    v2 = pd.read_csv(R / "v3_results.csv"); v2 = v2[v2.system.str.startswith("v3")].set_index("cohort")   # engine v3 (spectroscopy)
+    sp = pd.read_csv(ROOT / "sim/circuit/spectroscopy_results.csv").set_index("scenario")
     p1 = pd.read_csv(R / "phase1_results.csv")
     rule = p1[p1.system.str.startswith("weight rule 1")].set_index("cohort")
     ml = pd.read_csv(R / "ml_comparator.csv").set_index(["cohort", "system"])
@@ -53,7 +54,9 @@ def numbers():
         hum_g=f"{hum.err_goertzel_pct.abs().max():.2f}", hum_pp=f"{hum.err_pp_pct.abs().max():.0f}",
         bid_n=bid["records"], bid_sens=pct(bid["mean_sensitivity"]), bid_mae=f"{bv.hr_mae_bpm.median():.2f}",
         bid_good=int((bv.hr_mae_bpm <= 0.5).sum()), bid_within=f"{bid['pct_windows_within_5bpm']:.0f}%",
-        bid_bad=", ".join(bv[bv.hr_mae_bpm > 5].record))
+        bid_bad=", ".join(bv[bv.hr_mae_bpm > 5].record),
+        sp_fluid=f"{sp.loc['extracellular fluid +10%'].ewi_change_pct:+.1f}", sp_geo_z=f"{sp.loc['position / limb / temperature +3%'].z5_change_pct:+.1f}",
+        sp_geo=f"{sp.loc['position / limb / temperature +3%'].ewi_change_pct:+.1f}", sp_cells=f"{sp.loc['cells (intracellular water) +10%'].ewi_change_pct:+.1f}")
 
 
 CSS = """<style>@page{size:A4;margin:11mm}body{font:9.1pt/1.32 'Segoe UI',Arial,sans-serif;color:#17202a;margin:0}
@@ -70,7 +73,7 @@ def report(n):
 <div class="cols"><div>
 <h2>Problem</h2>Heart-failure patients are re-admitted because fluid builds up silently for days. Daily weighing alone catches about one in three events and floods families with false alarms; sticky patches are not worn by elders; rural homes have power cuts, 2G and low literacy.
 <h2>Solution: a 90-second check-in station + an amulet + a care loop</h2><ul>
-<li><span class="k">Check-in stool</span> (₹{n['cost']} build cost): weight (4 load cells), <b>8-electrode bioimpedance</b> at 5 kHz (legs, arms, both sides → chest fluid by segmental subtraction), finger pulse + SpO₂, stand-up time, 3 spoken yes/no questions answered with big buttons.</li>
+<li><span class="k">Check-in stool</span> (₹{n['cost']} build cost): weight (4 load cells), <b>8-electrode bioimpedance spectroscopy</b> (5/20/50 kHz: water outside cells) (legs, arms, both sides → chest fluid by segmental subtraction), finger pulse + SpO₂, stand-up time, 3 spoken yes/no questions answered with big buttons.</li>
 <li><span class="k">Kavach amulet</span> (ESP32-C3 + accelerometer, breakaway cord, no magnets): night breathing rate, night sit-ups (orthopnea), activity, falls, SOS → BLE to the stool.</li>
 <li><span class="k">Offline alert engine on the ESP32</span>: learns each person's own normal, scores only the worsening direction, needs <b>two independent witnesses</b> (fluid, heart-lungs, daily life) before red, and says <b>why</b> in plain words.</li>
 <li><span class="k">Closed care loop over SMS</span>: family 1 → family 2 (30 min) → ASHA (2 h) → PHC doctor (6 h); reply 1/2/3 or a missed call.</li>
@@ -97,7 +100,8 @@ def report(n):
 <h2>Hardware and simulation proof (free tools: LTspice, KiCad, Python)</h2><ul>
 <li>Tetrapolar, ratiometric front end (Z = R5 · V<sub>body</sub>/V<sub>R5</sub>): gain and contact resistance cancel; LTspice error ≤ 0.05% for contacts 100 Ω–10 kΩ; +10% leg fluid → −8.7% Z; 134 µA excitation.</li>
 <li><b>Monte Carlo, 100 stools from 5% parts</b> on random bodies and skin: 99% of readings within {n['mc_p99']}%, a +10% fluid change measured within {n['mc_chg']} points. It caught a design flaw: 1 MΩ bias resistors gave 12% errors → <b>changed to 10 MΩ</b>.</li>
-<li>Mains hum (230 V coupling, charger plugged in): Goertzel reading ≤ {n['hum_g']}% error vs {n['hum_pp']}% for peak-to-peak → firmware uses Goertzel only.</li>
+<li><b>Bioimpedance spectroscopy (5/20/50 kHz, Cole fit on the chip)</b>: +10% fluid outside the cells moves the water index {n['sp_fluid']}%; foot position / temperature (+3%) moves the single-frequency reading {n['sp_geo_z']}% but the index {n['sp_geo']}%; fluid inside cells moves it the other way ({n['sp_cells']}%). Engine v3 with it: external-cohort sensitivity {n['rw_sens']} at {n['rw_fa']} false alerts.</li>
+<li><b>Patient safety (IEC 60601-1, type BF)</b>: every single fault (shorted resistor or capacitor, op-amp stuck, DAC full scale) stays within the patient-current limits, ≥ 12.8× margin; DC blocked by two series capacitors.</li><li><b>Self-calibrating reference</b> (0.1% Rcal on the spare switch, checked every check-in): absolute error median 0.16%; a damaged reference is caught and reported for service.</li><li>Mains hum (230 V coupling, charger plugged in): Goertzel reading ≤ {n['hum_g']}% error vs {n['hum_pp']}% for peak-to-peak → firmware uses Goertzel only.</li>
 <li>KiCad schematic generated from code: ERC 0 violations; the netlist is checked against the path table and the LTspice values automatically.</li>
 <li>Engine ported to C++ for the ESP32: <b>100% identical lights</b> to the Python engine over 3,231 patient-days.</li><li><b>Software-in-the-loop</b>: the real firmware runs a scripted month in an emulated world (ADC body signal, HX711, MAX30102, SIM800L, BLE, flash): 26/26 checks pass (care loop, reminders, self-test, power cut, network outage, two users) and it found 3 bugs before any board was flashed.</li></ul>
 </div><div>
@@ -158,6 +162,8 @@ def deck(n):
         f'<li>Care loop: <b>{n["cl_lad"]}</b> of alerts reach a clinician before the visit (one SMS: {n["cl_one"]})</li></ul>',
         f'<h2>Engineering proof</h2><ul class="big"><li>LTspice: ≤ 0.05% error, contact-proof (tetrapolar, ratiometric)</li>'
         f'<li>Monte Carlo of 100 cheap-part stools → found a flaw, <b>1 MΩ → 10 MΩ</b>, now 99% within {n["mc_p99"]}%</li>'
+        f'<li><b>Spectroscopy 5/20/50 kHz</b>: fluid outside cells {n["sp_fluid"]}%, foot position {n["sp_geo"]}% (single frequency {n["sp_geo_z"]}%)</li>'
+        f'<li>Patient safety: every single fault within IEC 60601-1 limits (≥ 12.8× margin)</li><li>Self-calibrating reference: median error 0.16%, faults caught</li>'
         f'<li>Mains hum: Goertzel {n["hum_g"]}% vs peak-to-peak {n["hum_pp"]}%</li><li>KiCad schematic from code, ERC clean, netlist auto-verified</li>'
         '<li>Engine in C++ on the ESP32: <b>100% identical</b> to Python over 3,231 days</li><li>Whole firmware run through an emulated month: <b>26/26</b> checks, 3 bugs caught before flashing</li>'
         f'<li>Real ECG, all {n["bid_n"]} PhysioNet BIDMC CHF records: median heart-rate error {n["bid_mae"]} bpm ({n["bid_good"]}/{n["bid_n"]} records within 0.5 bpm)</li></ul>',

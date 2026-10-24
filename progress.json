@@ -19,6 +19,18 @@
      "done": 1
     },
     {
+     "name": "Bioimpedance spectroscopy 5/20/50 kHz (LTspice, Cole fit, engine v3, firmware DMA)",
+     "done": 1
+    },
+    {
+     "name": "Self-calibrating reference (Rcal + spare switch)",
+     "done": 1
+    },
+    {
+     "name": "Patient-safety fault analysis (IEC 60601-1)",
+     "done": 1
+    },
+    {
      "name": "Trunk paths Z2-Z4 and small-change test",
      "done": 1
     },

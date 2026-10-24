@@ -1,0 +1,4 @@
+  File "C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\montecarlo.py", line 123
+    row = dict(device=d + 1, size=round(r["sz"], 3), r5_err_pct=round(100 * (r["rcal"] / 100 - 1), 3)   # reference = Rcal (0.1 % + temperature),
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?

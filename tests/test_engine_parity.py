@@ -8,7 +8,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "engine"))
 import alert_engine as A
 
-COLS = ["weight_kg", "leg_z_ohm", "trunk_z_ohm", "pulse_bpm", "night_rr", "spo2", "activity_min", "standup_s",
+COLS = ["weight_kg", "leg_z_ohm", "trunk_z_ohm", "pulse_bpm", "night_rr", "spo2", "activity_min", "standup_s", "leg_ewi",
         "breathless", "orthopnea", "night_situps"]
 EXE = ROOT / "tests" / "engine_parity.exe"
 
@@ -23,7 +23,7 @@ def build():
 
 def test_cpp_engine_matches_python():
     build()
-    T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+    T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
     f = pd.read_csv(ROOT / "data/processed/daily_features.csv")
     ids = f.patient_id.unique()[:60]
     f = f[f.patient_id.isin(ids)]
@@ -34,3 +34,20 @@ def test_cpp_engine_matches_python():
     agree = float((cpp.light.to_numpy() == py).mean())
     print(f"C++ vs Python daily lights: {agree:.4%} agree over {len(py)} patient-days")
     assert agree >= 0.995
+
+
+def test_cpp_ewi_matches_python_closed_form():
+    import bis
+    src = ROOT / "tests" / "ewi_check.cpp"
+    exe = ROOT / "tests" / "ewi_check.exe"
+    try:
+        subprocess.run([sys.executable, "-m", "ziglang", "c++", "-O2", str(src), "-o", str(exe)], check=True, capture_output=True, timeout=600)
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        pytest.skip(f"no C++ compiler: {e}")
+    rng = np.random.default_rng(0)
+    cases = [[abs(2 * bis.segment(f, 289.25 / fl, 650 * ri, 3.39e-9 / g) * g) for f in (5e3, 20e3, 50e3)]
+             for fl, ri, g in zip(rng.uniform(0.9, 1.3, 20), rng.uniform(0.8, 1.2, 20), rng.uniform(0.8, 1.3, 20))]
+    lines = [" ".join(f"{v:.6f}" for v in c) for c in cases]
+    out = subprocess.run([str(exe)], input=chr(10).join(lines), capture_output=True, text=True).stdout.split()
+    py = [bis.ewi_closed_form([5e3, 20e3, 50e3], c)[2] for c in cases]
+    assert np.allclose([float(x) for x in out], py, rtol=1e-6)

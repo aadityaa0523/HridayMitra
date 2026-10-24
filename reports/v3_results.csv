@@ -1,0 +1,5 @@
+cohort,system,T,events,sensitivity,specificity,median_lead_days,false_alerts_per_patient_month
+PS held-out,v2 (no spectroscopy),6.5,35,0.657,0.998,2.0,0.029
+PS held-out,v3 (with spectroscopy),7.0,35,0.657,0.987,3.0,0.058
+Real-world (external),v2 (no spectroscopy),6.5,100,0.65,0.99,2.0,0.056
+Real-world (external),v3 (with spectroscopy),7.0,100,0.72,0.99,2.0,0.056

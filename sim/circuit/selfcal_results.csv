@@ -1,0 +1,9 @@
+case,r5,rcal,ratio,verdict
+good board,120,100,2.2,OK
+R5 at -5 % (tolerance),114,100,2.14,OK
+R5 at +5 % (tolerance),126,100,2.26,OK
+old 220 ohm R5 fitted by mistake,220,100,3.2,REJECT + service SMS
+R5 shorted,1m,100,1.0,REJECT + service SMS
+Rcal shorted,120,1m,94701.952,REJECT + service SMS
+Rcal wrong value (1 kohm),120,1k,1.12,REJECT + service SMS
+solder joint +30 ohm in R5,150,100,2.5,REJECT + service SMS

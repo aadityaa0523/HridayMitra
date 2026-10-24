@@ -9,7 +9,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import evaluate as E, alert_engine as A
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
 
 
 def sc(g):

@@ -50,7 +50,7 @@ box(20, 96, 400, 56, ["4 load cells, wired as one full bridge", "HX711: data GPI
 box(20, 168, 270, 50, ["8 electrodes", "4 foot plates + 4 hand strips"], "stool")
 box(20, 234, 270, 62, ["2 x 74HC4052 path mux", "legs, arms, right side, left side", "S0 GPIO33, S1 GPIO27"], "stool")
 box(20, 312, 270, 50, ["74HC4053 body / R5 selector", "select on GPIO18"], "stool")
-box(20, 378, 270, 50, ["INA126 instrumentation amp", "single 3.3 V, gain about 10"], "stool")
+box(20, 378, 270, 50, ["INA126 amp + self-calibrating ref", "Rcal 0.1% on spare switch, gain 10"], "stool")
 box(310, 234, 110, 128, ["Excitation", "ESP32 DAC", "GPIO25, 5 kHz", "MCP6002 buffer", "current path", "(R5 220 ohm)"], "stool")
 box(20, 444, 400, 50, ["MAX30102 finger pulse and SpO2", "I2C on GPIO21, GPIO22"], "stool")
 box(20, 510, 400, 50, ["2 answer buttons + SOS + tablet drawer", "GPIO4, GPIO5, GPIO15; drawer switch GPIO36"], "stool")

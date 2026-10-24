@@ -64,13 +64,14 @@ BODY = f"""
  ["GPIO21 (SDA), GPIO22 (SCL)", "MAX30102", "3.3 V, GND"],
  ["GPIO25 (DAC1)", "Impedance excitation", "5 kHz sine"],
  ["GPIO35 (ADC1)", "Impedance amplifier output", "input only"],
- ["GPIO18", "74HC4053 select (A and B tied)", "low = body, high = across R5"],
+ ["GPIO18", "74HC4053 select (A and B tied)", "low = body, high = reference (across Rcal when GPIO12 is high)"],
  ["GPIO33, GPIO27", "74HC4052 path select S0, S1", "only for the trunk paths, later"],
  ["GPIO26 (DAC2)", "Voice to PAM8403", "through 1 &micro;F and 10 k&#937; pot"],
  ["GPIO17 (TX2), GPIO16 (RX2)", "SIM800L", "TX through a divider (see section 8)"],
  ["GPIO34, 39", "AD8232 OUT, LO+", "inputs only; optional"],
  ["GPIO19", "Seat vibration motor", "1 k to 2N2222 base; motor 5 V to collector; 1N4148 across motor"],
  ["GPIO36", "Tablet-drawer microswitch", "switch to GND; 10 k pull-up to 3V3 (no internal pull-up)"],
+ ["GPIO12", "Self-calibration select (74HC4053 S3)", "boot pin: only this high-impedance input, no pull-up"],
  ["GPIO32, GPIO14", "Reserved: HX711 data, clock", "when the load cells arrive"],
  ["GPIO0, GPIO12", "<b>Leave empty</b>", "boot pins"]])}
 <h2>4. Block 1: LEDs and buttons (test first)</h2>
@@ -86,7 +87,7 @@ BODY = f"""
  ["Power", "U1 pin 8, U2 pin 7, U3 VCC &rarr; 3V3. U1 pin 4, U2 pin 4, U3 GND, VEE, INH and select C &rarr; GND. 100 nF across each IC's power pins; 10 &micro;F across the 3V3 rail."],
  ["VREF (1.65 V)", "3V3 &rarr; R1 10 k&#937; &rarr; node VREFIN &rarr; R2 10 k&#937; &rarr; GND. C1 10 &micro;F from VREFIN to GND. VREFIN &rarr; U1 pin 3. U1 pin 1 tied to U1 pin 2. U1 pin 1 is <b>VREF</b>."],
  ["Excitation", "GPIO25 &rarr; C2 1 &micro;F &rarr; node EXC_IN. R3 100 k&#937; from EXC_IN to VREF. EXC_IN &rarr; U1 pin 5. U1 pin 7 tied to U1 pin 6. U1 pin 7 is <b>EXC_OUT</b>."],
- ["Current path", "EXC_OUT &rarr; C3 1 &micro;F &rarr; R4 4.7 k&#937; &rarr; <b>FORE_L</b> (left forefoot plate). <b>FORE_R</b> (right forefoot plate) &rarr; C4 1 &micro;F &rarr; node <b>RET</b> &rarr; R5 220 &#937; &rarr; VREF."],
+ ["Current path", "EXC_OUT &rarr; C3 1 &micro;F &rarr; R4 4.7 k&#937; &rarr; <b>FORE_L</b> (left forefoot plate). <b>FORE_R</b> (right forefoot plate) &rarr; C4 1 &micro;F &rarr; node <b>RET</b> &rarr; R5 120 &#937; &rarr; node <b>NCAL</b> &rarr; <b>Rcal 100 &#937; 0.1%</b> &rarr; VREF. 74HC4053 switch C: C0 = RET, C1 = NCAL, common <b>RTAP</b> &rarr; switch A input A1; select S3 = GPIO12 (self-calibration)."],
  ["Sensing", "<b>HEEL_L</b> &rarr; R6 1 k&#937; &rarr; node SA. <b>HEEL_R</b> &rarr; R7 1 k&#937; &rarr; node SB. R8 10 M&#937; from SA to VREF. R9 10 M&#937; from SB to VREF (10 M, not 1 M: see Monte Carlo)."],
  ["Selector U3 (74HC4053)", "Select pins A and B tied together &rarr; GPIO18. X0 = SA, X1 = RET, X common &rarr; INA126 pin 3 (+IN). Y0 = SB, Y1 = VREF, Y common &rarr; INA126 pin 2 (-IN). (Use your datasheet's names for these pins.)"],
  ["Amplifier U2 (INA126)", "RG 16 k&#937; (15 k&#937; + 1 k&#937;) between pins 1 and 8. REF pin 5 &rarr; VREF. OUT pin 6 &rarr; R11 1.5 k&#937; &rarr; node ADC &rarr; <b>GPIO35</b>. C5 10 nF from ADC node to GND."]])}

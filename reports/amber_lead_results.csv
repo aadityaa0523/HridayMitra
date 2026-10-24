@@ -1,5 +1,5 @@
 cohort,counts_as_alert,events,sensitivity,specificity,median_lead_days,false_alerts_per_patient_month
-PS held-out,red only,35,0.657,0.998,2.0,0.029
-PS held-out,amber or red,35,1.0,0.87,4.0,1.659
-Real-world,red only,100,0.65,0.99,2.0,0.056
-Real-world,amber or red,100,0.97,0.891,4.0,1.276
+PS held-out,red only,35,0.657,0.987,3.0,0.058
+PS held-out,amber or red,35,1.0,0.854,4.0,1.63
+Real-world,red only,100,0.72,0.99,2.0,0.056
+Real-world,amber or red,100,0.98,0.886,4.0,1.331

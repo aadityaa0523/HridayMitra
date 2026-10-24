@@ -1,6 +1,6 @@
 * ===== HridayMitra: trunk paths Z1-Z4 at 5 kHz (batch: 48 runs) =====
 
-.param f=5000 Rc=1k ft=1 fl=1 path=1 selv=0
+.param f=5000 Rc=1k ft=1 fl=1 path=1 selv=0 calv=3.3
 V1 vcc 0 3.3
 R1 vcc vrefin 10k
 R2 vrefin 0 10k
@@ -13,7 +13,8 @@ Bu1b excout 0 V=limit(V(excin),0.05,3.25)
 C3 excout n1 1u
 R4 n1 injP 4.7k
 C4 injN ret 1u
-R5 ret vref 220
+R5 ret ncal 120
+Rcal ncal vref 100
 * --- body: arms to shoulder node SH, trunk SH-PV, legs to pelvis node PV (Cole: Re || Ri+Cm) ---
 ReLH LH SH 330
 RiLH LH mLH 750
@@ -70,12 +71,17 @@ R6 sraw_p sa 1k
 R7 sraw_n sb 1k
 R8 sa vref 10Meg
 R9 sb vref 10Meg
-* --- 74HC4053 selector: selv=0 body, selv=3.3 across R5 ---
+* --- 74HC4053 selector: selv=0 body, selv=3.3 reference; switch C (calv): 3.3 = across Rcal, 0 = across R5+Rcal ---
 Vsel sel 0 {selv}
 Bch chi 0 V=V(sel)
 Bcl clo 0 V=3.3-V(sel)
+Vcal calsel 0 {calv}
+Bcc ccal 0 V=V(calsel)
+Bcn cnot 0 V=3.3-V(calsel)
+S5 rtap ncal ccal 0 SW
+S6 rtap ret cnot 0 SW
 S1 inp sa clo 0 SW
-S2 inp ret chi 0 SW
+S2 inp rtap chi 0 SW
 S3 inn sb clo 0 SW
 S4 inn vref chi 0 SW
 Bina ina 0 V=limit(V(vref)+10*(V(inp)-V(inn)),0.05,3.25)
@@ -91,22 +97,24 @@ Rd4 PV vref 1G
 Rd5 mT vref 1G
 Rd6 sraw_p vref 1G
 Rd7 sraw_n vref 1G
-Rd8 LH vref 1G
-Rd9 RH vref 1G
-Rd10 LF vref 1G
-Rd11 RF vref 1G
-Rd12 mLH vref 1G
-Rd13 mRH vref 1G
-Rd14 mLF vref 1G
-Rd15 mRF vref 1G
-Rd16 iLH vref 1G
-Rd17 iRH vref 1G
-Rd18 iLF vref 1G
-Rd19 iRF vref 1G
-Rd20 sLH vref 1G
-Rd21 sRH vref 1G
-Rd22 sLF vref 1G
-Rd23 sRF vref 1G
+Rd8 ncal vref 1G
+Rd9 rtap vref 1G
+Rd10 LH vref 1G
+Rd11 RH vref 1G
+Rd12 LF vref 1G
+Rd13 RF vref 1G
+Rd14 mLH vref 1G
+Rd15 mRH vref 1G
+Rd16 mLF vref 1G
+Rd17 mRF vref 1G
+Rd18 iLH vref 1G
+Rd19 iRH vref 1G
+Rd20 iLF vref 1G
+Rd21 iRF vref 1G
+Rd22 sLH vref 1G
+Rd23 sRH vref 1G
+Rd24 sLF vref 1G
+Rd25 sRF vref 1G
 .tran 0 0.04 0 5e-06
 .step param selv list 0 3.3
 .step param path list 1 2 3 4

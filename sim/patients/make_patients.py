@@ -14,7 +14,7 @@ How it works, in plain words:
 Run:  python sim/patients/make_patients.py --patients 200 --days 60 --seed 42
 Output (in data/processed/): daily_features.csv  patients.csv  labels.csv  truth_daily.csv  DATA.md
 """
-import argparse, hashlib, json, pathlib
+import argparse, hashlib, json, pathlib, zlib
 import numpy as np
 import pandas as pd
 
@@ -59,6 +59,9 @@ P = {
     "missing_day_prob":      (0.07,        "ASSUMPTION: 7% of days nobody does the check"),
     "amulet_worn_prob":      (0.90,        "ASSUMPTION: amulet is worn on 90% of days"),
     "button_error_prob":     (0.03,        "ASSUMPTION: 3% of button answers are wrong"),
+    "ewi_icw_ecw_person_sd": (0.15,        "ASSUMPTION: people differ 15% in cell-water vs outside-water resistance (Ri/Re)"),
+    "ewi_bio_noise_pct":     (0.4,         "ASSUMPTION: day-to-day change of the extracellular-water index that is NOT position/temperature (those cancel in the ratio, LTspice)"),
+    "ewi_meas_noise_pct":    (0.1,         "ASSUMPTION: 3-frequency Cole-fit noise (Goertzel SNR at 50 kHz is about 0.03%; margin added)"),
 }
 v = lambda key: P[key][0]
 
@@ -180,6 +183,16 @@ def simulate_patient(pid, rng, days, is_event, leg_sd):
         activity_min=act0 * (1 - rng.uniform(*v("activity_drop")) * cong - 0.25 * infection) + rng.normal(0, 15, n)))
     amulet.loc[~worn, ["night_rr", "night_situps", "activity_min"]] = np.nan
     feats = pd.concat([stool, amulet], axis=1).round(3)
+    # spectroscopy: extracellular-water index Rinf/R0 of the legs (engine/bis.py, sim/circuit/spectroscopy.py). Its own
+    # random stream, so adding it changes no other column. Position / temperature / contact cancel in the ratio.
+    rng_e = np.random.default_rng([zlib.crc32(pid.encode()), 7])
+    re0, ri0 = 289.25, 650.0 * float(rng_e.lognormal(0, v("ewi_icw_ecw_person_sd")))
+    re_t = re0 / (1 + leg_fluid)
+    ewi = ri0 / (re_t + ri0)
+    ewi = ewi * (1 + ar1(rng_e, n, v("ewi_bio_noise_pct") / 100)) * (1 + rng_e.normal(0, v("ewi_meas_noise_pct") / 100, n))
+    ewi = np.where(guest, rng_e.normal(0.69, 0.04, n), ewi)
+    ewi[no_read | missing] = np.nan
+    feats["leg_ewi"] = np.round(ewi, 5)
     feats.insert(0, "day", d); feats.insert(0, "patient_id", pid)
     truth = pd.DataFrame(dict(patient_id=pid, day=d, congestion=cong.round(4), guest=guest, wet_feet=wet,
                               infection=infection, salty_gain_kg=salty.round(2), pill_missed=pill_missed,

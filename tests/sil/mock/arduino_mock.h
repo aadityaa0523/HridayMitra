@@ -17,6 +17,7 @@
 #include <random>
 #include <algorithm>
 #include <functional>
+#include <complex>
 #include <initializer_list>
 using std::min; using std::max;
 
@@ -67,7 +68,9 @@ struct World {
   long day0 = 0;                         // days since 1970 of day 0
   std::mt19937 rng{7};
   // body and sensors
-  double weight = 0, z[4] = {578.5, 658.4, 646.4, 646.4}; bool plateOpen = false;
+  double weight = 0; bool plateOpen = false;
+  double seg[3][3] = {{289.25, 650, 3.39e-9}, {330, 750, 2.9e-9}, {28, 60, 30e-9}};   // leg, arm, trunk: Re, Ri, Cm
+  double excHz = 5000, refScale = 1.0;                      // refScale != 1: a damaged reference chain
   double bpm = 70, spo2 = 96; bool finger = true;
   double hum_mv = 20;
   uint64_t standAt = 0; bool sitting = false;
@@ -133,14 +136,22 @@ inline int digitalRead(int p) {
 }
 
 // ---------------- ADC: the impedance front end ----------------
+inline std::complex<double> segZ(int k, double f) {       // one Cole segment Re || (Ri + Cm)
+  std::complex<double> zc(0, -1 / (2 * PI * f * W.seg[k][2]));
+  return W.seg[k][0] * (W.seg[k][1] + zc) / (W.seg[k][0] + W.seg[k][1] + zc);
+}
+inline double zPath(int path, double f) {                  // legs, arms, right side, left side
+  std::complex<double> L = segZ(0, f), A = segZ(1, f), T = segZ(2, f);
+  return std::abs(path == 0 ? 2. * L : path == 1 ? 2. * A : A + T + L);
+}
 inline void analogReadResolution(int) {}
 inline int analogRead(int) {
-  W.us += 9;                                               // about 10 us per conversion
+  W.us += 4;                                               // about 5 us per sample: the stool streams the ADC by DMA at 200 kS/s
   double t = now_s(), v = 1.65 + W.hum_mv / 1000 * 10 * sin(2 * PI * 50 * t);
   int path = W.pin[P_S0] | (W.pin[P_S1] << 1);
   if (W.dacOn) {
-    double z = W.pin[P_SEL] ? 220.0 : W.z[path];
-    v += 10 * 100e-6 * z * cos(2 * PI * 5000 * t);         // 100 uA through the body, INA gain 10
+    double z = W.pin[P_SEL] ? (W.pin[12] ? 100.0 : 220.0 * W.refScale) : zPath(path, W.excHz);   // Rcal or R5 + Rcal
+    v += 10 * 100e-6 * z * cos(2 * PI * W.excHz * t);         // 100 uA through the body, INA gain 10
     if (!W.pin[P_SEL] && W.plateOpen && path == 0) v = 1.65 + 3.0 * sin(2 * PI * 50 * t);   // floating input saturates
   }
   return (int)constrain(lround(v / 3.3 * 4095 + gauss(2)), 0L, 4095L);
@@ -151,7 +162,8 @@ inline void dacWrite(int, int) {}
 typedef struct dac_cos* dac_cosine_handle_t;
 enum { DAC_CHAN_0 = 0, DAC_COSINE_CLK_SRC_DEFAULT = 0, DAC_COSINE_ATTEN_DB_6 = 1, DAC_COSINE_PHASE_0 = 0 };
 struct dac_cosine_config_t { int chan_id, freq_hz, clk_src, atten, phase, offset; };
-inline int dac_cosine_new_channel(const dac_cosine_config_t*, dac_cosine_handle_t* h) { *h = (dac_cosine_handle_t)1; return 0; }
+inline int dac_cosine_new_channel(const dac_cosine_config_t* c, dac_cosine_handle_t* h) { W.excHz = c->freq_hz; *h = (dac_cosine_handle_t)1; return 0; }
+inline int dac_cosine_del_channel(dac_cosine_handle_t) { return 0; }
 inline int dac_cosine_start(dac_cosine_handle_t) { W.dacOn = true; return 0; }
 inline int dac_cosine_stop(dac_cosine_handle_t) { W.dacOn = false; return 0; }
 

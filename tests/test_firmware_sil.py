@@ -12,7 +12,7 @@ SIL = ROOT / "tests" / "sil"
 sys.path.insert(0, str(ROOT / "engine"))
 import alert_engine as A
 
-COLS = ["weight_kg", "leg_z_ohm", "trunk_z_ohm", "pulse_bpm", "spo2", "standup_s", "night_rr", "night_situps",
+COLS = ["weight_kg", "leg_z_ohm", "trunk_z_ohm", "leg_ewi", "pulse_bpm", "spo2", "standup_s", "night_rr", "night_situps",
         "activity_min", "breathless", "orthopnea", "took_pills"]
 
 
@@ -30,7 +30,7 @@ def run():
 
 def test_every_firmware_claim_passes(run):
     print(run.stdout)
-    assert run.returncode == 0 and "FAIL" not in run.stdout and run.stdout.count("PASS") >= 26
+    assert run.returncode == 0 and "FAIL" not in run.stdout and run.stdout.count("PASS") >= 31
 
 
 def test_firmware_lights_equal_python_engine(run):
@@ -42,6 +42,6 @@ def test_firmware_lights_equal_python_engine(run):
             table += [dict.fromkeys(COLS, np.nan) for _ in range(day - last - 1)]
         table.append({c: rep.get(c, np.nan) for c in COLS}); lights.append(rep["light"]); last = day
     g = pd.DataFrame(table)
-    T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+    T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
     py = A.lights(A.scores(g), T)[g.weight_kg.notna() | g.leg_z_ohm.notna() | g.breathless.notna()]
     assert len(py) == len(lights) and (np.array(lights) == py).all(), (lights, list(py))

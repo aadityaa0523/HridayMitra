@@ -1,0 +1,6 @@
+scenario                                 Z5 chg   IR chg  EWI chg  Z5 err  Z50 err  fit rms
+baseline                                 +0.00%   +0.00%   +0.00% -0.010%  -0.044%   0.000%
+extracellular fluid +10%                 -9.06%   +1.38%   +2.98% -0.008%  -0.045%   0.000%
+position / limb / temperature +3%        +3.00%   -0.00%   +0.00% -0.010%  -0.045%   0.000%
+cells (intracellular water) +10%         +0.02%   +0.23%   -2.92% -0.010%  -0.042%   0.000%
+fluid +10% and position +3%              -6.34%   +1.38%   +2.98% -0.008%  -0.045%   0.000%

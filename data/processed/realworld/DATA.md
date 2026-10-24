@@ -6,7 +6,7 @@ Made by `sim/patients/make_patients.py` with seed 43. Fully fake: no real person
 - First 30 days are normal (the patient's baseline). Worsening starts 3-10 days before the visit.
 - Files: `daily_features.csv` (what the devices report; empty cell = no reading), `patients.csv` (who, truth about events),
   `labels.csv` (answer key for testing), `truth_daily.csv` (hidden truth: congestion, guest, infection... never given to the alert brain).
-- Reproducible: same seed gives the same files. SHA-256 of daily_features.csv: `97d81c1132e25765`
+- Reproducible: same seed gives the same files. SHA-256 of daily_features.csv: `115daddb78088489`
 
 ## Every parameter and where it comes from
 
@@ -14,6 +14,7 @@ Made by `sim/patients/make_patients.py` with seed 43. Fully fake: no real person
 |---|---|---|
 | warmup_days | 30 | design: first days are the patient's normal, no worsening yet |
 | worsen_lead_days | (3, 10) | problem statement: worsening starts 3 to 10 days before the hospital visit |
+| ramp_exponent | 1.5 | ASSUMPTION: worsening shape; 1 = straight line, above 1 = slow start, fast end |
 | weight_gain_kg | (1.0, 4.5) | published: Chaudhry 2007, gains of 2-10 lb in the days before admission |
 | weight_silent_fraction | 0.35 | published (rough): many admissions show no weight gain (FAST trial, Gyllensten 2016) |
 | silent_gain_kg | (0.0, 0.5) | ASSUMPTION: weight-silent patients gain almost nothing |
@@ -44,6 +45,9 @@ Made by `sim/patients/make_patients.py` with seed 43. Fully fake: no real person
 | missing_day_prob | 0.07 | ASSUMPTION: 7% of days nobody does the check |
 | amulet_worn_prob | 0.9 | ASSUMPTION: amulet is worn on 90% of days |
 | button_error_prob | 0.03 | ASSUMPTION: 3% of button answers are wrong |
+| ewi_icw_ecw_person_sd | 0.15 | ASSUMPTION: people differ 15% in cell-water vs outside-water resistance (Ri/Re) |
+| ewi_bio_noise_pct | 0.4 | ASSUMPTION: day-to-day change of the extracellular-water index that is NOT position/temperature (those cancel in the ratio, LTspice) |
+| ewi_meas_noise_pct | 0.1 | ASSUMPTION: 3-frequency Cole-fit noise (Goertzel SNR at 50 kHz is about 0.03%; margin added) |
 
 Leg-reading measurement noise (0.35%) comes from `sim/circuit/measurement_error_model.py`.
 

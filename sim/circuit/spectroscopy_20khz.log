@@ -1,0 +1,37 @@
+LTspice 24.1.10 for Windows
+Circuit: C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\spectroscopy_20khz.cir
+Start Time: Sun Oct 25 03:58:21 2026
+solver = Normal
+Maximum thread count: 14
+tnom = 27
+temp = 27
+method = trap
+Direct Newton iteration for .op point succeeded.
+.step selv=0 sc=0
+.step selv=3.3 sc=0
+.step selv=0 sc=1
+.step selv=3.3 sc=1
+.step selv=0 sc=2
+.step selv=3.3 sc=2
+.step selv=0 sc=3
+.step selv=3.3 sc=3
+.step selv=0 sc=4
+.step selv=3.3 sc=4
+Total elapsed time: 4.148 seconds.
+
+Files loaded:
+C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\spectroscopy_20khz.cir
+
+
+Measurement: vpp
+  step	PP(V(adc))	FROM	TO
+     1	0.56526184082	0.008	0.02
+     2	0.101191282272	0.008	0.02
+     3	0.519109606743	0.008	0.02
+     4	0.101834416389	0.008	0.02
+     5	0.580956697464	0.008	0.02
+     6	0.10097193718	0.008	0.02
+     7	0.566459178925	0.008	0.02
+     8	0.101178884506	0.008	0.02
+     9	0.533617734909	0.008	0.02
+    10	0.101631522179	0.008	0.02

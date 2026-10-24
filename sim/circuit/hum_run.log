@@ -1,0 +1,10 @@
+no hum (reference)                               path 1: Goertzel +0.02 %   peak-to-peak -0.1 %   amplifier 1.24-2.06 V
+no hum (reference)                               path 3: Goertzel +0.14 %   peak-to-peak +0.0 %   amplifier 1.19-2.11 V
+battery, normal room                             path 1: Goertzel -0.14 %   peak-to-peak +0.1 %   amplifier 1.24-2.06 V
+battery, normal room                             path 3: Goertzel -0.03 %   peak-to-peak -0.7 %   amplifier 1.19-2.11 V
+battery, next to wiring, long unshielded wires   path 1: Goertzel -0.16 %   peak-to-peak +0.2 %   amplifier 1.23-2.07 V
+battery, next to wiring, long unshielded wires   path 3: Goertzel -0.03 %   peak-to-peak -1.6 %   amplifier 1.19-2.11 V
+charger plugged in, normal room                  path 1: Goertzel -0.16 %   peak-to-peak -5.5 %   amplifier 1.22-2.08 V
+charger plugged in, normal room                  path 3: Goertzel +0.04 %   peak-to-peak -6.8 %   amplifier 1.19-2.11 V
+charger plugged in, next to wiring               path 1: Goertzel -0.12 %   peak-to-peak -11.6 %   amplifier 1.16-2.14 V
+charger plugged in, next to wiring               path 3: Goertzel +0.09 %   peak-to-peak -17.8 %   amplifier 1.19-2.11 V

@@ -1,11 +1,11 @@
 scenario,path,z_true,z_goertzel,err_goertzel_pct,z_peak_to_peak,err_pp_pct,amp_min_v,amp_max_v,clipped
-no hum (reference),1,578.5,577.71,-0.135,577.67,-0.14,1.24,2.06,False
-no hum (reference),3,646.38,646.9,0.08,646.4,0.0,1.19,2.11,False
-"battery, normal room",1,578.5,577.54,-0.165,578.79,0.05,1.24,2.06,False
-"battery, normal room",3,646.38,646.35,-0.004,641.73,-0.72,1.19,2.11,False
-"battery, next to wiring, long unshielded wires",1,578.5,577.58,-0.158,579.85,0.23,1.23,2.07,False
-"battery, next to wiring, long unshielded wires",3,646.38,646.32,-0.009,635.96,-1.61,1.19,2.11,False
-"charger plugged in, normal room",1,578.5,577.72,-0.133,546.45,-5.54,1.22,2.08,False
-"charger plugged in, normal room",3,646.38,646.66,0.044,602.17,-6.84,1.19,2.11,False
-"charger plugged in, next to wiring",1,578.5,577.69,-0.14,511.66,-11.55,1.16,2.14,False
-"charger plugged in, next to wiring",3,646.38,646.93,0.086,531.04,-17.84,1.19,2.11,False
+no hum (reference),1,578.5,578.63,0.023,577.67,-0.14,1.24,2.06,False
+no hum (reference),3,646.38,647.26,0.137,646.39,0.0,1.19,2.11,False
+"battery, normal room",1,578.5,577.66,-0.144,578.79,0.05,1.24,2.06,False
+"battery, normal room",3,646.38,646.2,-0.027,641.72,-0.72,1.19,2.11,False
+"battery, next to wiring, long unshielded wires",1,578.5,577.57,-0.16,579.85,0.23,1.23,2.07,False
+"battery, next to wiring, long unshielded wires",3,646.38,646.21,-0.025,635.96,-1.61,1.19,2.11,False
+"charger plugged in, normal room",1,578.5,577.58,-0.158,546.45,-5.54,1.22,2.08,False
+"charger plugged in, normal room",3,646.38,646.63,0.039,602.16,-6.84,1.19,2.11,False
+"charger plugged in, next to wiring",1,578.5,577.77,-0.125,511.66,-11.55,1.16,2.14,False
+"charger plugged in, next to wiring",3,646.38,646.97,0.091,531.04,-17.84,1.19,2.11,False

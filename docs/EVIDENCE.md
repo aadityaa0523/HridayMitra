@@ -36,6 +36,7 @@
 | Dry / sweaty skin | Contact 200 Ω–10 kΩ changes reading | Tetrapolar + ratiometric; 10 MΩ bias | LTspice Monte Carlo (99% within 2%) |
 | Cheap part tolerances | Device-to-device error | Personal baseline compares each stool with itself; change error 0.13 points | `montecarlo.py` |
 | Mains hum (charger plugged in) | Peak-to-peak 18% wrong | Goertzel only; battery-only measuring | `sim/circuit/hum.py` |
+| Foot placed differently / limb size / skin temperature | Single-frequency leg reading moves ~3% with no medical cause | Spectroscopy index (Rinf/R0 from 5/20/50 kHz) cancels it: LTspice 0.00% | `sim/circuit/spectroscopy.py`, firmware emulator check "spectroscopy index within 0.5%" |
 | Wet feet | Leg reading 3–6% low | Robust baseline + two-witness rule | stress "15% wet-feet days" |
 | No finger / moving finger | Wrong pulse/SpO₂ | Perfusion and regularity checks → "no reading" | `test_no_finger` |
 | Missed check-ins / power cut | Gaps in history | Network clock fills gaps; light held; engine state saved in flash | stress "power cut", `test_*` (has_data) |
@@ -50,6 +51,8 @@
 | Two people share one stool | Mixed baselines, false alerts | Two profiles matched by weight + leg reading; unknown person → nothing saved | `test_two_users_and_guest` |
 | Patient forgets the check-in | Gaps, late warning | 11:00 SMS reminder to the family; Sunday summary to the ASHA | `test_nudge_once_after_11`, `test_weekly_summary_and_fhir` |
 | Hard of hearing | Prompts missed | Seat vibration before every prompt, lights | firmware `say()` |
+| A fault in the circuit (shorted resistor or capacitor, op-amp stuck, DAC full scale) | Unsafe current through the patient | Two series coupling capacitors + current-limit resistor; every single fault within IEC 60601-1 type-BF limits (≥ 12.8× margin) | `sim/circuit/safety.py` |
+| Reference resistor damaged, drifted or wrongly fitted | Every reading wrong by the same factor, silently | Precision Rcal is the reference; (R5 + Rcal)/Rcal checked at each check-in; outside 2.0–2.4 → no numbers, service SMS | `sim/circuit/selfcal.py`, firmware emulator checks |
 | Firmware diverges from tested code | Untested behaviour in homes | C++ engine = Python (100% of 3,231 days); the whole firmware run in an emulated month: 26/26 claims pass and every light equals the Python engine | `tests/test_engine_parity.py`, `tests/test_firmware_sil.py`, `run.py hil` on hardware |
 
 ## 3. Assumption ledger

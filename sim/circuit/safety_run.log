@@ -1,0 +1,25 @@
+ kHz fault                                                cond   AC uA rms  limit   DC uA limit  verdict
+   5 normal condition                                     NC          76.1    500   0.000    10  PASS
+   5 current-limit resistor R4 shorted                    SFC        195.3   2500   0.029    50  PASS
+   5 coupling capacitor C3 shorted                        SFC         76.1   2500   0.000    50  PASS
+   5 coupling capacitor C4 shorted                        SFC         76.1   2500   0.000    50  PASS
+   5 op-amp U1B output stuck at 3.3 V                     SFC          0.0   2500   0.000    50  PASS
+   5 op-amp U1B output stuck at 0 V                       SFC          0.0   2500   0.000    50  PASS
+   5 DAC at full scale (3.3 V p-p)                        SFC        150.3   2500   0.008    50  PASS
+   5 C3 shorted AND op-amp stuck at 3.3 V (double fault)  double       0.0   2500   0.367    50  PASS
+  20 normal condition                                     NC          76.3   2000   0.000    10  PASS
+  20 current-limit resistor R4 shorted                    SFC        196.9  10000   0.000    50  PASS
+  20 coupling capacitor C3 shorted                        SFC         76.3  10000   0.001    50  PASS
+  20 coupling capacitor C4 shorted                        SFC         76.3  10000   0.001    50  PASS
+  20 op-amp U1B output stuck at 3.3 V                     SFC          0.0  10000   0.000    50  PASS
+  20 op-amp U1B output stuck at 0 V                       SFC          0.0  10000   0.000    50  PASS
+  20 DAC at full scale (3.3 V p-p)                        SFC        150.8  10000   0.005    50  PASS
+  20 C3 shorted AND op-amp stuck at 3.3 V (double fault)  double       0.0  10000   0.367    50  PASS
+  50 normal condition                                     NC          77.0   5000   0.000    10  PASS
+  50 current-limit resistor R4 shorted                    SFC        201.2  10000   0.000    50  PASS
+  50 coupling capacitor C3 shorted                        SFC         77.0  10000   0.000    50  PASS
+  50 coupling capacitor C4 shorted                        SFC         77.0  10000   0.000    50  PASS
+  50 op-amp U1B output stuck at 3.3 V                     SFC          0.0  10000   0.000    50  PASS
+  50 op-amp U1B output stuck at 0 V                       SFC          0.0  10000   0.000    50  PASS
+  50 DAC at full scale (3.3 V p-p)                        SFC        152.0  10000   0.001    50  PASS
+  50 C3 shorted AND op-amp stuck at 3.3 V (double fault)  double       0.0  10000   0.367    50  PASS
