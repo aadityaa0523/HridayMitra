@@ -33,7 +33,7 @@ def stool_diagram():
         {"type": "wokwi-slide-switch", "id": "drawer", "top": 380, "left": 190, "attrs": {"label": "tablet drawer"}},
     ]
     conns = [wire("esp:TX", "$serialMonitor:RX", ""), wire("esp:RX", "$serialMonitor:TX", ""),
-             wire("body:VCC", "esp:3V3", "red"), wire("body:GND", "esp:GND.1", "black"), wire("body:SEL", "esp:18"),
+             wire("body:VCC", "esp:3V3", "red"), wire("body:GND", "esp:GND.1", "black"), wire("body:EXC", "esp:25", "orange"), wire("body:SEL", "esp:18"),
              wire("body:S0", "esp:33"), wire("body:S1", "esp:27"), wire("body:OUT", "esp:35", "orange"),
              wire("finger:VCC", "esp:3V3", "red"), wire("finger:GND", "esp:GND.1", "black"),
              wire("finger:SDA", "esp:21", "blue"), wire("finger:SCL", "esp:22", "purple"),

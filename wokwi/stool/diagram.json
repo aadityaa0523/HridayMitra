@@ -186,6 +186,12 @@
       []
     ],
     [
+      "body:EXC",
+      "esp:25",
+      "orange",
+      []
+    ],
+    [
       "body:SEL",
       "esp:18",
       "green",

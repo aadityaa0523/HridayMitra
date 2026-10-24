@@ -421,9 +421,15 @@ void checkin() {
   if (isnan(d.v[hm::WEIGHT])) { say(CLIP_RETRY); return; }
   say(CLIP_FEET_HANDS);
   dac_cosine_start(cosine);
+#ifdef HM_WOKWI
+  pinMode(25, OUTPUT); digitalWrite(25, HIGH);           // tells the virtual-patient chip to drive its 5 kHz signal
+#endif
   float z[4];
   for (int p = 0; p < 4; p++) z[p] = measurePath(p);
   dac_cosine_stop(cosine);
+#ifdef HM_WOKWI
+  digitalWrite(25, LOW);
+#endif
   if (isnan(z[0])) say(CLIP_REPLACE_FEET);
   int u = whoIsThis(d.v[hm::WEIGHT], z[0]);
   if (u < 0) { say(CLIP_GUEST); return; }                // not a registered user: nothing saved
