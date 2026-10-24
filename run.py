@@ -7,6 +7,7 @@
   python run.py live --port COM5      log the real stool's check-ins into the dashboard
   python run.py hil --port COM5       hardware-in-the-loop: real stool's engine vs Python, must agree 100 %
   python run.py firmware [--upload COM5] [--amulet-port COM6]   make voice clips, compile (and flash) both boards
+  python run.py wokwi                 build the Wokwi projects (virtual patient + phone chips) - see wokwi/README.md
   python run.py reproduce             re-run every result (tuning, tests, stress, assumptions, care loop, circuits)
   python run.py docs                  rebuild schematic, block diagram, cost, report and pitch PDFs
   python run.py all                   setup + test + reproduce + docs + firmware compile
@@ -79,6 +80,7 @@ def main():
     elif cmd == "live": py("tools/stool_bridge.py", *rest)
     elif cmd == "hil": py("tools/stool_bridge.py", *rest, "--replay", opt(rest, "--patient") or "P0022")
     elif cmd == "firmware": firmware(rest)
+    elif cmd == "wokwi": py("tools/make_wokwi.py", *rest)
     elif cmd == "reproduce": reproduce()
     elif cmd == "docs": docs()
     elif cmd == "all":
