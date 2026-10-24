@@ -4,12 +4,13 @@
 // Z depends on the path the 74HC4052s select (S1 S0: legs, arms, right side, left side) and on SEL (body or R5).
 // Sliders: leg fluid and chest fluid (+10 % fluid lowers the 5 kHz reading 8.7 % legs / 9.1 % chest, from LTspice),
 // a lifted foot (floating 10 Mohm input saturates), and mains hum. Monitoring, not diagnosis.
+// The 50 kHz waveform only runs while EXC (the excitation enable, GPIO25) is high, so the simulation stays fast.
 #include "wokwi-api.h"
 #include <math.h>
 #include <stdlib.h>
 
 typedef struct {
-  pin_t sel, s0, s1, out;
+  pin_t sel, s0, s1, out, exc; timer_t timer;
   uint32_t leg, chest, lifted, hum;
 } chip_t;
 
@@ -29,6 +30,12 @@ static void tick(void *data) {
   pin_dac_write(c->out, v < 0 ? 0 : (v > 3.3 ? 3.3 : v));
 }
 
+static void on_exc(void *data, pin_t pin, uint32_t value) {
+  chip_t *c = data;
+  if (value) timer_start(c->timer, 20, true);         // 50 kHz: 10 points per 5 kHz cycle
+  else { timer_stop(c->timer); pin_dac_write(c->out, 1.65); }
+}
+
 void chip_init(void) {
   chip_t *c = malloc(sizeof(chip_t));
   c->sel = pin_init("SEL", INPUT); c->s0 = pin_init("S0", INPUT); c->s1 = pin_init("S1", INPUT);
@@ -36,5 +43,9 @@ void chip_init(void) {
   c->leg = attr_init_float("legFluid", 0); c->chest = attr_init_float("chestFluid", 0);
   c->lifted = attr_init("footLifted", 0); c->hum = attr_init_float("humMv", 20);
   const timer_config_t cfg = {.user_data = c, .callback = tick};
-  timer_start(timer_init(&cfg), 20, true);            // 50 kHz: 10 points per 5 kHz cycle
+  c->timer = timer_init(&cfg);
+  c->exc = pin_init("EXC", INPUT);
+  const pin_watch_config_t w = {.user_data = c, .edge = BOTH, .pin_change = on_exc};
+  pin_watch(c->exc, &w);
+  pin_dac_write(c->out, 1.65);
 }
