@@ -8,7 +8,9 @@ The 74HC4052 path mux (GPIO33/27) picks which pair injects and which pair senses
     path 3  Z3 = left hand  -> left foot   = arm L + trunk + leg L
     path 4  Z4 = right hand -> right foot  = arm R + trunk + leg R
     trunk   = (Z3 + Z4 - Z1 - Z2) / 2
-The measurement front end is the same as the leg circuit (z1_open_me.cir): ratiometric against R5 = 220 ohm.
+Ratiometric front end: Z = Rcal x V(body) / V(Rcal). Self-calibrating reference (C2): R5 (120 ohm, any tolerance) in series with
+Rcal (100 ohm, 0.1 %); the spare 74HC4053 switch (CAL, GPIO12) taps across Rcal for every reference reading, or across both for
+the integrity check (ratio 2.2).
 
 Run:  python sim/circuit/trunk_paths.py           (writes .cir files, runs LTspice in batch, checks results)
 Out:  trunk_paths_5khz.cir / _50khz.cir / trunk_open_me.cir, trunk_results.csv, trunk_results.png
@@ -18,7 +20,7 @@ import numpy as np
 
 D = pathlib.Path(__file__).parent
 LTSPICE = r"C:\Users\Aadityaa\AppData\Local\Programs\ADI\LTspice\LTspice.exe"
-R5 = 220.0
+R5 = 100.0                                   # the reference is the 0.1 % precision Rcal (self-calibrating front end)
 # segment Cole parameters: (Re extracellular, Ri intracellular, Cm membrane). ASSUMPTION, typical adult segment sizes.
 SEG = {"arm": (330.0, 750.0, 2.9e-9), "leg": (290.0, 650.0, 3.39e-9), "trunk": (28.0, 60.0, 30e-9)}
 FT, RC, PATHS = [1.0, 1.05, 1.10], [300, 3000], [1, 2, 3, 4]
@@ -45,12 +47,12 @@ def true_trunk(ft, f):
 
 def netlist(f, steps, title, header=""):
     L = [f"* ===== HridayMitra: {title} =====", header,
-         ".param f=" + f"{f:g}" + " Rc=1k ft=1 fl=1 path=1 selv=0",
+         ".param f=" + f"{f:g}" + " Rc=1k ft=1 fl=1 path=1 selv=0 calv=3.3",
          "V1 vcc 0 3.3", "R1 vcc vrefin 10k", "R2 vrefin 0 10k", "C1 vrefin 0 10u",
          "Bu1a vref 0 V=limit(V(vrefin),0.05,3.25)",
          "Vdac dac 0 SIN(1.65 0.83 {f})", "C2 dac excin 1u", "R3 excin vref 100k",
          "Bu1b excout 0 V=limit(V(excin),0.05,3.25)",
-         "C3 excout n1 1u", "R4 n1 injP 4.7k", "C4 injN ret 1u", "R5 ret vref 220",
+         "C3 excout n1 1u", "R4 n1 injP 4.7k", "C4 injN ret 1u", "R5 ret ncal 120", "Rcal ncal vref 100",
          "* --- body: arms to shoulder node SH, trunk SH-PV, legs to pelvis node PV (Cole: Re || Ri+Cm) ---"]
     for limb, seg, end in [("LH", "arm", "SH"), ("RH", "arm", "SH"), ("LF", "leg", "PV"), ("RF", "leg", "PV")]:
         re_, ri, cm = SEG[seg]
@@ -74,12 +76,14 @@ def netlist(f, steps, title, header=""):
             L += [f"Bm{k} c{k} 0 V={ctl}", f"Sm{k} {node} {prefix}{limb} c{k} 0 SW"]
     L += ["* --- sense lines: 1k protection, 1M bias to VREF ---",
           "R6 sraw_p sa 1k", "R7 sraw_n sb 1k", "R8 sa vref 10Meg", "R9 sb vref 10Meg",
-          "* --- 74HC4053 selector: selv=0 body, selv=3.3 across R5 ---",
+          "* --- 74HC4053 selector: selv=0 body, selv=3.3 reference; switch C (calv): 3.3 = across Rcal, 0 = across R5+Rcal ---",
           "Vsel sel 0 {selv}", "Bch chi 0 V=V(sel)", "Bcl clo 0 V=3.3-V(sel)",
-          "S1 inp sa clo 0 SW", "S2 inp ret chi 0 SW", "S3 inn sb clo 0 SW", "S4 inn vref chi 0 SW",
+          "Vcal calsel 0 {calv}", "Bcc ccal 0 V=V(calsel)", "Bcn cnot 0 V=3.3-V(calsel)",
+          "S5 rtap ncal ccal 0 SW", "S6 rtap ret cnot 0 SW",
+          "S1 inp sa clo 0 SW", "S2 inp rtap chi 0 SW", "S3 inn sb clo 0 SW", "S4 inn vref chi 0 SW",
           "Bina ina 0 V=limit(V(vref)+10*(V(inp)-V(inn)),0.05,3.25)", "R11 ina adc 1.5k", "C5 adc 0 10n", "Radc adc 0 10Meg",
           "* --- DC definition of floating nodes ---"]
-    nodes = ["n1", "injP", "injN", "SH", "PV", "mT", "sraw_p", "sraw_n"] + LIMBS + [f"m{x}" for x in LIMBS] + \
+    nodes = ["n1", "injP", "injN", "SH", "PV", "mT", "sraw_p", "sraw_n", "ncal", "rtap"] + LIMBS + [f"m{x}" for x in LIMBS] + \
             [f"{p}{x}" for p in "is" for x in LIMBS]
     L += [f"Rd{i} {n} vref 1G" for i, n in enumerate(nodes)]
     per = 1 / f
@@ -124,16 +128,16 @@ def write_open_me():
         "*   Answer: View > SPICE Output Log, find 'zmeas' (one value per path, ohm). Expected (exact model, 5 kHz):",
         f"*     path 1 legs Z1 = {exp[1]:.1f}   path 2 arms Z2 = {exp[2]:.1f}   path 3 left Z3 = {exp[3]:.1f}   path 4 right Z4 = {exp[4]:.1f}",
         f"*     chest (trunk) = (Z3 + Z4 - Z1 - Z2) / 2 = {tr:.2f} ohm. Pass if every zmeas is within 1 % of these.",
-        "*   Plot: right-click > Add Trace > V(adc). First 20 ms = body signal, next 20 ms = across the 220 ohm reference.",
+        "*   Plot: right-click > Add Trace > V(adc). First 20 ms = body signal, next 20 ms = across the 100 ohm precision reference (Rcal).",
         "*   Try: set ft=1.1 (+10 % chest fluid) on the .param line: the chest number should fall about 9 %.",
         "*   Try: set Rc=10k (dry skin): the numbers should barely move (that is the point of 4-electrode sensing)."])
     def steps(per):
         return [".tran 0 0.04 0 5u", ".step param path list 1 2 3 4",
                 ".meas TRAN vbody PP V(adc) FROM=0.008 TO=0.019",
                 ".meas TRAN vsens PP V(adc) FROM=0.028 TO=0.039",
-                ".meas TRAN zmeas PARAM 220*vbody/vsens"]
+                ".meas TRAN zmeas PARAM 100*vbody/vsens"]
     txt = netlist(5e3, steps, "OPEN ME: chest (trunk) paths Z1-Z4, 5 kHz", head)
-    txt = txt.replace("Vsel sel 0 {selv}", "Vsel sel 0 PULSE(0 3.3 0.02 1u 1u 0.02 0.1)   ; low = body, high = across R5")
+    txt = txt.replace("Vsel sel 0 {selv}", "Vsel sel 0 PULSE(0 3.3 0.02 1u 1u 0.02 0.1)   ; low = body, high = across Rcal")
     (D / "trunk_open_me.cir").write_text(txt)
     log = run(D / "trunk_open_me.cir")
     got = read_meas(log, "zmeas", 4)

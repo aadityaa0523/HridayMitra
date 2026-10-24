@@ -22,7 +22,10 @@
 const int HX_DT = 32, HX_SCK = 14, VOICE = 26, Z_ADC = 35, SEL = 18, PATH_S0 = 33, PATH_S1 = 27;
 const int LED_G = 13, LED_A = 23, LED_R = 2, BTN_G = 4, BTN_R = 5, BTN_SOS = 15, GSM_RX = 16, GSM_TX = 17;
 const int VIBRA = 19, DRAWER = 36;                       // seat vibration motor (via NPN); tablet-drawer switch to GND
-const float R5 = 220.0f;
+const int CAL_SEL = 12;                                  // 74HC4053 switch C: high = reference across Rcal only, low = across R5 + Rcal
+const float RCAL = 100.0f;                               // 0.1 % precision reference (self-calibrating front end)
+const float REF_RATIO = 2.2f, REF_TOL = 0.09f;          // (R5 120 + Rcal 100) / Rcal; outside 2.0-2.4 = fault (sim/circuit/selfcal.py)
+float lastRefRatio = NAN;
 
 struct User {                                            // everything kept per person, saved in flash
   hm::Engine eng;
@@ -118,7 +121,46 @@ float stableWeight(uint32_t timeoutMs) {                 // 10 readings within 0
 }
 
 // ======================= impedance: Goertzel on the ADC, ratiometric against R5 =======================
+#if defined(ARDUINO_ARCH_ESP32) && !defined(HM_WOKWI)
+#include <esp_adc/adc_continuous.h>
+// Spectroscopy needs 50 kHz: the ADC streams by DMA at 200 000 samples/s (analogRead alone is too slow).
+const uint32_t ADC_FS = 200000;
+adc_continuous_handle_t adcDma = nullptr;
+
+void dmaInit() {
+  adc_continuous_handle_cfg_t hc = {}; hc.max_store_buf_size = 8192; hc.conv_frame_size = 1024;
+  if (adc_continuous_new_handle(&hc, &adcDma) != ESP_OK) { adcDma = nullptr; return; }
+  adc_digi_pattern_config_t pat = {};
+  pat.atten = ADC_ATTEN_DB_12; pat.channel = ADC_CHANNEL_7; pat.unit = ADC_UNIT_1; pat.bit_width = SOC_ADC_DIGI_MAX_BITWIDTH;   // GPIO35
+  adc_continuous_config_t cc = {};
+  cc.pattern_num = 1; cc.adc_pattern = &pat; cc.sample_freq_hz = ADC_FS; cc.conv_mode = ADC_CONV_SINGLE_UNIT_1; cc.format = ADC_DIGI_OUTPUT_FORMAT_TYPE1;
+  if (adc_continuous_config(adcDma, &cc) != ESP_OK) { adc_continuous_deinit(adcDma); adcDma = nullptr; }
+}
+
+float goertzelDma(float& clipFrac, uint32_t windowUs) {  // uniform samples: phase from the sample count
+  static uint8_t buf[1024];
+  uint32_t need = (uint64_t)ADC_FS * windowUs / 1000000, n = 0, clip = 0, got = 0;
+  double sx = 0, sc = 0, ss = 0, xc = 0, xs = 0, w = 2 * PI * excHz / ADC_FS;
+  adc_continuous_start(adcDma);
+  adc_continuous_read(adcDma, buf, sizeof buf, &got, 100);   // first frame may be stale: drop it
+  while (n < need && adc_continuous_read(adcDma, buf, sizeof buf, &got, 100) == ESP_OK)
+    for (uint32_t i = 0; i + SOC_ADC_DIGI_RESULT_BYTES <= got && n < need; i += SOC_ADC_DIGI_RESULT_BYTES, n++) {
+      int x = ((adc_digi_output_data_t*)&buf[i])->type1.data;
+      double c = cos(w * n), s = sin(w * n);
+      sx += x; sc += c; ss += s; xc += x * c; xs += x * s; clip += (x < 5 || x > 4090);
+    }
+  adc_continuous_stop(adcDma);
+  if (n == 0) { clipFrac = 1; return 0; }
+  clipFrac = (float)clip / n;
+  double m = sx / n, re = xc - m * sc, im = xs - m * ss;
+  return 2 * sqrt(re * re + im * im) / n;
+}
+#endif
+
 float goertzelAmp(float& clipFrac, uint32_t windowUs = 100000) {   // 100 ms = 5 whole mains cycles
+#if defined(ARDUINO_ARCH_ESP32) && !defined(HM_WOKWI)
+  if (adcDma) return goertzelDma(clipFrac, windowUs);
+#endif
   double sx = 0, sc = 0, ss = 0, xc = 0, xs = 0; uint32_t n = 0, clip = 0;
   const double w = 2 * PI * excHz / 1e6;
   uint32_t t0 = micros(), t;
@@ -129,21 +171,30 @@ float goertzelAmp(float& clipFrac, uint32_t windowUs = 100000) {   // 100 ms = 5
     clip += (x < 5 || x > 4090);
   }
   clipFrac = (float)clip / n;
+  if (n < 4.0 * excHz * windowUs / 1e6) { clipFrac = 1; return 0; }   // sampled too slowly for this frequency: "no reading"
   double m = sx / n, re = xc - m * sc, im = xs - m * ss;   // remove the 1.65 V level before the DFT
   return 2 * sqrt(re * re + im * im) / n;
 }
 
-float measurePath(int path) {                            // path 0..3 = Z1 legs, Z2 arms, Z3 right, Z4 left
+dac_cosine_config_t excCfg = {};
+
+void setExcFreq(float hz) {                              // retune the DAC cosine generator (5, 20 or 50 kHz)
+  dac_cosine_stop(cosine); dac_cosine_del_channel(cosine);
+  excCfg.freq_hz = (uint32_t)hz; excHz = hz;
+  dac_cosine_new_channel(&excCfg, &cosine); dac_cosine_start(cosine); delay(50);
+}
+
+float measurePath(int path, uint32_t windowUs = 100000) {  // path 0..3 = Z1 legs, Z2 arms, Z3 right, Z4 left
   digitalWrite(PATH_S0, path & 1); digitalWrite(PATH_S1, (path >> 1) & 1);
   delay(200);
   float zs[3];
   for (int k = 0; k < 3; k++) {
     float clipB, clipR;
-    digitalWrite(SEL, 0); delay(20); float body = goertzelAmp(clipB);
-    digitalWrite(SEL, 1); delay(20); float ref = goertzelAmp(clipR);
+    digitalWrite(SEL, 0); delay(20); float body = goertzelAmp(clipB, windowUs);
+    digitalWrite(CAL_SEL, 1); digitalWrite(SEL, 1); delay(20); float ref = goertzelAmp(clipR, windowUs);   // reference = precision Rcal
     lastRefAmp = ref;
     if (clipB > 0.01f || ref < 5) return NAN;            // open plate / lifted foot / no current: "no reading"
-    zs[k] = R5 * body / ref;
+    zs[k] = RCAL * body / ref;
   }
   return hm::median(zs, 3);
 }
@@ -407,10 +458,10 @@ void runEngine(int u, const hm::DayIn& d, int tookPills) {
   if (r.light == 2 && (!loopSt.active || millis() - loopSt.t0 > 20UL * 60 * MINUTE_MS)) startCareLoop(IDS[u], why[0] ? why : "several signs together", r.danger);
   saveUser(u);
   Serial.printf("{\"t\":\"checkin\",\"id\":\"%s\",\"weight_kg\":%.4f,\"leg_z_ohm\":%.4f,\"trunk_z_ohm\":%.4f,\"pulse_bpm\":%.4f,"
-                "\"spo2\":%.4f,\"standup_s\":%.4f,\"night_rr\":%.4f,\"night_situps\":%.4f,\"activity_min\":%.4f,"
-                "\"breathless\":%.4f,\"orthopnea\":%.4f,\"took_pills\":%d,\"light\":%d,\"S\":%.4f,\"learning\":%d,\"guest\":%d,\"why\":\"%s\"}\n",
+                "\"spo2\":%.4f,\"standup_s\":%.4f,\"night_rr\":%.4f,\"night_situps\":%.4f,\"activity_min\":%.4f,\"leg_ewi\":%.5f,"
+                "\"breathless\":%.4f,\"orthopnea\":%.4f,\"took_pills\":%d,\"light\":%d,\"S\":%.4f,\"learning\":%d,\"guest\":%d,\"ref_ratio\":%.4f,\"why\":\"%s\"}\n",
                 IDS[u], d.v[hm::WEIGHT], d.v[hm::LEG], d.v[hm::TRUNK], d.v[hm::PULSE], d.v[hm::SPO2], d.v[hm::STANDUP],
-                d.v[hm::NIGHT_RR], d.situps, d.v[hm::ACTIVITY], d.breathless, d.orthopnea, U.took[4], r.light, r.S, r.learning, r.guest, why);
+                d.v[hm::NIGHT_RR], d.situps, d.v[hm::ACTIVITY], d.v[hm::LEG_EWI], d.breathless, d.orthopnea, U.took[4], r.light, r.S, r.learning, r.guest, lastRefRatio, why);
 }
 
 // ======================= the 90-second check-in =======================
@@ -426,6 +477,28 @@ void checkin() {
 #endif
   float z[4];
   for (int p = 0; p < 4; p++) z[p] = measurePath(p);
+  float ewi = NAN;
+  {                                                      // self-check of the reference chain while current flows (path 0)
+    float c1, c2; digitalWrite(PATH_S0, 0); digitalWrite(PATH_S1, 0); digitalWrite(SEL, 1); delay(20);
+    digitalWrite(CAL_SEL, 1); delay(5); float aCal = goertzelAmp(c1);
+    digitalWrite(CAL_SEL, 0); delay(5); float aAll = goertzelAmp(c2);
+    digitalWrite(CAL_SEL, 1);
+    lastRefRatio = aCal > 5 ? aAll / aCal : NAN;
+    if (!isnan(lastRefRatio) && fabsf(lastRefRatio / REF_RATIO - 1) > REF_TOL) {   // damaged reference: never report numbers
+      for (float& v : z) v = NAN;
+      char m[120]; snprintf(m, sizeof m, "HridayMitra stool needs service: reference resistor check failed (ratio %.2f, expected 2.2).", lastRefRatio);
+      queueSms(ASHA, m);
+    }
+  }
+#ifndef HM_WOKWI                                         // spectroscopy: legs again at 20 and 50 kHz -> extracellular-water index
+  if (!isnan(z[0])) {
+    double fz[3] = {5000, 20000, 50000}, zz[3] = {z[0], 0, 0};
+    setExcFreq(20000); zz[1] = measurePath(0, 300000);   // longer windows: the 3-point fit amplifies noise
+    setExcFreq(50000); zz[2] = measurePath(0, 300000);
+    setExcFreq(5000);
+    if (!isnan(zz[1]) && !isnan(zz[2])) ewi = hm::ewiClosedForm(fz, zz);
+  }
+#endif
   dac_cosine_stop(cosine);
 #ifdef HM_WOKWI
   digitalWrite(25, LOW);
@@ -435,6 +508,7 @@ void checkin() {
   if (u < 0) { say(CLIP_GUEST); return; }                // not a registered user: nothing saved
   d.v[hm::LEG] = z[0];
   d.v[hm::TRUNK] = (isnan(z[0]) || isnan(z[1]) || isnan(z[2]) || isnan(z[3])) ? NAN : (z[2] + z[3] - z[0] - z[1]) / 2;
+  d.v[hm::LEG_EWI] = ewi;
   say(CLIP_FINGER);
   float bpm, spo2;
   if (pulseSpo2(bpm, spo2)) { d.v[hm::PULSE] = bpm; d.v[hm::SPO2] = spo2; }
@@ -494,24 +568,27 @@ void handleUsb() {                                       // laptop commands
   } else if (c.startsWith("enroll ")) {                 // the next check-in becomes user 1 or 2
     enrollNext = constrain(c.substring(7).toInt(), 1, 2) - 1; Serial.println("{\"t\":\"ok\",\"enroll\":\"next check-in\"}");
   } else if (c.startsWith("day ")) {                    // feed numbers without sensors (hardware-in-the-loop test)
-    hm::DayIn d; float f[11]; int k = 0; char buf[200]; strlcpy(buf, c.c_str() + 4, sizeof buf);
-    for (char* tok = strtok(buf, ","); tok && k < 11; tok = strtok(nullptr, ",")) f[k++] = (tok[0] == 'n') ? NAN : atof(tok);
-    if (k == 11) { for (int s = 0; s < hm::N_SIG; s++) d.v[s] = f[s]; d.breathless = f[8]; d.orthopnea = f[9]; d.situps = f[10]; runEngine(0, d, -1); }
+    const int NV = hm::N_SIG + 3;                        // signals in engine_core.h order, then breathless, orthopnea, sit-ups
+    hm::DayIn d; float f[NV]; int k = 0; char buf[240]; strlcpy(buf, c.c_str() + 4, sizeof buf);
+    for (char* tok = strtok(buf, ","); tok && k < NV; tok = strtok(nullptr, ",")) f[k++] = (tok[0] == 'n') ? NAN : atof(tok);
+    if (k == NV) { for (int s = 0; s < hm::N_SIG; s++) d.v[s] = f[s]; d.breathless = f[hm::N_SIG]; d.orthopnea = f[hm::N_SIG + 1]; d.situps = f[hm::N_SIG + 2]; runEngine(0, d, -1); }
   } else if (c == "reset") { for (int u = 0; u < 2; u++) { users[u] = User(); saveUser(u); } Serial.println("{\"t\":\"ok\"}"); }
 }
 
 void setup() {
   Serial.begin(115200);
   Serial2.begin(9600, SERIAL_8N1, GSM_RX, GSM_TX);
-  for (int p : {LED_G, LED_A, LED_R, SEL, PATH_S0, PATH_S1, HX_SCK, VIBRA}) pinMode(p, OUTPUT);
+  for (int p : {LED_G, LED_A, LED_R, SEL, PATH_S0, PATH_S1, HX_SCK, VIBRA, CAL_SEL}) pinMode(p, OUTPUT);   // GPIO12 is a boot pin: only a high-impedance select input on it
   for (int p : {BTN_G, BTN_R, BTN_SOS}) pinMode(p, INPUT_PULLUP);
   pinMode(HX_DT, INPUT); pinMode(DRAWER, INPUT);         // GPIO36 has no internal pull-up: 10 k to 3.3 V on the board
   analogReadResolution(12);
   Wire.begin(21, 22); maxInit();
-  dac_cosine_config_t cfg = {};
-  cfg.chan_id = DAC_CHAN_0; cfg.freq_hz = 5000; cfg.clk_src = DAC_COSINE_CLK_SRC_DEFAULT;
-  cfg.atten = DAC_COSINE_ATTEN_DB_6; cfg.phase = DAC_COSINE_PHASE_0; cfg.offset = 0;   // scale 1/2, about 0.83 V peak
-  dac_cosine_new_channel(&cfg, &cosine);
+  excCfg.chan_id = DAC_CHAN_0; excCfg.freq_hz = 5000; excCfg.clk_src = DAC_COSINE_CLK_SRC_DEFAULT;
+  excCfg.atten = DAC_COSINE_ATTEN_DB_6; excCfg.phase = DAC_COSINE_PHASE_0; excCfg.offset = 0;   // scale 1/2, about 0.83 V peak
+  dac_cosine_new_channel(&excCfg, &cosine);
+#if defined(ARDUINO_ARCH_ESP32) && !defined(HM_WOKWI)
+  dmaInit();
+#endif
   prefs.begin("hm");
   countsPerKg = prefs.getFloat("cpk", DEFAULT_COUNTS_PER_KG); tareCounts = prefs.getLong("tare", 0);
   for (int u = 0; u < 2; u++) {                          // engines and baselines survive power cuts

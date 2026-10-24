@@ -26,8 +26,16 @@ std::vector<SentSms> smsTo(const char* who, uint64_t from, uint64_t to, const ch
   return r;
 }
 
-struct Body { double L = 289.25, A = 329.2, Tr = 27.95; };   // one leg, one arm, trunk (5 kHz |Z|, LTspice body model)
-void setBody(const Body& b) { W.z[0] = 2 * b.L; W.z[1] = 2 * b.A; W.z[2] = W.z[3] = b.A + b.Tr + b.L; }
+struct Body {                                             // Cole segments Re || (Ri + Cm), the LTspice body model
+  double legRe = 289.25, legRi = 650, legCm = 3.39e-9, armRe = 330, armRi = 750, armCm = 2.9e-9, trRe = 28, trRi = 60, trCm = 30e-9;
+  double ewi() const { return legRi / (legRe + legRi); }   // true extracellular-water index Rinf/R0
+};
+void setBody(const Body& b) {
+  double v[3][3] = {{b.legRe, b.legRi, b.legCm}, {b.armRe, b.armRi, b.armCm}, {b.trRe, b.trRi, b.trCm}};
+  memcpy(W.seg, v, sizeof v);
+}
+double legTrue(const Body& b) { setBody(b); return zPath(0, 5000); }
+double trunkTrue(const Body& b) { setBody(b); return std::abs(segZ(2, 5000)); }
 
 std::string doCheckin(double kg, const Body& b, std::vector<int> answers, double extraStand = 0) {
   setBody(b); W.weight = kg; W.sitting = true; W.standAt = 0;
@@ -48,12 +56,15 @@ int main() {
   setup();
   W.usbIn.clear();
   std::mt19937 r(3); std::normal_distribution<double> n(0, 1);
+  double maxEwiErr = 0, ewiStable = NAN, ewiWorse = NAN;
   double maxLegErr = 0, maxTrunkErr = 0, maxPulseErr = 0, maxSpo2Err = 0, maxWErr = 0; int firstRed = -1; uint64_t redAt = 0;
 
   for (curDay = 0; curDay <= 22; curDay++) {               // 14 stable days, then 8 days of worsening, then 1 more
     runUntil(curDay * DAY + 8 * H);
     int k = curDay >= 14 ? curDay - 13 : 0;
-    Body b; b.L *= (1 + 0.004 * n(r)) * (1 - 0.013 * k); b.A *= 1 + 0.004 * n(r); b.Tr *= (1 + 0.01 * n(r)) * (1 - 0.015 * k);
+    Body b; double gl = 1 + 0.004 * n(r), ga = 1 + 0.004 * n(r);          // day-to-day position / limb geometry
+    b.legRe = b.legRe * gl / (1 + 0.015 * k); b.legRi *= gl; b.legCm /= gl;   // worsening: fluid outside the cells rises
+    b.armRe *= ga; b.armRi *= ga; b.armCm /= ga; b.trRe = b.trRe * (1 + 0.01 * n(r)) / (1 + 0.015 * k);
     double kg = 62 + 0.25 * n(r) + 0.45 * k;
     W.bpm = 70 + 1.2 * n(r) + 1.2 * k; W.spo2 = 96.5 + 0.3 * n(r) - 0.15 * k;
     W.rr = 16 + 0.4 * n(r) + 0.35 * k; W.situps = std::round(0.4 * k); W.activity = 200 * (1 - 0.03 * k) + 6 * n(r);
@@ -62,8 +73,11 @@ int main() {
     std::string j = doCheckin(kg, b, {k >= 4 ? 1 : 0, k >= 5 ? 1 : 0});
     if (j.empty()) { check(false, "check-in report on day " + std::to_string(curDay)); continue; }
     maxWErr = std::max(maxWErr, fabs(jnum(j, "weight_kg") - kg));
-    maxLegErr = std::max(maxLegErr, fabs(jnum(j, "leg_z_ohm") / (2 * b.L) - 1));
-    maxTrunkErr = std::max(maxTrunkErr, fabs(jnum(j, "trunk_z_ohm") - b.Tr));
+    maxLegErr = std::max(maxLegErr, fabs(jnum(j, "leg_z_ohm") / legTrue(b) - 1));
+    maxTrunkErr = std::max(maxTrunkErr, fabs(jnum(j, "trunk_z_ohm") - trunkTrue(b)));
+    maxEwiErr = std::max(maxEwiErr, fabs(jnum(j, "leg_ewi") / b.ewi() - 1));
+    if (curDay == 13) ewiStable = jnum(j, "leg_ewi");
+    if (curDay == 21) ewiWorse = jnum(j, "leg_ewi");
     maxPulseErr = std::max(maxPulseErr, fabs(jnum(j, "pulse_bpm") - W.bpm));
     maxSpo2Err = std::max(maxSpo2Err, fabs(jnum(j, "spo2") - W.spo2));
     if (jnum(j, "light") == 2 && firstRed < 0) { firstRed = curDay; redAt = startedAt; }
@@ -77,6 +91,8 @@ int main() {
   check(maxWErr < 0.15, "weight within 0.15 kg (worst " + std::to_string(maxWErr) + ")");
   check(maxLegErr < 0.01, "leg impedance within 1 % through ADC + Goertzel (worst " + std::to_string(100 * maxLegErr) + " %)");
   check(maxTrunkErr < 1.5, "chest value within 1.5 ohm from 4 paths (worst " + std::to_string(maxTrunkErr) + ")");
+  check(maxEwiErr < 0.005, "spectroscopy (5/20/50 kHz): water-outside-cells index within 0.5 % (worst " + std::to_string(100 * maxEwiErr) + " %)");
+  check(ewiWorse > ewiStable * 1.03, "spectroscopy index rises with the fluid build-up (" + std::to_string(ewiStable) + " -> " + std::to_string(ewiWorse) + ")");
   check(maxPulseErr < 2.5, "pulse within 2.5 bpm from the PPG waveform (worst " + std::to_string(maxPulseErr) + ")");
   check(maxSpo2Err < 2.0, "SpO2 within 2 points (worst " + std::to_string(maxSpo2Err) + ")");
   check(!smsTo(FAMILY1, redAt, redAt + 5 * MIN_, "Why:").empty(), "red: family 1 gets an SMS with the reasons");
@@ -127,10 +143,18 @@ int main() {
   check(smsTo(FAMILY1, 29 * DAY + 8 * H + 45 * MIN_, 29 * DAY + 10 * H, "SOS").size() == 1 &&
         smsTo(ASHA, 29 * DAY + 8 * H + 45 * MIN_, 29 * DAY + 10 * H, "SOS").size() == 1, "network back: queued SOS delivered within 10 min retry");
   doCheckin(62, Body(), {0, 0});
+  // day 29 afternoon: the reference resistor chain is damaged (solder joint) -> readings rejected, service SMS
+  runUntil(29 * DAY + 15 * H); W.refScale = 1.25;
+  std::string bad = doCheckin(62, Body(), {0, 0}); W.refScale = 1.0;
+  check(std::isnan(jnum(bad, "leg_z_ohm")) && jnum(bad, "ref_ratio") > 2.6, "self-calibration: damaged reference detected, no numbers reported (ratio " + std::to_string(jnum(bad, "ref_ratio")) + ")");
+  runUntil(29 * DAY + 16 * H);
+  check(!smsTo(ASHA, 29 * DAY + 15 * H, 29 * DAY + 16 * H, "reference resistor").empty(), "self-calibration: service SMS to the ASHA");
+  std::string good = doCheckin(62, Body(), {0, 0});
+  check(fabs(jnum(good, "ref_ratio") - 2.2) < 0.02, "self-calibration: healthy reference ratio 2.2 (" + std::to_string(jnum(good, "ref_ratio")) + ")");
   // day 30: a second person is enrolled; the stool tells them apart and ignores a stranger
   curDay = 30; runUntil(30 * DAY + 8 * H);
   W.usbIn.push_back("enroll 2"); loop();
-  Body b2; b2.L = 360; b2.A = 380; b2.Tr = 30;
+  Body b2; b2.legRe = 375; b2.legRi = 800; b2.armRe = 390; b2.armRi = 880; b2.trRe = 31;
   W.bpm = 76; std::string p2 = doCheckin(48, b2, {0, 0});
   check(jstr(p2, "id") == PATIENT_ID2, "second user enrolled and recognised");
   W.bpm = 70; std::string p1 = doCheckin(62, Body(), {0, 0});

@@ -16,12 +16,12 @@ import trunk_paths as TP
 
 D = pathlib.Path(__file__).parent
 N, SEED = 100, 7
-# name: (nominal, tolerance as a fraction, distribution). Typical cheap parts: 1 % metal film for R5, 5 % carbon for the
+# name: (nominal, tolerance as a fraction, distribution). Typical cheap parts: 0.1 % precision Rcal (the reference), 5 % carbon for R5 and the
 # rest, 20 % ceramic/electrolytic capacitors. Temperature 15-45 C at 100 ppm/C adds 0.3 % to resistors (folded in).
-TOL = {"r3": (100e3, .05), "r4": (4.7e3, .05), "r5": (220, .013), "r6": (1e3, .05), "r7": (1e3, .05),
+TOL = {"r3": (100e3, .05), "r4": (4.7e3, .05), "r5": (120, .05), "rcal": (100, .0013), "r6": (1e3, .05), "r7": (1e3, .05),
        "r8": (10e6, .05), "r9": (10e6, .05), "r11": (1.5e3, .05), "c2": (1e-6, .2), "c3": (1e-6, .2), "c4": (1e-6, .2),
        "c5": (10e-9, .1), "gain": (10, .005), "amp": (0.83, .08)}
-ELEMENT = {"R3": "r3", "R4": "r4", "R5": "r5", "R6": "r6", "R7": "r7", "R8": "r8", "R9": "r9", "R11": "r11",
+ELEMENT = {"R3": "r3", "R4": "r4", "R5": "r5", "Rcal": "rcal", "R6": "r6", "R7": "r7", "R8": "r8", "R9": "r9", "R11": "r11",
            "C2": "c2", "C3": "c3", "C4": "c4", "C5": "c5"}
 
 
@@ -69,7 +69,7 @@ def mc_netlist(runs, steps, title, extra=""):
         elif line.startswith("Vsel"):
             line = "Vsel sel 0 PULSE(0 3.3 0.02 1u 1u 0.02 0.1)"
         elif line.startswith(".param f="):
-            line = ".param f=5000 path=1 fx=1\n.param fl={fx} ft={fx}"
+            line = ".param f=5000 path=1 fx=1 calv=3.3\n.param fl={fx} ft={fx}"
         out.append(line)
     extra = chr(10).join(["Ibp sa 0 {ibp}", "Ibn sb 0 {ibn}", extra])    # bias current flows out of each INA input
     names = list(TOL) + ["cmrr", "sz", "ibp", "ibn"] + [f"rc{e}{l}" for l in TP.LIMBS for e in "is"]
@@ -82,7 +82,7 @@ STEPS = [".tran 0 0.04 0 5u", ".save V(adc) V(ina)",
          ".step param fx list 1 1.1", ".step param path list 1 2 3 4", f".step param run 1 {N} 1",
          ".meas TRAN vbody PP V(adc) FROM=0.008 TO=0.019",
          ".meas TRAN vsens PP V(adc) FROM=0.028 TO=0.039",
-         ".meas TRAN zmeas PARAM 220*vbody/vsens"]
+         ".meas TRAN zmeas PARAM 100*vbody/vsens"]
 
 
 def jewellery():
@@ -90,7 +90,7 @@ def jewellery():
     runs = [dict({k: v for k, (v, _) in TOL.items()}, cmrr=0.0, sz=1.0, ibp=10e-9, ibn=10e-9, **{f"rc{e}{l}": 1000.0 for l in TP.LIMBS for e in "is"})]
     steps = [".tran 0 0.04 0 5u", ".step param rj list 1 10 100 1k 1G", ".param run=1",
              ".meas TRAN vbody PP V(adc) FROM=0.008 TO=0.019", ".meas TRAN vsens PP V(adc) FROM=0.028 TO=0.039",
-             ".meas TRAN zmeas PARAM 220*vbody/vsens"]
+             ".meas TRAN zmeas PARAM 100*vbody/vsens"]
     cir = D / "jewellery.cir"
     cir.write_text(mc_netlist(runs, steps, "jewellery: toe ring bridging the left-foot plates", "Rj iLF sLF {rj}"))
     z = TP.read_meas(TP.run(cir), "zmeas", 5)
@@ -120,7 +120,7 @@ if __name__ == "__main__":
         tr = {fx: (zz[(3, fx)] + zz[(4, fx)] - zz[(1, fx)] - zz[(2, fx)]) / 2 for fx in (1.0, 1.1)}
         true = {(p, fx): r["sz"] * TP.true_z(p, fx, 5e3, fl=fx) for p in TP.PATHS for fx in (1.0, 1.1)}
         ttr = {fx: r["sz"] * TP.true_trunk(fx, 5e3) for fx in (1.0, 1.1)}
-        row = dict(device=d + 1, size=round(r["sz"], 3), r5_err_pct=round(100 * (r["r5"] / 220 - 1), 3),
+        row = dict(device=d + 1, size=round(r["sz"], 3), r5_err_pct=round(100 * (r["rcal"] / 100 - 1), 3),   # reference error = Rcal (0.1 % + temperature)
                    contact_min=round(min(v for k, v in r.items() if k.startswith("rc"))),
                    contact_max=round(max(v for k, v in r.items() if k.startswith("rc"))))
         for p in TP.PATHS:

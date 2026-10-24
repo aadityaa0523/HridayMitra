@@ -14,11 +14,11 @@ sys.path.insert(0, str(ROOT / "engine"))
 import alert_engine as A
 
 LIVE = ROOT / "data" / "live"
-COLS = ["weight_kg", "leg_z_ohm", "trunk_z_ohm", "pulse_bpm", "night_rr", "spo2", "activity_min", "standup_s",
-        "breathless", "orthopnea", "night_situps"]
-OUT_COLS = ["patient_id", "day", "weight_kg", "leg_z_ohm", "trunk_z_ohm", "pulse_bpm", "spo2", "standup_s", "breathless",
+COLS = ["weight_kg", "leg_z_ohm", "trunk_z_ohm", "pulse_bpm", "night_rr", "spo2", "activity_min", "standup_s", "leg_ewi",
+        "breathless", "orthopnea", "night_situps"]                 # the stool's "day" command order (engine_core.h)
+OUT_COLS = ["patient_id", "day", "weight_kg", "leg_z_ohm", "trunk_z_ohm", "leg_ewi", "pulse_bpm", "spo2", "standup_s", "breathless",
             "orthopnea", "took_pills", "quality", "amulet_worn", "night_rr", "night_situps", "activity_min", "light", "why"]
-T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
 
 
 def append(row):

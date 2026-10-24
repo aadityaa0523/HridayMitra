@@ -5,7 +5,7 @@
 
 An elderly patient sits on a foldable **check-in stool** for about 90 seconds a day. It measures:
 - **weight**, through 4 load cells;
-- **leg and chest fluid**, through 8-electrode impedance at 5 kHz (4 foot plates and 4 hand strips);
+- **leg and chest fluid**, through 8-electrode impedance (4 foot plates and 4 hand strips), with **spectroscopy at 5/20/50 kHz** on the legs: a Cole-model fit on the chip gives the share of water outside the cells, which cancels foot position and skin temperature;
 - **pulse and SpO₂**, through a finger sensor;
 - **stand-up speed**;
 - **two spoken yes/no questions**, answered with buttons.
@@ -18,13 +18,13 @@ Build cost: **₹4,243–4,397** (Monte Carlo of the parts list); the limit is �
 
 ## Results (synthetic cohorts, threshold frozen on training patients before testing)
 
-| | Our engine (v2) | Weight rule (SCALE-HF comparator) |
+| | Our engine (v3, with spectroscopy) | Weight rule (SCALE-HF comparator) |
 |---|---|---|
 | Sensitivity, held-out patients | **66%** | 40% |
-| Specificity | 99.8% | 97.6% |
-| Median lead time before hospital visit | 2 days (4 days counting amber "check again") | 2 days |
-| False alerts per patient-month | **0.03** | 0.53 |
-| External 1,000-patient cohort: sensitivity / false alerts | 65% / 0.06 | 31% / 0.38 |
+| Specificity | 98.7% | 97.6% |
+| Median lead time before hospital visit | 3 days | 2 days |
+| False alerts per patient-month | **0.06** | 0.53 |
+| External 1,000-patient cohort: sensitivity / false alerts | **72% / 0.06** | 31% / 0.38 |
 
 - **Robustness:** it beats the weight rule in **all 46** assumption-sensitivity scenarios and in 14 of 15 stress cases. In the 15th (10% guest days) the rule catches more but fires about 30× more false alerts.
 - **Care loop:** in simulation, 92% of red alerts get a clinical review before the hospital visit, versus 27% with a single SMS.

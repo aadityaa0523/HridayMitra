@@ -12,7 +12,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import evaluate as E, alert_engine as A, baselines as B
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-T = json.loads((ROOT / "engine" / "frozen_params_v2.json").read_text())["T"]
+T = json.loads((ROOT / "engine" / "frozen_params_v3.json").read_text())["T"]
 f = pd.read_csv(ROOT / "data/processed/realworld/daily_features.csv")
 p = pd.read_csv(ROOT / "data/processed/realworld/patients.csv")
 rng = np.random.default_rng(7)

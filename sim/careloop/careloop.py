@@ -206,7 +206,7 @@ def red_leads():
         import json
         sys.path.insert(0, str(ROOT / "engine"))
         import evaluate as E, alert_engine as A
-        T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+        T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
         feats = pd.read_csv(ROOT / "data/processed/realworld/daily_features.csv")
         pats = pd.read_csv(ROOT / "data/processed/realworld/patients.csv")
         ids = pats[pats.event].patient_id
@@ -223,7 +223,7 @@ if __name__ == "__main__":
         rows.append(dict(scenario=name, **s))
         print(rows[-1], flush=True)
     out = pd.DataFrame(rows)
-    fa, true_alerts = 0.061, 0.10 * 0.66 / 6        # frozen v2 real-world: false alerts / pt-month; caught events / pt-month
+    fa, true_alerts = 0.056, 0.10 * 0.72 / 6        # frozen v3 real-world: false alerts / pt-month; caught events / pt-month
     cost = (fa + true_alerts) * out.sms_per_alert.iloc[0] * BASE["sms_cost_inr"][0]
     out.to_csv(ROOT / "reports/careloop_results.csv", index=False)
     pd.set_option("display.width", 250)

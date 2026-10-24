@@ -1,0 +1,55 @@
+LTspice 24.1.10 for Windows
+Circuit: C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\safety_20khz.cir
+Start Time: Sun Oct 25 03:58:48 2026
+solver = Normal
+Maximum thread count: 14
+tnom = 27
+temp = 27
+method = trap
+Direct Newton iteration for .op point succeeded.
+.step fault=0
+.step fault=1
+.step fault=2
+.step fault=3
+.step fault=4
+.step fault=5
+.step fault=6
+.step fault=7
+Total elapsed time: 7.962 seconds.
+
+Files loaded:
+C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\safety_20khz.cir
+
+
+Measurement: irms
+  step	RMS(I(RciLF))	FROM	TO
+     1	7.63177185961e-05	0.025	0.05
+     2	0.000196858663787	0.025	0.05
+     3	7.63176025157e-05	0.025	0.05
+     4	7.63176032552e-05	0.025	0.05
+     5	1.62892408415e-12	0.025	0.05
+     6	1.6274974958e-12	0.025	0.05
+     7	0.000150761824797	0.025	0.05
+     8	3.6739069925e-07	0.025	0.05
+
+Measurement: idc
+  step	AVG(I(RciLF))	FROM	TO
+     1	1.61283456927e-10	0.025	0.05
+     2	2.96601366401e-10	0.025	0.05
+     3	-8.10890542382e-10	0.025	0.05
+     4	-8.0574080414e-10	0.025	0.05
+     5	1.62891876527e-12	0.025	0.05
+     6	-1.62749220864e-12	0.025	0.05
+     7	-4.71526444692e-09	0.025	0.05
+     8	3.6739069925e-07	0.025	0.05
+
+Measurement: ipk
+  step	MAX(abs(I(RciLF)))	FROM	TO
+     1	0.000108142841782	0.025	0.05
+     2	0.000278931373032	0.025	0.05
+     3	0.000108143009129	0.025	0.05
+     4	0.000108143023681	0.025	0.05
+     5	1.66885754348e-12	0.025	0.05
+     6	1.6281757843e-12	0.025	0.05
+     7	0.000208973317058	0.025	0.05
+     8	3.67390811107e-07	0.025	0.05

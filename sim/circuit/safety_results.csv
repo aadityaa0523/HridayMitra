@@ -1,0 +1,25 @@
+f_khz,fault,condition,ac_rms_uA,dc_uA,peak_uA,ac_limit_uA,dc_limit_uA,ac_margin_x,dc_ok,ac_ok
+5.0,normal condition,NC,76.07,0.0,107.8,500,10,6.6,True,True
+5.0,current-limit resistor R4 shorted,SFC,195.28,0.029,276.8,2500,50,12.8,True,True
+5.0,coupling capacitor C3 shorted,SFC,76.07,0.0,107.8,2500,50,32.9,True,True
+5.0,coupling capacitor C4 shorted,SFC,76.07,0.0,107.8,2500,50,32.9,True,True
+5.0,op-amp U1B output stuck at 3.3 V,SFC,0.0,0.0,0.0,2500,50,2500000000.0,True,True
+5.0,op-amp U1B output stuck at 0 V,SFC,0.0,0.0,0.0,2500,50,2500000000.0,True,True
+5.0,DAC at full scale (3.3 V p-p),SFC,150.28,0.008,208.5,2500,50,16.6,True,True
+5.0,C3 shorted AND op-amp stuck at 3.3 V (double fault),double,0.0,0.367,0.4,2500,50,2500000000.0,True,True
+20.0,normal condition,NC,76.32,0.0,108.1,2000,10,26.2,True,True
+20.0,current-limit resistor R4 shorted,SFC,196.86,0.0,278.9,10000,50,50.8,True,True
+20.0,coupling capacitor C3 shorted,SFC,76.32,0.001,108.1,10000,50,131.0,True,True
+20.0,coupling capacitor C4 shorted,SFC,76.32,0.001,108.1,10000,50,131.0,True,True
+20.0,op-amp U1B output stuck at 3.3 V,SFC,0.0,0.0,0.0,10000,50,10000000000.0,True,True
+20.0,op-amp U1B output stuck at 0 V,SFC,0.0,0.0,0.0,10000,50,10000000000.0,True,True
+20.0,DAC at full scale (3.3 V p-p),SFC,150.76,0.005,209.0,10000,50,66.3,True,True
+20.0,C3 shorted AND op-amp stuck at 3.3 V (double fault),double,0.0,0.367,0.4,10000,50,10000000000.0,True,True
+50.0,normal condition,NC,76.97,0.0,109.1,5000,10,65.0,True,True
+50.0,current-limit resistor R4 shorted,SFC,201.19,0.0,285.1,10000,50,49.7,True,True
+50.0,coupling capacitor C3 shorted,SFC,76.97,0.0,109.1,10000,50,129.9,True,True
+50.0,coupling capacitor C4 shorted,SFC,76.97,0.0,109.1,10000,50,129.9,True,True
+50.0,op-amp U1B output stuck at 3.3 V,SFC,0.0,0.0,0.0,10000,50,10000000000.0,True,True
+50.0,op-amp U1B output stuck at 0 V,SFC,0.0,0.0,0.0,10000,50,10000000000.0,True,True
+50.0,DAC at full scale (3.3 V p-p),SFC,152.04,0.001,211.1,10000,50,65.8,True,True
+50.0,C3 shorted AND op-amp stuck at 3.3 V (double fault),double,0.0,0.367,0.4,10000,50,10000000000.0,True,True

@@ -23,3 +23,5 @@ wokwi/*/build/
 wokwi/stool/chips/*.wasm
 tests/sil/prev_*.exe
 tests/sil/prev_*.pdb
+tests/ewi_check.exe
+tests/ewi_check.pdb

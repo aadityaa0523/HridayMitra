@@ -13,12 +13,12 @@
 #include "gfx.inc"
 
 typedef struct {
-  pin_t sel, s0, s1, out, exc; timer_t timer;
+  pin_t sel, s0, s1, out, exc, cal; timer_t timer;
   uint32_t leg, chest, lifted, hum;
   gfx_t g; int lastKey;
 } chip_t;
 
-static const double ONE_LEG = 289.25, ONE_ARM = 329.2, TRUNK = 27.95, R5 = 220.0, GAIN_I = 10 * 100e-6;
+static const double ONE_LEG = 289.25, ONE_ARM = 329.2, TRUNK = 27.95, RCAL = 100.0, R5_PLUS_RCAL = 220.0, GAIN_I = 10 * 100e-6;
 enum { BG = 0xFF2A1A12, SKIN = 0xFF7FA6D9, WATER = 0xFFE07A2C, LINE = 0xFF505050, TXT = 0xFFEAEAEA, DIM = 0xFF9A9A9A,
        CURRENT = 0xFF33E6FF, ELEC = 0xFFC0C0C0, WARN = 0xFF3B3BFF, HEAD = 0xFFFFB04A, OK = 0xFF66D766 };
 
@@ -32,7 +32,7 @@ static void tick(void *data) {
   double z[4] = {2 * leg, 2 * ONE_ARM, ONE_ARM + tr + leg, ONE_ARM + tr + leg};
   bool ref = pin_read(c->sel);
   double v = 1.65 + attr_read_float(c->hum) / 1000 * 10 * sin(2 * M_PI * 50 * t);
-  v += GAIN_I * (ref ? R5 : z[path]) * cos(2 * M_PI * 5000 * t);
+  v += GAIN_I * (ref ? (pin_read(c->cal) ? RCAL : R5_PLUS_RCAL) : z[path]) * cos(2 * M_PI * 5000 * t);   // self-calibrating reference
   if (!ref && path == 0 && attr_read(c->lifted)) v = 1.65 + 3.0 * sin(2 * M_PI * 50 * t);   // foot off a plate
   pin_dac_write(c->out, v < 0 ? 0 : (v > 3.3 ? 3.3 : v));
 }
@@ -102,7 +102,7 @@ static void on_exc(void *data, pin_t pin, uint32_t value) {
 void chip_init(void) {
   chip_t *c = calloc(1, sizeof(chip_t));
   c->sel = pin_init("SEL", INPUT); c->s0 = pin_init("S0", INPUT); c->s1 = pin_init("S1", INPUT);
-  c->out = pin_init("OUT", ANALOG); c->exc = pin_init("EXC", INPUT);
+  c->out = pin_init("OUT", ANALOG); c->exc = pin_init("EXC", INPUT); c->cal = pin_init("CAL", INPUT);
   c->leg = attr_init_float("legFluid", 0); c->chest = attr_init_float("chestFluid", 0);
   c->lifted = attr_init("footLifted", 0); c->hum = attr_init_float("humMv", 20);
   const timer_config_t cfg = {.user_data = c, .callback = tick};

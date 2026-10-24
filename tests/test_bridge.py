@@ -12,7 +12,7 @@ def test_simulate_writes_live_log_with_engine_lights():
                    check=True, capture_output=True)
     log = pd.read_csv(ROOT / "data/live" / f"{pid}.csv")
     g = pd.read_csv(ROOT / "data/processed/realworld/daily_features.csv"); g = g[g.patient_id == pid].reset_index(drop=True)
-    T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+    T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
     assert len(log) == len(g) and (log.light.to_numpy() == A.lights(A.scores(g), T)).all()
     (ROOT / "data/live" / f"{pid}.csv").unlink()
 

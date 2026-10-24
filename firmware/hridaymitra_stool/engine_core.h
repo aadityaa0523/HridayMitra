@@ -1,5 +1,5 @@
 // HridayMitra alert engine, C++ port of engine/alert_engine.py (frozen v2, cusum off) so it runs OFFLINE on the ESP32.
-// Same rules, same numbers: guest gate, plate (toe-ring) gate, robust personal baseline (days t-35..t-7), worsening-only
+// Engine v3 = v2 + leg spectroscopy (extracellular-water index). Same rules, same numbers: guest gate, plate (toe-ring) gate, robust personal baseline (days t-35..t-7), worsening-only
 // z scores, three families, two-witness red with hysteresis, oxygen danger rule.
 // Plain C++ (no Arduino calls) so tests/engine_parity.cpp can compile it on a laptop and compare with Python.
 #pragma once
@@ -9,20 +9,20 @@
 
 namespace hm {
 
-enum Sig { WEIGHT, LEG, TRUNK, PULSE, NIGHT_RR, SPO2, ACTIVITY, STANDUP, N_SIG };
+enum Sig { WEIGHT, LEG, TRUNK, PULSE, NIGHT_RR, SPO2, ACTIVITY, STANDUP, LEG_EWI, N_SIG };
 // family 0 fluid, 1 heart_lungs, 2 daily_life;  bad direction;  minimum spread;  spread relative?;  weight in family
-static const int   FAM[N_SIG]   = {0, 0, 0, 1, 1, 1, 2, 2};
-static const float SGN[N_SIG]   = {+1, -1, -1, +1, +1, -1, -1, +1};
-static const float FLOOR_[N_SIG] = {0.30f, 0.010f, 3.0f, 2.0f, 0.7f, 0.7f, 0.08f, 0.04f};
-static const bool  REL[N_SIG]   = {false, true, false, false, false, false, true, true};
-static const float WT[N_SIG]    = {1, 1, 0.5f, 1, 1, 0.5f, 1, 1};
-static const bool  STOOL[N_SIG] = {true, true, true, true, false, true, false, true};
+static const int   FAM[N_SIG]   = {0, 0, 0, 1, 1, 1, 2, 2, 0};
+static const float SGN[N_SIG]   = {+1, -1, -1, +1, +1, -1, -1, +1, +1};
+static const float FLOOR_[N_SIG] = {0.30f, 0.010f, 3.0f, 2.0f, 0.7f, 0.7f, 0.08f, 0.04f, 0.003f};
+static const bool  REL[N_SIG]   = {false, true, false, false, false, false, true, true, true};
+static const float WT[N_SIG]    = {1, 1, 0.5f, 1, 1, 0.5f, 1, 1, 1};
+static const bool  STOOL[N_SIG] = {true, true, true, true, false, true, false, true, true};
 static const char* NAME[N_SIG]  = {"weight", "leg reading", "chest reading", "resting pulse", "night breathing",
-                                  "oxygen", "activity", "stand-up time"};
-static const char* UNIT[N_SIG]  = {"kg", "%", "%", "bpm", "/min", "%", "%", "%"};
+                                  "oxygen", "activity", "stand-up time", "leg water outside cells"};
+static const char* UNIT[N_SIG]  = {"kg", "%", "%", "bpm", "/min", "%", "%", "%", "%"};
 
 const int HIST = 40, BASE_FROM = 35, BASE_TO = 7, MIN_BASE = 6;
-const float GUEST_JUMP_KG = 2.5f, PLATE_JUMP = 0.25f, T_FROZEN = 6.5f;
+const float GUEST_JUMP_KG = 2.5f, PLATE_JUMP = 0.25f, T_FROZEN = 7.0f;   // engine v3 (engine/frozen_params_v3.json)
 
 struct DayIn {                 // one daily check-in; NAN = not measured
   float v[N_SIG];
@@ -65,7 +65,7 @@ class Engine {
     if (!isnan(d.v[LEG])) {
       float buf[7]; int k = 0;
       for (int j = std::max(0, t - 7); j < t; j++) if (!isnan(at(j).v[LEG])) buf[k++] = at(j).v[LEG];
-      if (k >= 3 && fabsf(d.v[LEG] / median(buf, k) - 1) > PLATE_JUMP) { d.v[LEG] = NAN; d.v[TRUNK] = NAN; }
+      if (k >= 3 && fabsf(d.v[LEG] / median(buf, k) - 1) > PLATE_JUMP) { d.v[LEG] = NAN; d.v[TRUNK] = NAN; d.v[LEG_EWI] = NAN; }
     }
     store(d);
     // 3. per-signal worsening score against the personal normal
@@ -146,5 +146,21 @@ class Engine {
   void push(bool h, bool fh) { for (int i = 0; i < 2; i++) { high[i] = high[i + 1]; famHigh[i] = famHigh[i + 1]; } high[2] = h; famHigh[2] = fh; hn++; }
   static int cnt(const bool* a) { return a[0] + a[1] + a[2]; }
 };
+
+// Extracellular-water index from |Z| at 3 frequencies, exact Cole fit for alpha = 1 (same as engine/bis.py
+// ewi_closed_form): y_i = A + f_i^2 B - f_i^2 y_i C with y = |Z|^2, A = R0^2, B = Rinf^2/fc^2, C = 1/fc^2. Returns NAN if unsolvable.
+inline float ewiClosedForm(const double f[3], const double z[3]) {
+  double M[3][4];
+  for (int i = 0; i < 3; i++) { double f2 = f[i] * f[i], y = z[i] * z[i]; M[i][0] = 1; M[i][1] = f2; M[i][2] = -f2 * y; M[i][3] = y; }
+  for (int c = 0; c < 3; c++) {                          // Gauss-Jordan with partial pivoting
+    int piv = c; for (int r = c + 1; r < 3; r++) if (fabs(M[r][c]) > fabs(M[piv][c])) piv = r;
+    if (fabs(M[piv][c]) < 1e-30) return NAN;
+    for (int k = 0; k < 4; k++) { double t = M[c][k]; M[c][k] = M[piv][k]; M[piv][k] = t; }
+    for (int r = 0; r < 3; r++) if (r != c) { double q = M[r][c] / M[c][c]; for (int k = c; k < 4; k++) M[r][k] -= q * M[c][k]; }
+  }
+  double A = M[0][3] / M[0][0], B = M[1][3] / M[1][1], C = M[2][3] / M[2][2];
+  if (A <= 0 || B <= 0 || C <= 0) return NAN;
+  return (float)(sqrt(B / C) / sqrt(A));
+}
 
 }  // namespace hm

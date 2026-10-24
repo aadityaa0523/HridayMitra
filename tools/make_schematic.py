@@ -44,7 +44,8 @@ PARTS = [
         "3": "I_SNK", "1": "RF_FORE", "5": "RH_OUT", "2": "RF_FORE", "4": "LF_FORE", "10": "PATH_S0", "9": "PATH_S1",
         "6": "GND", "7": "GND", "8": "GND", "16": "+3V3"}),
     (FE, "C4", "C", "1u", 1, {"1": "I_SNK", "2": "RET"}),
-    (FE, "R5", "R", "220 1%", 1, {"1": "RET", "2": "VREF"}),
+    (FE, "R5", "R", "120", 1, {"1": "RET", "2": "NCAL"}),
+    (FE, "R22", "R", "100 0.1% (Rcal)", 1, {"1": "NCAL", "2": "VREF"}),
     (FE, "R6", "R", "1k", 1, {"1": "LF_HEEL_E", "2": "LF_HEEL"}),
     (FE, "R7", "R", "1k", 1, {"1": "RF_HEEL_E", "2": "RF_HEEL"}),
     (FE, "R12", "R", "1k", 1, {"1": "LH_IN_E", "2": "LH_IN"}),
@@ -54,8 +55,9 @@ PARTS = [
         "6": "GND", "7": "GND", "8": "GND", "16": "+3V3"}),
     (FE, "R8", "R", "10M", 1, {"1": "SA", "2": "VREF"}),
     (FE, "R9", "R", "10M", 1, {"1": "SB", "2": "VREF"}),
-    (FE, "U3", "MUX2", "74HC4053 (body / R5 select)", 1, {"14": "INA_P", "12": "SA", "13": "RET", "15": "INA_N", "2": "SB",
-        "1": "VREF", "11": "SEL", "10": "SEL", "9": "GND", "6": "GND", "7": "GND", "8": "GND", "16": "+3V3"}),
+    (FE, "U3", "MUX2", "74HC4053 (body / reference / self-cal)", 1, {"14": "INA_P", "12": "SA", "13": "RTAP", "15": "INA_N", "2": "SB",
+        "1": "VREF", "11": "SEL", "10": "SEL", "4": "RTAP", "5": "RET", "3": "NCAL", "9": "CAL_SEL",
+        "6": "GND", "7": "GND", "8": "GND", "16": "+3V3"}),
     (FE, "U2", "INA", "INA126", 1, {"3": "INA_P", "2": "INA_N", "1": "RG1", "8": "RG2", "5": "VREF", "6": "INA_OUT",
         "7": "+3V3", "4": "GND"}),
     (FE, "R10", "R", "16k (15k+1k)", 1, {"1": "RG1", "2": "RG2"}),
@@ -67,7 +69,7 @@ PARTS = [
     (MCU, "U6", "ESP", "ESP32-WROOM-32 (DevKit)", 1, {"2": "+3V3", "1": "GND", "10": "DAC_EXC", "7": "Z_ADC", "30": "SEL",
         "9": "PATH_S0", "12": "PATH_S1", "8": "HX_DT", "13": "HX_SCK", "11": "VOICE_DAC", "33": "SDA", "36": "SCL",
         "6": "ECG_OUT", "5": "ECG_LOP", "4": "DRAWER", "31": "VIBRA", "16": "LED_G", "37": "LED_A", "24": "LED_R", "26": "BTN_G",
-        "29": "BTN_R", "23": "BTN_SOS", "28": "GSM_TX", "27": "GSM_RX", "3": "EN"}),
+        "29": "BTN_R", "23": "BTN_SOS", "14": "CAL_SEL", "28": "GSM_TX", "27": "GSM_RX", "3": "EN"}),
     (MCU, "R19", "R", "10k (on DevKit)", 1, {"1": "+3V3", "2": "EN"}),
     (PER, "D1", "LED", "green", 1, {"2": "LED_G", "1": "LED_G_K"}),
     (PER, "R14", "R", "220", 1, {"1": "LED_G_K", "2": "GND"}),
@@ -251,7 +253,7 @@ def build():
 def check_against_ltspice():
     """Values that exist in both the schematic and sim/circuit/trunk_paths.py must be equal."""
     net = (ROOT / "sim/circuit/trunk_paths.py").read_text()
-    want = {"R3": "100k", "R4": "4.7k", "R5": "220", "R6": "1k", "R7": "1k", "R8": "10Meg", "R9": "10Meg",
+    want = {"R3": "100k", "R4": "4.7k", "R5": "120", "R6": "1k", "R7": "1k", "R8": "10Meg", "R9": "10Meg",
             "C2": "1u", "C3": "1u", "C4": "1u", "R11": "1.5k", "C5": "10n"}
     sch = {p[1]: p[3].split()[0].replace("M", "Meg") for p in PARTS}
     bad = []
@@ -260,6 +262,8 @@ def check_against_ltspice():
         spice_v = in_spice.group(1) if in_spice else None
         if sch.get(ref) != v or spice_v != v:
             bad.append((ref, "schematic", sch.get(ref), "ltspice", spice_v, "expected", v))
+    if sch.get("R22") != "100" or '"Rcal ncal vref 100"' not in net:     # precision reference: R22 in KiCad, Rcal in LTspice
+        bad.append(("R22/Rcal", sch.get("R22"), "expected 100"))
     return bad
 
 

@@ -1,6 +1,6 @@
 * ===== HridayMitra: jewellery: toe ring bridging the left-foot plates =====
 
-.param f=5000 path=1 fx=1
+.param f=5000 path=1 fx=1 calv=3.3
 .param fl={fx} ft={fx}
 V1 vcc 0 3.3
 R1 vcc vrefin 10k
@@ -14,7 +14,8 @@ Bu1b excout 0 V=limit(V(excin),0.05,3.25)
 C3 excout n1 {c3}
 R4 n1 injP {r4}
 C4 injN ret {c4}
-R5 ret vref {r5}
+R5 ret ncal {r5}
+Rcal ncal vref {rcal}
 * --- body: arms to shoulder node SH, trunk SH-PV, legs to pelvis node PV (Cole: Re || Ri+Cm) ---
 ReLH LH SH {330*sz}
 RiLH LH mLH {750*sz}
@@ -71,12 +72,17 @@ R6 sraw_p sa {r6}
 R7 sraw_n sb {r7}
 R8 sa vref {r8}
 R9 sb vref {r9}
-* --- 74HC4053 selector: selv=0 body, selv=3.3 across R5 ---
+* --- 74HC4053 selector: selv=0 body, selv=3.3 reference; switch C (calv): 3.3 = across Rcal, 0 = across R5+Rcal ---
 Vsel sel 0 PULSE(0 3.3 0.02 1u 1u 0.02 0.1)
 Bch chi 0 V=V(sel)
 Bcl clo 0 V=3.3-V(sel)
+Vcal calsel 0 {calv}
+Bcc ccal 0 V=V(calsel)
+Bcn cnot 0 V=3.3-V(calsel)
+S5 rtap ncal ccal 0 SW
+S6 rtap ret cnot 0 SW
 S1 inp sa clo 0 SW
-S2 inp ret chi 0 SW
+S2 inp rtap chi 0 SW
 S3 inn sb clo 0 SW
 S4 inn vref chi 0 SW
 Bina ina 0 V=limit(V(vref)+{gain}*(V(inp)-V(inn))+{gain}*{cmrr}*((V(inp)+V(inn))/2-V(vref)),0.05,3.25)
@@ -92,32 +98,35 @@ Rd4 PV vref 1G
 Rd5 mT vref 1G
 Rd6 sraw_p vref 1G
 Rd7 sraw_n vref 1G
-Rd8 LH vref 1G
-Rd9 RH vref 1G
-Rd10 LF vref 1G
-Rd11 RF vref 1G
-Rd12 mLH vref 1G
-Rd13 mRH vref 1G
-Rd14 mLF vref 1G
-Rd15 mRF vref 1G
-Rd16 iLH vref 1G
-Rd17 iRH vref 1G
-Rd18 iLF vref 1G
-Rd19 iRF vref 1G
-Rd20 sLH vref 1G
-Rd21 sRH vref 1G
-Rd22 sLF vref 1G
-Rd23 sRF vref 1G
+Rd8 ncal vref 1G
+Rd9 rtap vref 1G
+Rd10 LH vref 1G
+Rd11 RH vref 1G
+Rd12 LF vref 1G
+Rd13 RF vref 1G
+Rd14 mLH vref 1G
+Rd15 mRH vref 1G
+Rd16 mLF vref 1G
+Rd17 mRF vref 1G
+Rd18 iLH vref 1G
+Rd19 iRH vref 1G
+Rd20 iLF vref 1G
+Rd21 iRF vref 1G
+Rd22 sLH vref 1G
+Rd23 sRH vref 1G
+Rd24 sLF vref 1G
+Rd25 sRF vref 1G
 .tran 0 0.04 0 5u
 .step param rj list 1 10 100 1k 1G
 .param run=1
 .meas TRAN vbody PP V(adc) FROM=0.008 TO=0.019
 .meas TRAN vsens PP V(adc) FROM=0.028 TO=0.039
-.meas TRAN zmeas PARAM 220*vbody/vsens
+.meas TRAN zmeas PARAM 100*vbody/vsens
 .save V(adc) I(R4)
 .param r3=table(run,1,100000)
 .param r4=table(run,1,4700)
-.param r5=table(run,1,220)
+.param r5=table(run,1,120)
+.param rcal=table(run,1,100)
 .param r6=table(run,1,1000)
 .param r7=table(run,1,1000)
 .param r8=table(run,1,1e+07)

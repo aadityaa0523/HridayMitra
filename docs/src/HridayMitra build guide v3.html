@@ -29,7 +29,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 
 <div class="chg"><b>What changed in v3 (cost trim, team-approved)</b>
 <ul>
-<li><b>Product parts list is now ₹4,760 at safe prices</b> (was ₹7,095), about ₹240 under the ₹5,000 limit.</li>
+<li><b>Product parts list is now ₹4,770 at safe prices</b> (was ₹7,095), about ₹230 under the ₹5,000 limit.</li>
 <li><b>One HX711 for all four load cells.</b> The 4 half-bridge cells are wired as one full bridge, the same way a bathroom scale is wired. Total weight and stand-up speed are unchanged; we lose the per-corner readings. This frees GPIO26, 27 and 33.</li>
 <li><b>Voice from the ESP32's own flash memory.</b> The DFPlayer and microSD card are gone. Prompts are stored in flash and played through the second DAC (GPIO26) into a PAM8403 amplifier and the same 4 Ω 3 W speaker.</li>
 <li><b>No boot pins used any more.</b> The path-select lines moved from GPIO12 and GPIO0 to the freed GPIO33 and GPIO27.</li>
@@ -56,7 +56,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>Under 2 min a day, no all-day patch</td><td>A seated check of about 75–90 s, plus 20 s in the evening. The amulet is worn like a pendant, not stuck on</td></tr>
 <tr><td>Local language, little reading</td><td>Voice prompts, 3 lights, big buttons</td></tr>
 <tr><td>Power cuts, weak internet</td><td>Battery, offline logic on the ESP32, SMS over 2G (not on Jio)</td></tr>
-<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,882 at the lowest prices found, ₹4,760 at safe prices</b> (section 3), about ₹240 headroom. Confirm with a real cart</td></tr>
+<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,892 at the lowest prices found, ₹4,770 at safe prices</b> (section 3), about ₹230 headroom. Confirm with a real cart</td></tr>
 </table>
 <table>
 <tr><th>Warning sign</th><th>Measured by</th></tr>
@@ -112,7 +112,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr class="new"><td>9</td><td>74HC4053 analog switch, DIP-16 (CD4053 works too). Selects body voltage or current-sense voltage</td><td>1</td><td>Measurement select</td><td>Must</td><td class="r">22</td><td class="r">30</td><td>Probots CD4053 ✓; 74HC family ~₹30 ✓</td></tr>
 <tr class="new"><td>9b</td><td><b>74HC4052 dual 4-channel analog switch, DIP-16</b> (CD4052 works). U4 picks the current pair, U5 picks the sense pair: legs, arms, right side, left side</td><td>2</td><td>Lung-fluid paths</td><td>Must</td><td class="r">44</td><td class="r">60</td><td>Estimate (same family as CD4051 ₹22 ✓)</td></tr>
 <tr class="new"><td>10</td><td>DIP sockets: 2 × 8-pin, 3 × 16-pin</td><td>5</td><td>Easy part swaps</td><td>Must</td><td class="r">15</td><td class="r">25</td><td></td></tr>
-<tr class="new"><td>11</td><td>Resistors, 1% metal film, ¼ W: 10k ×3, 10 kΩ volume pot ×1 (audio), 100k ×1, 4.7k ×1, 220R ×4 (R5 + 3 LEDs), 16k ×1 (or 15k + 1k), <b>10M ×2</b>, 1k ×6, 1.5k ×1, 2.2k ×1. Phantom: 330R ×4, 47R ×1, 33R ×1, 680R, 1k</td><td>~32</td><td>Impedance circuit, LEDs, phantom</td><td>Must</td><td class="r">40</td><td class="r">60</td><td></td></tr>
+<tr class="new"><td>11</td><td>Resistors, 1% metal film, ¼ W: 10k ×3, 10 kΩ volume pot ×1 (audio), 100k ×1, 4.7k ×1, 220R ×3 (LEDs), 120R ×1 (R5), <b>100R 0.1% ×1 (Rcal, precision reference)</b>, 16k ×1 (or 15k + 1k), <b>10M ×2</b>, 1k ×6, 1.5k ×1, 2.2k ×1. Phantom: 330R ×4, 47R ×1, 33R ×1, 680R, 1k</td><td>~32</td><td>Impedance circuit, LEDs, phantom</td><td>Must</td><td class="r">50</td><td class="r">70</td><td>includes the 0.1% Rcal</td></tr>
 <tr><td>12</td><td>Capacitors: 1 µF X7R or film (16 V+) ×4, 100 nF ×8, 10 µF ×3, 10 nF ×2, 100 pF ×2 spare, 1000 µF 10 V electrolytic ×1</td><td>~20</td><td>Coupling, decoupling, filters</td><td>Must</td><td class="r">50</td><td class="r">80</td><td></td></tr>
 <tr><td>13</td><td>Diodes: 1N5819 Schottky ×2 (reverse-polarity protection), 1N4148 ×4 spare</td><td>6</td><td>Protection</td><td>Must</td><td class="r">10</td><td class="r">15</td><td></td></tr>
 <tr><td>14</td><td>LEDs 5 mm: green, amber, red (with the 220R resistors above)</td><td>3</td><td>Status lights</td><td>Must</td><td class="r">10</td><td class="r">15</td><td></td></tr>
@@ -145,8 +145,8 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>35</td><td>LiPo 3.7 V 400 mAh with protection; check that the connector fits your board</td><td>1</td><td>Power</td><td>Should</td><td class="r">124</td><td class="r">124</td><td>200 mAh: Robocraze ₹124 ✓</td></tr>
 <tr class="new"><td>36</td><td>TP4056 USB-C charge module (skip if the board already charges LiPo)</td><td>1</td><td>Charging</td><td>Should</td><td class="r">49</td><td class="r">49</td><td>Probots ✓</td></tr>
 <tr><td>37</td><td>Vibration motor + BC547 + 1k + 1N4148</td><td>1 set</td><td>Haptic prompt</td><td>Nice</td><td class="r">30</td><td class="r">40</td><td></td></tr>
-<tr class="new"><td>38</td><td>Stool seat vibration: coin motor + 2N2222 + 1k + 1N4148 (prompts felt by hard-of-hearing users)</td><td>1 set</td><td>Haptic prompt</td><td>Should</td><td class="r">30</td><td class="r">40</td><td>v3.1 product feature</td></tr>
-<tr class="new"><td>39</td><td>Tablet drawer: microswitch + 10k pull-up (knows if the tablet box was opened)</td><td>1 set</td><td>Medicine adherence</td><td>Should</td><td class="r">15</td><td class="r">25</td><td>v3.1 product feature</td></tr>
+<tr class="new"><td>43</td><td>Stool seat vibration: coin motor + 2N2222 + 1k + 1N4148 (prompts felt by hard-of-hearing users)</td><td>1 set</td><td>Haptic prompt</td><td>Should</td><td class="r">30</td><td class="r">40</td><td>v3.1 product feature</td></tr>
+<tr class="new"><td>44</td><td>Tablet drawer: microswitch + 10k pull-up (knows if the tablet box was opened)</td><td>1 set</td><td>Medicine adherence</td><td>Should</td><td class="r">15</td><td class="r">25</td><td>v3.1 product feature</td></tr>
 <tr><td>38</td><td>Pendant case + cotton thread. Breakaway thread, no magnets (the night-clip version is still being decided)</td><td>1</td><td>Shell</td><td>Nice</td><td class="r">50</td><td class="r">80</td><td></td></tr>
 <tr><td>39</td><td>Pogo pins + contact board. Charging dock, no magnets</td><td>1 set</td><td>Dock</td><td>Nice</td><td class="r">40</td><td class="r">60</td><td></td></tr>
 
@@ -164,9 +164,9 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>To buy: Nice</td><td class="r">240</td><td class="r">340</td><td></td></tr>
 <tr><td>To buy: Must + Should</td><td class="r">2,868</td><td class="r">3,866</td><td></td></tr>
 <tr><td>To buy: everything</td><td class="r">3,108</td><td class="r">4,206</td><td>Test rigs not counted</td></tr>
-<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,882</b></td><td class="r"><b>4,760</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹240 under ₹5,000 at safe prices</b></td></tr>
+<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,892</b></td><td class="r"><b>4,770</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹230 under ₹5,000 at safe prices</b></td></tr>
 </table>
-<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,760</b>, about ₹240 under ₹5,000. How we got from ₹7,095:
+<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,770</b>, about ₹230 under ₹5,000. How we got from ₹7,095:
 <ul>
 <li>price trims: load cells, counting only the resistors and capacitors used, a plain stool, typical SIM800L price, INA126, panel buttons, one perfboard, local steel</li>
 <li>one HX711 bridge instead of four sets (≈ −₹134)</li>
@@ -193,7 +193,8 @@ Still estimates: loose load cells, PAM8403, stool, steel, PVC and the small item
 <tr><td>LEDs green, amber, red</td><td>GPIO13, 23, 2</td><td>Each through 220 Ω to GND</td></tr>
 <tr><td>Buttons green, red, SOS</td><td>GPIO4, 5, 15</td><td>To GND, using internal pull-ups</td></tr>
 <tr><td>SIM800L TX/RX (UART2)</td><td>GPIO17, 16</td><td>ESP32 TX → 1 kΩ → SIM800L RX, with 2.2 kΩ to GND (about 2.3 V). Power the SIM800L from the battery with a 1000 µF capacitor, not from the 3.3 V pin</td></tr>
-<tr class="new"><td>Free</td><td>GPIO0, 12</td><td>Leave unconnected: boot pins</td></tr>
+<tr class="new"><td>Self-calibration select</td><td>GPIO12</td><td>74HC4053 S3 (switch C). GPIO12 is a boot pin: connect it ONLY to this high-impedance select input, no pull-up</td></tr>
+<tr class="new"><td>Free</td><td>GPIO0</td><td>Leave unconnected: boot pin</td></tr>
 </table>
 
 <h2>5. The impedance front end (the custom circuit): every value</h2>
@@ -223,9 +224,9 @@ Still estimates: loose load cells, PAM8403, stool, steel, PVC and the small item
 <tr><th>Block</th><th>Parts and values</th><th>Connections</th></tr>
 <tr><td>Vref 1.65 V</td><td>R1 10 kΩ 1%, R2 10 kΩ 1%, C1 10 µF, U1A (op-amp) as a buffer</td><td>3V3 → R1 → node → R2 → GND; C1 from node to GND; node to U1A + input; U1A output tied to its − input = VREF</td></tr>
 <tr><td>Excitation</td><td>C2 1 µF, R3 100 kΩ, U1B buffer</td><td>GPIO25 → C2 → EXC_IN; R3 from EXC_IN to VREF; EXC_IN to U1B + input; U1B output = EXC_OUT (output tied to its − input)</td></tr>
-<tr class="new"><td>Current path + U4 (74HC4052, current pair)</td><td>C3 1 µF, R4 4.7 kΩ 1%, C4 1 µF, R5 220 Ω 1%</td><td>EXC_OUT → C3 → R4 → U4 X-common. U4 X0 = LF_FORE, X1 = LH_OUT, X2 = RH_OUT, X3 = LH_OUT. U4 Y0 = RF_FORE, Y1 = RH_OUT, Y2 = RF_FORE, Y3 = LF_FORE. U4 Y-common → C4 → RET → R5 → VREF. U4 A = GPIO33, B = GPIO27, INH = GND, VEE = GND, VCC = 3.3 V, 100 nF</td></tr>
+<tr class="new"><td>Current path + U4 (74HC4052, current pair)</td><td>C3 1 µF, R4 4.7 kΩ 1%, C4 1 µF, <b>R5 120 Ω + Rcal 100 Ω 0.1% (self-calibrating reference)</b></td><td>EXC_OUT → C3 → R4 → U4 X-common. U4 X0 = LF_FORE, X1 = LH_OUT, X2 = RH_OUT, X3 = LH_OUT. U4 Y0 = RF_FORE, Y1 = RH_OUT, Y2 = RF_FORE, Y3 = LF_FORE. U4 Y-common → C4 → RET → R5 (120 Ω) → NCAL → Rcal (100 Ω 0.1%) → VREF. 74HC4053 switch C: C0 = RET, C1 = NCAL, common = RTAP → switch A input A1; select S3 = GPIO12. Every reference reading is taken across Rcal; once per check-in the ratio (R5+Rcal)/Rcal = 2.2 is checked (outside 2.0–2.4 = service SMS). U4 A = GPIO33, B = GPIO27, INH = GND, VEE = GND, VCC = 3.3 V, 100 nF</td></tr>
 <tr class="new"><td>Voltage sensing + U5 (74HC4052, sense pair)</td><td>1 kΩ protection on each of the 4 sense electrodes; R8, R9 <b>10 MΩ</b> bias (not 1 MΩ: see the simulation update above)</td><td>LF_HEEL, RF_HEEL, LH_IN, RH_IN each → 1 kΩ → U5. U5 X0 = LF_HEEL, X1 = LH_IN, X2 = RH_IN, X3 = LH_IN; X-common = SA. U5 Y0 = RF_HEEL, Y1 = RH_IN, Y2 = RF_HEEL, Y3 = LF_HEEL; Y-common = SB. R8: SA to VREF; R9: SB to VREF. U5 A/B shared with U4, INH = GND, VEE = GND, VCC 3.3 V, 100 nF</td></tr>
-<tr><td>Selector (74HC4053)</td><td>Two of its three switches; both select pins on GPIO18; third switch unused (select to GND); enable to GND; VEE to GND; VCC 3.3 V; 100 nF</td><td>Switch X: X0 = SA, X1 = RET, common → INA + input. Switch Y: Y0 = SB, Y1 = VREF, common → INA − input. Select low = body, high = across R5</td></tr>
+<tr><td>Selector (74HC4053)</td><td>All three switches: A and B selects on GPIO18, C select on GPIO12; enable to GND; VEE to GND; VCC 3.3 V; 100 nF</td><td>Switch A: A0 = SA, A1 = RTAP, common → INA + input. Switch B: B0 = SB, B1 = VREF, common → INA − input. Switch C (self-calibration): C0 = RET, C1 = NCAL, common = RTAP. GPIO18 low = body, high = reference; GPIO12 high = across Rcal (normal), low = across R5 + Rcal (integrity check)</td></tr>
 <tr><td>Amplifier (INA126)</td><td>RG 16 kΩ (15 kΩ + 1 kΩ), gain about 10, 100 nF</td><td>REF pin to VREF; V+ 3.3 V; V− GND; RG between its two RG pins; output → R11 1.5 kΩ → GPIO35, with C5 10 nF from GPIO35 to GND</td></tr>
 <tr><td>Decoupling</td><td>100 nF at each IC supply pin, 10 µF on the 3.3 V rail</td><td>Close to the chips</td></tr>
 </table>

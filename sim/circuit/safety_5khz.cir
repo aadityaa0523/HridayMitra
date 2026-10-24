@@ -1,0 +1,132 @@
+* ===== HridayMitra: patient-current faults at 5 kHz =====
+
+.param f=5000 Rc=1k ft=1 fl=1 path=1 selv=0 calv=3.3
+V1 vcc 0 3.3
+R1 vcc vrefin 10k
+R2 vrefin 0 10k
+C1 vrefin 0 10u
+Bu1a vref 0 V=limit(V(vrefin),0.05,3.25)
+Vdac dac 0 SIN(1.65 {amp} {f})
+C2 dac excin 1u
+R3 excin vref 100k
+Bu1b excout 0 V=if(stuck==1,3.3,if(stuck==2,0,limit(V(excin),0.05,3.25)))
+C3 excout n1 1u
+R4 n1 injP {r4v}
+C4 injN ret 1u
+R5 ret ncal 120
+Rcal ncal vref 100
+* --- body: arms to shoulder node SH, trunk SH-PV, legs to pelvis node PV (Cole: Re || Ri+Cm) ---
+ReLH LH SH 330
+RiLH LH mLH 750
+CmLH mLH SH 2.9e-09
+ReRH RH SH 330
+RiRH RH mRH 750
+CmRH mRH SH 2.9e-09
+ReLF LF PV {290/fl}
+RiLF LF mLF 650
+CmLF mLF PV 3.39e-09
+ReRF RF PV {290/fl}
+RiRF RF mRF 650
+CmRF mRF PV 3.39e-09
+ReT SH PV {28/ft}
+RiT SH mT 60
+CmT mT PV 3e-08
+* --- electrodes: every hand/foot has an inject (i) and a sense (s) plate, each with contact Rc ---
+RciLH iLH LH {Rc}
+RcsLH sLH LH {Rc}
+RciRH iRH RH {Rc}
+RcsRH sRH RH {Rc}
+RciLF iLF LF {Rc}
+RcsLF sLF LF {Rc}
+RciRF iRF RF {Rc}
+RcsRF sRF RF {Rc}
+* --- path mux (74HC4052, Ron 100 ohm): picks inject pair and sense pair ---
+.model SW SW(Ron=100 Roff=1G Vt=1.65 Vh=0.1)
+Bm1 c1 0 V=if(abs(path-2)<0.5,3.3,0) + if(abs(path-3)<0.5,3.3,0)
+Sm1 injP iLH c1 0 SW
+Bm2 c2 0 V=if(abs(path-4)<0.5,3.3,0)
+Sm2 injP iRH c2 0 SW
+Bm3 c3 0 V=if(abs(path-1)<0.5,3.3,0)
+Sm3 injP iLF c3 0 SW
+Bm4 c4 0 V=if(abs(path-2)<0.5,3.3,0)
+Sm4 injN iRH c4 0 SW
+Bm5 c5 0 V=if(abs(path-3)<0.5,3.3,0)
+Sm5 injN iLF c5 0 SW
+Bm6 c6 0 V=if(abs(path-1)<0.5,3.3,0) + if(abs(path-4)<0.5,3.3,0)
+Sm6 injN iRF c6 0 SW
+Bm7 c7 0 V=if(abs(path-2)<0.5,3.3,0) + if(abs(path-3)<0.5,3.3,0)
+Sm7 sraw_p sLH c7 0 SW
+Bm8 c8 0 V=if(abs(path-4)<0.5,3.3,0)
+Sm8 sraw_p sRH c8 0 SW
+Bm9 c9 0 V=if(abs(path-1)<0.5,3.3,0)
+Sm9 sraw_p sLF c9 0 SW
+Bm10 c10 0 V=if(abs(path-2)<0.5,3.3,0)
+Sm10 sraw_n sRH c10 0 SW
+Bm11 c11 0 V=if(abs(path-3)<0.5,3.3,0)
+Sm11 sraw_n sLF c11 0 SW
+Bm12 c12 0 V=if(abs(path-1)<0.5,3.3,0) + if(abs(path-4)<0.5,3.3,0)
+Sm12 sraw_n sRF c12 0 SW
+* --- sense lines: 1k protection, 1M bias to VREF ---
+R6 sraw_p sa 1k
+R7 sraw_n sb 1k
+R8 sa vref 10Meg
+R9 sb vref 10Meg
+* --- 74HC4053 selector: selv=0 body, selv=3.3 reference; switch C (calv): 3.3 = across Rcal, 0 = across R5+Rcal ---
+Vsel sel 0 {selv}
+Bch chi 0 V=V(sel)
+Bcl clo 0 V=3.3-V(sel)
+Vcal calsel 0 {calv}
+Bcc ccal 0 V=V(calsel)
+Bcn cnot 0 V=3.3-V(calsel)
+S5 rtap ncal ccal 0 SW
+S6 rtap ret cnot 0 SW
+S1 inp sa clo 0 SW
+S2 inp rtap chi 0 SW
+S3 inn sb clo 0 SW
+S4 inn vref chi 0 SW
+Bina ina 0 V=limit(V(vref)+10*(V(inp)-V(inn)),0.05,3.25)
+R11 ina adc 1.5k
+C5 adc 0 10n
+Radc adc 0 10Meg
+* --- DC definition of floating nodes ---
+Rd0 n1 vref 1G
+Rd1 injP vref 1G
+Rd2 injN vref 1G
+Rd3 SH vref 1G
+Rd4 PV vref 1G
+Rd5 mT vref 1G
+Rd6 sraw_p vref 1G
+Rd7 sraw_n vref 1G
+Rd8 ncal vref 1G
+Rd9 rtap vref 1G
+Rd10 LH vref 1G
+Rd11 RH vref 1G
+Rd12 LF vref 1G
+Rd13 RF vref 1G
+Rd14 mLH vref 1G
+Rd15 mRH vref 1G
+Rd16 mLF vref 1G
+Rd17 mRF vref 1G
+Rd18 iLH vref 1G
+Rd19 iRH vref 1G
+Rd20 iLF vref 1G
+Rd21 iRF vref 1G
+Rd22 sLH vref 1G
+Rd23 sRH vref 1G
+Rd24 sLF vref 1G
+Rd25 sRF vref 1G
+.tran 0 0.05 0 5e-06
+.step param fault 0 7 1
+.param r4v=table(fault,0,4.7k,1,1m,2,4.7k,3,4.7k,4,4.7k,5,4.7k,6,4.7k,7,4.7k)
+.param rc3=table(fault,0,1T,1,1T,2,1m,3,1T,4,1T,5,1T,6,1T,7,1m)
+.param rc4=table(fault,0,1T,1,1T,2,1T,3,1m,4,1T,5,1T,6,1T,7,1T)
+.param stuck=table(fault,0,0,1,0,2,0,3,0,4,1,5,2,6,0,7,1)
+.param amp=table(fault,0,0.83,1,0.83,2,0.83,3,0.83,4,0.83,5,0.83,6,1.65,7,0.83)
+.meas TRAN irms RMS I(RciLF) FROM=0.025 TO=0.05
+.meas TRAN idc AVG I(RciLF) FROM=0.025 TO=0.05
+.meas TRAN ipk MAX abs(I(RciLF)) FROM=0.025 TO=0.05
+.save V(adc) I(R4)
+Rc3x excout n1 {rc3}
+Rc4x injN ret {rc4}
+.save I(RciLF)
+.end

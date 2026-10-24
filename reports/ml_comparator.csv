@@ -1,7 +1,7 @@
 cohort,system,events,sensitivity,specificity,median_lead_days,false_alerts_per_patient_month
-PS held-out,Gradient-boosted trees,35,0.743,0.981,3.0,0.231
-PS held-out,HridayMitra engine (frozen v2),35,0.657,0.998,2.0,0.029
-PS held-out,Logistic regression,35,0.714,0.987,2.0,0.144
-Real-world,Gradient-boosted trees,100,0.8,0.987,3.0,0.157
-Real-world,HridayMitra engine (frozen v2),100,0.65,0.99,2.0,0.056
-Real-world,Logistic regression,100,0.77,0.992,2.0,0.09
+PS held-out,Gradient-boosted trees,35,0.829,0.972,3.0,0.288
+PS held-out,HridayMitra engine (frozen v3),35,0.657,0.987,3.0,0.058
+PS held-out,Logistic regression,35,0.8,0.988,2.5,0.115
+Real-world,Gradient-boosted trees,100,0.82,0.988,3.0,0.138
+Real-world,HridayMitra engine (frozen v3),100,0.72,0.99,2.0,0.056
+Real-world,Logistic regression,100,0.81,0.992,2.0,0.083

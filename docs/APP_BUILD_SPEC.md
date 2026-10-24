@@ -146,7 +146,7 @@ Target devices: Android 9+ Chrome, 2 GB RAM, 720×1280 screens. First load under
   - daily fluid limit (litres);
   - salt advice;
   - follow-up date.
-- **Sensitivity:** standard or more sensitive. More sensitive lowers the red threshold T from 6.5 to 5.5; the default is standard. Every change is written to the audit log with the doctor's name.
+- **Sensitivity:** standard or more sensitive. More sensitive lowers the red threshold T from 7.0 to 6.0; the default is standard. Every change is written to the audit log with the doctor's name.
 - **Lab results:** manual entry of sodium, potassium, creatinine, eGFR, NT-proBNP and haemoglobin, with dates (photo text-reading in phase 2).
 - **Notes:** consult notes that the family and ASHA can see.
 
@@ -196,7 +196,7 @@ Greeting, the three lights, the two daily questions, medicine reminder, medicine
 ## 8. The alert engine (only for manual entry; the stool decides on its own)
 When readings come **from the stool**, **show the stool's light; never recompute it.** When the family or ASHA enters readings by hand (no stool), the app runs the **same engine**, ported from `firmware/hridaymitra_stool/engine_core.h` / `engine/alert_engine.py`. It **must reproduce `docs/app/engine_test_vectors.json` exactly**: 5 patients, about 820 days, with the expected light and score S for each day.
 
-**Inputs per day** (null = not measured): `weight_kg, leg_z_ohm, trunk_z_ohm, pulse_bpm, night_rr, spo2, activity_min, standup_s, breathless (0/1), orthopnea (0/1), night_situps`.
+**Inputs per day** (null = not measured): `weight_kg, leg_z_ohm, trunk_z_ohm, leg_ewi` (leg water-outside-cells index from 5/20/50 kHz spectroscopy), `pulse_bpm, night_rr, spo2, activity_min, standup_s, breathless (0/1), orthopnea (0/1), night_situps`.
 
 **Signals:**
 
@@ -205,6 +205,7 @@ When readings come **from the stool**, **show the stool's light; never recompute
 | weight_kg | fluid | up | 0.30 | no | 1.0 |
 | leg_z_ohm | fluid | down | 0.010 | yes (× normal) | 1.0 |
 | trunk_z_ohm | fluid | down | 3.0 | no | 0.5 |
+| leg_ewi | fluid | up | 0.003 | yes | 1.0 |
 | pulse_bpm | heart_lungs | up | 2.0 | no | 1.0 |
 | night_rr | heart_lungs | up | 0.7 | no | 1.0 |
 | spo2 | heart_lungs | down | 0.7 | no | 0.5 |
@@ -212,8 +213,8 @@ When readings come **from the stool**, **show the stool's light; never recompute
 | standup_s | daily_life | up | 0.04 | yes | 1.0 |
 
 **Algorithm**, for day t, using only days ≤ t:
-1. **Guest gate:** take the last 7 earlier non-null weights. If there are at least 3 and |w_t − their median| > 2.5 kg, the day is a guest. Set weight, leg, trunk, pulse, spo2 and standup to null for that day, and keep it stored null (the history stays gated).
-2. **Plate gate:** take the last 7 earlier non-null leg readings. If there are at least 3 and |leg_t / median − 1| > 0.25, set leg and trunk to null for that day.
+1. **Guest gate:** take the last 7 earlier non-null weights. If there are at least 3 and |w_t − their median| > 2.5 kg, the day is a guest. Set weight, leg, trunk, leg_ewi, pulse, spo2 and standup to null for that day, and keep it stored null (the history stays gated).
+2. **Plate gate:** take the last 7 earlier non-null leg readings. If there are at least 3 and |leg_t / median − 1| > 0.25, set leg, trunk and leg_ewi to null for that day.
 3. **For each signal:**
    - **baseline** = non-null values from days max(0, t−35) up to max(0, t−6), exclusive end (i.e. days t−35 … t−7);
    - **level** = mean of the non-null values from days t−2 … t;
@@ -224,7 +225,7 @@ When readings come **from the stool**, **show the stool's light; never recompute
    **Sit-ups:** if any non-null sit-up value in t−2 … t, z_sit = max(0, their sum − 1). Both belong to daily_life.
 5. **Family score** = largest z + 0.5 × second largest (0 if none). **S** = fluid + heart_lungs + daily_life. n_fam = number of families ≥ 1.5. maxFam = the largest family score.
 6. **danger** = the raw SpO₂ today < 90 and not a guest day.
-7. **Light**, with T = 6.5. The state carries `red` (bool) and flags for the last 3 days: high = S ≥ T, famHigh = maxFam ≥ T.
+7. **Light**, with T = 7.0 (engine v3, `engine/frozen_params_v3.json`). The state carries `red` (bool) and flags for the last 3 days: high = S ≥ T, famHigh = maxFam ≥ T.
    - Append today's flags first.
    - If today has no data at all (every signal null and both answers null), the light = yesterday's light.
    - Else if danger: red = true.
@@ -246,7 +247,7 @@ When readings come **from the stool**, **show the stool's light; never recompute
 
 **B. Messages the stool already sends** (USB serial today, 115200 baud, one JSON per line; same over BLE):
 ```json
-{"t":"checkin","id":"P001","weight_kg":62.0037,"leg_z_ohm":578.4963,"trunk_z_ohm":27.8620,"pulse_bpm":70.5882,"spo2":96.4632,"standup_s":3.4670,"night_rr":16.0,"night_situps":0,"activity_min":200,"breathless":0,"orthopnea":0,"took_pills":1,"light":0,"S":1.2817,"learning":0,"guest":0,"why":"weight +0.8 kg; resting pulse +3.6 bpm"}
+{"t":"checkin","id":"P001","weight_kg":62.0037,"leg_z_ohm":578.4963,"trunk_z_ohm":27.8620,"pulse_bpm":70.5882,"spo2":96.4632,"standup_s":3.4670,"night_rr":16.0,"night_situps":0,"activity_min":200,"leg_ewi":0.69107,"breathless":0,"orthopnea":0,"took_pills":1,"light":0,"S":1.2817,"learning":0,"guest":0,"why":"weight +0.8 kg; resting pulse +3.6 bpm"}
 {"t":"sms","to":"+910000000001","text":"HridayMitra RED for P001. Why: ..."}
 {"t":"reply","from":"+910000000003","digit":"1"}
 {"t":"selftest","battery_mv":3950,"signal":18,"problems":""}

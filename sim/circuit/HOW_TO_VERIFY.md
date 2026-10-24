@@ -70,6 +70,28 @@ python sim/circuit/trunk_paths.py
 - **Rules that follow:** the firmware must use the Goertzel amplitude, never peak-to-peak. Measure on battery with the charger unplugged, which is also the safety rule.
 - **Not modelled:** a sense plate left completely open (foot lifted). Then the 10 MΩ node floats and hum can saturate it, and the quality check must reject that reading as "no reading". On the bench, test this by lifting one heel.
 
+## 7. Bioimpedance spectroscopy (`python sim/circuit/spectroscopy.py`, about 1 minute)
+- **Setup:** the same front end measures the legs at **5, 20 and 50 kHz**. A Cole-model fit gives Rinf/R0, the share of water outside the cells (the "extracellular-water index").
+
+  | Scenario | 5 kHz reading alone | Index |
+  |---|---|---|
+  | Fluid outside cells +10% (congestion) | −9.1% | **+3.0%** |
+  | Foot position / limb / temperature +3% | **+3.0%** (a false signal) | **0.0%** |
+  | Fluid inside cells +10% | 0.0% | **−2.9%** (opposite sign) |
+
+- **Accuracy:** LTspice readings are within 0.05% of the exact values. On the ESP32 the fit is an exact closed form (`hm::ewiClosedForm`), and the firmware emulator measures the index within 0.5% of the true body value.
+
+## 8. Patient electrical safety (`python sim/circuit/safety.py`, about 2 minutes)
+- **Test:** body current with each single fault, measured at 5, 20 and 50 kHz, against IEC 60601-1 limits for type BF parts (DC 10/50 µA; AC 100/500 µA × f in kHz).
+- **Faults tested:** current-limit resistor shorted, either coupling capacitor shorted, op-amp output stuck at either rail, DAC at full scale, plus one double fault.
+- **Result:** every case passes. The smallest margin is **6.6×** in normal use; it's 12.8× with a single fault. The two series capacitors mean no single fault can drive DC through the patient.
+- **Still a rule, not a circuit protection:** never measure with the mains charger connected. A "Charge / Use" switch that disconnects the electrodes while charging is recommended.
+
+## 9. Self-calibrating reference (`python sim/circuit/selfcal.py`)
+- **Design:** the reference is **Rcal, 100 Ω 0.1%**, in series with an ordinary R5 (120 Ω). The spare 74HC4053 switch (GPIO12) reads across Rcal for every reading, and across both for an integrity check: the ratio must be 2.2.
+- **Integrity check:** a good board reads 2.200, the R5 tolerance range reads 2.14–2.26, and every fault or build mistake is rejected (wrong R5, short, open, bad joint).
+- **Monte Carlo of 100 stools:** absolute error median 0.77% → **0.16%**, 99% of readings 1.96% → **1.32%**, worst 2.56% → **1.65%**.
+
 ## What the simulation shows, and what it doesn't
 - **It proves:**
   - the circuit design measures the body model accurately: every reading within 0.12%, contact resistance from 300 Ω to 3 kΩ;

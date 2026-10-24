@@ -16,7 +16,7 @@ import evaluate as E, alert_engine as A
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 KEYS = list(A.SIGNALS) + ["symptoms", "night_situps"]
-T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
 
 
 def features(g):
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         for cohort, feats, pats in [("PS held-out", test, p[p.patient_id.isin(test_ids)]), ("Real-world", RW, rw_p)]:
             rows.append(dict(cohort=cohort, system=name, **{k: round(v, 3) for k, v in grade(feats, pats, model, thr).items()}))
     for cohort, feats, pats in [("PS held-out", test, p[p.patient_id.isin(test_ids)]), ("Real-world", RW, rw_p)]:
-        rows.append(dict(cohort=cohort, system="HridayMitra engine (frozen v2)", **{k: round(v, 3) for k, v in engine_row(feats, pats).items()}))
+        rows.append(dict(cohort=cohort, system="HridayMitra engine (frozen v3)", **{k: round(v, 3) for k, v in engine_row(feats, pats).items()}))
     out = pd.DataFrame(rows).sort_values(["cohort", "system"])
     out.to_csv(ROOT / "reports/ml_comparator.csv", index=False)
     pd.set_option("display.width", 200); print(out.to_string(index=False))

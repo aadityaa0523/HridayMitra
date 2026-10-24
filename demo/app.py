@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "engine"))
 import alert_engine as A, product as P
 
-T = json.loads((ROOT / "engine/frozen_params_v2.json").read_text())["T"]
+T = json.loads((ROOT / "engine/frozen_params_v3.json").read_text())["T"]
 COLOR, NAME = {0: "#2e9e5b", 1: "#e0a100", 2: "#c0392b"}, {0: "GREEN", 1: "AMBER", 2: "RED"}
 SAY = {0: ("All fine today.", "सब ठीक है।", "எல்லாம் சரி."),
        1: ("Please check again tomorrow.", "कल फिर से जाँच करें।", "நாளை மீண்டும் சோதிக்கவும்."),

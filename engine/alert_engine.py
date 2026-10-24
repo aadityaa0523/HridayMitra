@@ -28,15 +28,16 @@ SIGNALS = {
     "weight_kg":    ("fluid", +1, 0.30, False, 1.0),
     "leg_z_ohm":    ("fluid", -1, 0.010, True, 1.0),
     "trunk_z_ohm":  ("fluid", -1, 3.0, False, 0.5),
+    "leg_ewi":      ("fluid", +1, 0.003, True, 1.0),     # extracellular-water index (spectroscopy); position/temperature cancel
     "pulse_bpm":    ("heart_lungs", +1, 2.0, False, 1.0),
     "night_rr":     ("heart_lungs", +1, 0.7, False, 1.0),
     "spo2":         ("heart_lungs", -1, 0.7, False, 0.5),
     "activity_min": ("daily_life", -1, 0.08, True, 1.0),
     "standup_s":    ("daily_life", +1, 0.04, True, 1.0),
 }
-STOOL = ["weight_kg", "leg_z_ohm", "trunk_z_ohm", "pulse_bpm", "spo2", "standup_s"]
+STOOL = ["weight_kg", "leg_z_ohm", "trunk_z_ohm", "leg_ewi", "pulse_bpm", "spo2", "standup_s"]
 FAMILIES = ["fluid", "heart_lungs", "daily_life"]
-WORDS = {"weight_kg": ("weight", "kg", 1), "leg_z_ohm": ("leg reading", "%", 0), "trunk_z_ohm": ("chest reading", "%", 0),
+WORDS = {"weight_kg": ("weight", "kg", 1), "leg_z_ohm": ("leg reading", "%", 0), "trunk_z_ohm": ("chest reading", "%", 0), "leg_ewi": ("leg water outside cells", "%", 1),
          "pulse_bpm": ("resting pulse", "bpm", 0), "night_rr": ("night breathing", "per min", 1), "spo2": ("oxygen", "%", 1),
          "activity_min": ("activity", "%", 0), "standup_s": ("stand-up time", "%", 0)}
 GUEST_JUMP_KG, BASE_FROM, BASE_TO, MIN_BASE = 2.5, 35, 7, 6
@@ -52,7 +53,7 @@ def scores(g, cusum=False, k=CUSUM_K, scale=CUSUM_SCALE):
     worsening is noticed before any single day looks alarming (Gyllensten 2016 used this for impedance)."""
     g = g.reset_index(drop=True)
     n = len(g)
-    vals = {c: g[c].to_numpy(float).copy() for c in SIGNALS}
+    vals = {c: (g[c].to_numpy(float).copy() if c in g else np.full(len(g), np.nan)) for c in SIGNALS}
     drift = {c: 0.0 for c in SIGNALS}
     guest = np.zeros(n, bool)
     w = vals["weight_kg"]
@@ -73,6 +74,7 @@ def scores(g, cusum=False, k=CUSUM_K, scale=CUSUM_SCALE):
         if len(prev) >= 3 and abs(z[t] / np.median(prev) - 1) > PLATE_JUMP:
             z[t] = np.nan
             vals["trunk_z_ohm"][t] = np.nan
+            vals["leg_ewi"][t] = np.nan
     answered = (g["breathless"].notna() | g["orthopnea"].notna()).to_numpy()
     yes =(g["breathless"].fillna(0).to_numpy() + g["orthopnea"].fillna(0).to_numpy())
     sit = g["night_situps"].to_numpy(float)
