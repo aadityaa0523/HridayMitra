@@ -24,7 +24,7 @@ Build cost: **₹4,243–4,397** (Monte Carlo of the parts list); the limit is �
 | Specificity | 99.8% | 97.6% |
 | Median lead time before hospital visit | 2 days (4 days counting amber "check again") | 2 days |
 | False alerts per patient-month | **0.03** | 0.53 |
-| External 1,000-patient cohort: sensitivity / false alerts | 66% / 0.06 | 31% / 0.38 |
+| External 1,000-patient cohort: sensitivity / false alerts | 65% / 0.06 | 31% / 0.38 |
 
 - **Robustness:** it beats the weight rule in **all 46** assumption-sensitivity scenarios and in 14 of 15 stress cases. In the 15th (10% guest days) the rule catches more but fires about 30× more false alerts.
 - **Care loop:** in simulation, 92% of red alerts get a clinical review before the hospital visit, versus 27% with a single SMS.
