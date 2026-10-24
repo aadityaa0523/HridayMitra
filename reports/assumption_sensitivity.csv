@@ -1,48 +1,48 @@
 parameter,side,value,default,sensitivity,specificity,median_lead_days,false_alerts_per_patient_month,rule1_sensitivity,rule1_fa,beats_rule1_sens,within_fa_budget
-(default guesses),base,None,,0.625,0.9792,2.0,0.115,0.292,0.451,True,True
+(default guesses),base,None,,0.617,0.9792,2.0,0.115,0.292,0.451,True,True
 ramp_exponent,low,1.0,1.5,0.75,0.9784,3.0,0.117,0.333,0.451,True,True
 ramp_exponent,high,2.5,1.5,0.325,0.9791,2.0,0.112,0.233,0.451,True,True
 worsen_lead_days,low,"(3, 5)","(3, 10)",0.258,0.9793,1.0,0.112,0.225,0.451,True,True
 worsen_lead_days,high,"(7, 10)","(3, 10)",0.942,0.9794,2.0,0.114,0.375,0.445,True,True
-weight_silent_fraction,low,0.2,0.35,0.65,0.9783,2.0,0.119,0.35,0.452,True,True
-weight_silent_fraction,high,0.5,0.35,0.575,0.9792,2.0,0.115,0.233,0.449,True,True
-silent_leg_response,low,0.0,1.0,0.533,0.9793,2.0,0.115,0.292,0.451,True,True
-silent_leg_response,high,0.5,1.0,0.583,0.9793,2.0,0.115,0.292,0.451,True,True
-weight_day_sd_kg,low,0.3,0.42,0.625,0.9805,2.0,0.111,0.283,0.433,True,True
-weight_day_sd_kg,high,0.7,0.42,0.55,0.977,2.0,0.128,0.425,0.753,True,True
+weight_silent_fraction,low,0.2,0.35,0.642,0.9783,2.0,0.119,0.35,0.452,True,True
+weight_silent_fraction,high,0.5,0.35,0.567,0.9792,2.0,0.115,0.233,0.449,True,True
+silent_leg_response,low,0.0,1.0,0.525,0.9793,2.0,0.115,0.292,0.451,True,True
+silent_leg_response,high,0.5,1.0,0.575,0.9793,2.0,0.115,0.292,0.451,True,True
+weight_day_sd_kg,low,0.3,0.42,0.617,0.9805,2.0,0.111,0.283,0.433,True,True
+weight_day_sd_kg,high,0.7,0.42,0.542,0.9772,2.0,0.127,0.425,0.753,True,True
 fluid_peak_fraction,low,"(0.03, 0.08)","(0.05, 0.15)",0.558,0.9785,2.0,0.12,0.292,0.451,True,True
 fluid_peak_fraction,high,"(0.1, 0.2)","(0.05, 0.15)",0.667,0.9784,2.0,0.122,0.292,0.451,True,True
-leg_bio_noise_pct,low,0.75,1.5,0.675,0.9806,2.0,0.112,0.292,0.451,True,True
+leg_bio_noise_pct,low,0.75,1.5,0.667,0.9806,2.0,0.112,0.292,0.451,True,True
 leg_bio_noise_pct,high,3.0,1.5,0.533,0.9751,2.0,0.133,0.292,0.451,True,True
-leg_sd_x,low,1.0,1.0,0.625,0.9792,2.0,0.115,0.292,0.451,True,True
+leg_sd_x,low,1.0,1.0,0.617,0.9792,2.0,0.115,0.292,0.451,True,True
 leg_sd_x,high,4.0,1.0,0.583,0.981,2.0,0.106,0.292,0.451,True,True
-trunk_noise_ohm,low,2.0,4.0,0.625,0.9793,2.0,0.115,0.292,0.451,True,True
-trunk_noise_ohm,high,8.0,4.0,0.625,0.9792,2.0,0.115,0.292,0.451,True,True
-hr_gain_bpm,low,"(1.0, 4.0)","(2.0, 8.0)",0.575,0.979,2.0,0.117,0.292,0.451,True,True
-hr_gain_bpm,high,"(4.0, 10.0)","(2.0, 8.0)",0.633,0.9791,2.0,0.115,0.292,0.451,True,True
-hr_day_sd_bpm,low,1.5,2.5,0.608,0.9813,2.0,0.108,0.292,0.451,True,True
-hr_day_sd_bpm,high,4.0,2.5,0.6,0.9733,2.0,0.15,0.292,0.451,True,True
+trunk_noise_ohm,low,2.0,4.0,0.617,0.9793,2.0,0.115,0.292,0.451,True,True
+trunk_noise_ohm,high,8.0,4.0,0.617,0.9792,2.0,0.115,0.292,0.451,True,True
+hr_gain_bpm,low,"(1.0, 4.0)","(2.0, 8.0)",0.567,0.979,2.0,0.117,0.292,0.451,True,True
+hr_gain_bpm,high,"(4.0, 10.0)","(2.0, 8.0)",0.625,0.9791,2.0,0.115,0.292,0.451,True,True
+hr_day_sd_bpm,low,1.5,2.5,0.6,0.9813,2.0,0.108,0.292,0.451,True,True
+hr_day_sd_bpm,high,4.0,2.5,0.592,0.9733,2.0,0.15,0.292,0.451,True,True
 rr_gain,low,"(0.6, 1.2)","(1.2, 2.2)",0.6,0.9792,2.0,0.115,0.292,0.451,True,True
 rr_gain,high,"(2.0, 3.0)","(1.2, 2.2)",0.625,0.9793,2.0,0.115,0.292,0.451,True,True
-symptom_peak_prob,low,0.25,0.5,0.608,0.9792,2.0,0.115,0.292,0.451,True,True
-symptom_peak_prob,high,0.75,0.5,0.642,0.979,2.0,0.117,0.292,0.451,True,True
-situps_peak,low,1.0,2.5,0.6,0.9801,2.0,0.112,0.292,0.451,True,True
-situps_peak,high,4.0,2.5,0.65,0.9781,2.0,0.12,0.292,0.451,True,True
-infection_fraction,low,0.05,0.15,0.617,0.9892,2.0,0.059,0.292,0.457,True,True
-infection_fraction,high,0.3,0.15,0.633,0.9706,2.0,0.169,0.308,0.462,True,True
+symptom_peak_prob,low,0.25,0.5,0.6,0.9792,2.0,0.115,0.292,0.451,True,True
+symptom_peak_prob,high,0.75,0.5,0.633,0.979,2.0,0.117,0.292,0.451,True,True
+situps_peak,low,1.0,2.5,0.592,0.9801,2.0,0.112,0.292,0.451,True,True
+situps_peak,high,4.0,2.5,0.642,0.9782,2.0,0.12,0.292,0.451,True,True
+infection_fraction,low,0.05,0.15,0.6,0.9892,2.0,0.059,0.292,0.457,True,True
+infection_fraction,high,0.3,0.15,0.625,0.9706,2.0,0.169,0.308,0.462,True,True
 salty_meals_per_patient,low,1,2,0.642,0.9795,2.0,0.112,0.375,0.369,True,True
-salty_meals_per_patient,high,5,2,0.658,0.9778,2.0,0.122,0.342,0.674,True,True
-pill_miss_episodes,low,0.5,1.0,0.642,0.9812,2.0,0.101,0.35,0.451,True,True
-pill_miss_episodes,high,3.0,1.0,0.65,0.9741,2.0,0.139,0.333,0.427,True,True
+salty_meals_per_patient,high,5,2,0.658,0.978,2.0,0.122,0.342,0.674,True,True
+pill_miss_episodes,low,0.5,1.0,0.633,0.9812,2.0,0.101,0.35,0.451,True,True
+pill_miss_episodes,high,3.0,1.0,0.65,0.9741,2.0,0.138,0.333,0.427,True,True
 missing_day_prob,low,0.03,0.07,0.633,0.9803,2.0,0.108,0.292,0.468,True,True
 missing_day_prob,high,0.2,0.07,0.625,0.976,2.0,0.133,0.292,0.413,True,True
-amulet_worn_prob,low,0.6,0.9,0.583,0.9758,2.0,0.119,0.292,0.451,True,True
+amulet_worn_prob,low,0.6,0.9,0.575,0.9759,2.0,0.119,0.292,0.451,True,True
 amulet_worn_prob,high,0.98,0.9,0.608,0.98,2.0,0.114,0.292,0.451,True,True
-guest_prob,low,0.0,0.01,0.617,0.9793,2.0,0.112,0.258,0.131,True,True
-guest_prob,high,0.03,0.01,0.617,0.9784,2.0,0.125,0.433,1.072,True,True
-wet_feet_prob,low,0.0,0.05,0.625,0.9796,2.0,0.115,0.292,0.451,True,True
-wet_feet_prob,high,0.15,0.05,0.617,0.9764,2.0,0.138,0.292,0.451,True,True
-jewellery_step_prob,low,0.0,0.1,0.625,0.9782,2.0,0.12,0.292,0.456,True,True
-jewellery_step_prob,high,0.3,0.1,0.633,0.9778,2.0,0.12,0.3,0.462,True,True
-button_error_prob,low,0.0,0.03,0.625,0.98,2.0,0.112,0.292,0.451,True,True
-button_error_prob,high,0.1,0.03,0.633,0.9753,2.0,0.134,0.292,0.451,True,True
+guest_prob,low,0.0,0.01,0.608,0.9793,2.0,0.112,0.258,0.131,True,True
+guest_prob,high,0.03,0.01,0.608,0.9785,2.0,0.123,0.433,1.072,True,True
+wet_feet_prob,low,0.0,0.05,0.617,0.9796,2.0,0.115,0.292,0.451,True,True
+wet_feet_prob,high,0.15,0.05,0.608,0.9763,2.0,0.138,0.292,0.451,True,True
+jewellery_step_prob,low,0.0,0.1,0.617,0.9783,2.0,0.119,0.292,0.456,True,True
+jewellery_step_prob,high,0.3,0.1,0.625,0.9778,2.0,0.12,0.3,0.462,True,True
+button_error_prob,low,0.0,0.03,0.617,0.98,2.0,0.112,0.292,0.451,True,True
+button_error_prob,high,0.1,0.03,0.625,0.9754,2.0,0.133,0.292,0.451,True,True

@@ -73,6 +73,7 @@ def scores(g, cusum=False, k=CUSUM_K, scale=CUSUM_SCALE):
         if len(prev) >= 3 and abs(z[t] / np.median(prev) - 1) > PLATE_JUMP:
             z[t] = np.nan
             vals["trunk_z_ohm"][t] = np.nan
+    answered = (g["breathless"].notna() | g["orthopnea"].notna()).to_numpy()
     yes =(g["breathless"].fillna(0).to_numpy() + g["orthopnea"].fillna(0).to_numpy())
     sit = g["night_situps"].to_numpy(float)
     rows = []
@@ -104,10 +105,11 @@ def scores(g, cusum=False, k=CUSUM_K, scale=CUSUM_SCALE):
         for f in FAMILIES:                                              # 4. families
             zz = sorted([v for c, v in z.items() if fam_of(c) == f], reverse=True)
             fam[f] = (zz[0] + 0.5 * zz[1]) if len(zz) > 1 else (zz[0] if zz else 0.0)
-        has_data = any(not np.isnan(vals[c][t]) for c in SIGNALS) or not np.isnan(yes[t])
+        has_data = any(not np.isnan(vals[c][t]) for c in SIGNALS) or answered[t]       # no check-in today: hold the light
+        learning = not any(c in z for c in SIGNALS)                    # cold start: no personal normal yet (first ~10 days)
         rows.append(dict(day=t, S=sum(fam.values()), n_fam=sum(v >= 1.5 for v in fam.values()),
                          max_fam=max(fam.values()), danger=bool(g["spo2"].iloc[t] < 90) if not guest[t] else False,
-                         guest=guest[t], data=has_data, z=z, info=info, **{f"fam_{f}": fam[f] for f in FAMILIES}))
+                         guest=guest[t], data=has_data, learning=learning, z=z, info=info, **{f"fam_{f}": fam[f] for f in FAMILIES}))
     return rows
 
 

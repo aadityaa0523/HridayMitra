@@ -23,7 +23,7 @@ SYM = {k: Symbol(*v) for k, v in {
     "OPA": ("Amplifier_Operational", "LM2904"), "LDO": ("Regulator_Linear", "AP1117-15"), "ESP": ("RF_Module", "ESP32-WROOM-32"),
     "BTN": ("Switch", "SW_Push"), "SPST": ("Switch", "SW_SPST"), "J4": ("Connector_Generic", "Conn_01x04"),
     "J5": ("Connector_Generic", "Conn_01x05"), "J6": ("Connector_Generic", "Conn_01x06"), "J8": ("Connector_Generic", "Conn_01x08"),
-    "FLAG": ("power", "PWR_FLAG")}.items()}
+    "FLAG": ("power", "PWR_FLAG"), "NPN": ("Device", "Q_NPN"), "D": ("Device", "D"), "MOT": ("Motor", "Motor_DC")}.items()}
 
 # (block, ref, symbol, value, unit, {pin number: net}). Pins not listed are marked "not connected".
 # Pin-compatible stand-ins: INA128 symbol = INA126 (same 8-pin pinout), CD4052B = 74HC4052, CD4053B = 74HC4053,
@@ -66,7 +66,7 @@ PARTS = [
 ] + [(FE, f"C{n}", "C", "100n", 1, {"1": "+3V3", "2": "GND"}) for n in (6, 7, 8, 9, 13)] + [
     (MCU, "U6", "ESP", "ESP32-WROOM-32 (DevKit)", 1, {"2": "+3V3", "1": "GND", "10": "DAC_EXC", "7": "Z_ADC", "30": "SEL",
         "9": "PATH_S0", "12": "PATH_S1", "8": "HX_DT", "13": "HX_SCK", "11": "VOICE_DAC", "33": "SDA", "36": "SCL",
-        "6": "ECG_OUT", "5": "ECG_LOP", "4": "ECG_LON", "16": "LED_G", "37": "LED_A", "24": "LED_R", "26": "BTN_G",
+        "6": "ECG_OUT", "5": "ECG_LOP", "4": "DRAWER", "31": "VIBRA", "16": "LED_G", "37": "LED_A", "24": "LED_R", "26": "BTN_G",
         "29": "BTN_R", "23": "BTN_SOS", "28": "GSM_TX", "27": "GSM_RX", "3": "EN"}),
     (MCU, "R19", "R", "10k (on DevKit)", 1, {"1": "+3V3", "2": "EN"}),
     (PER, "D1", "LED", "green", 1, {"2": "LED_G", "1": "LED_G_K"}),
@@ -91,8 +91,14 @@ PARTS = [
     (PER, "R18", "R", "2.2k", 1, {"1": "GSM_RXD", "2": "GND"}),
     (PER, "J8", "J4", "SIM800L module: VCC GND TXD RXD", 1, {"1": "VBAT", "2": "GND", "3": "GSM_RX", "4": "GSM_RXD"}),
     (PER, "C12", "CP", "1000u", 1, {"1": "VBAT", "2": "GND"}),
-    (PER, "J11", "J5", "AD8232 (optional; off for pacemaker/ICD)", 1, {"1": "+3V3", "2": "GND", "3": "ECG_OUT",
-        "4": "ECG_LOP", "5": "ECG_LON"}),
+    (PER, "J11", "J5", "AD8232 (optional; off for pacemaker/ICD; LO- unused)", 1, {"1": "+3V3", "2": "GND", "3": "ECG_OUT",
+        "4": "ECG_LOP"}),
+    (PER, "R21", "R", "1k", 1, {"1": "VIBRA", "2": "VIB_B"}),
+    (PER, "Q1", "NPN", "2N2222 (vibration driver)", 1, {"B": "VIB_B", "C": "VIB_C", "E": "GND"}),
+    (PER, "M1", "MOT", "coin vibration motor (seat)", 1, {"1": "+5V", "2": "VIB_C"}),
+    (PER, "D4", "D", "1N4148 flyback", 1, {"1": "+5V", "2": "VIB_C"}),
+    (PER, "R20", "R", "10k", 1, {"1": "+3V3", "2": "DRAWER"}),
+    (PER, "SW5", "BTN", "tablet-drawer microswitch", 1, {"1": "DRAWER", "2": "GND"}),
     (PWR, "BT1", "BAT", "18650 (protected)", 1, {"1": "BAT_P", "2": "GND"}),
     (PWR, "J9", "J4", "TP4056 module: B+ B- OUT+ OUT-", 1, {"1": "BAT_P", "2": "GND", "3": "VBAT_RAW", "4": "GND"}),
     (PWR, "SW4", "SPST", "power switch", 1, {"1": "VBAT_RAW", "2": "VBAT"}),

@@ -114,7 +114,7 @@
     },
     {
      "name": "Two-witness rule and confidence",
-     "done": 0.8
+     "done": 1
     },
     {
      "name": "Cause tags and explanations",
@@ -122,7 +122,7 @@
     },
     {
      "name": "Danger rules and cold start",
-     "done": 0.7
+     "done": 1
     }
    ]
   },
@@ -148,7 +148,7 @@
     },
     {
      "name": "Machine-learning comparator",
-     "done": 0
+     "done": 1
     },
     {
      "name": "Assumption sensitivity analysis",
@@ -192,7 +192,7 @@
     },
     {
      "name": "Serial reader for the real stool",
-     "done": 0
+     "done": 1
     }
    ]
   },
@@ -206,23 +206,23 @@
     },
     {
      "name": "User journey storyboard",
-     "done": 0
+     "done": 1
     },
     {
      "name": "GitHub repo, tests, CI",
-     "done": 0.8
+     "done": 1
     },
     {
      "name": "Firmware code written",
-     "done": 0
+     "done": 1
     },
     {
      "name": "2-page report",
-     "done": 0
+     "done": 1
     },
     {
      "name": "Pitch deck and backup video",
-     "done": 0
+     "done": 0.8
     },
     {
      "name": "Real price quotes",

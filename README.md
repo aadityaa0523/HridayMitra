@@ -14,7 +14,7 @@ A worn **Kavach amulet** adds night breathing, night sit-ups, activity, falls an
 
 An **offline alert engine** on the ESP32 learns each patient's own normal and turns green, amber or red. Each red alert gives its reasons in plain words. It sends an SMS over 2G and starts a **care loop**: family member 1 → family member 2 (30 min) → ASHA worker (2 h) → PHC doctor (6 h).
 
-Build cost: **₹4,188–4,343** (Monte Carlo of the parts list); the limit is ₹5,000.
+Build cost: **₹4,243–4,397** (Monte Carlo of the parts list); the limit is ₹5,000.
 
 ## Results (synthetic cohorts, threshold frozen on training patients before testing)
 
@@ -33,13 +33,36 @@ Build cost: **₹4,188–4,343** (Monte Carlo of the parts list); the limit is �
 
 Details: `reports/phase1_summary.md`, `reports/phase2_summary.md`, `sim/circuit/HOW_TO_VERIFY.md`.
 
-## Quick start (Python 3.11)
+## Quick start (Python 3.11): one command for everything
 
 ```bash
-pip install -r requirements.txt
-python -m pytest tests -q                        # 31 tests (the 4 schematic tests skip without KiCad)
-streamlit run demo/app.py                        # patient, family and ASHA/doctor views, with "break it" switches
+python run.py setup          # install packages, make the synthetic cohorts if missing
+python run.py test           # 39 tests: engine, signals, product features, C++ engine = Python engine, schematic, care loop, bridge
+python run.py demo           # dashboard: patient light + voice, family SMS, ASHA/doctor trends, "break it" switches
 ```
+
+| What you want | Command |
+|---|---|
+| Watch a pretend patient arrive live in the dashboard (no hardware) | `python run.py live --simulate P0022`, then `python run.py demo` → "Live stool" |
+| Compile both boards (needs `arduino-cli` with the esp32 core) | `python run.py firmware` |
+| Flash the stool (COM5) and the amulet (COM6) | `python run.py firmware --upload COM5 --amulet-port COM6` |
+| Log the real stool's check-ins into the dashboard | `python run.py live --port COM5` |
+| Prove the real stool decides exactly like the tested engine | `python run.py hil --port COM5` |
+| Re-run every result, rebuild every document | `python run.py reproduce`, `python run.py docs` |
+| Everything | `python run.py all` |
+
+**The flow:** amulet → (BLE) → stool runs the check-in and the alert engine offline → light + voice + SMS care loop → (USB, optional) laptop bridge → live dashboard.
+
+## Firmware
+- `firmware/hridaymitra_stool/`: ESP32 DevKit. The 90 s check-in, HX711 weight, 4 impedance paths with Goertzel, MAX30102 pulse/SpO₂, 3 questions, stand-up time, amulet scan, **the alert engine on the chip** (`engine_core.h`, identical to the Python engine), SMS ladder with retries, replies and missed calls, engine state saved in flash. Phone numbers go in `config.h`.
+- `firmware/hridaymitra_amulet/`: ESP32-C3 + MPU6050. Night breathing, night sit-ups, activity, falls and SOS, sent in the BLE advertisement (no pairing).
+- Voice prompts: `python tools/make_voice_clips.py`. Recorded Hindi/Tamil WAVs in `firmware/voice/<lang>/` replace the built-in English voice.
+
+## Documents
+- `docs/HridayMitra report.pdf` (2 pages) and `docs/HridayMitra pitch deck.pdf`, plus `docs/PITCH_SCRIPT.md`. All three are regenerated from the live results.
+- `docs/EVIDENCE.md`: every PS requirement → proof file, the failure-modes table, the assumption ledger.
+- `docs/DECISIONS.md`: the starting ideas, every design decision with evidence, and the next improvements.
+- Build guide v3, wiring guide, physical build pack, block diagram: `docs/`. KiCad: `hardware/kicad/`.
 
 ## Reproduce everything
 
@@ -65,7 +88,9 @@ streamlit run demo/app.py                        # patient, family and ASHA/doct
 | `sim/circuit/` | LTspice netlists, open-and-run files, Monte Carlo, hum test, how to verify |
 | `sim/careloop/` | alert → family → ASHA → doctor simulator |
 | `hardware/kicad/` | schematic generated from code, ERC report, netlist, PDF |
-| `demo/` | Streamlit demo |
+| `demo/` | Streamlit demo (synthetic cohort or live stool) |
+| `firmware/` | stool (ESP32) and amulet (ESP32-C3) sketches; `engine_core.h` = the engine on the chip |
+| `run.py` | one command for setup, tests, demo, live stool, firmware, results, documents |
 | `docs/` | build guide v3, wiring guide, physical build pack, block diagram, phase plan |
 | `reports/` | all results (CSV, PNG, summaries) |
 | `tests/` | pytest suite |

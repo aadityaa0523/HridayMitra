@@ -7,7 +7,7 @@
 | 3 | Circuit random variation, KiCad schematic from code, cost simulation | Must + differentiator | ✅ Done. Trunk paths, Monte Carlo (R8/R9 → 10 MΩ), jewellery, mains hum; KiCad schematic from code (`tools/make_schematic.py`: ERC 0 violations, netlist path check, values = LTspice); block diagram (`docs/block_diagram.png`); cost Monte Carlo (`tools/cost_sim.py`: build cost ₹4,188–4,343, always under ₹5,000). Remaining circuit items belong to Phase 7 (Wokwi) and the team (bench vs simulation) |
 | 4 | Demo with three views and fault injection | Must | ✅ Done: `demo/app.py` (patient light + voice in English/Hindi/Tamil, family SMS, ASHA/doctor trends, 4 break-it switches) and `engine/signals.py` (raw → numbers, 7 tests) |
 | 5 | Traceability matrix, FMEA, assumption ledger, dataset/model cards | Differentiator, cheap | ⚠️ Dataset card only (`data/processed/DATA.md`) |
-| 6 | Report, pitch, user journey, GitHub polish | Must | ⚠️ Repo ready: README, requirements, CI, tidy, git init (not committed or pushed yet). Left: report, pitch, user journey |
+| 6 | Report, pitch, user journey, GitHub polish | Must | ⚠️ Public repo live: https://github.com/aadityaa0523/HridayMitra (CI green). Left: report, pitch, user journey |
 | 7 | Wokwi, all 15 BIDMC records, ML comparator, multilingual audio, expert outreach | If time allows | ⚠️ BIDMC 3 of 15 records |
 
 Not in the original phases, but needed:

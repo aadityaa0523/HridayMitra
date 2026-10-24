@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RAW, REP = ROOT / "data" / "raw", ROOT / "reports"
-RECORDS = ["chf01", "chf02", "chf03"]   # add more later; each 30 min streams in a few minutes on a slow link
+RECORDS = [f"chf{i:02d}" for i in range(1, 16)]   # all 15 BIDMC CHF records, 30 min each (cached in data/raw)
 MINUTES = 30
 TOL_S = 0.075          # a detected peak within 75 ms of an annotated beat counts as a match
 WIN_S = 30             # heart-rate window

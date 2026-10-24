@@ -29,7 +29,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 
 <div class="chg"><b>What changed in v3 (cost trim, team-approved)</b>
 <ul>
-<li><b>Product parts list is now ₹4,695 at safe prices</b> (was ₹7,095), about ₹305 under the ₹5,000 limit.</li>
+<li><b>Product parts list is now ₹4,760 at safe prices</b> (was ₹7,095), about ₹240 under the ₹5,000 limit.</li>
 <li><b>One HX711 for all four load cells.</b> The 4 half-bridge cells are wired as one full bridge, the same way a bathroom scale is wired. Total weight and stand-up speed are unchanged; we lose the per-corner readings. This frees GPIO26, 27 and 33.</li>
 <li><b>Voice from the ESP32's own flash memory.</b> The DFPlayer and microSD card are gone. Prompts are stored in flash and played through the second DAC (GPIO26) into a PAM8403 amplifier and the same 4 Ω 3 W speaker.</li>
 <li><b>No boot pins used any more.</b> The path-select lines moved from GPIO12 and GPIO0 to the freed GPIO33 and GPIO27.</li>
@@ -56,7 +56,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>Under 2 min a day, no all-day patch</td><td>A seated check of about 75–90 s, plus 20 s in the evening. The amulet is worn like a pendant, not stuck on</td></tr>
 <tr><td>Local language, little reading</td><td>Voice prompts, 3 lights, big buttons</td></tr>
 <tr><td>Power cuts, weak internet</td><td>Battery, offline logic on the ESP32, SMS over 2G (not on Jio)</td></tr>
-<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,837 at the lowest prices found, ₹4,695 at safe prices</b> (section 3), about ₹305 headroom. Confirm with a real cart</td></tr>
+<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,882 at the lowest prices found, ₹4,760 at safe prices</b> (section 3), about ₹240 headroom. Confirm with a real cart</td></tr>
 </table>
 <table>
 <tr><th>Warning sign</th><th>Measured by</th></tr>
@@ -145,6 +145,8 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>35</td><td>LiPo 3.7 V 400 mAh with protection; check that the connector fits your board</td><td>1</td><td>Power</td><td>Should</td><td class="r">124</td><td class="r">124</td><td>200 mAh: Robocraze ₹124 ✓</td></tr>
 <tr class="new"><td>36</td><td>TP4056 USB-C charge module (skip if the board already charges LiPo)</td><td>1</td><td>Charging</td><td>Should</td><td class="r">49</td><td class="r">49</td><td>Probots ✓</td></tr>
 <tr><td>37</td><td>Vibration motor + BC547 + 1k + 1N4148</td><td>1 set</td><td>Haptic prompt</td><td>Nice</td><td class="r">30</td><td class="r">40</td><td></td></tr>
+<tr class="new"><td>38</td><td>Stool seat vibration: coin motor + 2N2222 + 1k + 1N4148 (prompts felt by hard-of-hearing users)</td><td>1 set</td><td>Haptic prompt</td><td>Should</td><td class="r">30</td><td class="r">40</td><td>v3.1 product feature</td></tr>
+<tr class="new"><td>39</td><td>Tablet drawer: microswitch + 10k pull-up (knows if the tablet box was opened)</td><td>1 set</td><td>Medicine adherence</td><td>Should</td><td class="r">15</td><td class="r">25</td><td>v3.1 product feature</td></tr>
 <tr><td>38</td><td>Pendant case + cotton thread. Breakaway thread, no magnets (the night-clip version is still being decided)</td><td>1</td><td>Shell</td><td>Nice</td><td class="r">50</td><td class="r">80</td><td></td></tr>
 <tr><td>39</td><td>Pogo pins + contact board. Charging dock, no magnets</td><td>1 set</td><td>Dock</td><td>Nice</td><td class="r">40</td><td class="r">60</td><td></td></tr>
 
@@ -162,9 +164,9 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>To buy: Nice</td><td class="r">240</td><td class="r">340</td><td></td></tr>
 <tr><td>To buy: Must + Should</td><td class="r">2,868</td><td class="r">3,866</td><td></td></tr>
 <tr><td>To buy: everything</td><td class="r">3,108</td><td class="r">4,206</td><td>Test rigs not counted</td></tr>
-<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,837</b></td><td class="r"><b>4,695</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹305 under ₹5,000 at safe prices</b></td></tr>
+<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,882</b></td><td class="r"><b>4,760</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹240 under ₹5,000 at safe prices</b></td></tr>
 </table>
-<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,695</b>, about ₹305 under ₹5,000. How we got from ₹7,095:
+<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,760</b>, about ₹240 under ₹5,000. How we got from ₹7,095:
 <ul>
 <li>price trims: load cells, counting only the resistors and capacitors used, a plain stool, typical SIM800L price, INA126, panel buttons, one perfboard, local steel</li>
 <li>one HX711 bridge instead of four sets (≈ −₹134)</li>
@@ -185,11 +187,13 @@ Still estimates: loose load cells, PAM8403, stool, steel, PVC and the small item
 <tr class="new"><td>Path select S0</td><td>GPIO33</td><td>To A pins of U4 and U5 (74HC4052)</td></tr>
 <tr class="new"><td>Path select S1</td><td>GPIO27</td><td>To B pins of U4 and U5</td></tr>
 <tr><td>I2C SDA, SCL</td><td>GPIO21, 22</td><td>MAX30102 (0x57)</td></tr>
-<tr><td>ECG OUT, LO+, LO−</td><td>GPIO34, 39, 36</td><td>AD8232, optional</td></tr>
+<tr><td>ECG OUT, LO+</td><td>GPIO34, 39</td><td>AD8232, optional (LO− not used: GPIO36 is the tablet drawer)</td></tr>
+<tr class="new"><td>Seat vibration motor</td><td>GPIO19</td><td>GPIO19 → 1 kΩ → 2N2222 base; motor from 5 V to the collector, 1N4148 across the motor; emitter to GND</td></tr>
+<tr class="new"><td>Tablet drawer switch</td><td>GPIO36</td><td>Microswitch to GND when the drawer opens; 10 kΩ pull-up to 3.3 V (GPIO36 has no internal pull-up)</td></tr>
 <tr><td>LEDs green, amber, red</td><td>GPIO13, 23, 2</td><td>Each through 220 Ω to GND</td></tr>
 <tr><td>Buttons green, red, SOS</td><td>GPIO4, 5, 15</td><td>To GND, using internal pull-ups</td></tr>
 <tr><td>SIM800L TX/RX (UART2)</td><td>GPIO17, 16</td><td>ESP32 TX → 1 kΩ → SIM800L RX, with 2.2 kΩ to GND (about 2.3 V). Power the SIM800L from the battery with a 1000 µF capacitor, not from the 3.3 V pin</td></tr>
-<tr class="new"><td>Free for later</td><td>GPIO19, 0, 12</td><td>GPIO19 is spare (e.g., the amulet dock detect). Avoid GPIO0 and GPIO12 (boot pins)</td></tr>
+<tr class="new"><td>Free</td><td>GPIO0, 12</td><td>Leave unconnected: boot pins</td></tr>
 </table>
 
 <h2>5. The impedance front end (the custom circuit): every value</h2>
