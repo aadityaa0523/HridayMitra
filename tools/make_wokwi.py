@@ -21,18 +21,20 @@ def wire(a, b, color="green"):
 
 
 def stool_diagram():
-    parts = [
+    parts = [                                          # laid out like the product: patient left, stool middle, care loop right
         {"type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {}},
-        {"type": "chip-hm-body", "id": "body", "top": -170, "left": -260, "attrs": {}},
-        {"type": "chip-hm-max30102", "id": "finger", "top": 230, "left": -260, "attrs": {}},
-        {"type": "chip-hm-sim800l", "id": "gsm", "top": -180, "left": 260, "attrs": {}},
-        {"type": "wokwi-hx711", "id": "cell", "top": 230, "left": 250, "attrs": {"type": "50kg"}},
-        {"type": "wokwi-pushbutton", "id": "btnG", "top": 380, "left": -120, "attrs": {"color": "green", "label": "GO / NO"}},
-        {"type": "wokwi-pushbutton", "id": "btnR", "top": 380, "left": -20, "attrs": {"color": "red", "label": "YES"}},
-        {"type": "wokwi-pushbutton", "id": "btnS", "top": 380, "left": 80, "attrs": {"color": "yellow", "label": "SOS"}},
-        {"type": "wokwi-slide-switch", "id": "drawer", "top": 380, "left": 190, "attrs": {"label": "tablet drawer"}},
+        {"type": "chip-hm-body", "id": "body", "top": -150, "left": -360, "attrs": {}},
+        {"type": "chip-hm-max30102", "id": "finger", "top": 230, "left": -330, "attrs": {}},
+        {"type": "chip-hm-monitor", "id": "monitor", "top": -290, "left": 200, "attrs": {}},
+        {"type": "chip-hm-sim800l", "id": "gsm", "top": -40, "left": 330, "attrs": {}},
+        {"type": "wokwi-hx711", "id": "cell", "top": 240, "left": 220, "attrs": {"type": "50kg"}},
+        {"type": "wokwi-pushbutton", "id": "btnG", "top": 330, "left": -140, "attrs": {"color": "green", "label": "GO / NO"}},
+        {"type": "wokwi-pushbutton", "id": "btnR", "top": 330, "left": -40, "attrs": {"color": "red", "label": "YES"}},
+        {"type": "wokwi-pushbutton", "id": "btnS", "top": 330, "left": 60, "attrs": {"color": "yellow", "label": "SOS"}},
+        {"type": "wokwi-slide-switch", "id": "drawer", "top": 335, "left": 160, "attrs": {"label": "tablet drawer"}},
     ]
     conns = [wire("esp:TX", "$serialMonitor:RX", ""), wire("esp:RX", "$serialMonitor:TX", ""),
+             wire("monitor:RX", "esp:TX", "gold"), wire("monitor:VCC", "esp:3V3", "red"), wire("monitor:GND", "esp:GND.1", "black"),
              wire("body:VCC", "esp:3V3", "red"), wire("body:GND", "esp:GND.1", "black"), wire("body:EXC", "esp:25", "orange"), wire("body:SEL", "esp:18"),
              wire("body:S0", "esp:33"), wire("body:S1", "esp:27"), wire("body:OUT", "esp:35", "orange"),
              wire("finger:VCC", "esp:3V3", "red"), wire("finger:GND", "esp:GND.1", "black"),
@@ -48,8 +50,8 @@ def stool_diagram():
     for k, (pin, color, label) in enumerate([("13", "green", "OK"), ("23", "yellow", "CHECK AGAIN"), ("2", "red", "ALERT"),
                                              ("19", "blue", "seat vibration")]):
         led, res = f"led{k}", f"r{k}"
-        parts += [{"type": "wokwi-led", "id": led, "top": 120 + 45 * k, "left": 230, "attrs": {"color": color, "label": label}},
-                  {"type": "wokwi-resistor", "id": res, "top": 140 + 45 * k, "left": 180, "rotate": 90, "attrs": {"value": "220"}}]
+        parts += [{"type": "wokwi-led", "id": led, "top": 40 + 50 * k, "left": 200, "attrs": {"color": color, "label": label}},
+                  {"type": "wokwi-resistor", "id": res, "top": 75 + 50 * k, "left": 150, "rotate": 90, "attrs": {"value": "220"}}]
         conns += [wire(f"esp:{pin}", f"{led}:A", color), wire(f"{led}:C", f"{res}:1", "black"), wire(f"{res}:2", "esp:GND.3", "black")]
     return {"version": 1, "author": "HridayMitra", "editor": "wokwi", "parts": parts, "connections": conns, "dependencies": {}}
 
@@ -110,11 +112,14 @@ def main():
     for f in ("engine_core.h", "config.h"):
         shutil.copy(FW / "hridaymitra_stool" / f, stool / f)
     (stool / "voice_clips.h").write_text(beep_clips(), encoding="utf8")
-    for f in CHIPS.glob("hm-*.chip.*"):
-        if f.suffix in (".c", ".json"):
+    gfx = (CHIPS / "gfx.inc").read_text(encoding="utf8")
+    for f in CHIPS.glob("hm-*.chip.*"):                # the web editor compiles one file per chip: paste gfx.inc in
+        if f.suffix == ".json":
             shutil.copy(f, stool / f.name)
+        elif f.suffix == ".c":
+            (stool / f.name).write_text(f.read_text(encoding="utf8").replace('#include "gfx.inc"', gfx), encoding="utf8")
     (stool / "diagram.json").write_text(json.dumps(stool_diagram(), indent=2), encoding="utf8")
-    chips = "\n".join(f"[[chip]]\nname = '{n}'\nbinary = 'chips/{n}.chip.wasm'\n" for n in ("hm-body", "hm-max30102", "hm-sim800l"))
+    chips = "\n".join(f"[[chip]]\nname = '{n}'\nbinary = 'chips/{n}.chip.wasm'\n" for n in ("hm-body", "hm-max30102", "hm-sim800l", "hm-monitor"))
     (stool / "wokwi.toml").write_text(f"[wokwi]\nversion = 1\nfirmware = 'build/sketch.ino.merged.bin'\nelf = 'build/sketch.ino.elf'\n\n{chips}", encoding="utf8")
     (amulet / "sketch.ino").write_text("#define HM_WOKWI 1\n" + (FW / "hridaymitra_amulet/hridaymitra_amulet.ino").read_text(encoding="utf8"), encoding="utf8")
     (amulet / "diagram.json").write_text(json.dumps(amulet_diagram(), indent=2), encoding="utf8")

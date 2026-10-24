@@ -1,0 +1,6 @@
+{
+  "name": "HridayMitra stool monitor (shows the on-chip engine decisions)",
+  "author": "HridayMitra",
+  "pins": ["VCC", "GND", "RX", "TX"],
+  "display": { "width": 220, "height": 170 }
+}

@@ -13,29 +13,36 @@
     {
       "type": "chip-hm-body",
       "id": "body",
-      "top": -170,
-      "left": -260,
+      "top": -150,
+      "left": -360,
       "attrs": {}
     },
     {
       "type": "chip-hm-max30102",
       "id": "finger",
       "top": 230,
-      "left": -260,
+      "left": -330,
+      "attrs": {}
+    },
+    {
+      "type": "chip-hm-monitor",
+      "id": "monitor",
+      "top": -290,
+      "left": 200,
       "attrs": {}
     },
     {
       "type": "chip-hm-sim800l",
       "id": "gsm",
-      "top": -180,
-      "left": 260,
+      "top": -40,
+      "left": 330,
       "attrs": {}
     },
     {
       "type": "wokwi-hx711",
       "id": "cell",
-      "top": 230,
-      "left": 250,
+      "top": 240,
+      "left": 220,
       "attrs": {
         "type": "50kg"
       }
@@ -43,8 +50,8 @@
     {
       "type": "wokwi-pushbutton",
       "id": "btnG",
-      "top": 380,
-      "left": -120,
+      "top": 330,
+      "left": -140,
       "attrs": {
         "color": "green",
         "label": "GO / NO"
@@ -53,8 +60,8 @@
     {
       "type": "wokwi-pushbutton",
       "id": "btnR",
-      "top": 380,
-      "left": -20,
+      "top": 330,
+      "left": -40,
       "attrs": {
         "color": "red",
         "label": "YES"
@@ -63,8 +70,8 @@
     {
       "type": "wokwi-pushbutton",
       "id": "btnS",
-      "top": 380,
-      "left": 80,
+      "top": 330,
+      "left": 60,
       "attrs": {
         "color": "yellow",
         "label": "SOS"
@@ -73,8 +80,8 @@
     {
       "type": "wokwi-slide-switch",
       "id": "drawer",
-      "top": 380,
-      "left": 190,
+      "top": 335,
+      "left": 160,
       "attrs": {
         "label": "tablet drawer"
       }
@@ -82,8 +89,8 @@
     {
       "type": "wokwi-led",
       "id": "led0",
-      "top": 120,
-      "left": 230,
+      "top": 40,
+      "left": 200,
       "attrs": {
         "color": "green",
         "label": "OK"
@@ -92,8 +99,8 @@
     {
       "type": "wokwi-resistor",
       "id": "r0",
-      "top": 140,
-      "left": 180,
+      "top": 75,
+      "left": 150,
       "rotate": 90,
       "attrs": {
         "value": "220"
@@ -102,8 +109,8 @@
     {
       "type": "wokwi-led",
       "id": "led1",
-      "top": 165,
-      "left": 230,
+      "top": 90,
+      "left": 200,
       "attrs": {
         "color": "yellow",
         "label": "CHECK AGAIN"
@@ -112,8 +119,8 @@
     {
       "type": "wokwi-resistor",
       "id": "r1",
-      "top": 185,
-      "left": 180,
+      "top": 125,
+      "left": 150,
       "rotate": 90,
       "attrs": {
         "value": "220"
@@ -122,8 +129,8 @@
     {
       "type": "wokwi-led",
       "id": "led2",
-      "top": 210,
-      "left": 230,
+      "top": 140,
+      "left": 200,
       "attrs": {
         "color": "red",
         "label": "ALERT"
@@ -132,8 +139,8 @@
     {
       "type": "wokwi-resistor",
       "id": "r2",
-      "top": 230,
-      "left": 180,
+      "top": 175,
+      "left": 150,
       "rotate": 90,
       "attrs": {
         "value": "220"
@@ -142,8 +149,8 @@
     {
       "type": "wokwi-led",
       "id": "led3",
-      "top": 255,
-      "left": 230,
+      "top": 190,
+      "left": 200,
       "attrs": {
         "color": "blue",
         "label": "seat vibration"
@@ -152,8 +159,8 @@
     {
       "type": "wokwi-resistor",
       "id": "r3",
-      "top": 275,
-      "left": 180,
+      "top": 225,
+      "left": 150,
       "rotate": 90,
       "attrs": {
         "value": "220"
@@ -171,6 +178,24 @@
       "esp:RX",
       "$serialMonitor:TX",
       "",
+      []
+    ],
+    [
+      "monitor:RX",
+      "esp:TX",
+      "gold",
+      []
+    ],
+    [
+      "monitor:VCC",
+      "esp:3V3",
+      "red",
+      []
+    ],
+    [
+      "monitor:GND",
+      "esp:GND.1",
+      "black",
       []
     ],
     [
