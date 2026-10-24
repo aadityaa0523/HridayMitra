@@ -50,7 +50,7 @@
 | Two people share one stool | Mixed baselines, false alerts | Two profiles matched by weight + leg reading; unknown person → nothing saved | `test_two_users_and_guest` |
 | Patient forgets the check-in | Gaps, late warning | 11:00 SMS reminder to the family; Sunday summary to the ASHA | `test_nudge_once_after_11`, `test_weekly_summary_and_fhir` |
 | Hard of hearing | Prompts missed | Seat vibration before every prompt, lights | firmware `say()` |
-| Firmware diverges from tested code | Untested behaviour in homes | C++ engine compared with Python: 100% identical lights | `tests/test_engine_parity.py`, `run.py hil` on hardware |
+| Firmware diverges from tested code | Untested behaviour in homes | C++ engine = Python (100% of 3,231 days); the whole firmware run in an emulated month: 26/26 claims pass and every light equals the Python engine | `tests/test_engine_parity.py`, `tests/test_firmware_sil.py`, `run.py hil` on hardware |
 
 ## 3. Assumption ledger
 

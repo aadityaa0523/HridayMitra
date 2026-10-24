@@ -17,3 +17,5 @@ tests/*.exe
 tests/*.pdb
 data/live/
 firmware/**/build/
+tests/sil/*.exe
+tests/sil/*.pdb

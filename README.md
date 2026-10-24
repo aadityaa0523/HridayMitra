@@ -37,7 +37,7 @@ Details: `reports/phase1_summary.md`, `reports/phase2_summary.md`, `sim/circuit/
 
 ```bash
 python run.py setup          # install packages, make the synthetic cohorts if missing
-python run.py test           # 39 tests: engine, signals, product features, C++ engine = Python engine, schematic, care loop, bridge
+python run.py test           # 41 tests, incl. the real firmware run through an emulated month (26 claims) and C++ engine = Python engine
 python run.py demo           # dashboard: patient light + voice, family SMS, ASHA/doctor trends, "break it" switches
 ```
 

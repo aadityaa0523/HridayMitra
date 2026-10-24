@@ -35,6 +35,7 @@
 | 19 | **Product layer** around the engine (lights unchanged, so all frozen results stay valid): doctor's sick-day plan, coaching tips, two users per stool, daily self-test with service SMS, 11:00 missed check-in reminder, Sunday ASHA summary, village dashboard, OPD report, ABDM/FHIR export | Another team also built a chair; the difference has to be the product around it | `engine/product.py`, `tests/test_product.py`, firmware `duties()` |
 | 20 | Seat vibration motor on GPIO19 (₹40) and tablet-drawer switch on GPIO36 (₹25); AD8232 LO− dropped to free GPIO36 | Hearing loss is common in elders; medicine adherence is measured instead of asked. Build cost now ₹4,243–4,397 | `tools/make_schematic.py` (ERC 0), build guide v3 section 4 |
 | 21 | Battery level and signal strength read from the SIM800L (AT+CBC, AT+CSQ) | No free analog pin needed for the self-test | `selfTest()` |
+| 22 | **Software-in-the-loop proof**: the real firmware is compiled on a laptop against an emulated world (body impedance through the ADC, HX711 bits, MAX30102 FIFO, SIM800L AT commands, buttons, BLE, flash) and lives a scripted month | No boards yet; this proves the firmware's logic end to end. It found 3 real bugs, now fixed: user 1's usual weight started at 0 kg; a red day could pass with no SMS after an earlier red; user 1 was not recognised once a second user was enrolled. Also fixed a rare lost-reply race | `tests/sil/`, `tests/test_firmware_sil.py`, `reports/sil_run.log` |
 
 ## 3. Where it can still improve (after the hackathon)
 

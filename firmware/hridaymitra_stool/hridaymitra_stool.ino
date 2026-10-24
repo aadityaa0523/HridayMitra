@@ -65,6 +65,8 @@ int button(uint32_t timeoutMs) {                         // 1 = red (yes), 0 = g
   return -1;
 }
 
+void unsolicited(const String& buf);                     // defined with the SIM800L code below
+
 // ======================= clock from the SIM800L network =======================
 long daysFromCivil(int y, unsigned m, unsigned d) {      // days since 1970-01-01 (Howard Hinnant's algorithm)
   y -= m <= 2; const long era = (y >= 0 ? y : y - 399) / 400; const unsigned yoe = (unsigned)(y - era * 400);
@@ -75,6 +77,7 @@ long daysFromCivil(int y, unsigned m, unsigned d) {      // days since 1970-01-0
 bool clockNow(long& day, int& hour, int& wday) {         // wday 0 = Sunday; false if the network has not set the clock
   Serial2.println("AT+CCLK?"); uint32_t t0 = millis(); String b;
   while (millis() - t0 < 1000) while (Serial2.available()) b += (char)Serial2.read();
+  unsolicited(b);
   int i = b.indexOf("+CCLK: \""); if (i < 0) return false;
   int y = b.substring(i + 8, i + 10).toInt(), mo = b.substring(i + 11, i + 13).toInt(), d = b.substring(i + 14, i + 16).toInt();
   if (y < 24 || mo < 1 || mo > 12) return false;
@@ -235,9 +238,23 @@ String gsmLine() {
   return s;
 }
 
+void onReply(const String& from, char digit);
+
+void unsolicited(const String& buf) {                    // replies or missed calls caught inside another command's answer
+  for (int i = buf.indexOf("+CMT: \""); i >= 0; i = buf.indexOf("+CMT: \"", i + 1)) {
+    String from = buf.substring(i + 7, buf.indexOf('"', i + 7));
+    int nl = buf.indexOf('\n', i);
+    if (nl >= 0 && nl + 1 < (int)buf.length() && strchr("123", buf[nl + 1])) onReply(from, buf[nl + 1]);
+  }
+  for (int i = buf.indexOf("+CLIP: \""); i >= 0; i = buf.indexOf("+CLIP: \"", i + 1)) {
+    Serial2.println("ATH"); onReply(buf.substring(i + 8, buf.indexOf('"', i + 8)), '1');
+  }
+}
+
 bool gsmCmd(const char* cmd, const char* ok, uint32_t ms, String* out = nullptr) {
   Serial2.println(cmd); uint32_t t0 = millis(); String buf;
-  while (millis() - t0 < ms) { while (Serial2.available()) buf += (char)Serial2.read(); if (buf.indexOf(ok) >= 0) { if (out) *out = buf; return true; } }
+  while (millis() - t0 < ms) { while (Serial2.available()) buf += (char)Serial2.read(); if (buf.indexOf(ok) >= 0) { unsolicited(buf); if (out) *out = buf; return true; } }
+  unsolicited(buf);
   if (out) *out = buf;
   return false;
 }
@@ -337,7 +354,7 @@ int whoIsThis(float w, float z) {                        // same rule as engine/
   if (!users[1].enrolled) return 0;                      // one-person stool: the engine's own guest check applies
   int best = -1; float bestD = 1e9;
   for (int u = 0; u < 2; u++) {
-    if (!users[u].enrolled) continue;
+    if (!users[u].enrolled && !(u == 0 && users[0].w0 > 0)) continue;   // user 1 is the stool's first regular user
     float d = max(fabsf(w - users[u].w0) / 3.0f, isnan(z) || users[u].z0 <= 0 ? 0.0f : fabsf(z / users[u].z0 - 1) / 0.15f);
     if (d <= 1 && d < bestD) { best = u; bestD = d; }
   }
@@ -365,7 +382,10 @@ void runEngine(int u, const hm::DayIn& d, int tookPills) {
   hm::Result r = U.eng.add(d);
   memmove(U.lights, U.lights + 1, 6); U.lights[6] = r.light;
   memmove(U.took, U.took + 1, 4); U.took[4] = tookPills < 0 ? 1 : tookPills;
-  if (!isnan(d.v[hm::WEIGHT]) && !r.guest) { U.w0 += 0.1f * (d.v[hm::WEIGHT] - U.w0); if (!isnan(d.v[hm::LEG])) U.z0 += 0.1f * (d.v[hm::LEG] - U.z0); }
+  if (!isnan(d.v[hm::WEIGHT]) && !r.guest) {             // usual weight / leg reading for telling two users apart
+    U.w0 = U.w0 <= 0 ? d.v[hm::WEIGHT] : U.w0 + 0.1f * (d.v[hm::WEIGHT] - U.w0);
+    if (!isnan(d.v[hm::LEG])) U.z0 = U.z0 <= 0 ? d.v[hm::LEG] : U.z0 + 0.1f * (d.v[hm::LEG] - U.z0);
+  }
   char why[100]; hm::Engine::reasons(r, why, sizeof why);
   leds(r.light);
   if (r.light == 2) buzz(1000);
@@ -375,11 +395,11 @@ void runEngine(int u, const hm::DayIn& d, int tookPills) {
   else if (r.light == 1 && U.lights[5] == 1) say(CLIP_PLAN_AMBER);   // amber two days running: the doctor's plan
   const Clip* tip = coachingTip(U, r);
   if (tip) say(*tip);
-  if (r.light == 2 && !loopSt.active) startCareLoop(IDS[u], why[0] ? why : "several signs together", r.danger);
+  if (r.light == 2 && (!loopSt.active || millis() - loopSt.t0 > 20UL * 3600000)) startCareLoop(IDS[u], why[0] ? why : "several signs together", r.danger);
   saveUser(u);
-  Serial.printf("{\"t\":\"checkin\",\"id\":\"%s\",\"weight_kg\":%.2f,\"leg_z_ohm\":%.1f,\"trunk_z_ohm\":%.2f,\"pulse_bpm\":%.1f,"
-                "\"spo2\":%.1f,\"standup_s\":%.2f,\"night_rr\":%.1f,\"night_situps\":%.0f,\"activity_min\":%.0f,"
-                "\"breathless\":%.0f,\"orthopnea\":%.0f,\"took_pills\":%d,\"light\":%d,\"S\":%.2f,\"learning\":%d,\"guest\":%d,\"why\":\"%s\"}\n",
+  Serial.printf("{\"t\":\"checkin\",\"id\":\"%s\",\"weight_kg\":%.4f,\"leg_z_ohm\":%.4f,\"trunk_z_ohm\":%.4f,\"pulse_bpm\":%.4f,"
+                "\"spo2\":%.4f,\"standup_s\":%.4f,\"night_rr\":%.4f,\"night_situps\":%.4f,\"activity_min\":%.4f,"
+                "\"breathless\":%.4f,\"orthopnea\":%.4f,\"took_pills\":%d,\"light\":%d,\"S\":%.4f,\"learning\":%d,\"guest\":%d,\"why\":\"%s\"}\n",
                 IDS[u], d.v[hm::WEIGHT], d.v[hm::LEG], d.v[hm::TRUNK], d.v[hm::PULSE], d.v[hm::SPO2], d.v[hm::STANDUP],
                 d.v[hm::NIGHT_RR], d.situps, d.v[hm::ACTIVITY], d.breathless, d.orthopnea, U.took[4], r.light, r.S, r.learning, r.guest, why);
 }
