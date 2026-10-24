@@ -1,0 +1,11 @@
+{
+  "name": "HridayMitra virtual patient (8-electrode impedance front end)",
+  "author": "HridayMitra",
+  "pins": ["VCC", "GND", "SEL", "S0", "S1", "OUT"],
+  "controls": [
+    { "id": "legFluid", "label": "Leg fluid build-up (%)", "type": "range", "min": 0, "max": 30, "step": 1 },
+    { "id": "chestFluid", "label": "Chest fluid build-up (%)", "type": "range", "min": 0, "max": 30, "step": 1 },
+    { "id": "footLifted", "label": "Foot lifted off plate (0/1)", "type": "range", "min": 0, "max": 1, "step": 1 },
+    { "id": "humMv", "label": "Mains hum (mV)", "type": "range", "min": 0, "max": 100, "step": 5 }
+  ]
+}

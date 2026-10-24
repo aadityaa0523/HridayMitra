@@ -9,12 +9,14 @@
 // enroll <1|2>, day <11 values>, selftest, reset.
 #include <Wire.h>
 #include <Preferences.h>
+#include "config.h"
+#include "engine_core.h"                                 // before any code: Arduino inserts prototypes that use hm::
+#include "voice_clips.h"
+#include <driver/dac_cosine.h>                          // in Wokwi the virtual-patient chip makes the 5 kHz signal instead
+#ifndef HM_WOKWI                                         // Wokwi does not simulate Bluetooth
 #include <BLEDevice.h>
 #include <BLEScan.h>
-#include <driver/dac_cosine.h>
-#include "config.h"
-#include "engine_core.h"
-#include "voice_clips.h"
+#endif
 
 // ---- pins (build guide v3.1) ----
 const int HX_DT = 32, HX_SCK = 14, VOICE = 26, Z_ADC = 35, SEL = 18, PATH_S0 = 33, PATH_S1 = 27;
@@ -209,6 +211,10 @@ bool pulseSpo2(float& bpm, float& spo2) {                // same method as engin
 struct Amulet { float rr = NAN, situps = NAN, activity = NAN; bool sos = false; } amulet;
 
 void scanAmulet() {
+#ifdef HM_WOKWI
+  return;                                                // no Bluetooth in the simulator: amulet values stay "not measured"
+#endif
+#ifndef HM_WOKWI
   BLEScan* scan = BLEDevice::getScan();
   scan->setActiveScan(false);
   auto* res = scan->start(4, false);
@@ -225,6 +231,7 @@ void scanAmulet() {
     }
   }
   scan->clearResults();
+#endif
 }
 
 // ======================= SIM800L: SMS queue with retries, replies, missed calls =======================
@@ -263,7 +270,9 @@ bool sendNow(const char* to, const char* text) {
   if (!gsmCmd("AT+CMGF=1", "OK", 1000)) return false;
   Serial2.printf("AT+CMGS=\"%s\"\r", to);
   delay(300); Serial2.print(text); Serial2.write(26);
-  return gsmCmd("", "+CMGS", 15000);
+  bool ok = gsmCmd("", "+CMGS", 15000);
+  if (ok) Serial.printf("{\"t\":\"sms\",\"to\":\"%s\",\"text\":\"%s\"}\n", to, text);   // log for the laptop dashboard
+  return ok;
 }
 
 void queueSms(const char* to, const char* text) {
@@ -273,7 +282,7 @@ void queueSms(const char* to, const char* text) {
 void serviceSms() {
   for (auto& m : q) if (m.used && millis() >= m.nextTry) {
     if (sendNow(m.to, m.text)) m.used = false;
-    else m.nextTry = millis() + SMS_RETRY_MIN * 60000UL;  // no network or power cut: try again later
+    else m.nextTry = millis() + SMS_RETRY_MIN * MINUTE_MS;  // no network or power cut: try again later
   }
 }
 
@@ -298,7 +307,7 @@ void serviceGsm() {
     }
   }
   if (!loopSt.active) return;
-  uint32_t mins = (millis() - loopSt.t0) / 60000;
+  uint32_t mins = (millis() - loopSt.t0) / MINUTE_MS;
   char msg[160];
   if (!loopSt.replied && !loopSt.fam2Sent && mins >= ESC_FAMILY2_MIN) {
     snprintf(msg, sizeof msg, "HridayMitra RED for %s, no reply yet. Why: %s. Reply 1 checking, 2 need help, 3 fine.", loopSt.who, loopSt.why);
@@ -395,7 +404,7 @@ void runEngine(int u, const hm::DayIn& d, int tookPills) {
   else if (r.light == 1 && U.lights[5] == 1) say(CLIP_PLAN_AMBER);   // amber two days running: the doctor's plan
   const Clip* tip = coachingTip(U, r);
   if (tip) say(*tip);
-  if (r.light == 2 && (!loopSt.active || millis() - loopSt.t0 > 20UL * 3600000)) startCareLoop(IDS[u], why[0] ? why : "several signs together", r.danger);
+  if (r.light == 2 && (!loopSt.active || millis() - loopSt.t0 > 20UL * 60 * MINUTE_MS)) startCareLoop(IDS[u], why[0] ? why : "several signs together", r.danger);
   saveUser(u);
   Serial.printf("{\"t\":\"checkin\",\"id\":\"%s\",\"weight_kg\":%.4f,\"leg_z_ohm\":%.4f,\"trunk_z_ohm\":%.4f,\"pulse_bpm\":%.4f,"
                 "\"spo2\":%.4f,\"standup_s\":%.4f,\"night_rr\":%.4f,\"night_situps\":%.4f,\"activity_min\":%.4f,"
@@ -440,7 +449,7 @@ void checkin() {
 void duties() {
   static uint32_t lastClock = 0; static long nudged = -1, tested = -1, summarised = -1;
   if (!digitalRead(DRAWER)) drawerToday = true;          // drawer switch closes to GND when opened
-  if (millis() - lastClock < 600000 && lastClock) return; // check the clock every 10 min
+  if (millis() - lastClock < 10 * MINUTE_MS && lastClock) return; // check the clock every 10 min
   lastClock = millis();
   long today; int hour, wday;
   if (!clockNow(today, hour, wday)) return;
@@ -503,7 +512,22 @@ void setup() {
     char k[4] = {'u', char('0' + u), 0};
     if (prefs.getBytesLength(k) == sizeof(User)) prefs.getBytes(k, &users[u], sizeof(User));
   }
+#ifndef HM_WOKWI
   BLEDevice::init("HridayMitra-stool");
+#else
+  if (users[0].w0 <= 0) {                                // simulator: 20 ordinary days of history so alerts can happen today
+    for (int k = 0; k < 20; k++) {
+      float w = sinf(k * 1.7f), z = sinf(k * 2.3f + 1);
+      hm::DayIn d; for (float& v : d.v) v = NAN;
+      d.v[hm::WEIGHT] = 62 + 0.25f * w; d.v[hm::LEG] = 578.5f * (1 + 0.006f * z); d.v[hm::TRUNK] = 27.95f + 0.6f * w;
+      d.v[hm::PULSE] = 72 + 1.5f * z; d.v[hm::SPO2] = 97 + 0.3f * w;
+      d.breathless = d.orthopnea = 0; d.situps = NAN;
+      users[0].eng.add(d);
+    }
+    users[0].w0 = 62; users[0].z0 = 578.5f;
+    Serial.println("{\"t\":\"wokwi\",\"note\":\"20 days of history loaded; set the load-cell slider to 15.5 kg (one corner of four = 62 kg) and press the green button\"}");
+  }
+#endif
   gsmCmd("AT", "OK", 1000); gsmCmd("AT+CLTS=1", "OK", 1000); gsmCmd("AT+CNMI=2,2,0,0,0", "OK", 1000); gsmCmd("AT+CLIP=1", "OK", 1000);
   leds(-1);
   selfTest();

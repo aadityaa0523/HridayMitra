@@ -4,8 +4,10 @@
 //   last 24 h, and an SOS flag (button or a fall followed by lying still). Same methods as engine/signals.py.
 // Wiring: MPU6050 SDA GPIO8, SCL GPIO9, 3.3 V, GND. SOS button GPIO3 to GND. No magnets (pacemaker safety).
 #include <Wire.h>
+#ifndef HM_WOKWI
 #include <BLEDevice.h>
 #include <BLEAdvertising.h>
+#endif
 
 const int SDA_PIN = 8, SCL_PIN = 9, SOS_PIN = 3, MPU = 0x68, FS = 10;   // 10 samples per second
 float uprightDeg = 0, mag = 1;
@@ -19,7 +21,9 @@ bool night = false;
 uint16_t activeHour[24] = {0}; int hourSlot = 0; uint32_t hourStart = 0, minuteStart = 0; float minSq = 0, minSum = 0; int minN = 0;
 // falls / SOS
 bool sos = false; uint32_t fallAt = 0, sosSince = 0;
+#ifndef HM_WOKWI
 BLEAdvertising* adv;
+#endif
 
 void mpuWrite(uint8_t r, uint8_t v) { Wire.beginTransmission(MPU); Wire.write(r); Wire.write(v); Wire.endTransmission(); }
 
@@ -36,8 +40,12 @@ void advertise() {
   uint32_t act = 0; for (auto m : activeHour) act += m;
   uint8_t d[9] = {0xFF, 0xFF, 'H', 'M', (uint8_t)(rr10 & 0xFF), (uint8_t)(rr10 >> 8), (uint8_t)min(lastNightSitups, 255),
                   (uint8_t)min<uint32_t>(act / 4, 255), (uint8_t)(sos ? 1 : 0)};
+  Serial.printf("{\"t\":\"amulet\",\"night_rr\":%.1f,\"night_situps\":%d,\"activity_min\":%u,\"sos\":%d,\"upright_deg\":%.0f}\n",
+                lastNightRR, lastNightSitups, (unsigned)act, sos ? 1 : 0, uprightDeg);
+#ifndef HM_WOKWI
   BLEAdvertisementData ad; ad.setFlags(0x06); ad.setManufacturerData(String((const char*)d, sizeof d));
   adv->stop(); adv->setAdvertisementData(ad); adv->start();
+#endif
 }
 
 float median(float* a, int n) {
@@ -51,9 +59,11 @@ void setup() {
   Wire.begin(SDA_PIN, SCL_PIN);
   mpuWrite(0x6B, 0);            // wake
   mpuWrite(0x1A, 0x05);         // 10 Hz digital low-pass
+#ifndef HM_WOKWI
   BLEDevice::init("HridayMitra-amulet");
   adv = BLEDevice::getAdvertising();
   adv->setMinInterval(1600); adv->setMaxInterval(3200);   // 1-2 s: tiny battery use
+#endif
   hourStart = minuteStart = millis();
   advertise();
 }

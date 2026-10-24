@@ -1,0 +1,412 @@
+{
+  "version": 1,
+  "author": "HridayMitra",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "chip-hm-body",
+      "id": "body",
+      "top": -170,
+      "left": -260,
+      "attrs": {}
+    },
+    {
+      "type": "chip-hm-max30102",
+      "id": "finger",
+      "top": 230,
+      "left": -260,
+      "attrs": {}
+    },
+    {
+      "type": "chip-hm-sim800l",
+      "id": "gsm",
+      "top": -180,
+      "left": 260,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-hx711",
+      "id": "cell",
+      "top": 230,
+      "left": 250,
+      "attrs": {
+        "type": "50kg"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnG",
+      "top": 380,
+      "left": -120,
+      "attrs": {
+        "color": "green",
+        "label": "GO / NO"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnR",
+      "top": 380,
+      "left": -20,
+      "attrs": {
+        "color": "red",
+        "label": "YES"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnS",
+      "top": 380,
+      "left": 80,
+      "attrs": {
+        "color": "yellow",
+        "label": "SOS"
+      }
+    },
+    {
+      "type": "wokwi-slide-switch",
+      "id": "drawer",
+      "top": 380,
+      "left": 190,
+      "attrs": {
+        "label": "tablet drawer"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led0",
+      "top": 120,
+      "left": 230,
+      "attrs": {
+        "color": "green",
+        "label": "OK"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r0",
+      "top": 140,
+      "left": 180,
+      "rotate": 90,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 165,
+      "left": 230,
+      "attrs": {
+        "color": "yellow",
+        "label": "CHECK AGAIN"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 185,
+      "left": 180,
+      "rotate": 90,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": 210,
+      "left": 230,
+      "attrs": {
+        "color": "red",
+        "label": "ALERT"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 230,
+      "left": 180,
+      "rotate": 90,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led3",
+      "top": 255,
+      "left": 230,
+      "attrs": {
+        "color": "blue",
+        "label": "seat vibration"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 275,
+      "left": 180,
+      "rotate": 90,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "body:VCC",
+      "esp:3V3",
+      "red",
+      []
+    ],
+    [
+      "body:GND",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "body:SEL",
+      "esp:18",
+      "green",
+      []
+    ],
+    [
+      "body:S0",
+      "esp:33",
+      "green",
+      []
+    ],
+    [
+      "body:S1",
+      "esp:27",
+      "green",
+      []
+    ],
+    [
+      "body:OUT",
+      "esp:35",
+      "orange",
+      []
+    ],
+    [
+      "finger:VCC",
+      "esp:3V3",
+      "red",
+      []
+    ],
+    [
+      "finger:GND",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "finger:SDA",
+      "esp:21",
+      "blue",
+      []
+    ],
+    [
+      "finger:SCL",
+      "esp:22",
+      "purple",
+      []
+    ],
+    [
+      "gsm:VCC",
+      "esp:5V",
+      "red",
+      []
+    ],
+    [
+      "gsm:GND",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "gsm:RX",
+      "esp:17",
+      "blue",
+      []
+    ],
+    [
+      "gsm:TX",
+      "esp:16",
+      "purple",
+      []
+    ],
+    [
+      "cell:VCC",
+      "esp:3V3",
+      "red",
+      []
+    ],
+    [
+      "cell:GND",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "cell:DT",
+      "esp:32",
+      "blue",
+      []
+    ],
+    [
+      "cell:SCK",
+      "esp:14",
+      "purple",
+      []
+    ],
+    [
+      "btnG:1.l",
+      "esp:4",
+      "green",
+      []
+    ],
+    [
+      "btnG:2.l",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "btnR:1.l",
+      "esp:5",
+      "green",
+      []
+    ],
+    [
+      "btnR:2.l",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "btnS:1.l",
+      "esp:15",
+      "green",
+      []
+    ],
+    [
+      "btnS:2.l",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "drawer:2",
+      "esp:VP",
+      "green",
+      []
+    ],
+    [
+      "drawer:1",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "drawer:3",
+      "esp:3V3",
+      "red",
+      []
+    ],
+    [
+      "esp:13",
+      "led0:A",
+      "green",
+      []
+    ],
+    [
+      "led0:C",
+      "r0:1",
+      "black",
+      []
+    ],
+    [
+      "r0:2",
+      "esp:GND.3",
+      "black",
+      []
+    ],
+    [
+      "esp:23",
+      "led1:A",
+      "yellow",
+      []
+    ],
+    [
+      "led1:C",
+      "r1:1",
+      "black",
+      []
+    ],
+    [
+      "r1:2",
+      "esp:GND.3",
+      "black",
+      []
+    ],
+    [
+      "esp:2",
+      "led2:A",
+      "red",
+      []
+    ],
+    [
+      "led2:C",
+      "r2:1",
+      "black",
+      []
+    ],
+    [
+      "r2:2",
+      "esp:GND.3",
+      "black",
+      []
+    ],
+    [
+      "esp:19",
+      "led3:A",
+      "blue",
+      []
+    ],
+    [
+      "led3:C",
+      "r3:1",
+      "black",
+      []
+    ],
+    [
+      "r3:2",
+      "esp:GND.3",
+      "black",
+      []
+    ]
+  ],
+  "dependencies": {}
+}
