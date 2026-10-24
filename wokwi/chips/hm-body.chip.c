@@ -1,26 +1,33 @@
-// HridayMitra virtual patient + impedance front end (Wokwi custom chip).
-// Drives the INA126 output node (to the ESP32 ADC) exactly as the LTspice-verified front end would:
-//   v = 1.65 V + gain x current x Z x cos(2 pi 5 kHz t) + mains hum
-// Z depends on the path the 74HC4052s select (S1 S0: legs, arms, right side, left side) and on SEL (body or R5).
-// Sliders: leg fluid and chest fluid (+10 % fluid lowers the 5 kHz reading 8.7 % legs / 9.1 % chest, from LTspice),
-// a lifted foot (floating 10 Mohm input saturates), and mains hum. Monitoring, not diagnosis.
-// The 50 kHz waveform only runs while EXC (the excitation enable, GPIO25) is high, so the simulation stays fast.
+// HridayMitra PATIENT DIGITAL TWIN + 8-electrode impedance front end (Wokwi custom chip).
+// Electrically: drives the INA126 output node (ESP32 ADC) the way the LTspice-verified front end does,
+//   v = 1.65 V + gain x current x Z x cos(2 pi 5 kHz t) + mains hum,
+// for the path the 74HC4052s select (S1 S0: legs, arms, right side, left side) and SEL (body or R5 reference).
+// Visually: a body with its 8 electrodes; while the stool measures, the current path lights up through the limbs;
+// legs and chest fill with blue as fluid builds up; live impedances and warnings underneath.
+// Sliders: leg / chest fluid (+10 % fluid -> -8.7 % legs, -9.1 % chest at 5 kHz, from LTspice), lifted foot, hum.
+// The 50 kHz waveform only runs while EXC (GPIO25, excitation enable) is high, so the simulation stays fast.
 #include "wokwi-api.h"
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include "gfx.inc"
 
 typedef struct {
   pin_t sel, s0, s1, out, exc; timer_t timer;
   uint32_t leg, chest, lifted, hum;
+  gfx_t g; int lastKey;
 } chip_t;
 
 static const double ONE_LEG = 289.25, ONE_ARM = 329.2, TRUNK = 27.95, R5 = 220.0, GAIN_I = 10 * 100e-6;
+enum { BG = 0xFF2A1A12, SKIN = 0xFF7FA6D9, WATER = 0xFFE07A2C, LINE = 0xFF505050, TXT = 0xFFEAEAEA, DIM = 0xFF9A9A9A,
+       CURRENT = 0xFF33E6FF, ELEC = 0xFFC0C0C0, WARN = 0xFF3B3BFF, HEAD = 0xFFFFB04A, OK = 0xFF66D766 };
+
+static double legZ(chip_t *c) { return ONE_LEG * (1 - 0.87 * attr_read_float(c->leg) / 100); }
+static double trunkZ(chip_t *c) { return TRUNK * (1 - 0.91 * attr_read_float(c->chest) / 100); }
 
 static void tick(void *data) {
   chip_t *c = data;
-  double t = get_sim_nanos() / 1e9;
-  double leg = ONE_LEG * (1 - 0.87 * attr_read_float(c->leg) / 100);
-  double tr = TRUNK * (1 - 0.91 * attr_read_float(c->chest) / 100);
+  double t = get_sim_nanos() / 1e9, leg = legZ(c), tr = trunkZ(c);
   int path = pin_read(c->s0) | (pin_read(c->s1) << 1);
   double z[4] = {2 * leg, 2 * ONE_ARM, ONE_ARM + tr + leg, ONE_ARM + tr + leg};
   bool ref = pin_read(c->sel);
@@ -30,6 +37,62 @@ static void tick(void *data) {
   pin_dac_write(c->out, v < 0 ? 0 : (v > 3.3 ? 3.3 : v));
 }
 
+// body geometry (display 180 x 230): limb end points used for the electrodes and the current path
+#define SH_L 66, 64
+#define SH_R 114, 64
+#define PELVIS 90, 132
+#define HAND_L 46, 120
+#define HAND_R 134, 120
+#define FOOT_L 74, 196
+#define FOOT_R 106, 196
+
+static void draw(chip_t *c) {
+  gfx_t *g = &c->g;
+  float lf = attr_read_float(c->leg) / 30, cf = attr_read_float(c->chest) / 30;
+  bool exc = pin_read(c->exc), ref = pin_read(c->sel), lifted = attr_read(c->lifted);
+  int path = pin_read(c->s0) | (pin_read(c->s1) << 1);
+  gfx_rect(g, 0, 0, g->w, g->h, BG);
+  gfx_rect(g, 0, 0, g->w, 14, 0xFF4A2E1C);
+  gfx_text(g, 4, 2, "PATIENT DIGITAL TWIN", 2, HEAD);
+  // body: legs and chest tinted by fluid
+  uint32_t legC = gfx_mix(SKIN, WATER, lf), chestC = gfx_mix(SKIN, WATER, cf);
+  gfx_circle(g, 90, 36, 13, SKIN);                                     // head
+  gfx_rect(g, 84, 49, 12, 8, SKIN);                                    // neck
+  gfx_rect(g, 66, 57, 48, 78, chestC);                                 // trunk
+  gfx_line(g, SH_L, HAND_L, 11, SKIN); gfx_line(g, SH_R, HAND_R, 11, SKIN);   // arms
+  gfx_line(g, 80, 134, FOOT_L, 15, legC); gfx_line(g, 100, 134, FOOT_R, 15, legC);   // legs
+  if (cf > 0.02f) gfx_text(g, 72, 86, "LUNG", 1, TXT);
+  // electrode plates: 2 per hand (strips), 2 per foot (forefoot + heel)
+  int ex[8][2] = {{40, 114}, {40, 126}, {140, 114}, {140, 126}, {64, 204}, {80, 204}, {100, 204}, {116, 204}};
+  for (int k = 0; k < 8; k++) gfx_rect(g, ex[k][0] - 6, ex[k][1] - 3, 12, 6, (lifted && (k == 4 || k == 5)) ? WARN : ELEC);
+  // the current path being measured right now
+  if (exc && !ref) {
+    switch (path) {
+      case 0: gfx_line(g, FOOT_L, PELVIS, 3, CURRENT); gfx_line(g, PELVIS, FOOT_R, 3, CURRENT); break;          // legs
+      case 1: gfx_line(g, HAND_L, SH_L, 3, CURRENT); gfx_line(g, SH_L, SH_R, 3, CURRENT); gfx_line(g, SH_R, HAND_R, 3, CURRENT); break;
+      case 2: gfx_line(g, HAND_R, SH_R, 3, CURRENT); gfx_line(g, SH_R, PELVIS, 3, CURRENT); gfx_line(g, PELVIS, FOOT_R, 3, CURRENT); break;
+      case 3: gfx_line(g, HAND_L, SH_L, 3, CURRENT); gfx_line(g, SH_L, PELVIS, 3, CURRENT); gfx_line(g, PELVIS, FOOT_L, 3, CURRENT); break;
+    }
+    const char *names[4] = {"Z1 LEGS", "Z2 ARMS", "Z3 RIGHT SIDE", "Z4 LEFT SIDE"};
+    gfx_text(g, 4, 18, "MEASURING", 1, CURRENT); gfx_text(g, 4, 25, names[path], 1, CURRENT);
+  } else if (exc && ref) gfx_text(g, 4, 18, "R5 REFERENCE", 1, CURRENT);
+  // live numbers
+  char b[64];
+  snprintf(b, sizeof b, "LEG FLUID +%d%%  Z %d OHM", (int)attr_read_float(c->leg), (int)(2 * legZ(c) + 0.5)); gfx_text(g, 4, 212, b, 1, lf > 0 ? WATER : TXT);
+  snprintf(b, sizeof b, "CHEST FLUID +%d%%  Z %.1f OHM", (int)attr_read_float(c->chest), trunkZ(c)); gfx_text(g, 4, 219, b, 1, cf > 0 ? WATER : TXT);
+  if (lifted) gfx_text(g, 104, 18, "FOOT LIFTED!", 1, WARN);
+  else if (attr_read_float(c->hum) > 50) gfx_text(g, 110, 18, "MAINS HUM", 1, DIM);
+  gfx_flush(g);
+}
+
+static void refresh(void *data) {                     // redraw only when something visible changed
+  chip_t *c = data;
+  int key = (int)attr_read_float(c->leg) * 131 + (int)attr_read_float(c->chest) * 7 + attr_read(c->lifted) * 3 +
+            ((int)attr_read_float(c->hum) > 50) * 5 + pin_read(c->exc) * 1000 + pin_read(c->sel) * 2000 +
+            (pin_read(c->s0) | (pin_read(c->s1) << 1)) * 4000;
+  if (key != c->lastKey) { c->lastKey = key; draw(c); }
+}
+
 static void on_exc(void *data, pin_t pin, uint32_t value) {
   chip_t *c = data;
   if (value) timer_start(c->timer, 20, true);         // 50 kHz: 10 points per 5 kHz cycle
@@ -37,15 +100,17 @@ static void on_exc(void *data, pin_t pin, uint32_t value) {
 }
 
 void chip_init(void) {
-  chip_t *c = malloc(sizeof(chip_t));
+  chip_t *c = calloc(1, sizeof(chip_t));
   c->sel = pin_init("SEL", INPUT); c->s0 = pin_init("S0", INPUT); c->s1 = pin_init("S1", INPUT);
-  c->out = pin_init("OUT", ANALOG);
+  c->out = pin_init("OUT", ANALOG); c->exc = pin_init("EXC", INPUT);
   c->leg = attr_init_float("legFluid", 0); c->chest = attr_init_float("chestFluid", 0);
   c->lifted = attr_init("footLifted", 0); c->hum = attr_init_float("humMv", 20);
   const timer_config_t cfg = {.user_data = c, .callback = tick};
   c->timer = timer_init(&cfg);
-  c->exc = pin_init("EXC", INPUT);
   const pin_watch_config_t w = {.user_data = c, .edge = BOTH, .pin_change = on_exc};
   pin_watch(c->exc, &w);
   pin_dac_write(c->out, 1.65);
+  gfx_init(&c->g); c->lastKey = -1; draw(c);
+  const timer_config_t r = {.user_data = c, .callback = refresh};
+  timer_start(timer_init(&r), 100000, true);          // 10 redraw checks per second
 }

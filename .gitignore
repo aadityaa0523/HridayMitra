@@ -21,3 +21,5 @@ tests/sil/*.exe
 tests/sil/*.pdb
 wokwi/*/build/
 wokwi/stool/chips/*.wasm
+tests/sil/prev_*.exe
+tests/sil/prev_*.pdb

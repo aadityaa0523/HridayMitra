@@ -14,3 +14,7 @@ binary = 'chips/hm-max30102.chip.wasm'
 [[chip]]
 name = 'hm-sim800l'
 binary = 'chips/hm-sim800l.chip.wasm'
+
+[[chip]]
+name = 'hm-monitor'
+binary = 'chips/hm-monitor.chip.wasm'
