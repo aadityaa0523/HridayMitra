@@ -96,7 +96,7 @@ def report(n):
 <li><b>Monte Carlo, 100 stools from 5% parts</b> on random bodies and skin: 99% of readings within {n['mc_p99']}%, a +10% fluid change measured within {n['mc_chg']} points. It caught a design flaw: 1 MΩ bias resistors gave 12% errors → <b>changed to 10 MΩ</b>.</li>
 <li>Mains hum (230 V coupling, charger plugged in): Goertzel reading ≤ {n['hum_g']}% error vs {n['hum_pp']}% for peak-to-peak → firmware uses Goertzel only.</li>
 <li>KiCad schematic generated from code: ERC 0 violations; the netlist is checked against the path table and the LTspice values automatically.</li>
-<li>Engine ported to C++ for the ESP32: <b>100% identical lights</b> to the Python engine over 3,231 patient-days.</li></ul>
+<li>Engine ported to C++ for the ESP32: <b>100% identical lights</b> to the Python engine over 3,231 patient-days.</li><li><b>Software-in-the-loop</b>: the real firmware runs a scripted month in an emulated world (ADC body signal, HX711, MAX30102, SIM800L, BLE, flash): 26/26 checks pass (care loop, reminders, self-test, power cut, network outage, two users) and it found 3 bugs before any board was flashed.</li></ul>
 </div><div>
 <h2>Edge cases handled</h2><table><tr><th>Situation</th><th>What happens</th></tr>
 <tr><td>Guest sits on the stool</td><td>weight jump > 2.5 kg → readings ignored</td></tr>
@@ -156,7 +156,7 @@ def deck(n):
         f'<h2>Engineering proof</h2><ul class="big"><li>LTspice: ≤ 0.05% error, contact-proof (tetrapolar, ratiometric)</li>'
         f'<li>Monte Carlo of 100 cheap-part stools → found a flaw, <b>1 MΩ → 10 MΩ</b>, now 99% within {n["mc_p99"]}%</li>'
         f'<li>Mains hum: Goertzel {n["hum_g"]}% vs peak-to-peak {n["hum_pp"]}%</li><li>KiCad schematic from code, ERC clean, netlist auto-verified</li>'
-        '<li>Engine in C++ on the ESP32: <b>100% identical</b> to Python over 3,231 days</li>'
+        '<li>Engine in C++ on the ESP32: <b>100% identical</b> to Python over 3,231 days</li><li>Whole firmware run through an emulated month: <b>26/26</b> checks, 3 bugs caught before flashing</li>'
         f'<li>Real ECG (PhysioNet BIDMC CHF): heart-rate error {n["bid_mae"]} bpm</li></ul>',
         f'<h2>Cost and model</h2><div class="cols"><div class="big"><ul><li>Build cost <b>₹{n["cost_lo"]}–{n["cost_hi"]}</b> (limit ₹5,000)</li><li>≈ ₹{n["vol_lo"]}–{n["vol_hi"]} at 100 units</li>'
         '<li>SMS ≈ ₹0.05 per patient-month</li></ul></div><div class="big"><ul><li>Sold to PHCs / NGOs / insurers, placed by ASHAs</li><li>One avoided admission pays for many stools</li><li>No app, no smartphone, no internet</li></ul></div></div>',
