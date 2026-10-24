@@ -1,0 +1,24 @@
+TRAINING grid:
+  T  events  sensitivity  specificity  median_lead_days  false_alerts_per_patient_month
+2.0      85        0.965        0.495               6.0                           1.022
+2.5      85        0.953        0.609               4.0                           0.973
+3.0      85        0.929        0.672               4.0                           0.894
+3.5      85        0.871        0.741               4.0                           0.821
+4.0      85        0.859        0.810               4.0                           0.681
+4.5      85        0.847        0.865               3.0                           0.523
+5.0      85        0.824        0.902               3.0                           0.420
+6.0      85        0.753        0.960               2.0                           0.243
+7.0      85        0.671        0.979               2.0                           0.134
+8.0      85        0.529        0.986               1.0                           0.109
+
+FROZEN: T = 7.0
+
+PS cohort, held-out test patients | HridayMitra engine {'sensitivity': 0.571, 'specificity': 0.998, 'median_lead_days': 2.0, 'false_alerts_per_patient_month': 0.029}
+PS cohort, held-out test patients | weight rule 1 (SCALE-HF) {'sensitivity': 0.4, 'specificity': 0.976, 'median_lead_days': 2.0, 'false_alerts_per_patient_month': 0.534}
+PS cohort, held-out test patients | weight MACD (Gyllensten) {'sensitivity': 0.229, 'specificity': 0.945, 'median_lead_days': 2.0, 'false_alerts_per_patient_month': 0.216}
+Real-world cohort (external, 1000 x 180 d) | HridayMitra engine {'sensitivity': 0.61, 'specificity': 0.993, 'median_lead_days': 2.0, 'false_alerts_per_patient_month': 0.044}
+Real-world cohort (external, 1000 x 180 d) | weight rule 1 (SCALE-HF) {'sensitivity': 0.31, 'specificity': 0.984, 'median_lead_days': 2.0, 'false_alerts_per_patient_month': 0.376}
+Real-world cohort (external, 1000 x 180 d) | weight MACD (Gyllensten) {'sensitivity': 0.2, 'specificity': 0.953, 'median_lead_days': 3.0, 'false_alerts_per_patient_month': 0.206}
+Weaker-assumption cohort (test patients) | HridayMitra engine {'sensitivity': 0.571, 'specificity': 0.998, 'median_lead_days': 2.0, 'false_alerts_per_patient_month': 0.029}
+Weaker-assumption cohort (test patients) | weight rule 1 (SCALE-HF) {'sensitivity': 0.4, 'specificity': 0.976, 'median_lead_days': 2.0, 'false_alerts_per_patient_month': 0.534}
+Weaker-assumption cohort (test patients) | weight MACD (Gyllensten) {'sensitivity': 0.229, 'specificity': 0.945, 'median_lead_days': 2.0, 'false_alerts_per_patient_month': 0.216}

@@ -1,0 +1,245 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>HridayMitra Final Plan</title>
+<style>
+@page { size: A4; margin: 15mm 14mm; }
+body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10pt; line-height: 1.45; color: #1b2427; }
+h1 { font-size: 24pt; line-height: 1.1; margin: 0 0 8px; color: #0d4f52; }
+h2 { font-size: 14pt; color: #0d4f52; border-bottom: 1.5px solid #0d6b6e; padding-bottom: 3px; margin: 20px 0 8px; break-after: avoid; }
+h3 { font-size: 11pt; margin: 12px 0 5px; break-after: avoid; }
+p, li { margin: 4px 0; }
+ul, ol { margin: 4px 0 6px; padding-left: 20px; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 8.6pt; }
+th, td { border: 1px solid #cfd8da; padding: 4px 6px; vertical-align: top; text-align: left; }
+th { background: #e6f1f1; }
+tr { break-inside: avoid; }
+td.r { text-align: right; white-space: nowrap; }
+tr.tot td { font-weight: 700; background: #f2f7f7; }
+pre { font-family: Consolas, monospace; font-size: 7.6pt; line-height: 1.35; background: #f4f6f6; border: 1px solid #dde3e4; padding: 8px; white-space: pre; break-inside: avoid; }
+.cover { border-bottom: 1.5px solid #0d6b6e; padding: 0 0 10px; margin-bottom: 14px; }
+.eyebrow { font-size: 8.5pt; letter-spacing: .08em; text-transform: uppercase; color: #0d6b6e; font-weight: 600; }
+.sub { font-size: 11.5pt; color: #3c4b4f; margin-top: 6px; }
+.box { border: 1px solid #cfd8da; border-radius: 6px; padding: 8px 12px; margin: 8px 0; background: #fafcfc; break-inside: avoid; }
+.warn { border-color: #e6cf9f; background: #fff8ea; }
+.g { color: #2a6f42; font-weight: 700; } .a { color: #8a5300; font-weight: 700; } .rd { color: #b3261e; font-weight: 700; }
+.small { font-size: 8.5pt; color: #5b6a6f; }
+.pb { break-before: page; }
+</style></head>
+<body>
+
+<section class="cover">
+  <div class="eyebrow">Transfinitte · Hardware track · Final team plan</div>
+  <h1>HridayMitra</h1>
+  <p class="sub"><b>A 75-second daily heart check-in station plus a night-time locket.</b> It warns the family, the ASHA worker and the doctor several days before a heart failure patient needs hospital care. It works in any Indian home: rural or urban, with or without internet, with or without reading skills.</p>
+  <p class="small">Problem statement: Early Warning of Worsening Heart Failure. This is a monitoring idea, not a medical diagnosis tool.</p>
+</section>
+
+<h2>1. Our idea in one paragraph</h2>
+<p>Every morning, the patient sits for about 75 seconds on a stool placed on a small weighing platform, with bare feet on four steel plates and one finger in a clip. The station measures <b>weight, water in the legs (foot impedance), heart rate, rhythm and blood oxygen</b>. It then asks two questions in the patient's own language, answered with a green or red button. At night, an optional <b>chest locket</b> records breathing rate, whether the patient had to sit up to breathe, and restlessness; during the day it counts steps and has an SOS button. All the thinking happens <b>on the device</b>, which compares today against the patient's own normal. A <span class="g">green</span>, <span class="a">amber</span> or <span class="rd">red</span> light and a voice message show the result. A red result goes out by <b>SMS and automatic voice call</b> to the family, the ASHA worker and the doctor, saying <i>why</i> it fired. It needs no smartphone, no internet and no reading, and it runs on batteries through power cuts.</p>
+
+<h2>2. The three hard rules: how we pass them</h2>
+<table>
+<tr><th>Rule (from the PS)</th><th>How HridayMitra meets it</th><th>Status</th></tr>
+<tr><td><b>Low effort:</b> nothing, or under 2 min a day; an all-day sticky patch "may not be ideal"</td><td>75 s seated check-in + ~10 s to dock and wear the locket = <b>~85 s/day</b>. The locket isn't sticky, sits on a cord like normal jewellery, and is <b>optional</b>: the station works alone. A short 30 s re-check is only asked on rare amber days</td><td class="g">Pass</td></tr>
+<tr><td><b>Real home use:</b> little reading, local language, power cuts, weak internet</td><td>Voice prompts in the local language, 3 coloured lights, 2 coloured buttons, nothing to read. Battery-first, data stored on the device, decisions made on the device, alerts by SMS and voice call (no data connection needed). Messages wait until the network returns</td><td class="g">Pass</td></tr>
+<tr><td><b>Low cost:</b> home unit parts under ₹5,000</td><td>Station ~₹3,420 + locket ~₹880 = <b>~₹4,300</b> (Section 9). About ₹700 margin for price surprises</td><td class="a">Pass, once real quotes are in</td></tr>
+</table>
+
+<h2>3. Why this approach (what we learned from research)</h2>
+<ul>
+<li><b>Weight alone is weak.</b> Daily weight rules catch only <b>23–35%</b> of worsening events, with about 4 false alerts per patient per year (FAST trial, SCALE-HF 1).</li>
+<li><b>Weight + foot impedance doubles detection.</b> A scale with foot impedance caught <b>70% vs 35%</b>, with fewer alerts (Bodyport SCALE-HF 1; one observational, company-linked study).</li>
+<li><b>Night breathing and night heart rate are among the best early signs.</b> HeartLogic, the best implant system, relies on them. A locket can pick up night breathing cheaply.</li>
+<li><b>Bed sensors fail in Indian homes.</b> Shared beds, charpais, floor mats, blankets and pillows mix up the data, and there's no heart failure evidence for them.</li>
+<li><b>Wrist bands get abandoned.</b> About half of users stop wearing them fully, and wrist pulse readings are noisy whenever the hands move.</li>
+<li><b>Programs fail when nobody acts, or people stop using them.</b> TIM-HF2 worked because a team responded to every alert. Tele-HF and BEAT-HF fell to ~55% use. So we keep the effort tiny and send alerts to people who act (family + ASHA worker).</li>
+<li><b>Almost half of wrong alerts come from bad measurements</b> (TwoCan study). So we check reading quality and ask for a re-check before raising the alarm.</li>
+</ul>
+
+<h2>4. System overview</h2>
+<pre>
+  NIGHT + DAY (optional, passive)        EVERY MORNING (75 s, seated)                PEOPLE WHO ACT
+ +----------------------------+         +------------------------------------------+
+ | CHEST LOCKET               |   BLE   | CHECK-IN STATION                         |  SMS + voice call
+ | ESP32-C3 + motion sensor   | ------> | Stool on weighing platform               |  --------> Family (2 numbers)
+ | * night breathing rate     | at dock | * 4 load cells > weight                  |            ASHA worker
+ | * lying flat vs sitting    |         | * 4 steel foot plates > leg water (BIA)  |            Doctor / PHC (red only)
+ | * sit-ups, restlessness    | <------ | * finger clip > HR, rhythm, SpO2         |            (later: 108, web, WhatsApp)
+ | * steps, wear time         | charges | * voice + 2 big buttons (questions)      |
+ | * SOS button               | on dock | * ESP32 runs the alert engine OFFLINE    |  On device: green / amber / red
+ +----------------------------+         | * 2G/4G modem, 18650 battery backup      |  light + local-language voice
+                                        +------------------------------------------+
+</pre>
+
+<h2>5. What we measure, and for how long</h2>
+<h3>Station: once every morning (signals recorded at the same time)</h3>
+<table>
+<tr><th>#</th><th>Parameter</th><th>Sensor</th><th>Duration</th><th>PS warning sign</th></tr>
+<tr><td>1</td><td>Weight</td><td>4 load cells + HX711</td><td>Best still 5–10 s</td><td>Weight gain</td></tr>
+<tr><td>2</td><td>Foot impedance (water in legs)</td><td>4 steel plates, tetrapolar, ~50 kHz tiny current</td><td>3 × 10 s + reference check</td><td>Fluid in legs</td></tr>
+<tr><td>3</td><td>Resting heart rate</td><td>Finger PPG (MAX30102)</td><td>60 s, use last 40 s</td><td>Faster resting HR</td></tr>
+<tr><td>4</td><td>Rhythm irregularity</td><td>Same PPG</td><td>Same 60 s</td><td>Avoids AF false alarms</td></tr>
+<tr><td>5</td><td>Blood oxygen (SpO₂)</td><td>Same PPG</td><td>Median of last 20 s</td><td>Fluid in lungs (indirect)</td></tr>
+<tr><td>6</td><td>Breathless when bending (bendopnea)</td><td>Voice question + button</td><td>~8 s</td><td>Breathing trouble</td></tr>
+<tr><td>7</td><td>More pillows / sat up last night?</td><td>Voice question + button</td><td>~8 s</td><td>Trouble lying flat</td></tr>
+</table>
+<h3>Locket: automatic, no effort</h3>
+<table>
+<tr><th>#</th><th>Parameter</th><th>Method</th><th>When</th><th>PS warning sign</th></tr>
+<tr><td>8</td><td>Night breathing rate</td><td>Chest rise and fall (0.1–0.7 Hz)</td><td>60 s every 5 min, 12–5 am, only while still</td><td>Faster breathing</td></tr>
+<tr><td>9</td><td>Minutes propped up / sitting at night</td><td>Chest tilt vs gravity</td><td>Every 1 s, all night</td><td>Trouble lying flat</td></tr>
+<tr><td>10</td><td>Sit-up episodes, restlessness</td><td>Posture change >5 min; movement counts</td><td>All night</td><td>Breathlessness at night</td></tr>
+<tr><td>11</td><td>Steps, active minutes</td><td>Step counter built into the sensor</td><td>6 am–10 pm</td><td>Less activity</td></tr>
+<tr><td>12</td><td>Wear time, SOS</td><td>Motion/tilt; button</td><td>All day</td><td>Reliability, emergencies</td></tr>
+</table>
+<p class="small">Stretch goal: night heart rate from the chest vibration of each heartbeat (seismocardiography), taken only in very still windows.</p>
+
+<h2>6. The patient's day (user journey)</h2>
+<table>
+<tr><th>When</th><th>Patient</th><th>System</th></tr>
+<tr><td>Night</td><td>Sleeps wearing the locket</td><td>Records breathing, posture, sit-ups, restlessness</td></tr>
+<tr><td>Morning, bath</td><td>Puts the locket on the station's dock</td><td>Locket charges and sends last night's summary</td></tr>
+<tr><td>After toilet, before breakfast and tablets</td><td>Sits on the stool, bare feet on plates, finger in clip</td><td>Voice: "Namaste Ramesh-ji…" then 60 s of measurement and 2 questions</td></tr>
+<tr><td>+75 s</td><td>Listens to the result</td><td><span class="g">Green</span> "All fine today" · <span class="a">Amber</span> "Please check again this evening" · <span class="rd">Red</span> "We are calling Sunita and ASHA didi"</td></tr>
+<tr><td>Day</td><td>Wears the locket and lives normally</td><td>Counts steps; SOS ready</td></tr>
+<tr><td>Weekly</td><td>Nothing</td><td>Family gets "Device OK, Appa checked in 7/7 days"</td></tr>
+</table>
+<p><b>Why patients will keep using it for months:</b> it takes under 90 s, reassures them every day ("All fine today"), lets the family see they're being looked after, and the ASHA worker follows up. Family members can weigh themselves on it too; it says "Guest reading" and doesn't count it.</p>
+
+<h2 class="pb">7. How the alert is decided (software)</h2>
+<ol>
+<li><b>Quality check:</b> reject a reading if contact is bad, the patient isn't still, the finger signal is noisy, or it's the wrong person (see identity in Section 8). Retry with a voice prompt.</li>
+<li><b>Personal baseline:</b> for each signal, a rolling median and spread (MAD) over days −35 to −7. In the first weeks, start from the hospital "dry weight" and population averages.</li>
+<li><b>Worsening scores:</b> a robust z-score per signal, counting only the worsening direction (weight ↑, impedance ↓, HR ↑, breathing ↑, SpO₂ ↓, activity ↓, upright minutes ↑). Plus published trend detectors: weight moving-average crossover (9 vs 20 days &gt; 0.62 kg) and an impedance cumulative-sum detector (CUSUM) (Gyllensten 2016).</li>
+<li><b>Combined index</b> across three families: <i>fluid</i> (weight, impedance), <i>heart and lungs</i> (HR, breathing, SpO₂, night posture), and <i>symptoms</i>.</li>
+<li><b>Light colour:</b>
+  <ul>
+  <li><span class="a">Amber</span> = index high once → ask for a 30 s re-check.</li>
+  <li><span class="rd">Red</span> = high on 2 of 3 days <b>and</b> at least 2 families involved, or one family high for 3 days.</li>
+  <li>The alert clears only when the index drops well below the trigger level (HeartLogic-style 16 → 6), so it doesn't flicker on and off.</li>
+  </ul></li>
+<li><b>Immediate red flags</b> (no waiting): SpO₂ &lt; 90%, HR &gt; 110 or &lt; 40, new irregular rhythm, "breathless at rest" confirmed twice, or SOS.</li>
+<li><b>Cause tag + explanation:</b> heart-failure-like / infection-like / AF-like / salty-meal-like / after medicine change / dehydration-like. Example: <i>"Weight up 1.8 kg in 6 days. Leg water up. Breathing faster at night. Call ASHA."</i></li>
+</ol>
+
+<h2>8. Edge cases and how we handle them</h2>
+<table>
+<tr><th>Edge case</th><th>Our answer</th></tr>
+<tr><td>Someone else uses the station</td><td>The reading must match the patient's weight band and impedance signature. Otherwise the voice asks "Is this Ramesh-ji?" and logs it as a guest. Guest readings never touch the baseline</td></tr>
+<tr><td>Bed partner, blankets, extra pillows</td><td>No bed sensor. The locket is on the patient's own body, and the pillow question asks about a <i>change</i> from usual</td></tr>
+<tr><td>Problem during the day</td><td>SOS on the locket; an extra check-in any time runs the red-flag rules at once</td></tr>
+<tr><td>Missed check-in</td><td>Reminder; SMS to family by 11 am; repeated misses count as a risk sign. Silence never means "all fine"</td></tr>
+<tr><td>Locket forgotten or flat</td><td>Wear under 12 h counts as "no data", not normal. Voice reminder at the station. The station keeps working without it</td></tr>
+<tr><td>Power cut</td><td>18650 batteries, device sleeps between uses, data stored on the device, messages queued until power and network return</td></tr>
+<tr><td>No internet / weak signal</td><td>All decisions on the device; SMS and voice calls need no internet</td></tr>
+<tr><td>Can't read</td><td>Voice in the local language, coloured lights, colour- and shape-coded buttons</td></tr>
+<tr><td>Wet feet, slippers, dust</td><td>Tetrapolar measurement cancels contact resistance; a contact check prompts "please remove slippers / dry your feet"</td></tr>
+<tr><td>Salty meal, festival food</td><td>One-day weight jumps that don't persist are ignored; red needs persistence and 2 signal families</td></tr>
+<tr><td>Fever or infection</td><td>"Infection-like" tag (sudden HR and breathing rise with flat weight); a different message, still told to the family</td></tr>
+<tr><td>Atrial fibrillation</td><td>Irregular-rhythm detection → separate "rhythm check" message; HR baseline frozen</td></tr>
+<tr><td>Medicine change</td><td>Family or ASHA marks it (SMS keyword or button combination) → baseline resets for about 7 days</td></tr>
+<tr><td>Device fault</td><td>Self-test each check-in (reference resistor, load-cell zero, battery); weekly "device OK" SMS; fault SMS</td></tr>
+<tr><td>Pacemaker / ICD</td><td>Impedance can be switched off at setup by the doctor (safety not yet verified)</td></tr>
+<tr><td>Frail patient, fall risk</td><td>Seated use; handle and stool are on the platform, so leaning doesn't spoil the weight</td></tr>
+</table>
+
+<h2>9. Notifications and display</h2>
+<table>
+<tr><th>Level</th><th>Patient (device)</th><th>Family</th><th>ASHA</th><th>Doctor</th></tr>
+<tr><td class="g">Green</td><td>Green light + "All fine"</td><td>Weekly "device OK" SMS</td><td>—</td><td>Monthly summary (urban dashboard)</td></tr>
+<tr><td class="a">Amber</td><td>Amber light + "check again this evening"</td><td>Gentle SMS</td><td>—</td><td>—</td></tr>
+<tr><td class="rd">Red</td><td>Red light + spoken reason</td><td><b>Automatic voice call</b> in the local language + SMS</td><td>SMS with name and reason</td><td>SMS; eSanjeevani link</td></tr>
+<tr><td class="rd">Urgent</td><td>Flashing red + "Call 108 now"</td><td>Repeated calls to 2 numbers</td><td>SMS</td><td>SMS</td></tr>
+<tr><td>Fault</td><td>"Device needs help"</td><td>SMS</td><td>—</td><td>—</td></tr>
+</table>
+<p><b>Rural:</b> SMS + voice call, ASHA in the loop. <b>Urban:</b> the same, plus Wi-Fi sync to a web dashboard and WhatsApp for children living elsewhere. Indian-language SMS must fit 70 characters per message.</p>
+
+<h2>10. Hardware and cost</h2>
+<h3>Custom part (for the schematic and simulation marks)</h3>
+<p><b>Tetrapolar foot-impedance front end.</b> The classic ESP32's DAC generates a sine wave, which goes through a band-pass filter into an op-amp current source (Howland type, with current limit and DC blocking). The current is injected through the 2 outer foot plates; an instrumentation amplifier senses the voltage on the 2 inner plates; a precision rectifier and low-pass filter feed the ESP32 ADC. A reference resistor is measured at every check-in. The proof is an LTspice simulation showing that sweeping the skin contact resistance (wet vs dry feet) does not change the reading. This replaces an AD5933 module, which costs about ₹3,500.</p>
+<h3>Parts list (₹, single-unit retail; estimates are marked and must be replaced with real quotes)</h3>
+<table>
+<tr><th>Part</th><th class="r">₹</th><th>Status</th></tr>
+<tr><td>ESP32 classic DevKit (has DAC)</td><td class="r">450</td><td>Estimate</td></tr>
+<tr><td>4 × 50 kg load cells + HX711</td><td class="r">544</td><td>Verified (₹136/set)</td></tr>
+<tr><td>Platform board, stool, non-slip mat, enclosure</td><td class="r">450</td><td>Estimate</td></tr>
+<tr><td>4 stainless-steel foot plates</td><td class="r">150</td><td>Estimate</td></tr>
+<tr><td>Impedance front end (op-amps, in-amp, passives, reference resistor)</td><td class="r">250</td><td>Estimate</td></tr>
+<tr><td>MAX30102 finger clip</td><td class="r">150</td><td>Weak listing</td></tr>
+<tr><td>MAX98357A amp + speaker</td><td class="r">330</td><td>Amp verified</td></tr>
+<tr><td>2 big buttons + 3 LEDs</td><td class="r">150</td><td>Estimate</td></tr>
+<tr><td>2 × 18650 + protection/charger + boost</td><td class="r">400</td><td>Estimate</td></tr>
+<tr><td>Wires, perfboard, locket dock contacts</td><td class="r">250</td><td>Estimate</td></tr>
+<tr><td>SIM800L 2G modem (Airtel/Vi/BSNL SIM)</td><td class="r">300</td><td>Verified range 150–448</td></tr>
+<tr class="tot"><td>Station subtotal</td><td class="r">3,424</td><td></td></tr>
+<tr><td>Locket: ESP32-C3 SuperMini</td><td class="r">350</td><td>Estimate</td></tr>
+<tr><td>Locket: motion sensor (LIS3DH / BMI270)</td><td class="r">150</td><td>Estimate</td></tr>
+<tr><td>Locket: 150–200 mAh LiPo + charger chip</td><td class="r">200</td><td>Estimate</td></tr>
+<tr><td>Locket: button, vibration motor, case, cord, contacts</td><td class="r">180</td><td>Estimate</td></tr>
+<tr class="tot"><td>Locket subtotal</td><td class="r">880</td><td></td></tr>
+<tr class="tot"><td><b>Home unit total</b></td><td class="r"><b>~4,304</b></td><td>Under ₹5,000, ~₹700 margin</td></tr>
+</table>
+<div class="box warn"><b>Upgrades (pick at most one if quotes allow):</b> AD8232 ECG handle for stronger rhythm checking (+~₹650 → ~₹4,950, too tight), <i>or</i> a 4G A7670C module so it works on Jio too (bare module +~₹500 → ~₹4,800). The ready-made A7670C board (₹1,900) breaks the budget. <b>Hackathon build: the base version above.</b> Show 4G as the product version.</div>
+
+<h2>11. Validation plan (software and honest testing)</h2>
+<ul>
+<li><b>Synthetic cohort:</b> 200+ virtual patients (the PS asks for at least 20), each with a 30-day warm-up and a 30-day test window. Worsening starts <b>3–10 days before the hospital visit</b>, with:
+  <ul>
+  <li>weight +1–4.5 kg</li>
+  <li>breathing +1.5–2 per minute</li>
+  <li>heart rate +3–8</li>
+  <li>impedance −5 to −15%</li>
+  <li>steps −15 to −30%</li>
+  <li>more upright minutes at night</li>
+  </ul>
+  30–40% of episodes have <b>no weight gain</b>. Built-in confounders: infection, AF, salty meals, medicine changes, guest users, wet feet, missed days, a forgotten locket.</li>
+<li><b>Real data:</b> test the heart-rate and rhythm code on the PhysioNet <b>BIDMC CHF</b> ECG database. Waveforms are simulated with NeuroKit2.</li>
+<li><b>Metrics:</b> sensitivity, specificity, <b>median lead time</b>, <b>false alerts per patient per month</b>, plus time in alert and PPV. Split by patient (70/30, tuning only on the training patients), with bootstrap confidence intervals.</li>
+<li><b>Targets:</b> beat the weight rule (23–35% sensitivity, ~0.35 false alerts/patient-month). Aim for ≥60% sensitivity at ≤0.21 false alerts/patient-month.</li>
+<li><b>Ablations:</b> weight only → + impedance → + vitals → + locket → + symptoms → + re-check → + identity check.</li>
+<li><b>Honesty:</b> synthetic results prove the logic finds the patterns we built in, not that it's clinically accurate. We'll say so on the results slide.</li>
+</ul>
+
+<h2>12. Why we stand out</h2>
+<table>
+<tr><th>Judging criterion (weight)</th><th>Our edge</th></tr>
+<tr><td>Creativity of sensing (20)</td><td>Seated "closed-loop" station; DIY tetrapolar foot impedance; bendopnea built into removing slippers; locket that detects sitting up to breathe at night</td></tr>
+<tr><td>Ease and long-term use (20)</td><td>~85 s/day; voice-guided; guest mode for family; daily reassurance; the station works alone if the locket is forgotten</td></tr>
+<tr><td>Software and analytics (20)</td><td>12-signal fusion, personal baseline, published trend detectors, hysteresis, re-check step, cause tags, plain-language reasons</td></tr>
+<tr><td>Hardware and simulation (15)</td><td>Custom impedance circuit with an LTspice proof; Wokwi firmware state machine; full schematic</td></tr>
+<tr><td>Science and honest testing (15)</td><td>Benchmarked against published weight rules; patient-level split; confounders modelled; limits stated openly</td></tr>
+<tr><td>Cost, India fit, pitch (10)</td><td>~₹4,300; offline SMS and voice; ASHA + eSanjeevani loop; vs Dozee: "built for the charpai home, not the hospital bed"</td></tr>
+</table>
+
+<h2>13. Team split (5 people, working in parallel)</h2>
+<table>
+<tr><th>Person</th><th>Owns</th><th>Delivers</th></tr>
+<tr><td>P1 Hardware</td><td>Station + locket design</td><td>Block diagram, KiCad schematic of the impedance front end + ESP32, LTspice proof, Wokwi state machine, parts list with links and real quotes</td></tr>
+<tr><td>P2 Signals</td><td>Raw → features</td><td>PPG heart rate, SpO₂, rhythm; locket breathing, posture, steps; BIDMC CHF check</td></tr>
+<tr><td>P3 Data</td><td>Synthetic patients</td><td>200+ patients with confounders, an answer key, and DATA.md explaining how they were made</td></tr>
+<tr><td>P4 Engine</td><td>Alerts + evaluation</td><td>Baseline, scores, light colours, red flags, cause tags, SMS text, metrics, ablations</td></tr>
+<tr><td>P5 Product</td><td>People-facing side</td><td>Voice prompts, family/doctor dashboard, user journey, 2-page report, pitch, GitHub</td></tr>
+</table>
+<p class="small">Fix the shared data formats in the first 30 minutes; everyone builds against sample files and joins up only at the end.</p>
+
+<h2>14. Risks and honest limits</h2>
+<ul>
+<li>About a third of part prices are estimates, so get quotes first: cost is a pass/fail rule.</li>
+<li>The DIY impedance circuit is unvalidated against real people; Bodyport's evidence is a single company-linked study.</li>
+<li>Lung fluid is detected only indirectly (SpO₂, breathing, symptoms).</li>
+<li>Rhythm checking from a finger clip is weaker than ECG.</li>
+<li>Pacemaker/ICD safety with injected current is not verified; an impedance-off mode is provided.</li>
+<li>SIM800L 2G doesn't work on Jio; the 4G module costs more.</li>
+<li>Results are synthetic; adherence and the response loop in Indian homes are untested.</li>
+<li>It can't predict sudden cardiac death. It is <b>not an emergency device</b>.</li>
+</ul>
+
+<h2>15. After the hackathon (startup path)</h2>
+<ol>
+<li>Pilot with one district hospital's cardiology team and its ASHA workers, with ethics approval, starting in "shadow mode" (alerts go only to the study team).</li>
+<li>Customers: children in cities buying for parents (buy or rent), hospitals (90-day post-discharge kits), and government NCD programmes.</li>
+<li>CDSCO registration (likely Class B/C), IEC 60601 safety testing, and a custom PCB to bring cost down.</li>
+</ol>
+
+<div class="box"><b>Disclaimer:</b> HridayMitra is a monitoring idea, not a medical diagnosis tool. It does not replace a doctor or emergency care. All performance numbers will come from synthetic or public data only.</div>
+<p class="small">Evidence and sources: see the companion "HridayMitra ideation report" (20 pages, with links).</p>
+</body></html>

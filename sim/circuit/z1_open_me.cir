@@ -1,0 +1,86 @@
+* ===== HridayMitra - OPEN ME: leg impedance circuit (v3), one run, one file =====
+* HOW TO USE: open this file in LTspice (File > Open), press Run (the running man).
+*   - Plot: right-click the plot > Add Trace > V(adc)   (first 60 ms = body, next 60 ms = across the 220 ohm resistor)
+*   - Answer: View > SPICE Output Log. Look for  zmeas  (measured leg impedance, ohm). Model value at fl=1 is 603.5 ohm; fl=0.9 gives 667.5; fl=1.1 gives 551.
+*   - Change contact resistance (Rc) or leg fluid (fl) in the .param line below and run again.
+*     fl=1 normal, fl=1.1 means +10 % fluid (impedance should drop about 8.7 %).
+* To see 3 fluid levels at once, remove the ';' in front of the .step line near the bottom.
+.param f=5k Rc=1k fl=1
+
+* supply and 1.65 V reference (U1A buffer)
+V1 vcc 0 3.3
+R1 vcc vrefin 10k
+R2 vrefin 0 10k
+C1 vrefin 0 10u
+Bu1a vref 0 V=limit(V(vrefin),0.05,3.25)
+
+* excitation: ESP32 DAC cosine, scale 1/2 (about 0.83 V peak), AC coupled, U1B buffer
+Vdac dac 0 SIN(1.65 0.83 {f})
+C2 dac excin 1u
+R3 excin vref 100k
+Bu1b excout 0 V=limit(V(excin),0.05,3.25)
+
+* current path
+C3 excout n1 1u
+R4 n1 injA 4.7k
+C4 injB ret 1u
+R5 ret vref 220
+
+* body: electrode contacts, feet, two legs (Cole model: Re || Ri+Cm), pelvis
+Rci1 injA a1 {Rc}
+Rfa a1 a2 10
+ReL a2 p1 {290/fl}
+RiL a2 m1 650
+CmL m1 p1 3.39n
+Rp p1 p2 25
+ReR p2 b2 {290/fl}
+RiR p2 m2 650
+CmR m2 b2 3.39n
+Rfb b2 b1 10
+Rci2 b1 injB {Rc}
+
+* sensing: heel plates, contact, 1k protection, 1M bias to VREF
+Rcs1 a2 sa_raw {Rc}
+Rcs2 b2 sb_raw {Rc}
+R6 sa_raw sa 1k
+R7 sb_raw sb 1k
+R8 sa vref 10Meg
+R9 sb vref 10Meg
+
+* DC definition of floating body nodes (1G to VREF)
+Rd1 n1 vref 1G
+Rd2 injA vref 1G
+Rd3 a1 vref 1G
+Rd4 a2 vref 1G
+Rd5 p1 vref 1G
+Rd6 p2 vref 1G
+Rd7 b2 vref 1G
+Rd8 b1 vref 1G
+Rd9 injB vref 1G
+Rd10 m1 vref 1G
+Rd11 m2 vref 1G
+
+* selector (74HC4053 sections X and Y): low = body, high = across R5; Ron 100 ohm
+Vsel sel 0 PULSE(0 3.3 0.06 1u 1u 0.06 0.2)   ; low = body, high = across R5
+Bch chi 0 V=V(sel)
+Bcl clo 0 V=3.3-V(sel)
+.model SW SW(Ron=100 Roff=1G Vt=1.65 Vh=0.1)
+S1 inp sa clo 0 SW
+S2 inp ret chi 0 SW
+S3 inn sb clo 0 SW
+S4 inn vref chi 0 SW
+
+* instrumentation amplifier (gain 10, REF = VREF), then RC filter to ADC pin
+Bina ina 0 V=limit(V(vref)+10*(V(inp)-V(inn)),0.05,3.25)
+R11 ina adc 1.5k
+C5 adc 0 10n
+Radc adc 0 10Meg
+
+.tran 0 0.12 0 2u
+.meas TRAN vbody PP V(adc) FROM=0.03 TO=0.058
+.meas TRAN vsens PP V(adc) FROM=0.09 TO=0.118
+.meas TRAN zmeas PARAM 220*vbody/vsens
+* Expected: zmeas close to 603.5 (fl=1), whatever Rc is (100 ohm to 10 k).
+;.step param fl list 0.9 1 1.1
+.save V(adc) V(inp) V(inn) I(R4)
+.end
