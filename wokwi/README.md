@@ -7,11 +7,14 @@ custom chips to WebAssembly and compiles both sketches. Everything below is gene
 | Part | What it does in the simulation |
 |---|---|
 | ESP32 DevKitC running `sketch.ino` | The **production firmware** built with `HM_WOKWI`: no Bluetooth, 1 s = 1 minute, 20 days of history preloaded, beeps instead of voice |
-| **Virtual patient** chip (`hm-body`) | The 8-electrode impedance front end: answers the path select (S0/S1) and body/R5 select with the 5 kHz signal the LTspice-verified circuit makes. Sliders: **leg fluid %**, **chest fluid %**, **foot lifted**, **mains hum** |
+| **Patient digital twin** chip (`hm-body`, 180×230 screen) | A body with its 8 electrodes. While the stool measures, the **current path lights up through the limbs** (legs, arms, right side, left side), the legs and chest **fill with blue** as fluid builds, and live impedances and warnings show underneath. Electrically it's the 8-electrode impedance front end: answers the path select (S0/S1) and body/R5 select with the 5 kHz signal the LTspice-verified circuit makes. Sliders: **leg fluid %**, **chest fluid %**, **foot lifted**, **mains hum** |
 | **MAX30102** chip | I2C 0x57, real FIFO with a pulse waveform. Sliders: **pulse**, **SpO₂**, **finger on/off** |
+| **Stool monitor** chip (`hm-monitor`, 220×170 screen) | Listens to the stool's serial output and shows the on-chip engine's decision: a big GREEN/AMBER/RED light, the score against the frozen threshold, a **trend graph of the last 24 check-ins**, the reasons in words, the readings, the SMS count and the self-test status |
 | **SIM800L + family phone** chip | Answers the AT commands and shows every SMS on a **phone screen**. Sliders: **family reply 1/2/3**, **ASHA reply**, **missed call**, **network outage**, **battery**, **signal** |
 | HX711 + 50 kg load cell | One of the stool's four corner cells: **15.5 kg on the slider = 62 kg on the stool** |
 | Buttons GO/NO (green), YES (red), SOS (yellow); tablet-drawer switch; 4 LEDs (OK, CHECK AGAIN, ALERT, seat vibration) | As on the real stool |
+
+Screens: `reports/wokwi_live_screens.jpg` (captured live in Wokwi) and `reports/wokwi_chip_screens_preview.png` (rendered on a laptop by `tests/sil/chip_preview.c`).
 
 ## Run it in the browser (2 minutes, no install)
 1. Open **https://wokwi.com/projects/new/esp32**.
