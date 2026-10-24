@@ -19,3 +19,5 @@ data/live/
 firmware/**/build/
 tests/sil/*.exe
 tests/sil/*.pdb
+wokwi/*/build/
+wokwi/stool/chips/*.wasm

@@ -1,0 +1,16 @@
+[wokwi]
+version = 1
+firmware = 'build/sketch.ino.merged.bin'
+elf = 'build/sketch.ino.elf'
+
+[[chip]]
+name = 'hm-body'
+binary = 'chips/hm-body.chip.wasm'
+
+[[chip]]
+name = 'hm-max30102'
+binary = 'chips/hm-max30102.chip.wasm'
+
+[[chip]]
+name = 'hm-sim800l'
+binary = 'chips/hm-sim800l.chip.wasm'

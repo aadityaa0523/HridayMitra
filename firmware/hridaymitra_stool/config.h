@@ -22,4 +22,10 @@
 #define SUMMARY_HOUR     18               // Sunday summary to the ASHA
 
 // HX711 scale: counts per kg. Calibrate with "cal <kg>" over USB serial with a known weight on the stool.
+#ifdef HM_WOKWI                           // Wokwi simulation build (see wokwi/README.md)
+#define DEFAULT_COUNTS_PER_KG  105.0f     // Wokwi load cell = one of the 4 corner cells (420 counts/kg / 4)
+#define MINUTE_MS              1000UL     // 1 s of simulation = 1 minute (the SIM800L chip's clock runs 60x)
+#else
 #define DEFAULT_COUNTS_PER_KG  21000.0f
+#define MINUTE_MS              60000UL
+#endif
