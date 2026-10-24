@@ -2,3 +2,15 @@
 {'record': 'chf02', 'fs': 250, 'minutes': 30, 'ref_beats': 2962, 'det_beats': 2958, 'sensitivity': 0.998, 'ppv': 0.9993, 'hr_mae_bpm': 0.19, 'hr_within_5bpm_pct': 100.0}
 {'record': 'chf03', 'fs': 250, 'minutes': 30, 'ref_beats': 2016, 'det_beats': 1686, 'sensitivity': 0.8065, 'ppv': 0.9644, 'hr_mae_bpm': 1.71, 'hr_within_5bpm_pct': 95.0}
 {'record': 'chf04', 'fs': 250, 'minutes': 30, 'ref_beats': 2845, 'det_beats': 2835, 'sensitivity': 0.994, 'ppv': 0.9975, 'hr_mae_bpm': 0.15, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf05', 'fs': 250, 'minutes': 30, 'ref_beats': 3327, 'det_beats': 3311, 'sensitivity': 0.9952, 'ppv': 1.0, 'hr_mae_bpm': 0.12, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf06', 'fs': 250, 'minutes': 30, 'ref_beats': 3269, 'det_beats': 3244, 'sensitivity': 0.9908, 'ppv': 0.9985, 'hr_mae_bpm': 0.35, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf07', 'fs': 250, 'minutes': 30, 'ref_beats': 2499, 'det_beats': 2494, 'sensitivity': 0.463, 'ppv': 0.4639, 'hr_mae_bpm': 0.19, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf08', 'fs': 250, 'minutes': 30, 'ref_beats': 2180, 'det_beats': 2167, 'sensitivity': 0.9812, 'ppv': 0.9871, 'hr_mae_bpm': 0.21, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf09', 'fs': 250, 'minutes': 30, 'ref_beats': 3057, 'det_beats': 3048, 'sensitivity': 0.9957, 'ppv': 0.9987, 'hr_mae_bpm': 0.11, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf10', 'fs': 250, 'minutes': 30, 'ref_beats': 3703, 'det_beats': 3703, 'sensitivity': 1.0, 'ppv': 1.0, 'hr_mae_bpm': 0.12, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf11', 'fs': 250, 'minutes': 30, 'ref_beats': 3186, 'det_beats': 3184, 'sensitivity': 0.9994, 'ppv': 1.0, 'hr_mae_bpm': 0.08, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf12', 'fs': 250, 'minutes': 30, 'ref_beats': 3277, 'det_beats': 1695, 'sensitivity': 0.4339, 'ppv': 0.8389, 'hr_mae_bpm': 27.45, 'hr_within_5bpm_pct': 51.7}
+{'record': 'chf13', 'fs': 250, 'minutes': 30, 'ref_beats': 2932, 'det_beats': 2886, 'sensitivity': 0.9823, 'ppv': 0.9979, 'hr_mae_bpm': 0.11, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf14', 'fs': 250, 'minutes': 30, 'ref_beats': 2320, 'det_beats': 2318, 'sensitivity': 0.9832, 'ppv': 0.984, 'hr_mae_bpm': 0.14, 'hr_within_5bpm_pct': 100.0}
+{'record': 'chf15', 'fs': 250, 'minutes': 30, 'ref_beats': 3099, 'det_beats': 3048, 'sensitivity': 0.9813, 'ppv': 0.9977, 'hr_mae_bpm': 0.2, 'hr_within_5bpm_pct': 100.0}
+{'records': 15, 'mean_sensitivity': 0.9068599999999999, 'mean_ppv': 0.9484933333333333, 'mean_hr_mae_bpm': 2.0806666666666667, 'pct_windows_within_5bpm': 96.44666666666667}

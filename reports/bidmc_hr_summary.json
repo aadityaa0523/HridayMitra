@@ -1,7 +1,7 @@
 {
-  "records": 3,
-  "mean_sensitivity": 0.9343,
-  "mean_ppv": 0.9877333333333334,
-  "mean_hr_mae_bpm": 0.66,
-  "pct_windows_within_5bpm": 98.33333333333333
+  "records": 15,
+  "mean_sensitivity": 0.9068599999999999,
+  "mean_ppv": 0.9484933333333333,
+  "mean_hr_mae_bpm": 2.0806666666666667,
+  "pct_windows_within_5bpm": 96.44666666666667
 }

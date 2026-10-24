@@ -29,6 +29,7 @@ def numbers():
     z_chg = np.abs(np.concatenate([mc[f"z{p}_change_err_pts"] for p in range(1, 5)]))
     hum = pd.read_csv(ROOT / "sim/circuit/hum_results.csv")
     bid = json.loads((R / "bidmc_hr_summary.json").read_text())
+    bv = pd.read_csv(R / "bidmc_hr_validation.csv")
     ho, rw = v2.loc["PS held-out"], v2.loc["Real-world (external)"]
     return dict(
         sens=pct(ho.sensitivity), spec=f"{100 * ho.specificity:.1f}%", lead=f"{ho.median_lead_days:.0f}", fa=f"{ho.false_alerts_per_patient_month:.2f}",
@@ -50,7 +51,9 @@ def numbers():
         vol_lo=f"{cost['volume_100_units_low']:,.0f}", vol_hi=f"{cost['volume_100_units_high']:,.0f}",
         mc_p99=f"{np.percentile(z_err, 99):.1f}", mc_chg=f"{np.percentile(z_chg, 99):.2f}",
         hum_g=f"{hum.err_goertzel_pct.abs().max():.2f}", hum_pp=f"{hum.err_pp_pct.abs().max():.0f}",
-        bid_n=bid["records"], bid_sens=pct(bid["mean_sensitivity"]), bid_mae=f"{bid['mean_hr_mae_bpm']:.2f}")
+        bid_n=bid["records"], bid_sens=pct(bid["mean_sensitivity"]), bid_mae=f"{bv.hr_mae_bpm.median():.2f}",
+        bid_good=int((bv.hr_mae_bpm <= 0.5).sum()), bid_within=f"{bid['pct_windows_within_5bpm']:.0f}%",
+        bid_bad=", ".join(bv[bv.hr_mae_bpm > 5].record))
 
 
 CSS = """<style>@page{size:A4;margin:11mm}body{font:9.1pt/1.32 'Segoe UI',Arial,sans-serif;color:#17202a;margin:0}
@@ -89,7 +92,7 @@ def report(n):
 <tr><td>Stress: 50% missing days / guests / wet feet / power cuts / electrode ageing / everything at once</td><td>{n['miss50']} … {n['stress_worst']} sensitivity; 10% guests: engine {n['guest_fa']} false alerts vs weight rule <b>{n['guest_rule_fa']}</b></td></tr>
 <tr><td>Assumption sweep: each of 23 guesses pushed low and high ({n['n_asn']} new cohorts)</td><td>beats the weight rule in <b>{n['asn_beat']}/{n['n_asn']}</b>, inside the false-alert budget in {n['asn_budget']}/{n['n_asn']}; sensitivity {n['asn_lo']}–{n['asn_hi']}, driven by how fast worsening develops, not by hardware noise</td></tr>
 <tr><td>Care-loop simulation (5,000 alerts per scenario)</td><td>clinical review before the hospital visit: <b>{n['cl_lad']}</b> with the ladder vs {n['cl_one']} with one SMS; median {n['cl_med']} h; everything bad at once {n['cl_bad']}</td></tr>
-<tr><td>Heart rate on real ECG (PhysioNet BIDMC CHF, {n['bid_n']} records)</td><td>beat sensitivity {n['bid_sens']}, heart-rate error {n['bid_mae']} bpm</td></tr></table>
+<tr><td>Heart rate on real ECG (PhysioNet BIDMC CHF, {n['bid_n']} records)</td><td>median heart-rate error {n['bid_mae']} bpm; {n['bid_good']} of {n['bid_n']} records within 0.5 bpm; {n['bid_within']} of 30-s windows within 5 bpm; fails on {n['bid_bad']} (very noisy recording)</td></tr></table>
 <div class="cols"><div>
 <h2>Hardware and simulation proof (free tools: LTspice, KiCad, Python)</h2><ul>
 <li>Tetrapolar, ratiometric front end (Z = R5 · V<sub>body</sub>/V<sub>R5</sub>): gain and contact resistance cancel; LTspice error ≤ 0.05% for contacts 100 Ω–10 kΩ; +10% leg fluid → −8.7% Z; 134 µA excitation.</li>
@@ -157,7 +160,7 @@ def deck(n):
         f'<li>Monte Carlo of 100 cheap-part stools → found a flaw, <b>1 MΩ → 10 MΩ</b>, now 99% within {n["mc_p99"]}%</li>'
         f'<li>Mains hum: Goertzel {n["hum_g"]}% vs peak-to-peak {n["hum_pp"]}%</li><li>KiCad schematic from code, ERC clean, netlist auto-verified</li>'
         '<li>Engine in C++ on the ESP32: <b>100% identical</b> to Python over 3,231 days</li><li>Whole firmware run through an emulated month: <b>26/26</b> checks, 3 bugs caught before flashing</li>'
-        f'<li>Real ECG (PhysioNet BIDMC CHF): heart-rate error {n["bid_mae"]} bpm</li></ul>',
+        f'<li>Real ECG, all {n["bid_n"]} PhysioNet BIDMC CHF records: median heart-rate error {n["bid_mae"]} bpm ({n["bid_good"]}/{n["bid_n"]} records within 0.5 bpm)</li></ul>',
         f'<h2>Cost and model</h2><div class="cols"><div class="big"><ul><li>Build cost <b>₹{n["cost_lo"]}–{n["cost_hi"]}</b> (limit ₹5,000)</li><li>≈ ₹{n["vol_lo"]}–{n["vol_hi"]} at 100 units</li>'
         '<li>SMS ≈ ₹0.05 per patient-month</li></ul></div><div class="big"><ul><li>Sold to PHCs / NGOs / insurers, placed by ASHAs</li><li>One avoided admission pays for many stools</li><li>No app, no smartphone, no internet</li></ul></div></div>',
         '<h2>Honest limits and next steps</h2><ul class="big"><li>Synthetic data: proves the method, not clinical accuracy</li><li>Next: bench build vs simulation, ethics-approved pilot with lung-ultrasound comparison</li>'

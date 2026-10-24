@@ -53,8 +53,8 @@
    "weight": 10,
    "tasks": [
     {
-     "name": "BIDMC heart-rate validation (3 of 15 records, 30 min each)",
-     "done": 0.8
+     "name": "BIDMC heart-rate validation (all 15 records)",
+     "done": 1
     },
     {
      "name": "Impedance (Goertzel) module",
