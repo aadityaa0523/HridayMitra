@@ -48,6 +48,7 @@ python run.py demo           # dashboard: patient light + voice, family SMS, ASH
 | Flash the stool (COM5) and the amulet (COM6) | `python run.py firmware --upload COM5 --amulet-port COM6` |
 | Log the real stool's check-ins into the dashboard | `python run.py live --port COM5` |
 | Prove the real stool decides exactly like the tested engine | `python run.py hil --port COM5` |
+| Simulate the whole stool in Wokwi: drag a "leg fluid" slider and watch the SMS arrive on a virtual phone | `python run.py wokwi`, then `wokwi/README.md` |
 | Re-run every result, rebuild every document | `python run.py reproduce`, `python run.py docs` |
 | Everything | `python run.py all` |
 
