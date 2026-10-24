@@ -22,7 +22,7 @@ def overview():
         s.append(f'<line x1="{ex}" y1="{y+h/2}" x2="{tx}" y2="{y+h/2}" stroke="#0d6b6e" stroke-width="2"/>')
     box(15, 20, 235, "LEDs + buttons", ["GPIO13, 23, 2 > 220R > LED > GND", "GPIO4, 5, 15 > button > GND", "(green, red, SOS)"], "L")
     box(15, 120, 235, "MAX30102 pulse sensor", ["GPIO21 = SDA, GPIO22 = SCL", "3V3, GND"], "L")
-    box(15, 200, 235, "AD8232 ECG (optional)", ["OUT > GPIO34, LO+ > 39, LO- > 36", "3V3, GND (not with impedance on)"], "L")
+    box(15, 200, 235, "AD8232 ECG (optional)", ["OUT > GPIO34, LO+ > 39 (LO- unused)", "3V3, GND (not with impedance on)"], "L")
     box(15, 280, 235, "Amulet (separate board)", ["S3 Sense + MPU6050 + LiPo", "talks to the laptop over Bluetooth"], "L")
     box(450, 20, 235, "Impedance board (Z1)", ["GPIO25 DAC > excitation", "GPIO35 < amplifier output", "GPIO18 > selector (74HC4053)", "GPIO33, 27 > 74HC4052 (later)"], "R")
     box(450, 140, 235, "SIM800L (SMS)", ["GPIO17 > 1k > RX (2.2k to GND)", "GPIO16 < TX", "power: battery rail + 1000 uF"], "R")
@@ -68,7 +68,9 @@ BODY = f"""
  ["GPIO33, GPIO27", "74HC4052 path select S0, S1", "only for the trunk paths, later"],
  ["GPIO26 (DAC2)", "Voice to PAM8403", "through 1 &micro;F and 10 k&#937; pot"],
  ["GPIO17 (TX2), GPIO16 (RX2)", "SIM800L", "TX through a divider (see section 8)"],
- ["GPIO34, 39, 36", "AD8232 OUT, LO+, LO-", "inputs only; optional"],
+ ["GPIO34, 39", "AD8232 OUT, LO+", "inputs only; optional"],
+ ["GPIO19", "Seat vibration motor", "1 k to 2N2222 base; motor 5 V to collector; 1N4148 across motor"],
+ ["GPIO36", "Tablet-drawer microswitch", "switch to GND; 10 k pull-up to 3V3 (no internal pull-up)"],
  ["GPIO32, GPIO14", "Reserved: HX711 data, clock", "when the load cells arrive"],
  ["GPIO0, GPIO12", "<b>Leave empty</b>", "boot pins"]])}
 <h2>4. Block 1: LEDs and buttons (test first)</h2>
@@ -93,7 +95,7 @@ BODY = f"""
 <h3>Test 6b: the resistor phantom (instead of legs)</h3>
 <p>No plates yet? Use a resistor: put <b>330 &#937;</b> between FORE_L and FORE_R. Wire HEEL_L to the FORE_L end and HEEL_R to the FORE_R end. Run the measurement: Z should read about 330 &#937;. Repeat with 680 &#937; and 1 k&#937; (within about 5%). Then add 1-5 k&#937; in series with each outer lead: Z should barely move.</p>
 <h2>7. Block 4 (optional): AD8232 ECG</h2>
-{table(["Module pin", "Connect to"], [["3.3V", "3V3"], ["GND", "GND"], ["OUTPUT", "GPIO34"], ["LO+", "GPIO39"], ["LO-", "GPIO36"], ["SDN", "leave open"]])}
+{table(["Module pin", "Connect to"], [["3.3V", "3V3"], ["GND", "GND"], ["OUTPUT", "GPIO34"], ["LO+", "GPIO39"], ["SDN", "leave open"]])}
 <p>Electrode leads: RA (red) right side, LA (yellow) left side, RL (green) reference. <b>Do not connect the ECG leads and the impedance board to the same electrodes at once.</b> Test: plot GPIO34 on the Serial Plotter; you should see heartbeats.</p>
 <h2 class="pb">8. Block 5: SIM800L (SMS)</h2>
 {table(["Module pin", "Connect to"], [["VCC", "Battery rail (3.7-4.2 V) with 1000 &micro;F across VCC-GND. Not 3V3."], ["GND", "GND (common)"], ["TX", "GPIO16"], ["RX", "GPIO17 &rarr; 1 k&#937; &rarr; RX, and RX &rarr; 2.2 k&#937; &rarr; GND (a divider, about 2.3 V)"], ["Antenna", "Screw on the antenna; SIM card in (Airtel, Vi or BSNL)"]])}

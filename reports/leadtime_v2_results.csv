@@ -1,5 +1,5 @@
 cohort,system,events,sensitivity,specificity,median_lead_days,false_alerts_per_patient_month
 PS held-out,v1 engine (T=7),35,0.571,0.998,2.0,0.029
 PS held-out,v2 engine (frozen),35,0.657,0.998,2.0,0.029
-Real-world (external),v1 engine (T=7),100,0.61,0.993,2.0,0.044
-Real-world (external),v2 engine (frozen),100,0.66,0.99,2.0,0.057
+Real-world (external),v1 engine (T=7),100,0.6,0.993,2.0,0.043
+Real-world (external),v2 engine (frozen),100,0.65,0.99,2.0,0.056

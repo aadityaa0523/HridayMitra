@@ -13,3 +13,7 @@ data/test_b/
 data/processed/realworld/truth_daily.csv
 data/processed/realworld/labels.csv
 .impeccable/
+tests/*.exe
+tests/*.pdb
+data/live/
+firmware/**/build/

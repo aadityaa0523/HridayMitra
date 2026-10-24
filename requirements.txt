@@ -11,3 +11,6 @@ pymupdf>=1.24
 lxml
 beautifulsoup4
 html5lib
+ziglang
+pyserial
+scikit-learn
