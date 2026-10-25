@@ -1,7 +1,28 @@
 # HridayMitra: early warning of worsening heart failure at home
 
+[![tests](https://github.com/aadityaa0523/HridayMitra/actions/workflows/tests.yml/badge.svg)](https://github.com/aadityaa0523/HridayMitra/actions/workflows/tests.yml)
+![python](https://img.shields.io/badge/python-3.11-blue)
+![node](https://img.shields.io/badge/node-22.12%2B-green)
+![data](https://img.shields.io/badge/data-synthetic%20only-orange)
+![status](https://img.shields.io/badge/status-research%20prototype-lightgrey)
+
 > **Monitoring, not diagnosis.** Research prototype for the Transfinitte hackathon (hardware track, PS by Dare 2 Dream Ventures).
 > All patient data in this repository is **synthetic**. No human data was collected.
+
+**Contents:** [How it works](#how-it-works) · [Results](#results-synthetic-cohorts-threshold-frozen-on-training-patients-before-testing) · [Quick start](#quick-start-python-311-one-command-for-everything) · [Install the app on a phone](#install-the-saathi-app-on-a-phone) · [Firmware](#firmware) · [Documents](#documents) · [Reproduce](#reproduce-everything) · [Repository map](#repository-map) · [Troubleshooting](#troubleshooting) · [Honest limits](#honest-limits)
+
+## How it works
+
+```mermaid
+flowchart LR
+  A[Kavach amulet<br/>ESP32-C3 + MPU6050<br/>night breathing, activity, walk test, falls, SOS] -- BLE advertisement --> S
+  S[Check-in stool<br/>ESP32 + load cells + 8-electrode impedance + finger sensor<br/>offline alert engine] -- green / amber / red + reasons --> L[Light + voice]
+  S -- SMS over 2G --> C[Care loop<br/>family 1 → family 2 30 min → ASHA 2 h → PHC doctor 6 h]
+  S -- BLE or USB --> P[Saathi phone app<br/>PWA, 10 languages]
+  S -- USB, optional --> D[Laptop bridge → live dashboard]
+```
+
+The same alert engine runs in Python (research), C++ on the chip (`engine_core.h`) and TypeScript in the app; test vectors keep all three identical.
 
 An elderly patient sits on a foldable **check-in stool** for about 90 seconds a day. It measures:
 - **weight**, through 4 load cells;
@@ -61,6 +82,25 @@ python run.py demo           # dashboard: patient light + voice, family SMS, ASH
 
 **The flow:** amulet → (BLE) → stool runs the check-in and the alert engine offline → light + voice + SMS care loop → (USB, optional) laptop bridge → live dashboard.
 
+## Install the Saathi app on a phone
+
+The app (`app/`) is an offline-first PWA. It needs an **HTTPS origin or `localhost`** to install; plain `http://<lan-ip>` will not work.
+
+**Option A: host it (any phone, any time).** Build with `cd app && npm ci && npm run build`, then upload `app/dist/` to the **root** of a static host (Netlify Drop, Vercel, Cloudflare Pages: root directory `app`, build `npm run build`, output `dist`). The app uses root-absolute paths (`/models/`, `/audio/`), so it cannot sit under a sub-path such as GitHub Pages `/HridayMitra/`. Open the URL on the phone: Android Chrome → menu → *Install app*; iPhone Safari → Share → *Add to Home Screen*.
+
+**Option B: USB, no hosting (Android).** Turn on *Developer options → USB debugging*, connect the phone, then:
+
+```bash
+cd app && npm ci && npm run build
+npm run preview -- --port 4173          # serves the production build
+adb reverse tcp:4173 tcp:4173           # in a second terminal
+# on the phone, Chrome → http://localhost:4173 → menu → Install app
+```
+
+Open the installed app once while connected (wait for “App ready offline”) and it keeps working without the cable. Voice packs (82 MB) come from `python tools/prepare_voice_models.py` before building; install them in the app under *Voice commands*.
+
+BLE pairing with the stool needs Chrome on Android; iOS Safari has no Web Bluetooth. Full details: [`app/README.md`](app/README.md).
+
 ## Firmware
 - `firmware/hridaymitra_stool/`: ESP32 DevKit. The 90 s check-in, HX711 weight, 4 impedance paths with Goertzel, MAX30102 pulse/SpO₂, 3 questions, stand-up time, amulet scan, **the alert engine on the chip** (`engine_core.h`, identical to the Python engine), SMS ladder with retries, replies and missed calls, engine state saved in flash. Phone numbers go in `config.h`.
 - `app/`: **HridayMitra Saathi**, the offline phone app (PWA, 10 Indian languages, voice commands, family / ASHA / doctor modes). It runs the same alert engine (v3, checked day by day against Python) and talks to the stool over BLE or USB (`firmware/hridaymitra_stool/app_link.h`). `cd app && npm ci && npm test && npm run dev`.
@@ -103,6 +143,17 @@ python run.py demo           # dashboard: patient light + voice, family SMS, ASH
 | `docs/` | build guide v3, wiring guide, physical build pack, block diagram, phase plan |
 | `reports/` | all results (CSV, PNG, summaries) |
 | `tests/` | pytest suite |
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `python run.py test` cannot import packages | Use Python 3.11, then `python run.py setup` |
+| `npm run build` fails on missing `/models/*.bin` | `python tools/prepare_voice_models.py` (downloads and checks sha256) |
+| “Install app” not offered on the phone | Not HTTPS/localhost, or first load not finished; reload and wait for “App ready offline” |
+| Phone cannot reach `localhost:4173` | Re-run `adb reverse tcp:4173 tcp:4173`; confirm `adb devices` lists the phone |
+| Web Bluetooth button missing | Use Chrome on Android; Safari/iOS does not support it |
+| Firmware upload fails | Check the COM port, install the `esp32` core for `arduino-cli`, hold BOOT while flashing |
 
 ## Honest limits
 - **Synthetic data:** the patient data is synthetic and calibrated to published weight-rule results. It shows the method works on the patterns we modelled; it isn't clinical accuracy.
