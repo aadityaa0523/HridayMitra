@@ -1,0 +1,12 @@
+part,rail,idle_mA,checkin_mA,battery_idle_mA,battery_checkin_mA,source
+ESP32 CPU 240 MHz (radio off),3V3,40,45,61.43,69.1,Espressif ESP32 datasheet: 30-68 mA modem-sleep
+ESP32 BLE scan (4 s / 60 s),3V3,6.667,6.67,10.24,10.24,ESP32 datasheet: ~100 mA RX
+CP2102 USB-UART (suspended),3V3,0.1,0.1,0.15,0.15,SiLabs CP2102: 80 µA suspend
+AMS1117 LDO quiescent,5V,5,5,7.68,7.68,AMS1117 datasheet: 5 mA
+MAX30102 (LEDs only while finger),3V3,0.001,15,0.0,23.03,Maxim: 600 µA + 2 × 7 mA LEDs
+HX711 + load-cell bridge,3V3,4.8,4.8,7.37,7.37,Avia HX711 1.5 mA; 1 kΩ bridge 3.3 mA
+AFE: MCP6002 + INA126 + 3 × 74HC405x,3V3,0.33,0.43,0.51,0.66,"MCP6002 100 µA ×2, INA126 175 µA, 74HC ~1 µA; +100 µA excitation"
+Status LED (one lit after a check-in),3V3,6,6,9.21,9.21,"220 Ω, 2 V LED"
+PAM8403 amp (quiescent / speaking),5V,10,130.0,15.36,199.63,"Diodes PAM8403: 10 mA Iq, ~0.9 W average speech"
+"SIM800L idle, registered",VBAT,18,18,18,18,SIMCom: 18.7 mA idle (DRX)
+MT3608 boost quiescent,VBAT,0.1,0.1,0.1,0.1,Aerosemi MT3608
