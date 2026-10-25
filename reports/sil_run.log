@@ -1,12 +1,12 @@
 PASS  red alert comes during the worsening, not before it
 PASS  no alert SMS during the 14 stable days
-PASS  weight within 0.15 kg (worst 0.036050)
-PASS  leg impedance within 1 % through ADC + Goertzel (worst 0.023514 %)
-PASS  chest value within 1.5 ohm from 4 paths (worst 0.223219)
-PASS  spectroscopy (5/20/50 kHz): water-outside-cells index within 0.6 % (worst 0.490626 %)
-PASS  spectroscopy index rises with the fluid build-up (0.691610 -> 0.716810)
-PASS  pulse within 2.5 bpm from the PPG waveform (worst 0.772133)
-PASS  SpO2 within 2 points (worst 0.099179)
+PASS  weight within 0.15 kg (worst 0.016670)
+PASS  leg impedance within 1 % through ADC + Goertzel (worst 0.019942 %)
+PASS  chest value within 1.5 ohm from 4 paths (worst 0.162575)
+PASS  spectroscopy (5/20/50 kHz): water-outside-cells index within 0.6 % (worst 0.496783 %)
+PASS  spectroscopy index rises with the fluid build-up (0.692680 -> 0.715380)
+PASS  pulse within 2.5 bpm from the PPG waveform (worst 0.722565)
+PASS  SpO2 within 2 points (worst 0.102014)
 PASS  red: family 1 gets an SMS with the reasons
 PASS  red: family 1 also gets the doctor's plan
 PASS  no reply: family 2 messaged at 30 min
@@ -20,36 +20,38 @@ PASS  switch on CHARGE: check-in refused, no current through the body
 PASS  guest (85 kg) recognised: readings ignored by the engine
 PASS  lifted foot: leg and chest reported as no reading
 PASS  lifted foot named from the failed paths (left / right)
-PASS  foot put back after the prompt: re-measured, leg reading recovered (577.031100 ohm)
+PASS  foot put back after the prompt: re-measured, leg reading recovered (576.950600 ohm)
 PASS  self-test: low battery -> service SMS to the ASHA
 PASS  SOS button: family 1, family 2 and ASHA messaged
 PASS  power cut: personal baseline and alert state restored from flash
 PASS  check-in works after the power cut
 PASS  network down: nothing is lost, messages wait
 PASS  network back: queued SOS delivered within 10 min retry
-PASS  self-calibration: damaged reference detected, no numbers reported (ratio 2.749200)
+PASS  self-calibration: damaged reference detected, no numbers reported (ratio 2.749500)
 PASS  self-calibration: service SMS to the ASHA
-PASS  self-calibration: healthy reference ratio 2.2 (2.200100)
+PASS  self-calibration: healthy reference ratio 2.2 (2.200500)
 PASS  second user enrolled and recognised
 PASS  first user still recognised
 PASS  stranger on a two-user stool: nothing saved
 PASS  every red SMS fits one SMS (160 chars) and keeps the 'call 108' instruction
+PASS  sit-to-stand from the platform force: 2.200000 s for a 2.2 s rise
+PASS  slower rise reads slower: 3.400000 s for a 3.4 s rise
 PASS  app link: report dated 2026-10-31, event P001-35, with spectroscopy and walk fields
-PASS  app link: history since 30 Oct replayed over BLE (5 reports), older ones not
+PASS  app link: history since 30 Oct replayed over BLE (6 reports), older ones not
 PASS  app link: self-test run on the app's command, result notified
-35 check-ins, 47 SMS sent, 0 failures
+36 check-ins, 47 SMS sent, 0 failures
 SMS day 3 18:01 to +910000000003: HridayMitra weekly P001: 4/7 check-ins, lights ---GGGG, usual weight 61.9 kg. Monitoring, not diagnosis.
 SMS day 10 18:02 to +910000000003: HridayMitra weekly P001: 7/7 check-ins, lights GGGGGGG, usual weight 62.0 kg. Monitoring, not diagnosis.
-SMS day 17 08:01 to +910000000001: HridayMitra RED P001. Why: leg water outside cells +1 %; leg reading -4 %; weight +1. Reply 1 checking, 2 help, 3 fine. Breathless at rest: call 108. Not a dia
+SMS day 17 08:01 to +910000000001: HridayMitra RED P001. Why: leg reading -4 %; weight +1.3 kg; leg water outside cells. Reply 1 checking, 2 help, 3 fine. Breathless at rest: call 108. Not a dia
 SMS day 17 08:01 to +910000000001: Your doctor's plan: take the extra water tablet your doctor prescribed for bad days, and visit the PHC today.
-SMS day 17 08:31 to +910000000002: HridayMitra RED for P001, no reply yet. Why: leg water outside cells +1 %; leg reading -4 %; weight +1.3 kg. Reply 1 checking, 2 need help, 3 fine.
-SMS day 17 10:01 to +910000000003: HridayMitra: please visit P001 today. Warning signs: leg water outside cells +1 %; leg reading -4 %; weight +1.3 kg. Reply 1 when seen.
-SMS day 17 18:04 to +910000000003: HridayMitra weekly P001: 7/7 check-ins, lights GGGGGAR, usual weight 62.4 kg. Monitoring, not diagnosis.
+SMS day 17 08:31 to +910000000002: HridayMitra RED for P001, no reply yet. Why: leg reading -4 %; weight +1.3 kg; leg water outside cells +1 %. Reply 1 checking, 2 need help, 3 fine.
+SMS day 17 10:01 to +910000000003: HridayMitra: please visit P001 today. Warning signs: leg reading -4 %; weight +1.3 kg; leg water outside cells +1 %. Reply 1 when seen.
+SMS day 17 18:03 to +910000000003: HridayMitra weekly P001: 7/7 check-ins, lights GGGGGAR, usual weight 62.4 kg. Monitoring, not diagnosis.
 SMS day 18 08:01 to +910000000001: HridayMitra RED P001. Why: weight +1.9 kg; leg reading -6 %; leg water outside cells. Reply 1 checking, 2 help, 3 fine. Breathless at rest: call 108. Not a dia
 SMS day 18 08:01 to +910000000001: Your doctor's plan: take the extra water tablet your doctor prescribed for bad days, and visit the PHC today.
-SMS day 18 08:31 to +910000000002: HridayMitra RED for P001, no reply yet. Why: weight +1.9 kg; leg reading -6 %; leg water outside cells +2 %. Reply 1 checking, 2 need help, 3 fine.
-SMS day 18 10:01 to +910000000003: HridayMitra: please visit P001 today. Warning signs: weight +1.9 kg; leg reading -6 %; leg water outside cells +2 %. Reply 1 when seen.
-SMS day 18 14:01 to +910000000004: HridayMitra: P001 has heart-failure warning signs (weight +1.9 kg; leg reading -6 %; leg water outside cells +2 %), not seen in 6 h. Please call.
+SMS day 18 08:31 to +910000000002: HridayMitra RED for P001, no reply yet. Why: weight +1.9 kg; leg reading -6 %; leg water outside cells +1 %. Reply 1 checking, 2 need help, 3 fine.
+SMS day 18 10:01 to +910000000003: HridayMitra: please visit P001 today. Warning signs: weight +1.9 kg; leg reading -6 %; leg water outside cells +1 %. Reply 1 when seen.
+SMS day 18 14:01 to +910000000004: HridayMitra: P001 has heart-failure warning signs (weight +1.9 kg; leg reading -6 %; leg water outside cells +1 %), not seen in 6 h. Please call.
 SMS day 19 08:01 to +910000000001: HridayMitra RED P001. Why: weight +2.3 kg; leg reading -7 %; leg water outside cells. Reply 1 checking, 2 help, 3 fine. Breathless at rest: call 108. Not a dia
 SMS day 19 08:01 to +910000000001: Your doctor's plan: take the extra water tablet your doctor prescribed for bad days, and visit the PHC today.
 SMS day 19 08:31 to +910000000002: HridayMitra RED for P001, no reply yet. Why: weight +2.3 kg; leg reading -7 %; leg water outside cells +2 %. Reply 1 checking, 2 need help, 3 fine.
@@ -71,11 +73,11 @@ SMS day 22 08:31 to +910000000002: HridayMitra RED for P001, no reply yet. Why: 
 SMS day 22 10:01 to +910000000003: HridayMitra: please visit P001 today. Warning signs: sitting up at night; breathless or extra pillows; weight +3.4 kg. Reply 1 when seen.
 SMS day 22 14:01 to +910000000004: HridayMitra: P001 has heart-failure warning signs (sitting up at night; breathless or extra pillows; weight +3.4 kg), not seen in 6 h. Please call.
 SMS day 23 11:05 to +910000000001: HridayMitra: no check-in yet today for P001. Please remind them to sit on the stool.
-SMS day 24 08:01 to +910000000001: HridayMitra RED P001. Why: weight +3.5 kg; leg reading -12 %; leg water outside cell. Reply 1 checking, 2 help, 3 fine. Breathless at rest: call 108. Not a dia
+SMS day 24 08:01 to +910000000001: HridayMitra RED P001. Why: weight +3.5 kg; leg reading -12 %; resting pulse +11.8 bp. Reply 1 checking, 2 help, 3 fine. Breathless at rest: call 108. Not a dia
 SMS day 24 08:01 to +910000000001: Your doctor's plan: take the extra water tablet your doctor prescribed for bad days, and visit the PHC today.
-SMS day 24 08:31 to +910000000002: HridayMitra RED for P001, no reply yet. Why: weight +3.5 kg; leg reading -12 %; leg water outside cells +3 %. Reply 1 checking, 2 need help, 3 fine.
-SMS day 24 10:01 to +910000000003: HridayMitra: please visit P001 today. Warning signs: weight +3.5 kg; leg reading -12 %; leg water outside cells +3 %. Reply 1 when seen.
-SMS day 24 14:01 to +910000000004: HridayMitra: P001 has heart-failure warning signs (weight +3.5 kg; leg reading -12 %; leg water outside cells +3 %), not seen in 6 h. Please call.
+SMS day 24 08:31 to +910000000002: HridayMitra RED for P001, no reply yet. Why: weight +3.5 kg; leg reading -12 %; resting pulse +11.8 bpm. Reply 1 checking, 2 need help, 3 fine.
+SMS day 24 10:01 to +910000000003: HridayMitra: please visit P001 today. Warning signs: weight +3.5 kg; leg reading -12 %; resting pulse +11.8 bpm. Reply 1 when seen.
+SMS day 24 14:01 to +910000000004: HridayMitra: P001 has heart-failure warning signs (weight +3.5 kg; leg reading -12 %; resting pulse +11.8 bpm), not seen in 6 h. Please call.
 SMS day 24 18:05 to +910000000003: HridayMitra weekly P001: 7/7 check-ins, lights RRRRRRR, usual weight 63.6 kg, 6-min walk 540 steps ~270 m. Monitoring, not diagnosis.
 SMS day 27 07:05 to +910000000003: HridayMitra stool needs service: battery low, charge the stool; 
 SMS day 27 10:00 to +910000000001: HridayMitra SOS from P001's home. Please call or visit now. If unresponsive call 108.
