@@ -5,6 +5,7 @@
 ![node](https://img.shields.io/badge/node-22.12%2B-green)
 ![data](https://img.shields.io/badge/data-synthetic%20only-orange)
 ![status](https://img.shields.io/badge/status-research%20prototype-lightgrey)
+![license](https://img.shields.io/badge/license-MIT-brightgreen)
 
 > **Monitoring, not diagnosis.** Research prototype for the Transfinitte 2026 hackathon (hardware track, problem statement by Dare 2 Dream Ventures).
 > All patient data in this repository is **synthetic** (plus public PhysioNet BIDMC ECG for heart rate). No human data was collected.
@@ -222,3 +223,7 @@ Every synthetic-patient parameter carries a source or is marked ASSUMPTION in [`
 - **Untested on people.** The circuit is simulated with a textbook body model and not yet compared with a bench build. SpO₂ calibration is generic.
 - **App.** Not installed or verified on a physical Android phone; draft translations and audio need human review; alarms need the app open; SMS from the app is a draft only.
 - **Safety.** Never use on anyone with a pacemaker or ICD, and measure on battery only while a person touches the electrodes.
+
+## License
+
+[MIT](LICENSE). The medical-safety limits above still apply: this is a research prototype, not a medical device.
