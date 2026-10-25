@@ -1,6 +1,6 @@
 # 1. Hardware design
 
-Everything a judge needs for the hardware score, in one place. Sources and scripts live in [`hardware/`](../hardware/), [`firmware/`](../firmware/) and [`tools/`](../tools/).
+Everything a judge needs for the hardware score, in one place. Sources and scripts live in [`hardware/`](../source_code/hardware/), [`firmware/`](../source_code/firmware/) and [`tools/`](../source_code/tools/).
 
 | File | What it is |
 |---|---|

@@ -12,7 +12,16 @@
 
 ## The idea: turn **any chair at home** into a heart-failure check-in
 
-<p align="center"><img src="Deliverables/concept_any_chair.webp" width="900" alt="HridayMitra concept: a weighing platform with foot electrodes under the family's own chair, and a hand sensor bar held on the lap or fixed to the armrests"></p>
+<table>
+<tr>
+<td width="68%"><img src="Deliverables/concept_any_chair.webp" alt="HridayMitra concept: a weighing platform with foot electrodes under the family's own chair, and a hand sensor bar held on the lap or fixed to the armrests"></td>
+<td width="32%"><img src="Deliverables/prototype_photo.jpg" alt="Our working breadboard prototype on an ordinary plastic chair, with the Kavach amulet worn on a cord"></td>
+</tr>
+<tr>
+<td align="center"><b>The product:</b> any household chair on our weighing platform, with the hand sensor bar</td>
+<td align="center"><b>Our working prototype</b> on an ordinary plastic chair, Kavach amulet on a cord</td>
+</tr>
+</table>
 
 **No special chair to buy. No patch to wear.**
 
@@ -34,13 +43,12 @@
 |---|---|
 | [📁 Deliverables](Deliverables/) | Concept image (any chair), pitch video, report, storyboard, block diagram, schematics, cost report, PCB, simulation video |
 | [📁 01_Hardware_Design](01_Hardware_Design/) | Prototype photo, block diagram, 4 schematic sheets, front end with test points, power budget, routed PCB + Gerbers, parts list (₹4,402) |
-| [📁 02_Software_and_Analytics](02_Software_and_Analytics/) | Signal processing, personal-baseline alert engine, hybrid ML, firmware engine, care loop, Saathi app, a real alert SMS |
+| [📁 02_Software_and_Analytics](02_Software_and_Analytics/) | App screenshots, signal processing, personal-baseline alert engine, hybrid ML, firmware engine, care loop, Saathi app, a real alert SMS |
 | [📁 03_Data](03_Data/) | Synthetic dataset card, sample patients, how noise is modelled |
 | [📁 04_Testing_and_Validation](04_Testing_and_Validation/) | The four PS measures with 95 % ranges, assumption and stress tests, PhysioNet real-data checks, 217 automated tests |
 | [📁 05_Simulation](05_Simulation/) | Live Wokwi, demo video, LTspice results, firmware emulator, PCB DRC |
 
 
-<p align="center"><img src="Deliverables/prototype_photo.jpg" width="320" alt="Working prototype: breadboard check-in unit on a household chair, Kavach amulet worn on a cord"></p>
 
 | Deliverable (PS requirement) | Where |
 |---|---|
@@ -49,12 +57,12 @@
 | Simulation demo video (one patient month, circuit + SMS) | [Deliverables/simulation_demo.mp4](Deliverables/simulation_demo.mp4) |
 | Technical report | [Deliverables/report.pdf](Deliverables/report.pdf) |
 | User-journey storyboard | [Deliverables/user_journey_storyboard.pdf](Deliverables/user_journey_storyboard.pdf) |
-| Block diagram | [Deliverables/block_diagram.webp](Deliverables/block_diagram.webp) · production set [HM-HW-001](docs/hardware/HM-HW-001_block_diagram.pdf) |
-| PCB of the custom sensor board (2-layer, 70 × 50 mm, fully routed, 0 DRC errors) | [3D view](Deliverables/pcb_3d.png) · [Gerbers](Deliverables/pcb_gerbers.zip) · [KiCad files](hardware/pcb/) |
-| Schematics (4 sheets) and power budget | [Deliverables/schematics.pdf](Deliverables/schematics.pdf) · [HM-HW-003](docs/hardware/HM-HW-003_power_budget.pdf) |
+| Block diagram | [Deliverables/block_diagram.webp](Deliverables/block_diagram.webp) · production set [HM-HW-001](source_code/docs/hardware/HM-HW-001_block_diagram.pdf) |
+| PCB of the custom sensor board (2-layer, 70 × 50 mm, fully routed, 0 DRC errors) | [3D view](Deliverables/pcb_3d.png) · [Gerbers](Deliverables/pcb_gerbers.zip) · [KiCad files](source_code/hardware/pcb/) |
+| Schematics (4 sheets) and power budget | [Deliverables/schematics.pdf](Deliverables/schematics.pdf) · [HM-HW-003](source_code/docs/hardware/HM-HW-003_power_budget.pdf) |
 | Cost report (₹4,402, under ₹5,000) | [Deliverables/cost_report.pdf](Deliverables/cost_report.pdf) |
-| Working phone app (Saathi, offline, 10 languages) | [app/](app/) |
-| Firmware (stool + amulet, ESP32) | [firmware/](firmware/) |
+| Working phone app (Saathi, offline, 10 languages) | [app/](source_code/app/) |
+| Firmware (stool + amulet, ESP32) | [firmware/](source_code/firmware/) |
 
 ### User-journey storyboard
 
@@ -62,7 +70,7 @@
 
 **The four PS measures** (hybrid engine, held-out test set): sensitivity **86 %**, specificity **97.9 %**, median lead time **3 days**, false alerts **0.19 per patient per month**.
 
-**Headline results** (synthetic benchmark, tuned on dev only, scored once; 95 % bootstrap range in brackets; full table in [benchmark/LEADERBOARD.md](benchmark/LEADERBOARD.md)):
+**Headline results** (synthetic benchmark, tuned on dev only, scored once; 95 % bootstrap range in brackets; full table in [benchmark/LEADERBOARD.md](source_code/benchmark/LEADERBOARD.md)):
 
 | System | Caught episodes | False alerts / patient-month | Median warning |
 |---|---|---|---|
@@ -121,7 +129,7 @@ The amulet needs nothing: it is worn on a cord day and night and charges on the 
 
 ## Is the synthetic data circular?
 
-We designed the patients, so we tested what happens when our guesses are wrong ([reports/assumption_sensitivity.csv](reports/assumption_sensitivity.csv), [reports/stress_and_ablation.csv](reports/stress_and_ablation.csv)):
+We designed the patients, so we tested what happens when our guesses are wrong ([reports/assumption_sensitivity.csv](source_code/reports/assumption_sensitivity.csv), [reports/stress_and_ablation.csv](source_code/reports/stress_and_ablation.csv)):
 
 - **Every assumption pushed to both extremes:** the engine stays within the false-alert budget in all cases and beats the weight rule in all cases. Sensitivity moves most with how long and how fast worsening happens (30–98 %), which is honest: it depends on the disease, not on our hardware guesses.
 - **Leg reading gives no signal in weight-silent patients** (worst case): sensitivity drops from 67 % to 52 %, still above the weight rule (29 %).
@@ -157,19 +165,19 @@ flowchart LR
 | Night sit-ups (can't lie flat) | Kavach amulet posture | daily life | 1.0 per sit-up beyond 1 in 3 days | up |
 | 3 spoken questions (breathless, extra pillows, tablets) | speaker + ✓ / ✗ buttons, local language | daily life | 1.2 per "yes" beyond 1 in 3 days | yes |
 
-Each signal is scored in "spread units" against the person's **own** normal (median of days t−35..t−7), only in the worsening direction. Family score = strongest sign + half the second. Red needs two families to agree. Source: [engine/alert_engine.py](engine/alert_engine.py).
+Each signal is scored in "spread units" against the person's **own** normal (median of days t−35..t−7), only in the worsening direction. Family score = strongest sign + half the second. Red needs two families to agree. Source: [engine/alert_engine.py](source_code/engine/alert_engine.py).
 
 ### Data files (all synthetic)
 
 | File | One row per | Contents |
 |---|---|---|
-| [data/processed/patients.csv](data/processed/patients.csv) | patient | sex, age, event yes/no, worsening start, admission day, lead days, weight-silent flag, cause, sensitivity |
-| [data/processed/daily_features.csv](data/processed/daily_features.csv) | patient-day | what the devices report after quality checks (empty = no reading) |
-| [data/processed/truth_daily.csv](data/processed/truth_daily.csv) | patient-day | hidden truth: congestion, guest on platform, infection, salty meal… (never shown to the engine) |
-| [data/processed/labels.csv](data/processed/labels.csv) | patient | answer key: worsening start and admission day |
-| [benchmark/splits.json](benchmark/splits.json) | — | dev / test / external / stress patient split (each patient in one split only) |
-| [engine/frozen_hybrid.json](engine/frozen_hybrid.json) | — | frozen threshold and model weights, tuned on dev only |
-| [docs/DATA.md](docs/DATA.md) | — | how the patients were built: every parameter with its published source or marked ASSUMPTION |
+| [data/processed/patients.csv](source_code/data/processed/patients.csv) | patient | sex, age, event yes/no, worsening start, admission day, lead days, weight-silent flag, cause, sensitivity |
+| [data/processed/daily_features.csv](source_code/data/processed/daily_features.csv) | patient-day | what the devices report after quality checks (empty = no reading) |
+| [data/processed/truth_daily.csv](source_code/data/processed/truth_daily.csv) | patient-day | hidden truth: congestion, guest on platform, infection, salty meal… (never shown to the engine) |
+| [data/processed/labels.csv](source_code/data/processed/labels.csv) | patient | answer key: worsening start and admission day |
+| [benchmark/splits.json](source_code/benchmark/splits.json) | — | dev / test / external / stress patient split (each patient in one split only) |
+| [engine/frozen_hybrid.json](source_code/engine/frozen_hybrid.json) | — | frozen threshold and model weights, tuned on dev only |
+| [docs/DATA.md](source_code/docs/DATA.md) | — | how the patients were built: every parameter with its published source or marked ASSUMPTION |
 
 **The alert engine** (`engine/alert_engine.py`): each person's baseline is the median/MAD of their own days t−35..t−7. Only the worsening direction is scored. Red needs **two independent witnesses** (for example weight and leg fluid), and bad-data guards ignore guests on the platform, a toe ring bridging two plates, lifted feet and noisy fingers. The same engine exists three times and is held identical by tests:
 
@@ -193,7 +201,7 @@ Synthetic cohorts; thresholds tuned on training patients, frozen, then tested on
 | False alerts per patient-month (held-out / external) | **0.06 / 0.06** | 0.19 / 0.09 | 0.53 / 0.38 |
 | Median lead time before the visit | 3 days | 3 days | 2 days |
 
-Full tables with 95% ranges and an open scorer anyone can run: [`benchmark/LEADERBOARD.md`](benchmark/LEADERBOARD.md), [`benchmark/README.md`](benchmark/README.md).
+Full tables with 95% ranges and an open scorer anyone can run: [`benchmark/LEADERBOARD.md`](source_code/benchmark/LEADERBOARD.md), [`benchmark/README.md`](source_code/benchmark/README.md).
 
 - **Calibrated to real trials.** The published FAST and SCALE-HF 1 weight rules score on our external cohort 20% / 33% caught and 4.8 / 4.85 unexplained alerts per year, against the published 23% / 35% and 4.3 / 4.18.
 - **Robust.** It beats the weight rule in all 52 assumption-sensitivity scenarios and 14 of 15 stress cases. In the 15th (10% guest days) the rule catches more but fires about 30× more false alerts.
@@ -203,13 +211,14 @@ Full tables with 95% ranges and an open scorer anyone can run: [`benchmark/LEADE
 - **Cost.** Parts list ₹3,917 (low) to ₹4,890 (plan price). Monte Carlo of price noise: median ₹4,402, 5th–95th percentile ₹4,319–4,486, under ₹5,000 in every draw. Build cost only, no shipping.
 - **Firmware.** The whole firmware runs through an emulated month: 26/26 claims pass and every light equals the Python engine.
 
-Details: `reports/phase1_summary.md`, `reports/phase2_summary.md`, `sim/circuit/HOW_TO_VERIFY.md`, [`docs/EVIDENCE.md`](docs/EVIDENCE.md) (every problem-statement requirement → proof file, plus a failure-modes table).
+Details: `reports/phase1_summary.md`, `reports/phase2_summary.md`, `sim/circuit/HOW_TO_VERIFY.md`, [`docs/EVIDENCE.md`](source_code/docs/EVIDENCE.md) (every problem-statement requirement → proof file, plus a failure-modes table).
 
 ## Quick start
 
-Requires Python 3.11.
+Requires Python 3.11. **All code lives in [`source_code/`](source_code/); every path and command below is relative to it.**
 
 ```bash
+cd source_code
 python run.py setup     # install packages, generate the synthetic cohorts if missing
 python run.py test      # pytest suite, incl. the real firmware in an emulated month and C++ engine = Python engine
 python run.py demo      # dashboard: patient light + voice, family SMS, ASHA/doctor trends, "break it" switches
@@ -230,6 +239,17 @@ In the dashboard, try patient **P0022**: slide to the red day, then tick "guest"
 
 ## Saathi phone app
 
+<table>
+<tr>
+<td align="center"><img src="source_code/docs/app/screens/elder.png" width="200" alt="Elder screen: big red status, voice button"><br><b>Elder</b><br>one big status, voice in their language</td>
+<td align="center"><img src="source_code/docs/app/screens/family.png" width="200" alt="Family screen: elder detail, medicine manager, check-in streak"><br><b>Family</b><br>alerts, medicines, check-in streak</td>
+<td align="center"><img src="source_code/docs/app/screens/asha.png" width="200" alt="ASHA screen: visit list and visit form"><br><b>ASHA worker</b><br>visit list, visit form</td>
+<td align="center"><img src="source_code/docs/app/screens/doctor.png" width="200" alt="Doctor screen: patient timeline, care plan, labs, notes"><br><b>PHC doctor</b><br>timeline, care plan, labs, notes</td>
+</tr>
+</table>
+
+*Demo data on a simulated red-alert day (synthetic patient). Screens captured by `source_code/app/tools/screenshots.mjs`.*
+
 `app/` is **HridayMitra Saathi**: an offline-first PWA (React 18 + TypeScript + Vite, Tailwind, Workbox, Dexie) for one Android phone with role switching.
 
 - **Elder mode:** big status orb, voice commands (offline Vosk packs), medicine reminders, a cancellable two-step emergency button that only opens the dialler.
@@ -241,7 +261,7 @@ In the dashboard, try patient **P0022**: slide to the red day, then tick "guest"
 - **Verified:** 108 unit tests, 27 browser tests, mobile Lighthouse accessibility 100 (see `docs/app/PHASE_9.md`).
 
 ```bash
-cd app
+cd source_code/app
 python ../tools/prepare_voice_models.py   # optional: 82 MB voice packs, not in git
 npm ci && npm test && npm run dev
 ```
@@ -257,7 +277,7 @@ A PWA installs only from **HTTPS or `localhost`**; plain `http://<lan-ip>` does 
 **Option B: USB, no hosting (Android).** Enable *Developer options → USB debugging*, connect the phone, then:
 
 ```bash
-cd app && npm ci && npm run build
+cd source_code/app && npm ci && npm run build
 npm run preview -- --port 4173          # serves the production build
 adb reverse tcp:4173 tcp:4173           # in a second terminal
 # phone: Chrome → http://localhost:4173 → menu → Install app
@@ -267,7 +287,7 @@ Open the installed app once while connected and wait for "App ready offline"; it
 
 ## Hardware and firmware
 
-<p align="center"><img src="docs/hardware/HM-HW-004_pcb_3d_top.png" width="520" alt="Routed 2-layer PCB of the 8-electrode impedance front end, KiCad 3D view"></p>
+<p align="center"><img src="source_code/docs/hardware/HM-HW-004_pcb_3d_top.png" width="520" alt="Routed 2-layer PCB of the 8-electrode impedance front end, KiCad 3D view"></p>
 
 | Path | Contents |
 |---|---|
@@ -283,11 +303,13 @@ Voice prompts: `python tools/make_voice_clips.py`. Recorded Hindi / Tamil WAVs i
 
 ## Simulate it (no hardware)
 
-- **Wokwi** (`wokwi/`): the production firmware on an emulated ESP32 with a *virtual patient* chip (drag leg fluid, chest fluid, lifted foot, mains hum), a MAX30102 chip, a monitor chip showing the engine's decision, and a SIM800L chip with a phone screen that receives the SMS ladder. Build with `python run.py wokwi`; run in the browser in two minutes, see [`wokwi/README.md`](wokwi/README.md).
+- **Wokwi** (`wokwi/`): the production firmware on an emulated ESP32 with a *virtual patient* chip (drag leg fluid, chest fluid, lifted foot, mains hum), a MAX30102 chip, a monitor chip showing the engine's decision, and a SIM800L chip with a phone screen that receives the SMS ladder. Build with `python run.py wokwi`; run in the browser in two minutes, see [`wokwi/README.md`](source_code/wokwi/README.md).
 - **Software-in-the-loop** (`tests/test_firmware_sil.py`, `tests/sil/`): the same firmware compiled for the laptop and driven through a month.
-- **Demo video:** [`docs/demo/hridaymitra_month_demo.mp4`](docs/demo/hridaymitra_month_demo.mp4), one month of the stool firmware driving the Wokwi screens.
+- **Demo video:** [`docs/demo/hridaymitra_month_demo.mp4`](source_code/docs/demo/hridaymitra_month_demo.mp4), one month of the stool firmware driving the Wokwi screens.
 
 ## Reproduce everything
+
+Run from `source_code/`.
 
 | Step | Command |
 |---|---|
@@ -305,11 +327,13 @@ Voice prompts: `python tools/make_voice_clips.py`. Recorded Hindi / Tamil WAVs i
 | KiCad schematic + ERC + netlist checks (needs KiCad 9) | `python tools/make_schematic.py` |
 | Block diagram, cost simulation | `python tools/make_block_diagram.py`, `python tools/cost_sim.py` |
 
-Every synthetic-patient parameter carries a source or is marked ASSUMPTION in [`data/processed/DATA.md`](data/processed/DATA.md); each ASSUMPTION was pushed low and high in the sensitivity sweep.
+Every synthetic-patient parameter carries a source or is marked ASSUMPTION in [`data/processed/DATA.md`](source_code/data/processed/DATA.md); each ASSUMPTION was pushed low and high in the sensitivity sweep.
 
 ## Repository map
 
-| Folder | What is inside |
+Judge folders at the top level (`01_` … `05_`, `Deliverables/`); all code in [`source_code/`](source_code/):
+
+| Folder (inside `source_code/`) | What is inside |
 |---|---|
 | `engine/` | `signals.py` (raw → numbers), `alert_engine.py` (baseline, scores, lights, reasons), `hybrid.py`, `product.py` (sick-day plan, coaching, two users, FHIR), `sts.py` (sit-to-stand), `evaluate.py` (the four PS measures, no-peeking check), baselines, tuning scripts, frozen thresholds |
 | `benchmark/` | Open benchmark v2: fixed splits with sha256, public scorer with bootstrap ranges, 5 baselines, leaderboard |
@@ -332,8 +356,8 @@ Every synthetic-patient parameter carries a source or is marked ASSUMPTION in [`
 ## Documents
 
 - `docs/HridayMitra report.pdf` (2 pages) and `docs/HridayMitra pitch deck.pdf`, plus `docs/PITCH_SCRIPT.md`; regenerated from live results by `python run.py docs`.
-- [`docs/EVIDENCE.md`](docs/EVIDENCE.md): requirement traceability, failure modes and safeguards, assumption ledger.
-- [`docs/DECISIONS.md`](docs/DECISIONS.md): starting ideas, every design decision with evidence, next improvements.
+- [`docs/EVIDENCE.md`](source_code/docs/EVIDENCE.md): requirement traceability, failure modes and safeguards, assumption ledger.
+- [`docs/DECISIONS.md`](source_code/docs/DECISIONS.md): starting ideas, every design decision with evidence, next improvements.
 - Build guide v3, wiring guide, physical build pack, user journey storyboard, block diagram: `docs/`.
 
 ## Troubleshooting

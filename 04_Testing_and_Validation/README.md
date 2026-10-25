@@ -31,9 +31,9 @@ Brackets: 95 % range from 1,000 bootstrap resamples of patients.
 
 | Suite | Count | Where |
 |---|---|---|
-| Python (engine, signals, benchmark, C++ = Python parity) | 67 | [tests/](../tests/), run `pytest` |
-| App (engine vectors, screens, languages) | 109 | [app/tests/](../app/tests/), run `npm test` in `app/` |
-| Firmware emulator (real .ino code, mocked sensors) | 41 checks | [tests/sil/](../tests/sil/) |
+| Python (engine, signals, benchmark, C++ = Python parity) | 67 | [tests/](../source_code/tests/), run `pytest` |
+| App (engine vectors, screens, languages) | 109 | [app/tests/](../source_code/app/tests/), run `npm test` in `app/` |
+| Firmware emulator (real .ino code, mocked sensors) | 41 checks | [tests/sil/](../source_code/tests/sil/) |
 
 **Limits:** synthetic patients show the method works on the patterns we modelled; this is not clinical accuracy. Monitoring, not diagnosis.
 

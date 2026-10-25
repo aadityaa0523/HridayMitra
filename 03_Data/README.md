@@ -17,8 +17,8 @@ All patient data is **synthetic** (computer-generated), as the problem statement
 | 2 | [2_external_1000_patients/](2_external_1000_patients/) | 1,000 (100), seed 43, a rarer, "real-world-like" event rate | External test, never used for tuning | same files |
 | 3 | [3_stress_weak_leg_signal/](3_stress_weak_leg_signal/) | 200 (120) | Worst-case assumption: the leg reading responds only half as much to fluid | same files |
 | 4–12 | [4_stress_real_life/](4_stress_real_life/) | 400 (100) from set 2, **9 messy versions** | Real-life stress tests behind [stress_and_ablation.csv](../04_Testing_and_Validation/stress_and_ablation.csv) | `clean_before_stress.csv` and one file per case: 30 % and 50 % days missing, 10 % guest days, 15 % wet-feet days, amulet worn half the time, power cuts / travel gaps, electrode ageing 1 % and 3 % a month, everything bad at once |
-| 13 | [data/raw/ `bidmc_chf_*`](../data/raw/) | 15 real heart-failure patients (PhysioNet BIDMC CHF) | Heart rate from ECG | 30-minute ECG excerpts |
-| 14 | [data/raw/ `bidmc_ppg_*`](../data/raw/) | 53 real ICU patients (PhysioNet BIDMC PPG and Respiration) | Pulse from finger PPG, breathing rate | PPG, breathing signal, monitor pulse, annotated breaths |
+| 13 | [data/raw/ `bidmc_chf_*`](../source_code/data/raw/) | 15 real heart-failure patients (PhysioNet BIDMC CHF) | Heart rate from ECG | 30-minute ECG excerpts |
+| 14 | [data/raw/ `bidmc_ppg_*`](../source_code/data/raw/) | 53 real ICU patients (PhysioNet BIDMC PPG and Respiration) | Pulse from finger PPG, breathing rate | PPG, breathing signal, monitor pulse, annotated breaths |
 
 All synthetic sets are rebuilt with one command each (same seed → same files): `python sim/patients/make_patients.py`, `python tools/export_stress_sets.py`, `python tools/export_alerts.py`. Real PhysioNet data is public and downloaded by the validation scripts.
 
@@ -26,15 +26,15 @@ All synthetic sets are rebuilt with one command each (same seed → same files):
 
 | Step | Script | What it does |
 |---|---|---|
-| 1. Build patients | [sim/patients/make_patients.py](../sim/patients/make_patients.py) | Generates the synthetic patients from the parameters in [dataset_card.md](dataset_card.md) |
-| 2. Check the data | [sim/patients/check_patients.py](../sim/patients/check_patients.py) | Prints simple facts about the patients and draws 6 of them (`patients_sample.png`) |
-| 3. Sensor noise | [sim/circuit/measurement_error_model.py](../sim/circuit/measurement_error_model.py) | Turns LTspice and bench numbers into the noise added to every reading |
-| 4. Alert engine | [engine/alert_engine.py](../engine/alert_engine.py), [engine/hybrid.py](../engine/hybrid.py) | Personal baseline, scores, lights, reasons |
-| 5. Day-by-day output | [tools/export_alerts.py](../tools/export_alerts.py), [tools/export_stress_sets.py](../tools/export_stress_sets.py) | Writes `alerts.csv` and the 9 stress datasets above |
-| 6. Benchmark | [benchmark/bench.py](../benchmark/bench.py), [benchmark/score.py](../benchmark/score.py) | Splits patients, tunes on dev only, scores once on test / external / stress with bootstrap ranges |
-| 7. Robustness | [engine/assumption_sensitivity.py](../engine/assumption_sensitivity.py), [engine/stress_and_ablation.py](../engine/stress_and_ablation.py) | Pushes every assumption to its extremes; removes one part at a time |
-| 8. Real public data | [engine/validate_bidmc_hr.py](../engine/validate_bidmc_hr.py), [engine/validate_bidmc_ppg.py](../engine/validate_bidmc_ppg.py) | Heart rate, pulse and breathing code on PhysioNet BIDMC |
+| 1. Build patients | [sim/patients/make_patients.py](../source_code/sim/patients/make_patients.py) | Generates the synthetic patients from the parameters in [dataset_card.md](dataset_card.md) |
+| 2. Check the data | [sim/patients/check_patients.py](../source_code/sim/patients/check_patients.py) | Prints simple facts about the patients and draws 6 of them (`patients_sample.png`) |
+| 3. Sensor noise | [sim/circuit/measurement_error_model.py](../source_code/sim/circuit/measurement_error_model.py) | Turns LTspice and bench numbers into the noise added to every reading |
+| 4. Alert engine | [engine/alert_engine.py](../source_code/engine/alert_engine.py), [engine/hybrid.py](../source_code/engine/hybrid.py) | Personal baseline, scores, lights, reasons |
+| 5. Day-by-day output | [tools/export_alerts.py](../source_code/tools/export_alerts.py), [tools/export_stress_sets.py](../source_code/tools/export_stress_sets.py) | Writes `alerts.csv` and the 9 stress datasets above |
+| 6. Benchmark | [benchmark/bench.py](../source_code/benchmark/bench.py), [benchmark/score.py](../source_code/benchmark/score.py) | Splits patients, tunes on dev only, scores once on test / external / stress with bootstrap ranges |
+| 7. Robustness | [engine/assumption_sensitivity.py](../source_code/engine/assumption_sensitivity.py), [engine/stress_and_ablation.py](../source_code/engine/stress_and_ablation.py) | Pushes every assumption to its extremes; removes one part at a time |
+| 8. Real public data | [engine/validate_bidmc_hr.py](../source_code/engine/validate_bidmc_hr.py), [engine/validate_bidmc_ppg.py](../source_code/engine/validate_bidmc_ppg.py) | Heart rate, pulse and breathing code on PhysioNet BIDMC |
 
-**Problem-statement rules met:** at least 20 patients × 30 days (we use 200 × 60, plus 1,000 external); worsening starts 3–10 days before the visit; each patient is fully in training or testing ([benchmark/splits.json](../benchmark/splits.json)).
+**Problem-statement rules met:** at least 20 patients × 30 days (we use 200 × 60, plus 1,000 external); worsening starts 3–10 days before the visit; each patient is fully in training or testing ([benchmark/splits.json](../source_code/benchmark/splits.json)).
 
 ![Sample patients](patients_sample.png)

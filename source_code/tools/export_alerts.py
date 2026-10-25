@@ -32,6 +32,6 @@ for pid, g in df.groupby("patient_id", sort=False):
                          reason="; ".join(parts), likely_cause=cause, hybrid_red=int(h)))
 out = pd.DataFrame(rows)
 assert len(out) == len(df) and out.light.isin(LIGHT.values()).all()
-dst = ROOT / "03_Data/1_main_200_patients/alerts.csv"
+dst = ROOT.parent / "03_Data/1_main_200_patients/alerts.csv"     # judge folder sits beside source_code/
 out.to_csv(dst, index=False)
 print(dst, len(out), out.light.value_counts().to_dict())
