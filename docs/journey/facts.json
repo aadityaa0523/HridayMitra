@@ -1,0 +1,24 @@
+{
+ "amber": 34,
+ "red": 41,
+ "admit": 45,
+ "lead": 4,
+ "amber_why": [
+  "leg water outside cells +0.6 % vs normal",
+  "stand-up time +5 % vs normal",
+  "leg reading -1 % vs normal"
+ ],
+ "red_why": [
+  "leg reading -5 % vs normal",
+  "weight +1.3 kg vs normal",
+  "night breathing +1.4 per min vs normal"
+ ],
+ "amber_cause": "after missed medicine",
+ "red_cause": "heart-failure-like (fluid building)",
+ "missed": [
+  0,
+  32,
+  33,
+  34
+ ]
+}
