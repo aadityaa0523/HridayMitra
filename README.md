@@ -33,14 +33,6 @@
 
 [![HridayMitra user journey storyboard](Deliverables/user_journey_storyboard.png)](Deliverables/user_journey_storyboard.pdf)
 
-### How HridayMitra meets the judging criteria
-
-| Criterion | Weight | What we deliver | Proof |
-|---|---|---|---|
-| **Software and analytics** | 20 | Raw sensor signals → features → **personal baseline** per patient → green / amber / red with **the reason in plain words** (hybrid: rules propose, a dev-trained logistic model confirms). The same engine runs offline on the ESP32 and in the **Saathi app** (elder, family, ASHA and doctor screens, 10 Indian languages). | [engine/](engine/) · [firmware/](firmware/) · [app/](app/) · 67 Python + 109 app tests |
-| **Hardware design and simulation proof** | 15 | Production-style block diagram, a 4-sheet schematic set (8-electrode impedance front end, load cells, PPG, SIM800L), power budget, parts list in INR (₹4,402); **live Wokwi simulation**, firmware emulator (41 checks), LTspice front-end test points. | [Wokwi](https://wokwi.com/projects/478945371100594177) · [schematics](Deliverables/schematics.pdf) · [HM-HW-001/003](docs/hardware/) · [simulation video](Deliverables/simulation_demo.mp4) |
-| **Scientific basis and honest testing** | 15 | Every signal tied to published studies ([docs/EVIDENCE.md](docs/EVIDENCE.md)). Synthetic patients built as the PS asks (worsening 3–10 days before the visit, method in [docs/DATA.md](docs/DATA.md)); **each patient fully in train or test**; all four PS measures with 95 % bootstrap ranges; compared against published weight rules; real-data checks on PhysioNet BIDMC. Limits stated plainly: synthetic data, not clinical proof. | [benchmark/LEADERBOARD.md](benchmark/LEADERBOARD.md) · [Honest limits](#honest-limits) |
-
 **The four PS measures** (hybrid engine, held-out test set): sensitivity **86 %**, specificity **97.9 %**, median lead time **3 days**, false alerts **0.19 per patient per month**.
 
 **Headline results** (synthetic benchmark, tuned on dev only, scored once; 95 % bootstrap range in brackets; full table in [benchmark/LEADERBOARD.md](benchmark/LEADERBOARD.md)):
