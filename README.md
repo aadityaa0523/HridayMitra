@@ -74,6 +74,36 @@ flowchart LR
   S -- USB, optional --> D[Laptop bridge → live dashboard]
 ```
 
+### Signals the engine scores
+
+| Signal | Sensor and position | Family | Weight in family | Worse when |
+|---|---|---|---|---|
+| Body weight | 4 load cells under the platform (corners) → HX711 | fluid | 1.0 | up |
+| Leg reading (5 kHz impedance) | 4 stainless foot plates + 4 hand strips, 8 electrodes, ESP32 DAC excitation via MCP6002 → INA126 | fluid | 1.0 | down |
+| Leg water outside cells (EWI) | same electrodes, spectroscopy at 5 / 20 / 50 kHz, Cole-model fit (cancels foot position, skin temperature) | fluid | 1.0 | up |
+| Chest reading | segmental subtraction of the same 8-electrode readings | fluid | 0.5 | down |
+| Resting pulse | MAX30102 in the hand bar's fingertip cradle | heart-lungs | 1.0 | up |
+| Night breathing rate | Kavach amulet accelerometer (MPU6050), chest motion at night | heart-lungs | 1.0 | up |
+| Oxygen (SpO₂, trend only) | MAX30102 | heart-lungs | 0.5 | down (below 90 % = red at once) |
+| Activity + 6-minute walk | Kavach amulet, steps and best 6 minutes of the week | daily life | 1.0 | down |
+| Sit-to-stand time | platform force, double-integrated centre-of-mass rise, min-jerk fit | daily life | 1.0 | up |
+| Night sit-ups (can't lie flat) | Kavach amulet posture | daily life | 1.0 per sit-up beyond 1 in 3 days | up |
+| 3 spoken questions (breathless, extra pillows, tablets) | speaker + ✓ / ✗ buttons, local language | daily life | 1.2 per "yes" beyond 1 in 3 days | yes |
+
+Each signal is scored in "spread units" against the person's **own** normal (median of days t−35..t−7), only in the worsening direction. Family score = strongest sign + half the second. Red needs two families to agree. Source: [engine/alert_engine.py](engine/alert_engine.py).
+
+### Data files (all synthetic)
+
+| File | One row per | Contents |
+|---|---|---|
+| [data/processed/patients.csv](data/processed/patients.csv) | patient | sex, age, event yes/no, worsening start, admission day, lead days, weight-silent flag, cause, sensitivity |
+| [data/processed/daily_features.csv](data/processed/daily_features.csv) | patient-day | what the devices report after quality checks (empty = no reading) |
+| [data/processed/truth_daily.csv](data/processed/truth_daily.csv) | patient-day | hidden truth: congestion, guest on platform, infection, salty meal… (never shown to the engine) |
+| [data/processed/labels.csv](data/processed/labels.csv) | patient | answer key: worsening start and admission day |
+| [benchmark/splits.json](benchmark/splits.json) | — | dev / test / external / stress patient split (each patient in one split only) |
+| [engine/frozen_hybrid.json](engine/frozen_hybrid.json) | — | frozen threshold and model weights, tuned on dev only |
+| [docs/DATA.md](docs/DATA.md) | — | how the patients were built: every parameter with its published source or marked ASSUMPTION |
+
 **The alert engine** (`engine/alert_engine.py`): each person's baseline is the median/MAD of their own days t−35..t−7. Only the worsening direction is scored. Red needs **two independent witnesses** (for example weight and leg fluid), and bad-data guards ignore guests on the platform, a toe ring bridging two plates, lifted feet and noisy fingers. The same engine exists three times and is held identical by tests:
 
 | Where | File | Checked by |
