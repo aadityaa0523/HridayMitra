@@ -1,16 +1,16 @@
 metric,value,note
-parsed_total_low,3892.0,"Rs, sum of parsed list"
-guide_total_low,3892.0,"Rs, stated in guide"
-parsed_total_plan,4770.0,"Rs, sum of parsed list"
-guide_total_plan,4770.0,"Rs, stated in guide"
+parsed_total_low,3917.0,"Rs, sum of parsed list"
+guide_total_low,3917.0,"Rs, stated in guide"
+parsed_total_plan,4820.0,"Rs, sum of parsed list"
+guide_total_plan,4820.0,"Rs, stated in guide"
 P(total<=5000),1.0,build cost only (parts)
-median,4330.3534,Rs
-p5,4253.4693,Rs
-p95,4407.3736,Rs
-volume_100_units_low,2598.212,"ASSUMPTION: bulk prices 40% lower, Rs per unit, no shipping"
-volume_100_units_high,3031.2474,"ASSUMPTION: bulk prices 30% lower, Rs per unit, no shipping"
-top1_variance,0.4289,SIM800L GSM module + antenna
-top2_variance,0.2086,One 18650 cell
-top3_variance,0.0498,PAM8403 amplifier module + 4 Ω 3 W speaker
-top4_variance,0.0491,4 × 50 kg half-bridge load cells
-top5_variance,0.0463,PVC pipe 25 mm
+median,4367.2656,Rs
+p5,4289.8754,Rs
+p95,4445.0926,Rs
+volume_100_units_low,2620.3594,"ASSUMPTION: bulk prices 40% lower, Rs per unit, no shipping"
+volume_100_units_high,3057.0859,"ASSUMPTION: bulk prices 30% lower, Rs per unit, no shipping"
+top1_variance,0.4168,SIM800L GSM module + antenna
+top2_variance,0.2101,One 18650 cell
+top3_variance,0.0511,4 × 50 kg half-bridge load cells
+top4_variance,0.0472,PAM8403 amplifier module + 4 Ω 3 W speaker
+top5_variance,0.0461,PVC pipe 25 mm

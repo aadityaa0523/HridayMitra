@@ -11,6 +11,7 @@ const Clip CLIP_Q_BREATH = {beep_data, 800, 8000};
 const Clip CLIP_Q_PILLOW = {beep_data, 800, 8000};
 const Clip CLIP_Q_TABLETS = {beep_data, 800, 8000};
 const Clip CLIP_WALK = {beep_data, 800, 8000};
+const Clip CLIP_USE_SWITCH = {beep_data, 800, 8000};
 const Clip CLIP_STAND = {beep_data, 800, 8000};
 const Clip CLIP_GREEN = {beep_data, 800, 8000};
 const Clip CLIP_AMBER = {beep_data, 800, 8000};

@@ -70,6 +70,7 @@ struct World {
   // body and sensors
   double weight = 0; bool plateOpen = false;
   double seg[3][3] = {{289.25, 650, 3.39e-9}, {330, 750, 2.9e-9}, {28, 60, 30e-9}};   // leg, arm, trunk: Re, Ri, Cm
+  int dacStarts = 0;                                        // times the body excitation was switched on
   double excHz = 5000, refScale = 1.0;                      // refScale != 1: a damaged reference chain
   double bpm = 70, spo2 = 96; bool finger = true;
   double hum_mv = 20;
@@ -164,7 +165,7 @@ enum { DAC_CHAN_0 = 0, DAC_COSINE_CLK_SRC_DEFAULT = 0, DAC_COSINE_ATTEN_DB_6 = 1
 struct dac_cosine_config_t { int chan_id, freq_hz, clk_src, atten, phase, offset; };
 inline int dac_cosine_new_channel(const dac_cosine_config_t* c, dac_cosine_handle_t* h) { W.excHz = c->freq_hz; *h = (dac_cosine_handle_t)1; return 0; }
 inline int dac_cosine_del_channel(dac_cosine_handle_t) { return 0; }
-inline int dac_cosine_start(dac_cosine_handle_t) { W.dacOn = true; return 0; }
+inline int dac_cosine_start(dac_cosine_handle_t) { W.dacOn = true; W.dacStarts++; return 0; }
 inline int dac_cosine_stop(dac_cosine_handle_t) { W.dacOn = false; return 0; }
 
 // ---------------- I2C: MAX30102 ----------------

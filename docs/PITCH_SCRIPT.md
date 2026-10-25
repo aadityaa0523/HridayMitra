@@ -2,7 +2,7 @@
 
 | Time | Slide | Say |
 |---|---|---|
-| 0:00 | 1 | "Every heart-failure admission starts days earlier, silently. HridayMitra is a 90-second daily check-in that warns the family 3 days before the hospital, offline, for ₹4,330." |
+| 0:00 | 1 | "Every heart-failure admission starts days earlier, silently. HridayMitra is a 90-second daily check-in that warns the family 3 days before the hospital, offline, for ₹4,367." |
 | 0:30 | 2 | The weight-scale rule catches about a third and cries wolf; elders don't wear patches; rural homes have power cuts and 2G. |
 | 1:00 | 3 | Stool + amulet + care loop. Point at the block diagram: 8 electrodes, legs and chest fluid. |
 | 1:45 | 4 | Personal normal, two witnesses, reasons. Read the SMS aloud. |

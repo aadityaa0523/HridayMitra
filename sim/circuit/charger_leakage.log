@@ -1,0 +1,27 @@
+LTspice 24.1.10 for Windows
+Circuit: C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\charger_leakage.cir
+Start Time: Sun Oct 25 08:37:58 2026
+solver = Normal
+Maximum thread count: 14
+tnom = 27
+temp = 27
+method = trap
+Direct Newton iteration for .op point succeeded.
+.step case=0
+.step case=1
+.step case=2
+.step case=3
+.step case=4
+Total elapsed time: 3.989 seconds.
+
+Files loaded:
+C:\Users\Aadityaa\Hackathons\HridayMitra\sim\circuit\charger_leakage.cir
+
+
+Measurement: ileak
+  step	RMS(I(Rpe))	FROM	TO
+     1	1.89798729587e-07	0.1	0.2
+     2	7.22603266768e-05	0.1	0.2
+     3	0.000338792565211	0.1	0.2
+     4	1.8984758442e-07	0.1	0.2
+     5	0.0723321865411	0.1	0.2

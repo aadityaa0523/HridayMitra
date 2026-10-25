@@ -85,7 +85,17 @@ python sim/circuit/trunk_paths.py
 - **Test:** body current with each single fault, measured at 5, 20 and 50 kHz, against IEC 60601-1 limits for type BF parts (DC 10/50 µA; AC 100/500 µA × f in kHz).
 - **Faults tested:** current-limit resistor shorted, either coupling capacitor shorted, op-amp output stuck at either rail, DAC at full scale, plus one double fault.
 - **Result:** every case passes. The smallest margin is **6.6×** in normal use; it's 12.8× with a single fault. The two series capacitors mean no single fault can drive DC through the patient.
-- **Still a rule, not a circuit protection:** never measure with the mains charger connected. A "Charge / Use" switch that disconnects the electrodes while charging is recommended.
+- **Charger leakage (`python sim/circuit/charger_leakage.py`):** mains (325 V peak) couples through the charger's Y-capacitor; the patient stands barefoot on a wet, earthed floor (1 kΩ). Patient leakage limits: 100 µA normal, 500 µA single fault.
+
+  | Case | Leakage through the patient | Verdict |
+  |---|---|---|
+  | Switch on **USE**, cheap charger plugged in | **0.19 µA** | pass |
+  | Switch on **USE**, charger insulation failed | **0.19 µA** | pass |
+  | Switch on CHARGE, good charger (1 nF), if someone measured anyway | 72 µA | pass |
+  | Switch on CHARGE, cheap charger (4.7 nF) | 339 µA | fail (3.4× over) |
+  | Switch on CHARGE, charger insulation failed | 72 mA | fail (dangerous) |
+
+- **So the stool has a CHARGE / USE switch (SW6):** in USE both USB wires are cut; in CHARGE, GPIO39 sees the charger and the firmware refuses to measure (firmware emulator check: no excitation current is ever switched on). Two independent protections, so no single failure exposes the patient. The optional laptop bridge must run on a laptop on battery.
 
 ## 9. Self-calibrating reference (`python sim/circuit/selfcal.py`)
 - **Design:** the reference is **Rcal, 100 Ω 0.1%**, in series with an ordinary R5 (120 Ω). The spare 74HC4053 switch (GPIO12) reads across Rcal for every reading, and across both for an integrity check: the ratio must be 2.2.

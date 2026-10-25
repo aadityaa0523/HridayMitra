@@ -1,0 +1,6 @@
+case,switch,condition,leak_uA,limit_uA,verdict
+"USE, cheap charger (4.7 nF) plugged in",USE,NC,0.19,100,PASS
+"CHARGE, good charger (1 nF): if someone measured anyway",CHARGE,NC,72.26,100,PASS
+"CHARGE, cheap charger (4.7 nF): if someone measured anyway",CHARGE,NC,338.79,100,FAIL
+"USE, charger insulation failed (live on its output)",USE,SFC,0.19,500,PASS
+"CHARGE, charger insulation failed",CHARGE,SFC,72332.19,500,FAIL

@@ -22,7 +22,7 @@ SYM = {k: Symbol(*v) for k, v in {
     "MUX4": ("Analog_Switch", "CD4052B"), "MUX2": ("Analog_Switch", "CD4053B"), "INA": ("Amplifier_Instrumentation", "INA128"),
     "OPA": ("Amplifier_Operational", "LM2904"), "LDO": ("Regulator_Linear", "AP1117-15"), "ESP": ("RF_Module", "ESP32-WROOM-32"),
     "BTN": ("Switch", "SW_Push"), "SPST": ("Switch", "SW_SPST"), "J4": ("Connector_Generic", "Conn_01x04"),
-    "J5": ("Connector_Generic", "Conn_01x05"), "J6": ("Connector_Generic", "Conn_01x06"), "J8": ("Connector_Generic", "Conn_01x08"),
+    "J2P": ("Connector_Generic", "Conn_01x02"), "DPDT": ("Switch", "SW_DPDT_x2"), "J5": ("Connector_Generic", "Conn_01x05"), "J6": ("Connector_Generic", "Conn_01x06"), "J8": ("Connector_Generic", "Conn_01x08"),
     "FLAG": ("power", "PWR_FLAG"), "NPN": ("Device", "Q_NPN"), "D": ("Device", "D"), "MOT": ("Motor", "Motor_DC")}.items()}
 
 # (block, ref, symbol, value, unit, {pin number: net}). Pins not listed are marked "not connected".
@@ -68,7 +68,7 @@ PARTS = [
 ] + [(FE, f"C{n}", "C", "100n", 1, {"1": "+3V3", "2": "GND"}) for n in (6, 7, 8, 9, 13)] + [
     (MCU, "U6", "ESP", "ESP32-WROOM-32 (DevKit)", 1, {"2": "+3V3", "1": "GND", "10": "DAC_EXC", "7": "Z_ADC", "30": "SEL",
         "9": "PATH_S0", "12": "PATH_S1", "8": "HX_DT", "13": "HX_SCK", "11": "VOICE_DAC", "33": "SDA", "36": "SCL",
-        "6": "ECG_OUT", "5": "ECG_LOP", "4": "DRAWER", "31": "VIBRA", "16": "LED_G", "37": "LED_A", "24": "LED_R", "26": "BTN_G",
+        "6": "ECG_OUT", "5": "CHG_SENSE", "4": "DRAWER", "31": "VIBRA", "16": "LED_G", "37": "LED_A", "24": "LED_R", "26": "BTN_G",
         "29": "BTN_R", "23": "BTN_SOS", "14": "CAL_SEL", "28": "GSM_TX", "27": "GSM_RX", "3": "EN"}),
     (MCU, "R19", "R", "10k (on DevKit)", 1, {"1": "+3V3", "2": "EN"}),
     (PER, "D1", "LED", "green", 1, {"2": "LED_G", "1": "LED_G_K"}),
@@ -93,8 +93,7 @@ PARTS = [
     (PER, "R18", "R", "2.2k", 1, {"1": "GSM_RXD", "2": "GND"}),
     (PER, "J8", "J4", "SIM800L module: VCC GND TXD RXD", 1, {"1": "VBAT", "2": "GND", "3": "GSM_RX", "4": "GSM_RXD"}),
     (PER, "C12", "CP", "1000u", 1, {"1": "VBAT", "2": "GND"}),
-    (PER, "J11", "J5", "AD8232 (optional; off for pacemaker/ICD; LO- unused)", 1, {"1": "+3V3", "2": "GND", "3": "ECG_OUT",
-        "4": "ECG_LOP"}),
+    (PER, "J11", "J5", "AD8232 (optional; off for pacemaker/ICD; LO+/LO- unused)", 1, {"1": "+3V3", "2": "GND", "3": "ECG_OUT"}),
     (PER, "R21", "R", "1k", 1, {"1": "VIBRA", "2": "VIB_B"}),
     (PER, "Q1", "NPN", "2N2222 (vibration driver)", 1, {"B": "VIB_B", "C": "VIB_C", "E": "GND"}),
     (PER, "M1", "MOT", "coin vibration motor (seat)", 1, {"1": "+5V", "2": "VIB_C"}),
@@ -102,7 +101,12 @@ PARTS = [
     (PER, "R20", "R", "10k", 1, {"1": "+3V3", "2": "DRAWER"}),
     (PER, "SW5", "BTN", "tablet-drawer microswitch", 1, {"1": "DRAWER", "2": "GND"}),
     (PWR, "BT1", "BAT", "18650 (protected)", 1, {"1": "BAT_P", "2": "GND"}),
-    (PWR, "J9", "J4", "TP4056 module: B+ B- OUT+ OUT-", 1, {"1": "BAT_P", "2": "GND", "3": "VBAT_RAW", "4": "GND"}),
+    (PWR, "J12", "J2P", "USB-C charge socket (5V, GND); the TP4056 own USB socket is sealed", 1, {"1": "USB_5V", "2": "USB_GND"}),
+    (PWR, "SW6", "DPDT", "CHARGE / USE slide switch: USE cuts BOTH charger wires", 1, {"2": "CHG_IN", "1": "USB_5V"}),
+    (PWR, "SW6", "DPDT", "CHARGE / USE slide switch: USE cuts BOTH charger wires", 2, {"5": "GND", "4": "USB_GND"}),
+    (PWR, "R23", "R", "100k", 1, {"1": "CHG_IN", "2": "CHG_SENSE"}),
+    (PWR, "R24", "R", "100k", 1, {"1": "CHG_SENSE", "2": "GND"}),
+    (PWR, "J9", "J6", "TP4056 module: IN+ IN- B+ B- OUT+ OUT-", 1, {"1": "CHG_IN", "2": "GND", "3": "BAT_P", "4": "GND", "5": "VBAT_RAW", "6": "GND"}),
     (PWR, "SW4", "SPST", "power switch", 1, {"1": "VBAT_RAW", "2": "VBAT"}),
     (PWR, "J10", "J4", "MT3608 module: IN+ IN- OUT+ OUT-", 1, {"1": "VBAT", "2": "GND", "3": "+5V", "4": "GND"}),
     (PWR, "U7", "LDO", "3.3 V LDO (on DevKit)", 1, {"3": "+5V", "1": "GND", "2": "+3V3"}),
@@ -290,6 +294,9 @@ def check_paths(nets):
     xch, ych = {0: "12", 1: "14", 2: "15", 3: "11"}, {0: "1", 1: "5", 2: "2", 3: "4"}      # CD4052B X0-X3, Y0-Y3 pins
     assert of["U4.10"] == of["U5.10"] == "PATH_S0" and of["U4.9"] == of["U5.9"] == "PATH_S1"
     assert of["U4.13"] == "I_SRC" and of["U4.3"] == "I_SNK" and of["U5.13"] == "SA" and of["U5.3"] == "SB"
+    # CHARGE/USE: the charger reaches the TP4056 (and the GPIO39 sense) only through both poles of SW6
+    assert nets["CHG_IN"] == {"SW6.2", "J9.1", "R23.1"} and nets["USB_5V"] == {"J12.1", "SW6.1"}
+    assert nets["USB_GND"] == {"J12.2", "SW6.4"} and "SW6.5" in nets["GND"] and of["U6.5"] == "CHG_SENSE"
     bad = []
     for (s1, s0), want in PATH_TABLE.items():
         ch = 2 * s1 + s0                                      # B = S1 (GPIO27), A = S0 (GPIO33)

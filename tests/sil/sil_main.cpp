@@ -115,7 +115,10 @@ int main() {
   check(!smsTo(ASHA, 24 * DAY + 18 * H, 24 * DAY + 19 * H, "6-min walk 540 steps ~270 m").empty(), "6-minute walk test in the weekly summary (540 steps, ~270 m)");
   W.walk6 = 0;
   // day 25: a guest sits down in the afternoon
-  curDay = 25; runUntil(25 * DAY + 8 * H); doCheckin(62.1, Body(), {0, 0});
+  curDay = 25; runUntil(25 * DAY + 7 * H); W.pin[39] = 1;   // CHARGE/USE switch left on CHARGE
+  int starts = W.dacStarts;
+  check(doCheckin(62.1, Body(), {0, 0}).empty() && W.dacStarts == starts, "switch on CHARGE: check-in refused, no current through the body");
+  W.pin[39] = 0; runUntil(25 * DAY + 8 * H); doCheckin(62.1, Body(), {0, 0});
   runUntil(25 * DAY + 15 * H);
   std::string g = doCheckin(85, Body(), {0, 0});
   check(jnum(g, "guest") == 1, "guest (85 kg) recognised: readings ignored by the engine");

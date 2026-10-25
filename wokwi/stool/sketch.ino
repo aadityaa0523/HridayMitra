@@ -23,6 +23,7 @@
 const int HX_DT = 32, HX_SCK = 14, VOICE = 26, Z_ADC = 35, SEL = 18, PATH_S0 = 33, PATH_S1 = 27;
 const int LED_G = 13, LED_A = 23, LED_R = 2, BTN_G = 4, BTN_R = 5, BTN_SOS = 15, GSM_RX = 16, GSM_TX = 17;
 const int VIBRA = 19, DRAWER = 36;                       // seat vibration motor (via NPN); tablet-drawer switch to GND
+const int CHG_SENSE = 39;                                // high = CHARGE/USE switch on CHARGE (charger connected): never measure
 const int CAL_SEL = 12;                                  // 74HC4053 switch C: high = reference across Rcal only, low = across R5 + Rcal
 const float RCAL = 100.0f;                               // 0.1 % precision reference (self-calibrating front end)
 const float REF_RATIO = 2.2f, REF_TOL = 0.09f;          // (R5 120 + Rcal 100) / Rcal; outside 2.0-2.4 = fault (sim/circuit/selfcal.py)
@@ -476,6 +477,7 @@ void runEngine(int u, const hm::DayIn& d, int tookPills) {
 
 // ======================= the 90-second check-in =======================
 void checkin() {
+  if (digitalRead(CHG_SENSE)) { say(CLIP_USE_SWITCH); return; }   // charger connected: mains leakage risk (charger_leakage.py)
   hm::DayIn d; for (float& v : d.v) v = NAN; d.breathless = d.orthopnea = d.situps = NAN;
   say(CLIP_WELCOME);
   d.v[hm::WEIGHT] = stableWeight(30000);
@@ -596,7 +598,7 @@ void setup() {
   Serial2.begin(9600, SERIAL_8N1, GSM_RX, GSM_TX);
   for (int p : {LED_G, LED_A, LED_R, SEL, PATH_S0, PATH_S1, HX_SCK, VIBRA, CAL_SEL}) pinMode(p, OUTPUT);   // GPIO12 is a boot pin: only a high-impedance select input on it
   for (int p : {BTN_G, BTN_R, BTN_SOS}) pinMode(p, INPUT_PULLUP);
-  pinMode(HX_DT, INPUT); pinMode(DRAWER, INPUT);         // GPIO36 has no internal pull-up: 10 k to 3.3 V on the board
+  pinMode(HX_DT, INPUT); pinMode(DRAWER, INPUT); pinMode(CHG_SENSE, INPUT);         // GPIO36 has no internal pull-up: 10 k to 3.3 V on the board
   analogReadResolution(12);
   Wire.begin(21, 22); maxInit();
   excCfg.chan_id = DAC_CHAN_0; excCfg.freq_hz = 5000; excCfg.clk_src = DAC_COSINE_CLK_SRC_DEFAULT;
