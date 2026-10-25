@@ -32,7 +32,19 @@ def numbers():
     bid = json.loads((R / "bidmc_hr_summary.json").read_text())
     bv = pd.read_csv(R / "bidmc_hr_validation.csv")
     ho, rw = v2.loc["PS held-out"], v2.loc["Real-world (external)"]
+    lb = pd.read_csv(ROOT / "benchmark/leaderboard.csv")
+    hy = lb[lb.system.str.startswith("HridayMitra hybrid")].set_index("split")
+    cal = pd.read_csv(R / "calibration_published.csv"); cal = cal[cal.cohort.str.startswith("Real-world")].set_index("rule")
+    sil = (R / "sil_run.log").read_text(encoding="utf8", errors="ignore").count("PASS")
     return dict(
+        hy_sens=pct(hy.loc["test"].sensitivity), hy_spec=f"{100 * hy.loc['test'].specificity:.1f}%", hy_lead=f"{hy.loc['test'].median_lead_days:.0f}",
+        hy_fa=f"{hy.loc['test'].false_alerts_per_patient_month:.2f}", hy_rw_sens=pct(hy.loc["external"].sensitivity),
+        hy_rw_fa=f"{hy.loc['external'].false_alerts_per_patient_month:.2f}", hy_st_sens=pct(hy.loc["stress"].sensitivity),
+        cal_fast=pct(cal.loc["FAST (Abraham 2011)"].sensitivity), cal_fast_pub=pct(cal.loc["FAST (Abraham 2011)"].published_sensitivity),
+        cal_fast_ua=f"{cal.loc['FAST (Abraham 2011)'].unexplained_alerts_per_year:.1f}", cal_fast_pua=f"{cal.loc['FAST (Abraham 2011)'].published_alerts_per_year:.1f}",
+        cal_scale=pct(cal.loc["SCALE-HF 1 (2024)"].sensitivity), cal_scale_pub=pct(cal.loc["SCALE-HF 1 (2024)"].published_sensitivity),
+        cal_scale_ua=f"{cal.loc['SCALE-HF 1 (2024)'].unexplained_alerts_per_year:.1f}", cal_scale_pua=f"{cal.loc['SCALE-HF 1 (2024)'].published_alerts_per_year:.1f}",
+        sil=sil,
         sens=pct(ho.sensitivity), spec=f"{100 * ho.specificity:.1f}%", lead=f"{ho.median_lead_days:.0f}", fa=f"{ho.false_alerts_per_patient_month:.2f}",
         rw_sens=pct(rw.sensitivity), rw_fa=f"{rw.false_alerts_per_patient_month:.2f}",
         r_sens=pct(rule.iloc[0].sensitivity), r_spec=f"{100 * rule.iloc[0].specificity:.1f}%", r_fa=f"{rule.iloc[0].false_alerts_per_patient_month:.2f}",
@@ -68,56 +80,57 @@ th{background:#e6f0f1}.cols{display:flex;gap:10px}.cols>div{flex:1}img{max-width
 
 def report(n):
     return f"""<!doctype html><html><head><meta charset="utf-8">{CSS}</head><body>
-<h1>HridayMitra: catching worsening heart failure at home, 2 days before the hospital</h1>
-<div class="sub">Transfinitte hardware track · Dare 2 Dream Ventures PS · <b>Monitoring, not diagnosis.</b> All patient data synthetic; no human data collected.</div>
+<h1>HridayMitra: warning a family {n['lead']} days before a heart-failure hospital visit, from a 90-second check-in at home</h1>
+<div class="sub">Transfinitte 2026 hardware track · Dare 2 Dream Ventures PS · <b>Monitoring, not diagnosis.</b> All patient data synthetic; no human data collected.</div>
 <div class="cols"><div>
-<h2>Problem</h2>Heart-failure patients are re-admitted because fluid builds up silently for days. Daily weighing alone catches about one in three events and floods families with false alarms; sticky patches are not worn by elders; rural homes have power cuts, 2G and low literacy.
-<h2>Solution: a 90-second check-in station + an amulet + a care loop</h2><ul>
-<li><span class="k">Check-in stool</span> (₹{n['cost']} build cost): weight (4 load cells), <b>8-electrode bioimpedance spectroscopy</b> (5/20/50 kHz: water outside cells) (legs, arms, both sides → chest fluid by segmental subtraction), finger pulse + SpO₂, stand-up time, 3 spoken yes/no questions answered with big buttons.</li>
-<li><span class="k">Kavach amulet</span> (ESP32-C3 + accelerometer, breakaway cord, no magnets): night breathing rate, night sit-ups (orthopnea), activity, falls, SOS → BLE to the stool.</li>
-<li><span class="k">Offline alert engine on the ESP32</span>: learns each person's own normal, scores only the worsening direction, needs <b>two independent witnesses</b> (fluid, heart-lungs, daily life) before red, and says <b>why</b> in plain words.</li>
-<li><span class="k">Closed care loop over SMS</span>: family 1 → family 2 (30 min) → ASHA (2 h) → PHC doctor (6 h); reply 1/2/3 or a missed call.</li>
-<li><span class="k">A product, not a gadget</span>: speaks the <b>doctor's own sick-day plan</b>; coaching tips (salt, missed tablets, infection-like); <b>two users per stool</b> with separate baselines; tablet drawer that knows if medicine was taken; seat vibration for hard-of-hearing users; daily <b>self-test</b> with "needs service" SMS; 11:00 missed check-in reminder; Sunday summary to the ASHA; village dashboard; OPD report and <b>ABDM/FHIR export</b>.</li></ul>
-<h2>User journey (≈ 90 s a day)</h2>Sit → voice: "feet on the plates, hold the handles" → finger on the light → 3 questions (red = yes, green = no) → stand up → light + spoken result. Red: family gets the SMS with reasons, the ASHA is told at 2 h unless the family replies "3 fine".
-</div><div><img src="{img('docs/block_diagram.png')}"></div></div>
-<h2>Results (frozen threshold tuned on 140 training patients, tested once on held-out patients)</h2>
-<table><tr><th></th><th>HridayMitra engine</th><th>Weight rule (SCALE-HF)</th><th>Logistic regression (ML)</th></tr>
-<tr><td>Sensitivity, held-out (35 events)</td><td><b>{n['sens']}</b></td><td>{n['r_sens']}</td><td>{n['lr_sens']}</td></tr>
-<tr><td>Specificity</td><td>{n['spec']}</td><td>{n['r_spec']}</td><td>-</td></tr>
-<tr><td>Median lead before hospital visit</td><td>{n['lead']} days (amber heads-up: {n['amber_lead']} days)</td><td>2 days</td><td>2 days</td></tr>
-<tr><td>False alerts per patient-month</td><td><b>{n['fa']}</b></td><td>{n['r_fa']}</td><td>{n['lr_fa']}</td></tr>
-<tr><td>External 1,000-patient cohort: sensitivity / false alerts</td><td><b>{n['rw_sens']} / {n['rw_fa']}</b></td><td>{n['r_rw_sens']} / {n['r_rw_fa']}</td><td>{n['lr_rw_sens']} / {n['lr_rw_fa']}</td></tr></table>
-<div class="note">Data: 200 pretend patients × 60 days (PS cohort, 60% with a visit) + 1,000 × 180 days (10%), latent-congestion model with salty meals, infection, missed pills, guests, wet feet, missing days; calibrated so the weight rule reproduces its published sensitivity (31% vs 35%) and false-alert rate (0.38 vs 0.34). Patient-level 70/30 split, seed 42; no-peeking check on every system.</div>
+<h2>Problem</h2>Fluid builds up silently for days before a heart-failure admission. Daily weighing alone catches about one event in three and floods families with false alarms; elders do not wear sticky patches; rural homes have power cuts, 2G and low literacy.
+<h2>Solution: a check-in set for the patient's own chair + an amulet + a care loop</h2><ul>
+<li><span class="k">Weighing platform under the patient's own chair</span>: 4 load cells (weight), 4 stainless foot plates (heel + forefoot per foot). <span class="k">Hand sensor bar</span>, held on the lap or <b>mounted on the chair's armrests / handles</b>: 4 hand strips, fingertip optical cradle (pulse, SpO₂), ✓ / ✗ / SOS buttons, speaker, status light. No chair modification; armless and arm chairs both work, never wheeled chairs.</li>
+<li><span class="k">Measurement</span>: weight, <b>8-electrode bioimpedance spectroscopy</b> at 5 / 20 / 50 kHz (legs, arms, both sides → chest fluid by segmental subtraction; water outside cells by a Cole fit), pulse + SpO₂, 3 spoken yes/no questions.</li>
+<li><span class="k">Kavach amulet</span> (ESP32-C3 + accelerometer, breakaway cord, no magnets): night breathing, sitting up at night (orthopnea), activity, Sunday 6-minute walk, falls, SOS → Bluetooth.</li>
+<li><span class="k">Offline engine on the ESP32</span>: learns each person's own normal, scores only the worsening direction, needs <b>two independent witnesses</b> before red, and says <b>why</b>. SMS care loop: family 1 → family 2 (30 min) → ASHA (2 h) → PHC doctor (6 h).</li>
+<li><span class="k">A product</span>: speaks the <b>doctor's own sick-day plan</b> in Hindi; coaching tips; two users with separate baselines; tablet-drawer switch; daily self-test with "needs service" SMS; Saathi phone app (offline, 10 languages, family / ASHA / doctor views).</li></ul>
+</div><div><img src="{img('docs/hardware/HM-HW-001_block_diagram.png')}"><div class="note">System block diagram HM-HW-001: every bus labelled, patient-side (type BF) boundary, power tree.</div>
+<h2>User journey (90 s a day; one-page storyboard: <i>HridayMitra user journey.pdf</i>)</h2>After morning tea Ramesh, 62, sits in his own chair on the platform, bare feet on the plates, hands on the bar; voice in Hindi; 3 questions; green light. In the storyboard, built on synthetic test patient P0189's real engine output: tablets missed days 32-34 → amber day 34 ("after missed medicine") → red day 41 with reasons by SMS → ASHA visit → the doctor's plan starts <b>4 days before</b> he would have needed hospital care.</div></div>
+<h2>Results (patient-level 70/30 split; thresholds frozen on the 140 training patients, then tested once)</h2>
+<table><tr><th></th><th>HridayMitra rules (on chip)</th><th>HridayMitra hybrid</th><th>Weight rule (SCALE-HF)</th><th>Logistic regression</th></tr>
+<tr><td>Sensitivity, held-out (35 events)</td><td>{n['sens']}</td><td><b>{n['hy_sens']}</b></td><td>{n['r_sens']}</td><td>{n['lr_sens']}</td></tr>
+<tr><td>Specificity (normal days with no red)</td><td>{n['spec']}</td><td>{n['hy_spec']}</td><td>{n['r_spec']}</td><td>-</td></tr>
+<tr><td>Median lead before the hospital visit</td><td>{n['lead']} days (amber: {n['amber_lead']})</td><td>{n['hy_lead']} days</td><td>2 days</td><td>2 days</td></tr>
+<tr><td>False alerts per patient-month (budget 0.21)</td><td><b>{n['fa']}</b></td><td>{n['hy_fa']}</td><td>{n['r_fa']}</td><td>{n['lr_fa']}</td></tr>
+<tr><td>External 1,000-patient cohort: sensitivity / false alerts</td><td>{n['rw_sens']} / {n['rw_fa']}</td><td><b>{n['hy_rw_sens']} / {n['hy_rw_fa']}</b></td><td>{n['r_rw_sens']} / {n['r_rw_fa']}</td><td>{n['lr_rw_sens']} / {n['lr_rw_fa']}</td></tr></table>
+<div class="note"><b>Hybrid</b> = the rules propose a red at a lower threshold, a logistic model trained only on dev patients must confirm; reasons stay the rules'; SpO₂ &lt; 90% always red ({n['hy_st_sens']} on the stress cohort too). <b>Data</b>: 200 synthetic patients × 60 days (PS cohort) + 1,000 × 180 days (external), with salty meals, infection, missed pills, guests, wet feet and missing days. <b>Calibrated to real trials</b>: the published weight rules applied exactly as defined score on our external cohort like on real patients: FAST {n['cal_fast']} caught (published {n['cal_fast_pub']}), {n['cal_fast_ua']} unexplained alerts / year ({n['cal_fast_pua']}); SCALE-HF 1 {n['cal_scale']} ({n['cal_scale_pub']}), {n['cal_scale_ua']} / year ({n['cal_scale_pua']}). Open benchmark with scorer and splits: <i>benchmark/</i>.</div>
 
 <h2 class="pb">Robustness: we tried to break it</h2>
 <table><tr><th>Test</th><th>Result</th></tr>
 <tr><td>Ablations (remove one sensor group)</td><td>no impedance {n['no_imp']}, no weight {n['no_wt']}, no amulet {n['no_am']} (full engine {n['full']}): every group earns its place</td></tr>
 <tr><td>Stress: 50% missing days / guests / wet feet / power cuts / electrode ageing / everything at once</td><td>{n['miss50']} … {n['stress_worst']} sensitivity; 10% guests: engine {n['guest_fa']} false alerts vs weight rule <b>{n['guest_rule_fa']}</b></td></tr>
-<tr><td>Assumption sweep: each of 23 guesses pushed low and high ({n['n_asn']} new cohorts)</td><td>beats the weight rule in <b>{n['asn_beat']}/{n['n_asn']}</b>, inside the false-alert budget in {n['asn_budget']}/{n['n_asn']}; sensitivity {n['asn_lo']}–{n['asn_hi']}, driven by how fast worsening develops, not by hardware noise</td></tr>
-<tr><td>Care-loop simulation (5,000 alerts per scenario)</td><td>clinical review before the hospital visit: <b>{n['cl_lad']}</b> with the ladder vs {n['cl_one']} with one SMS; median {n['cl_med']} h; everything bad at once {n['cl_bad']}</td></tr>
-<tr><td>Heart rate on real ECG (PhysioNet BIDMC CHF, {n['bid_n']} records)</td><td>median heart-rate error {n['bid_mae']} bpm; {n['bid_good']} of {n['bid_n']} records within 0.5 bpm; {n['bid_within']} of 30-s windows within 5 bpm; fails on {n['bid_bad']} (very noisy recording)</td></tr></table>
+<tr><td>Assumption sweep: each guess pushed low and high ({n['n_asn']} new cohorts)</td><td>beats the weight rule in <b>{n['asn_beat']}/{n['n_asn']}</b>, inside the false-alert budget in {n['asn_budget']}/{n['n_asn']}; sensitivity {n['asn_lo']}–{n['asn_hi']}</td></tr>
+<tr><td>Care-loop simulation (5,000 alerts per scenario)</td><td>clinical review before the visit: <b>{n['cl_lad']}</b> with the ladder vs {n['cl_one']} with one SMS; median {n['cl_med']} h; everything bad at once {n['cl_bad']}</td></tr>
+<tr><td>Heart rate on real ECG (PhysioNet BIDMC CHF, {n['bid_n']} records)</td><td>median error {n['bid_mae']} bpm; {n['bid_good']} of {n['bid_n']} records within 0.5 bpm; {n['bid_within']} of 30-s windows within 5 bpm; fails on {n['bid_bad']} (very noisy)</td></tr></table>
 <div class="cols"><div>
-<h2>Hardware and simulation proof (free tools: LTspice, KiCad, Python)</h2><ul>
-<li>Tetrapolar, ratiometric front end (Z = R5 · V<sub>body</sub>/V<sub>R5</sub>): gain and contact resistance cancel; LTspice error ≤ 0.05% for contacts 100 Ω–10 kΩ; +10% leg fluid → −8.7% Z; 134 µA excitation.</li>
-<li><b>Monte Carlo, 100 stools from 5% parts</b> on random bodies and skin: 99% of readings within {n['mc_p99']}%, a +10% fluid change measured within {n['mc_chg']} points. It caught a design flaw: 1 MΩ bias resistors gave 12% errors → <b>changed to 10 MΩ</b>.</li>
-<li><b>Bioimpedance spectroscopy (5/20/50 kHz, Cole fit on the chip)</b>: +10% fluid outside the cells moves the water index {n['sp_fluid']}%; foot position / temperature (+3%) moves the single-frequency reading {n['sp_geo_z']}% but the index {n['sp_geo']}%; fluid inside cells moves it the other way ({n['sp_cells']}%). Engine v3 with it: external-cohort sensitivity {n['rw_sens']} at {n['rw_fa']} false alerts.</li>
-<li><b>Patient safety (IEC 60601-1, type BF)</b>: every single fault stays within the patient-current limits (≥ 12.8× margin); a CHARGE / USE switch cuts charger leakage from 339 to 0.19 µA.</li><li><b>Self-calibrating reference</b> (0.1% Rcal on the spare switch, checked every check-in): absolute error median 0.16%; a damaged reference is caught and reported for service.</li><li>Mains hum (230 V coupling, charger plugged in): Goertzel reading ≤ {n['hum_g']}% error vs {n['hum_pp']}% for peak-to-peak → firmware uses Goertzel only.</li>
-<li>KiCad schematic generated from code: ERC 0 violations; the netlist is checked against the path table and the LTspice values automatically.</li>
-<li>Engine ported to C++ for the ESP32: <b>100% identical lights</b> to the Python engine over 3,231 patient-days.</li><li><b>Software-in-the-loop</b>: the real firmware runs a scripted month in an emulated world (ADC body signal, HX711, MAX30102, SIM800L, BLE, flash): 26/26 checks pass (care loop, reminders, self-test, power cut, network outage, two users) and it found 3 bugs before any board was flashed.</li></ul>
+<h2>Hardware and simulation proof (free tools: LTspice, KiCad, Wokwi, Python)</h2><ul>
+<li><b>Design package</b>: block diagram HM-HW-001, 4-sheet schematic set HM-HW-002 (AFE, ESP32, power + isolation), power budget HM-HW-003, KiCad schematic (ERC 0, netlist checked against the path table and LTspice values).</li>
+<li><b>Front end</b>: tetrapolar, ratiometric, Z = Rcal · |V<sub>body</sub>| / |V<sub>Rcal</sub>| (current, gain and switch resistance cancel). LTspice on the legs path: 578.4 Ω vs 578.5 Ω exact, 108 µA; every test-point waveform on the schematic sheet.</li>
+<li><b>Monte Carlo, 100 boards from 5% parts</b>: 99% of readings within {n['mc_p99']}%, a +10% fluid change within {n['mc_chg']} points; it changed the design (bias 1 MΩ → 10 MΩ).</li>
+<li><b>Spectroscopy</b>: +10% fluid outside cells moves the index {n['sp_fluid']}%; foot position / temperature moves the single-frequency reading {n['sp_geo_z']}% but the index {n['sp_geo']}%.</li>
+<li><b>Patient safety (IEC 60601-1, type BF)</b>: every single fault ≥ 12.8× under the limit; the CHARGE / USE switch cuts charger leakage from 339 to 0.19 µA. <b>Self-calibrating</b> 0.1% reference (median error 0.16%); mains hum ≤ {n['hum_g']}% with Goertzel vs {n['hum_pp']}% peak-to-peak.</li>
+<li><b>Firmware proof</b>: C++ engine = Python on every test day; software-in-the-loop month with the real firmware: {n['sil']}/{n['sil']} checks (care loop, power cut, network outage, lifted foot, app link); Wokwi run and a recorded demo video.</li></ul>
 </div><div>
 <h2>Edge cases handled</h2><table><tr><th>Situation</th><th>What happens</th></tr>
-<tr><td>Guest sits on the stool</td><td>weight jump > 2.5 kg → readings ignored</td></tr>
-<tr><td>Toe ring / bad foot placement</td><td>leg reading > 25% off → "no reading", voice asks to re-place feet</td></tr>
+<tr><td>Guest sits down</td><td>weight jump &gt; 2.5 kg → nothing saved</td></tr>
+<tr><td>Foot off a plate / toe ring</td><td>names the foot, re-measures; &gt; 25% off → "no reading"</td></tr>
 <tr><td>Power cut, no network</td><td>18650 battery; SMS queued, retried every 10 min</td></tr>
-<tr><td>Missed days</td><td>network clock fills gaps; light held</td></tr>
-<tr><td>Infection vs fluid</td><td>cause tag: pulse/breathing up with steady fluid = infection-like</td></tr>
+<tr><td>Missed check-in</td><td>11 am reminder to the family; light held</td></tr>
+<tr><td>Infection vs fluid</td><td>pulse / breathing up, fluid steady → "maybe infection"</td></tr>
 <tr><td>Oxygen below 90%</td><td>red at once, everyone messaged</td></tr>
-<tr><td>Low literacy</td><td>voice, 3 lights, 2 buttons, missed call = reply</td></tr>
-<tr><td>Pacemaker / ICD</td><td>no magnets; impedance and ECG off by setting</td></tr></table></div></div>
-<h2>Cost and scale</h2>Build cost ₹{n['cost_lo']}–{n['cost_hi']} (Monte Carlo of the itemised list; limit ₹5,000); ≈ ₹{n['vol_lo']}–{n['vol_hi']} at 100 units. SMS ≈ ₹0.05 per patient-month. Fits ASHA-led programmes: one stool per home, the ASHA card closes the loop.
-<h2>Honest limits</h2><ul><li>Synthetic data: shows the method works on modelled patterns, not clinical accuracy. Lead time is bounded by the PS worsening window (3–10 days, accelerating).</li>
-<li>Chest impedance is weak (needs ~7 days of averaging); circuit not yet compared with a bench build; SpO₂ calibration generic; ML regression catches more events but with 3–5× the false alarms.</li>
-<li>Never for anyone with a pacemaker or ICD in the impedance mode; battery only during measurement. Code, data, tests: github.com/aadityaa0523/HridayMitra</li></ul>
+<tr><td>Low literacy, hearing loss</td><td>voice, lights, ✓ / ✗ buttons, missed call = reply; seat vibration</td></tr>
+<tr><td>Charger plugged in</td><td>refuses to measure (CHARGE sense)</td></tr>
+<tr><td>Pacemaker / ICD</td><td>never on the plates: weight-only mode</td></tr></table></div></div>
+<h2>Cost and scale</h2>Home unit parts ₹{n['cost_lo']}–{n['cost_hi']} (Monte Carlo of the itemised list; limit ₹5,000); ≈ ₹{n['vol_lo']}–{n['vol_hi']} at 100 units; SMS ≈ ₹0.05 per patient-month. Uses the family's own chair, so nothing large to buy or store; fits ASHA-led programmes.
+<h2>Honest limits</h2><ul><li>Synthetic data shows the method works on modelled patterns, not clinical accuracy; lead time is bounded by the PS worsening window (3-10 days).</li>
+<li>Not yet built on a bench; power budget (datasheet values) needs firmware power saving for multi-day battery life; SpO₂ calibration generic; chest impedance is weak alone. With the chair standing on the platform, stand-up time needs a new method (weight shift off the seat).</li>
+<li>Never on anyone with a pacemaker or ICD; battery only while measuring. Code, data, tests: github.com/aadityaa0523/HridayMitra</li></ul>
 </body></html>"""
 
 
