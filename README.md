@@ -10,7 +10,7 @@ An elderly patient sits on a foldable **check-in stool** for about 90 seconds a 
 - **stand-up speed**;
 - **two spoken yes/no questions**, answered with buttons.
 
-A worn **Kavach amulet** adds night breathing, night sit-ups, activity, falls and SOS. It syncs to the stool over Bluetooth Low Energy.
+A worn **Kavach amulet** adds night breathing, night sit-ups, activity, a weekly **6-minute walk test** (no button: it finds the best 6 minutes of walking itself), falls and SOS. It syncs to the stool over Bluetooth Low Energy.
 
 An **offline alert engine** on the ESP32 learns each patient's own normal and turns green, amber or red. Each red alert gives its reasons in plain words. It sends an SMS over 2G and starts a **care loop**: family member 1 → family member 2 (30 min) → ASHA worker (2 h) → PHC doctor (6 h).
 
@@ -56,7 +56,7 @@ python run.py demo           # dashboard: patient light + voice, family SMS, ASH
 
 ## Firmware
 - `firmware/hridaymitra_stool/`: ESP32 DevKit. The 90 s check-in, HX711 weight, 4 impedance paths with Goertzel, MAX30102 pulse/SpO₂, 3 questions, stand-up time, amulet scan, **the alert engine on the chip** (`engine_core.h`, identical to the Python engine), SMS ladder with retries, replies and missed calls, engine state saved in flash. Phone numbers go in `config.h`.
-- `firmware/hridaymitra_amulet/`: ESP32-C3 + MPU6050. Night breathing, night sit-ups, activity, falls and SOS, sent in the BLE advertisement (no pairing).
+- `firmware/hridaymitra_amulet/`: ESP32-C3 + MPU6050. Night breathing, night sit-ups, activity, 6-minute walk steps (`walk_core.h`), falls and SOS, sent in the BLE advertisement (no pairing).
 - Voice prompts: `python tools/make_voice_clips.py`. Recorded Hindi/Tamil WAVs in `firmware/voice/<lang>/` replace the built-in English voice.
 
 ## Documents

@@ -260,7 +260,8 @@ bool pulseSpo2(float& bpm, float& spo2) {                // same method as engin
 }
 
 // ======================= amulet summary over BLE (manufacturer data, no pairing) =======================
-struct Amulet { float rr = NAN, situps = NAN, activity = NAN; bool sos = false; } amulet;
+struct Amulet { float rr = NAN, situps = NAN, activity = NAN, walk6 = NAN; bool sos = false; } amulet;
+float walkWeek = NAN, walkLastWeek = NAN;                // best 6-minute walk (steps) this week and last week (amulet wearer)
 
 void scanAmulet() {
 #ifdef HM_WOKWI
@@ -280,6 +281,11 @@ void scanAmulet() {
       amulet.situps = (uint8_t)md[6];
       amulet.activity = (uint8_t)md[7] * 4.0f;
       amulet.sos = md[8] & 1;
+      if (md.length() >= 11) {                           // best 6 minutes of walking in the last 24 h (not sent by old amulets)
+        uint16_t w = (uint8_t)md[9] | ((uint8_t)md[10] << 8);
+        amulet.walk6 = w ? w : NAN;
+        if (w && !(w <= walkWeek)) walkWeek = w;         // scanned every minute, so a walk after the check-in still counts
+      }
     }
   }
   scan->clearResults();
@@ -456,13 +462,16 @@ void runEngine(int u, const hm::DayIn& d, int tookPills) {
   else if (r.light == 1 && U.lights[5] == 1) say(CLIP_PLAN_AMBER);   // amber two days running: the doctor's plan
   const Clip* tip = coachingTip(U, r);
   if (tip) say(*tip);
+  if (clk && wday == 0 && u == 0 && r.light < 2) say(CLIP_WALK);   // Sunday: 6-minute walk test, the amulet counts it
   if (r.light == 2 && (!loopSt.active || millis() - loopSt.t0 > 20UL * 60 * MINUTE_MS)) startCareLoop(IDS[u], why[0] ? why : "several signs together", r.danger);
   saveUser(u);
   Serial.printf("{\"t\":\"checkin\",\"id\":\"%s\",\"weight_kg\":%.4f,\"leg_z_ohm\":%.4f,\"trunk_z_ohm\":%.4f,\"pulse_bpm\":%.4f,"
                 "\"spo2\":%.4f,\"standup_s\":%.4f,\"night_rr\":%.4f,\"night_situps\":%.4f,\"activity_min\":%.4f,\"leg_ewi\":%.5f,"
-                "\"breathless\":%.4f,\"orthopnea\":%.4f,\"took_pills\":%d,\"light\":%d,\"S\":%.4f,\"learning\":%d,\"guest\":%d,\"ref_ratio\":%.4f,\"why\":\"%s\"}\n",
+                "\"breathless\":%.4f,\"orthopnea\":%.4f,\"took_pills\":%d,\"light\":%d,\"S\":%.4f,\"learning\":%d,\"guest\":%d,\"ref_ratio\":%.4f,"
+                "\"walk6_steps\":%.0f,\"why\":\"%s\"}\n",
                 IDS[u], d.v[hm::WEIGHT], d.v[hm::LEG], d.v[hm::TRUNK], d.v[hm::PULSE], d.v[hm::SPO2], d.v[hm::STANDUP],
-                d.v[hm::NIGHT_RR], d.situps, d.v[hm::ACTIVITY], d.v[hm::LEG_EWI], d.breathless, d.orthopnea, U.took[4], r.light, r.S, r.learning, r.guest, lastRefRatio, why);
+                d.v[hm::NIGHT_RR], d.situps, d.v[hm::ACTIVITY], d.v[hm::LEG_EWI], d.breathless, d.orthopnea, U.took[4], r.light, r.S, r.learning, r.guest, lastRefRatio,
+                u == 0 ? amulet.walk6 : NAN, why);
 }
 
 // ======================= the 90-second check-in =======================
@@ -549,10 +558,16 @@ void duties() {
       char marks[8]; int done = 0;
       for (int k = 0; k < 7; k++) { uint8_t l = users[u].lights[k]; marks[k] = l > 2 ? '-' : "GAR"[l]; done += l <= 2; }
       marks[7] = 0;
-      snprintf(msg, sizeof msg, "HridayMitra weekly %s: %d/7 check-ins, lights %s, usual weight %.1f kg. Monitoring, not diagnosis.",
-               IDS[u], done, marks, users[u].w0);
+      char walkTxt[48] = "";                             // the amulet wearer's 6-minute walk test (user 1)
+      if (u == 0 && !isnan(walkWeek)) {
+        int n = snprintf(walkTxt, sizeof walkTxt, ", 6-min walk %.0f steps ~%.0f m", walkWeek, walkWeek * STEP_LENGTH_M);
+        if (!isnan(walkLastWeek)) snprintf(walkTxt + n, sizeof walkTxt - n, " (last wk %.0f)", walkLastWeek);
+      }
+      snprintf(msg, sizeof msg, "HridayMitra weekly %s: %d/7 check-ins, lights %s, usual weight %.1f kg%s. Monitoring, not diagnosis.",
+               IDS[u], done, marks, users[u].w0, walkTxt);
       queueSms(ASHA, msg);
     }
+    walkLastWeek = walkWeek; walkWeek = NAN;
     summarised = today;
   }
 }

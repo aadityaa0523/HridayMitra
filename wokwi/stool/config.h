@@ -20,6 +20,7 @@
 #define NUDGE_HOUR       11               // remind the family if nobody checked in by this hour
 #define SELFTEST_HOUR    7                // daily self-test; problems go to the ASHA as "service" SMS
 #define SUMMARY_HOUR     18               // Sunday summary to the ASHA
+#define STEP_LENGTH_M    0.5f             // walk-test distance = steps x this. ASHA sets it once: 10 m / steps counted over 10 m
 
 // HX711 scale: counts per kg. Calibrate with "cal <kg>" over USB serial with a known weight on the stool.
 #ifdef HM_WOKWI                           // Wokwi simulation build (see wokwi/README.md)

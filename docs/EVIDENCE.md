@@ -52,6 +52,8 @@
 | Patient forgets the check-in | Gaps, late warning | 11:00 SMS reminder to the family; Sunday summary to the ASHA | `test_nudge_once_after_11`, `test_weekly_summary_and_fhir` |
 | Hard of hearing | Prompts missed | Seat vibration before every prompt, lights | firmware `say()` |
 | A fault in the circuit (shorted resistor or capacitor, op-amp stuck, DAC full scale) | Unsafe current through the patient | Two series coupling capacitors + current-limit resistor; every single fault within IEC 60601-1 type-BF limits (≥ 12.8× margin) | `sim/circuit/safety.py` |
+| Riding an auto-rickshaw or bus counted as walking | Walk test looks better than it is | Steps only from a strong regular rhythm (autocorrelation ≥ 0.5); 0 false steps in synthetic vehicle vibration, fidgeting, turning in bed | `tests/test_walk.py` |
+| Loose pendant cord swinging while a frail person shuffles | Walk test under-counts (up to 23%) | Short cord / pendant under clothing (within 2.7%); same person, same cord each week, so the trend still holds | `reports/walk_accuracy.csv` |
 | Reference resistor damaged, drifted or wrongly fitted | Every reading wrong by the same factor, silently | Precision Rcal is the reference; (R5 + Rcal)/Rcal checked at each check-in; outside 2.0–2.4 → no numbers, service SMS | `sim/circuit/selfcal.py`, firmware emulator checks |
 | Firmware diverges from tested code | Untested behaviour in homes | C++ engine = Python (100% of 3,231 days); the whole firmware run in an emulated month: 26/26 claims pass and every light equals the Python engine | `tests/test_engine_parity.py`, `tests/test_firmware_sil.py`, `run.py hil` on hardware |
 

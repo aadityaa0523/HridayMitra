@@ -2,9 +2,12 @@
 // Kavach amulet firmware (ESP32-C3 SuperMini + MPU6050, worn on a breakaway cord). Monitoring, not diagnosis.
 // Sends a small summary in its BLE advertisement (no pairing, works with any stool in range):
 //   last night's breathing rate (median of quiet 60 s windows while lying), night sit-ups, active minutes in the
-//   last 24 h, and an SOS flag (button or a fall followed by lying still). Same methods as engine/signals.py.
+//   last 24 h, an SOS flag (button or a fall followed by lying still) and the 6-minute walk test: the most steps in
+//   any 6 minutes of the last 24 h (walk_core.h; no button, the stool asks for a walk on Sundays).
+//   Same methods as engine/signals.py.
 // Wiring: MPU6050 SDA GPIO8, SCL GPIO9, 3.3 V, GND. SOS button GPIO3 to GND. No magnets (pacemaker safety).
 #include <Wire.h>
+#include "walk_core.h"
 #ifndef HM_WOKWI
 #include <BLEDevice.h>
 #include <BLEAdvertising.h>
@@ -20,6 +23,8 @@ enum Pose { UNKNOWN, LYING, SITTING } pose = UNKNOWN; uint32_t poseSince = 0; in
 bool night = false;
 // activity: per-minute movement, rolling 24 h in hourly slots
 uint16_t activeHour[24] = {0}; int hourSlot = 0; uint32_t hourStart = 0, minuteStart = 0; float minSq = 0, minSum = 0; int minN = 0;
+// 6-minute walk test: steps counted at 20 Hz, best rolling 6 minutes per hour slot
+hm::Walk walk; uint16_t walkHour[24] = {0};
 // falls / SOS
 bool sos = false; uint32_t fallAt = 0, sosSince = 0;
 #ifndef HM_WOKWI
@@ -39,10 +44,11 @@ bool readAccel(float& x, float& y, float& z) {
 void advertise() {
   uint16_t rr10 = isnan(lastNightRR) ? 0 : (uint16_t)(lastNightRR * 10);
   uint32_t act = 0; for (auto m : activeHour) act += m;
-  uint8_t d[9] = {0xFF, 0xFF, 'H', 'M', (uint8_t)(rr10 & 0xFF), (uint8_t)(rr10 >> 8), (uint8_t)min(lastNightSitups, 255),
-                  (uint8_t)min<uint32_t>(act / 4, 255), (uint8_t)(sos ? 1 : 0)};
-  Serial.printf("{\"t\":\"amulet\",\"night_rr\":%.1f,\"night_situps\":%d,\"activity_min\":%u,\"sos\":%d,\"upright_deg\":%.0f}\n",
-                lastNightRR, lastNightSitups, (unsigned)act, sos ? 1 : 0, uprightDeg);
+  uint16_t w6 = 0; for (auto s : walkHour) w6 = max(w6, s);
+  uint8_t d[11] = {0xFF, 0xFF, 'H', 'M', (uint8_t)(rr10 & 0xFF), (uint8_t)(rr10 >> 8), (uint8_t)min(lastNightSitups, 255),
+                   (uint8_t)min<uint32_t>(act / 4, 255), (uint8_t)(sos ? 1 : 0), (uint8_t)(w6 & 0xFF), (uint8_t)(w6 >> 8)};
+  Serial.printf("{\"t\":\"amulet\",\"night_rr\":%.1f,\"night_situps\":%d,\"activity_min\":%u,\"walk6_steps\":%u,\"sos\":%d,\"upright_deg\":%.0f}\n",
+                lastNightRR, lastNightSitups, (unsigned)act, (unsigned)w6, sos ? 1 : 0, uprightDeg);
 #ifndef HM_WOKWI
   BLEAdvertisementData ad; ad.setFlags(0x06); ad.setManufacturerData(String((const char*)d, sizeof d));
   adv->stop(); adv->setAdvertisementData(ad); adv->start();
@@ -59,7 +65,7 @@ void setup() {
   pinMode(SOS_PIN, INPUT_PULLUP);
   Wire.begin(SDA_PIN, SCL_PIN);
   mpuWrite(0x6B, 0);            // wake
-  mpuWrite(0x1A, 0x05);         // 10 Hz digital low-pass
+  mpuWrite(0x1A, 0x05);         // 10 Hz digital low-pass (read at 20 Hz)
 #ifndef HM_WOKWI
   BLEDevice::init("HridayMitra-amulet");
   adv = BLEDevice::getAdvertising();
@@ -70,12 +76,15 @@ void setup() {
 }
 
 void loop() {
-  static uint32_t next = 0, lastAdv = 0;
+  static uint32_t next = 0, lastAdv = 0; static bool odd = false;
   if (millis() < next) return;
-  next = millis() + 1000 / FS;
+  next = millis() + 1000 / hm::WALK_FS;
   float x, y, z;
   if (!readAccel(x, y, z)) return;
   mag = sqrtf(x * x + y * y + z * z);
+  int w6 = walk.add(mag);                                // steps at 20 Hz; everything below runs at 10 Hz
+  if (w6 > (int)walkHour[hourSlot]) walkHour[hourSlot] = w6;
+  if ((odd = !odd)) return;
   uprightDeg = acosf(constrain(fabsf(y) / max(mag, 0.1f), 0.0f, 1.0f)) * 57.3f;   // cord hangs along y when upright
 
   // pose and night sit-ups (hysteresis: lying > 60 deg, sitting < 30 deg)
@@ -115,7 +124,7 @@ void loop() {
     if (sd > 0.05f) activeHour[hourSlot]++;
     minSum = minSq = 0; minN = 0; minuteStart = millis();
   }
-  if (millis() - hourStart >= 3600000) { hourSlot = (hourSlot + 1) % 24; activeHour[hourSlot] = 0; hourStart = millis(); }
+  if (millis() - hourStart >= 3600000) { hourSlot = (hourSlot + 1) % 24; activeHour[hourSlot] = walkHour[hourSlot] = 0; hourStart = millis(); }
 
   // SOS: button, or a hard impact followed by 10 s lying still
   if (!digitalRead(SOS_PIN) && !sos) { sos = true; sosSince = millis(); }
