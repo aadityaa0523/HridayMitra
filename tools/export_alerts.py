@@ -2,7 +2,7 @@
 `light` is what the stool's ESP32 shows (rules v3, frozen T in engine/frozen_params_v3.json); `hybrid_red` is the
 laptop hybrid's red alert (engine/frozen_hybrid.json), the system behind the headline results. Column `split` says whether the patient was used for tuning (dev)
 or held out (test); only test rows count for the reported results.
-Run:  python tools/export_alerts.py      Out: 03_Data/synthetic_200_patients/alerts.csv
+Run:  python tools/export_alerts.py      Out: 03_Data/1_main_200_patients/alerts.csv
 """
 import json, pathlib, sys
 import pandas as pd
@@ -32,6 +32,6 @@ for pid, g in df.groupby("patient_id", sort=False):
                          reason="; ".join(parts), likely_cause=cause, hybrid_red=int(h)))
 out = pd.DataFrame(rows)
 assert len(out) == len(df) and out.light.isin(LIGHT.values()).all()
-dst = ROOT / "03_Data/synthetic_200_patients/alerts.csv"
+dst = ROOT / "03_Data/1_main_200_patients/alerts.csv"
 out.to_csv(dst, index=False)
 print(dst, len(out), out.light.value_counts().to_dict())
