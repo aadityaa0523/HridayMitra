@@ -51,6 +51,7 @@ BODY = f"""
 <h2>1. Overview</h2>{overview()}
 <h2>2. Power</h2>
 <ul><li><b>For now: USB.</b> Plug the ESP32 into the laptop. Its 3V3 pin powers the MAX30102, impedance board, AD8232 and LEDs. This is the safest way to start.</li>
+<li><b>CHARGE / USE switch (patient safety):</b> USB-C socket &rarr; DPDT slide switch (both +5 V and GND through it) &rarr; TP4056 IN+ / IN-. Seal the TP4056's own USB socket with hot glue. In USE the charger is fully cut off while a person touches the plates.</li>
 <li><b>Battery version (later):</b> 18650 cell &rarr; TP4056 (B+ and B-) &rarr; the TP4056 OUT+ / OUT- is the <b>battery rail</b> (3.7-4.2 V). Boost module input from the battery rail, output set to 5 V &rarr; ESP32 VIN and PAM8403. SIM800L takes the battery rail directly (not 3V3, not 5 V) with a 1000 &micro;F capacitor across its power pins.</li></ul>
 {table(["Rail", "Where it comes from", "What it powers"], [
  ["3.3 V", "ESP32 3V3 pin", "MAX30102, AD8232, MCP6002/6022, INA126, 74HC4053/4052, LED and button logic"],
@@ -68,12 +69,13 @@ BODY = f"""
  ["GPIO33, GPIO27", "74HC4052 path select S0, S1", "only for the trunk paths, later"],
  ["GPIO26 (DAC2)", "Voice to PAM8403", "through 1 &micro;F and 10 k&#937; pot"],
  ["GPIO17 (TX2), GPIO16 (RX2)", "SIM800L", "TX through a divider (see section 8)"],
- ["GPIO34, 39", "AD8232 OUT, LO+", "inputs only; optional"],
+ ["GPIO34", "AD8232 OUT", "input only; optional"],
+ ["GPIO39", "Charge sense (CHARGE / USE switch)", "100 k from the switched charger 5 V, 100 k to GND; high = on charge, no check-in"],
  ["GPIO19", "Seat vibration motor", "1 k to 2N2222 base; motor 5 V to collector; 1N4148 across motor"],
  ["GPIO36", "Tablet-drawer microswitch", "switch to GND; 10 k pull-up to 3V3 (no internal pull-up)"],
  ["GPIO12", "Self-calibration select (74HC4053 S3)", "boot pin: only this high-impedance input, no pull-up"],
  ["GPIO32, GPIO14", "Reserved: HX711 data, clock", "when the load cells arrive"],
- ["GPIO0, GPIO12", "<b>Leave empty</b>", "boot pins"]])}
+ ["GPIO0", "<b>Leave empty</b>", "boot pin"]])}
 <h2>4. Block 1: LEDs and buttons (test first)</h2>
 {table(["From", "To"], [["GPIO13 &rarr; 220 &#937; &rarr; green LED long leg", "LED short leg &rarr; GND"], ["GPIO23 &rarr; 220 &#937; &rarr; amber LED", "short leg &rarr; GND"], ["GPIO2 &rarr; 220 &#937; &rarr; red LED", "short leg &rarr; GND"],
  ["GPIO4, GPIO5, GPIO15", "each to one leg of a button; the other leg to GND"]])}

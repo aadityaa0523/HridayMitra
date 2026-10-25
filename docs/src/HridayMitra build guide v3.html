@@ -29,7 +29,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 
 <div class="chg"><b>What changed in v3 (cost trim, team-approved)</b>
 <ul>
-<li><b>Product parts list is now ₹4,770 at safe prices</b> (was ₹7,095), about ₹230 under the ₹5,000 limit.</li>
+<li><b>Product parts list is now ₹4,820 at safe prices</b> (was ₹7,095), about ₹180 under the ₹5,000 limit.</li>
 <li><b>One HX711 for all four load cells.</b> The 4 half-bridge cells are wired as one full bridge, the same way a bathroom scale is wired. Total weight and stand-up speed are unchanged; we lose the per-corner readings. This frees GPIO26, 27 and 33.</li>
 <li><b>Voice from the ESP32's own flash memory.</b> The DFPlayer and microSD card are gone. Prompts are stored in flash and played through the second DAC (GPIO26) into a PAM8403 amplifier and the same 4 Ω 3 W speaker.</li>
 <li><b>No boot pins used any more.</b> The path-select lines moved from GPIO12 and GPIO0 to the freed GPIO33 and GPIO27.</li>
@@ -56,7 +56,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>Under 2 min a day, no all-day patch</td><td>A seated check of about 75–90 s, plus 20 s in the evening. The amulet is worn like a pendant, not stuck on</td></tr>
 <tr><td>Local language, little reading</td><td>Voice prompts, 3 lights, big buttons</td></tr>
 <tr><td>Power cuts, weak internet</td><td>Battery, offline logic on the ESP32, SMS over 2G (not on Jio)</td></tr>
-<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,892 at the lowest prices found, ₹4,770 at safe prices</b> (section 3), about ₹230 headroom. Confirm with a real cart</td></tr>
+<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,917 at the lowest prices found, ₹4,820 at safe prices</b> (section 3), about ₹180 headroom. Confirm with a real cart</td></tr>
 </table>
 <table>
 <tr><th>Warning sign</th><th>Measured by</th></tr>
@@ -136,6 +136,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr class="sec"><td colspan="8">D. Messaging, voice, battery</td></tr>
 <tr class="new"><td>29</td><td>SIM800L GSM module + antenna. 2G; needs 3.4–4.4 V and 2 A bursts. Use an Airtel, Vi or BSNL SIM (not Jio)</td><td>1</td><td>SMS and calls</td><td>Should</td><td class="r">150</td><td class="r">300</td><td>Verified range ✓ (Zbotic, IndiaMART)</td></tr>
 <tr class="new"><td>30</td><td><b>One</b> 18650 cell (protected), holder, TP4056, MT3608 boost, slide switch. Use a good cell: the SIM800L draws 2 A bursts</td><td>1 set</td><td>Battery, charge, 5 V rail</td><td>Should</td><td class="r">225</td><td class="r">330</td><td>Cell ₹96–199 ✓, holder ₹69 ✓, TP4056 ₹49 ✓, MT3608 ₹35–49 ✓</td></tr>
+<tr class="new"><td>30b</td><td><b>CHARGE / USE safety switch</b>: DPDT slide switch (SS-22 type) + USB-C socket breakout + 2 × 100 kΩ. USE cuts BOTH charger wires; CHARGE tells GPIO39 to refuse a check-in. Seal the TP4056 module's own USB socket</td><td>1 set</td><td>Patient safety</td><td>Must</td><td class="r">25</td><td class="r">50</td><td>Estimate: get a cart screenshot</td></tr>
 <tr class="new"><td>31</td><td><b>PAM8403 amplifier module + 4 Ω 3 W speaker</b> (louder for elderly users). Voice prompts stored in ESP32 flash, played from the GPIO26 DAC. No DFPlayer, no SD card</td><td>1 set</td><td>Local-language voice</td><td>Should</td><td class="r">229</td><td class="r">279</td><td>Speaker ₹199–249 ✓ (Probots); PAM8403 ~₹30 (estimate)</td></tr>
 <tr class="new"><td>32</td><td>Perfboard 7 × 9 cm + header pins, to move the circuit off the breadboard</td><td>1</td><td>Permanent circuit</td><td>Should</td><td class="r">40</td><td class="r">60</td><td></td></tr>
 <tr class="new"><td>33</td><td><b>22 mm panel push buttons</b> (green, red, SOS), big and elder-friendly. 30 mm arcade buttons (Thingbits ₹79–93 each ✓) are an upgrade</td><td>3</td><td>Answers, SOS</td><td>Nice</td><td class="r">90</td><td class="r">120</td><td>Estimate</td></tr>
@@ -159,14 +160,14 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <h3>Totals</h3>
 <table>
 <tr><th>What</th><th class="r">Low ₹</th><th class="r">Plan ₹</th><th>Note</th></tr>
-<tr><td>To buy: Must</td><td class="r">1,931</td><td class="r">2,574</td><td></td></tr>
+<tr><td>To buy: Must</td><td class="r">1,956</td><td class="r">2,624</td><td></td></tr>
 <tr><td>To buy: Should</td><td class="r">937</td><td class="r">1,292</td><td></td></tr>
 <tr><td>To buy: Nice</td><td class="r">240</td><td class="r">340</td><td></td></tr>
-<tr><td>To buy: Must + Should</td><td class="r">2,868</td><td class="r">3,866</td><td></td></tr>
-<tr><td>To buy: everything</td><td class="r">3,108</td><td class="r">4,206</td><td>Test rigs not counted</td></tr>
-<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,892</b></td><td class="r"><b>4,770</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹230 under ₹5,000 at safe prices</b></td></tr>
+<tr><td>To buy: Must + Should</td><td class="r">2,893</td><td class="r">3,916</td><td></td></tr>
+<tr><td>To buy: everything</td><td class="r">3,133</td><td class="r">4,256</td><td>Test rigs not counted</td></tr>
+<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,917</b></td><td class="r"><b>4,820</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹180 under ₹5,000 at safe prices</b></td></tr>
 </table>
-<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,770</b>, about ₹230 under ₹5,000. How we got from ₹7,095:
+<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,820</b>, about ₹180 under ₹5,000 (including the ₹50 CHARGE / USE safety switch). How we got from ₹7,095:
 <ul>
 <li>price trims: load cells, counting only the resistors and capacitors used, a plain stool, typical SIM800L price, INA126, panel buttons, one perfboard, local steel</li>
 <li>one HX711 bridge instead of four sets (≈ −₹134)</li>
@@ -187,7 +188,8 @@ Still estimates: loose load cells, PAM8403, stool, steel, PVC and the small item
 <tr class="new"><td>Path select S0</td><td>GPIO33</td><td>To A pins of U4 and U5 (74HC4052)</td></tr>
 <tr class="new"><td>Path select S1</td><td>GPIO27</td><td>To B pins of U4 and U5</td></tr>
 <tr><td>I2C SDA, SCL</td><td>GPIO21, 22</td><td>MAX30102 (0x57)</td></tr>
-<tr><td>ECG OUT, LO+</td><td>GPIO34, 39</td><td>AD8232, optional (LO− not used: GPIO36 is the tablet drawer)</td></tr>
+<tr><td>ECG OUT</td><td>GPIO34</td><td>AD8232, optional (LO+ and LO− not used)</td></tr>
+<tr class="new"><td>Charge sense</td><td>GPIO39</td><td>CHARGE / USE switch: 100 kΩ + 100 kΩ divider from the switched charger +5 V; high = on charge, the stool refuses to measure</td></tr>
 <tr class="new"><td>Seat vibration motor</td><td>GPIO19</td><td>GPIO19 → 1 kΩ → 2N2222 base; motor from 5 V to the collector, 1N4148 across the motor; emitter to GND</td></tr>
 <tr class="new"><td>Tablet drawer switch</td><td>GPIO36</td><td>Microswitch to GND when the drawer opens; 10 kΩ pull-up to 3.3 V (GPIO36 has no internal pull-up)</td></tr>
 <tr><td>LEDs green, amber, red</td><td>GPIO13, 23, 2</td><td>Each through 220 Ω to GND</td></tr>
@@ -291,7 +293,7 @@ Show "no reading" instead of guessing.</p>
 
 <h2>9. Safety and edge-case checklist</h2>
 <ul>
-<li>Battery power whenever a person touches the electrodes; never mains, and unplug the charger during a check-in (the firmware can refuse to measure while the TP4056 reports charging). Keep the current near 0.1 mA at 5 kHz and confirm against IEC 60601-1 before any real use.</li>
+<li>Battery power whenever a person touches the electrodes. The <b>CHARGE / USE switch</b> enforces it: in USE both charger wires are cut (simulated leakage 0.19 µA even with a failed charger); in CHARGE the firmware refuses to measure. Without it, a cheap charger leaks 339 µA through an earthed patient (limit 100 µA). <b>Laptop bridge: run the laptop on battery</b> (its USB is another mains path). Keep the current near 0.1 mA at 5 kHz and confirm against IEC 60601-1 before any real use.</li>
 <li class="new"><b>The arms and side paths send current across the chest.</b> Keep the ~0.1 mA limit in firmware (cap the DAC amplitude), and stop if the R5 reading shows more than 0.15 mA. 8-electrode body-composition scales work the same way, but our circuit is unverified.</li>
 <li>No pacemaker or defibrillator users. No magnets anywhere. All impedance off for implant patients.</li>
 <li>Round and insulate all metal edges. Keep the 18650 away from heat and metal; use a protected cell.</li>

@@ -16,6 +16,7 @@ PASS  red LED on
 PASS  missed check-in: family reminded at 11:00
 PASS  Sunday 18:00: weekly summary to the ASHA
 PASS  6-minute walk test in the weekly summary (540 steps, ~270 m)
+PASS  switch on CHARGE: check-in refused, no current through the body
 PASS  guest (85 kg) recognised: readings ignored by the engine
 PASS  lifted foot: leg and chest reported as no reading
 PASS  self-test: low battery -> service SMS to the ASHA
@@ -24,9 +25,9 @@ PASS  power cut: personal baseline and alert state restored from flash
 PASS  check-in works after the power cut
 PASS  network down: nothing is lost, messages wait
 PASS  network back: queued SOS delivered within 10 min retry
-PASS  self-calibration: damaged reference detected, no numbers reported (ratio 2.749800)
+PASS  self-calibration: damaged reference detected, no numbers reported (ratio 2.749600)
 PASS  self-calibration: service SMS to the ASHA
-PASS  self-calibration: healthy reference ratio 2.2 (2.200000)
+PASS  self-calibration: healthy reference ratio 2.2 (2.200100)
 PASS  second user enrolled and recognised
 PASS  first user still recognised
 PASS  stranger on a two-user stool: nothing saved
