@@ -12,7 +12,34 @@
 
 **In one line:** a 90-second daily check-in on the patient's own chair, an amulet, and an offline alert engine that warns the family about **3 days before** a heart-failure hospital visit, for a build cost of about **₹4,400** (limit ₹5,000).
 
-**Jump to:** [The problem](#the-problem-and-the-idea) · [How it works](#how-it-works) · [Results](#results) · [Quick start](#quick-start) · [Saathi phone app](#saathi-phone-app) · [Hardware and firmware](#hardware-and-firmware) · [Simulate it](#simulate-it-no-hardware) · [Reproduce](#reproduce-everything) · [Repository map](#repository-map) · [Documents](#documents) · [Troubleshooting](#troubleshooting) · [Honest limits](#honest-limits)
+## For judges: start here
+
+<p align="center"><img src="Deliverables/prototype_photo.jpg" width="320" alt="Working prototype: breadboard check-in unit on a household chair, Kavach amulet worn on a cord"></p>
+
+| Deliverable (PS requirement) | Where |
+|---|---|
+| 5-minute pitch video | [Deliverables/5min_pitch.mp4](Deliverables/5min_pitch.mp4) |
+| **Live simulation (Wokwi, runs in the browser)** | **[wokwi.com/projects/478945371100594177](https://wokwi.com/projects/478945371100594177)** |
+| Simulation demo video (one patient month, circuit + SMS) | [Deliverables/simulation_demo.mp4](Deliverables/simulation_demo.mp4) |
+| Technical report | [Deliverables/report.pdf](Deliverables/report.pdf) |
+| User-journey storyboard | [Deliverables/user_journey_storyboard.pdf](Deliverables/user_journey_storyboard.pdf) |
+| Block diagram | [Deliverables/block_diagram.webp](Deliverables/block_diagram.webp) · production set [HM-HW-001](docs/hardware/HM-HW-001_block_diagram.pdf) |
+| Schematics (4 sheets) and power budget | [Deliverables/schematics.pdf](Deliverables/schematics.pdf) · [HM-HW-003](docs/hardware/HM-HW-003_power_budget.pdf) |
+| Cost report (₹4,402, under ₹5,000) | [Deliverables/cost_report.pdf](Deliverables/cost_report.pdf) |
+| Working phone app (Saathi, offline, 10 languages) | [app/](app/) |
+| Firmware (stool + amulet, ESP32) | [firmware/](firmware/) |
+
+**Headline results** (synthetic benchmark, tuned on dev only, scored once; 95 % bootstrap range in brackets; full table in [benchmark/LEADERBOARD.md](benchmark/LEADERBOARD.md)):
+
+| System | Caught episodes | False alerts / patient-month | Median warning |
+|---|---|---|---|
+| **HridayMitra hybrid** (test, 60 patients) | **86 % [73–95]** | 0.19 [0.08–0.30] | 3 days |
+| **HridayMitra hybrid** (external, 1,000 patients) | **86 % [79–93]** | 0.09 | 3 days |
+| Weight rule, SCALE-HF (today's standard, test) | 40 % [25–57] | 0.53 | 2 days |
+
+**Checked automatically:** 67 Python tests, 109 app tests, 41 firmware-emulator checks; firmware compiles (66 % of flash). Real-data checks on public PhysioNet BIDMC: pulse median error 0.91 bpm, breathing 1.0 breath/min.
+
+**Jump to:** [For judges](#for-judges-start-here) · [The problem](#the-problem-and-the-idea) · [How it works](#how-it-works) · [Results](#results) · [Quick start](#quick-start) · [Saathi phone app](#saathi-phone-app) · [Hardware and firmware](#hardware-and-firmware) · [Simulate it](#simulate-it-no-hardware) · [Reproduce](#reproduce-everything) · [Repository map](#repository-map) · [Documents](#documents) · [Troubleshooting](#troubleshooting) · [Honest limits](#honest-limits)
 
 ---
 
