@@ -123,9 +123,15 @@ int main() {
   std::string g = doCheckin(85, Body(), {0, 0});
   check(jnum(g, "guest") == 1, "guest (85 kg) recognised: readings ignored by the engine");
   // day 26: a foot lifted off a plate -> "no reading" for the legs, not a wrong number
-  curDay = 26; runUntil(26 * DAY + 8 * H); W.plateOpen = true;
-  std::string o = doCheckin(62, Body(), {0, 0}); W.plateOpen = false;
+  curDay = 26; runUntil(26 * DAY + 8 * H); W.openFoot = 1;   // left foot stays lifted through the retry
+  std::string o = doCheckin(62, Body(), {0, 0}); W.openFoot = 0;
   check(std::isnan(jnum(o, "leg_z_ohm")) && std::isnan(jnum(o, "trunk_z_ohm")), "lifted foot: leg and chest reported as no reading");
+  float zl[4] = {NAN, 600, 640, NAN}, zr[4] = {NAN, 600, NAN, 640}, zok[4] = {580, 600, 640, 640};
+  check(hm::liftedFoot(zl) == 1 && hm::liftedFoot(zr) == 2 && hm::liftedFoot(zok) == 0, "lifted foot named from the failed paths (left / right)");
+  runUntil(26 * DAY + 14 * H); W.openFoot = 2; W.openFor = 5000000;   // right foot lifted, put back after the voice prompt
+  std::string back = doCheckin(62, Body(), {0, 0}); W.openFoot = 0; W.openFor = 0;
+  check(!std::isnan(jnum(back, "leg_z_ohm")) && fabs(jnum(back, "leg_z_ohm") / legTrue(Body()) - 1) < 0.02,
+        "foot put back after the prompt: re-measured, leg reading recovered (" + std::to_string(jnum(back, "leg_z_ohm")) + " ohm)");
   // day 27: low battery found by the 07:00 self-test; SOS at 10:00
   curDay = 27; W.batteryMv = 3300; runUntil(27 * DAY + 7 * H + 30 * MIN_);
   check(!smsTo(ASHA, 27 * DAY + 7 * H, 27 * DAY + 8 * H, "battery low").empty(), "self-test: low battery -> service SMS to the ASHA");
@@ -167,6 +173,9 @@ int main() {
   check(jstr(p1, "id") == PATIENT_ID, "first user still recognised");
   size_t nBefore = checkins.size(); doCheckin(85, Body(), {0, 0});
   check(checkins.size() == nBefore, "stranger on a two-user stool: nothing saved");
+  { bool ok = true; for (auto& m : W.sms) if (m.text.rfind("HridayMitra RED", 0) == 0 && m.text.find("no reply") == std::string::npos)
+      ok = ok && m.text.size() <= 160 && m.text.find("call 108") != std::string::npos;
+    check(ok, "every red SMS fits one SMS (160 chars) and keeps the 'call 108' instruction"); }
   // the app over BLE: dated reports with a unique event id, history replay, commands run from loop()
   const char* APP_CMD = "6e8a0001-4b5a-4c3e-9a51-6d697472a004";
   check(jstr(p1, "date") == "2026-10-31" && !jstr(p1, "event_id").empty() && !std::isnan(jnum(p1, "leg_ewi")),
@@ -181,6 +190,12 @@ int main() {
 
   FILE* f = fopen("../../reports/sil_checkins.jsonl", "w");
   for (auto& c : checkins) fprintf(f, "{\"day\":%d,\"report\":%s}\n", c.first, c.second.c_str());
+  fclose(f);
+  f = fopen("../../reports/sil_sms.jsonl", "w");                   // every SMS the firmware sent (for the demo video)
+  for (auto& m : W.sms) {
+    std::string t; for (char ch : m.text) { if (ch == '"' || ch == '\\') t += '\\'; t += ch; }
+    fprintf(f, "{\"day\":%d,\"minute\":%d,\"to\":\"%s\",\"text\":\"%s\"}\n", (int)(m.at_us / DAY), (int)(m.at_us % DAY / MIN_), m.to.c_str(), t.c_str());
+  }
   fclose(f);
   printf("%zu check-ins, %zu SMS sent, %d failures\n", checkins.size(), W.sms.size(), fails);
   fprintf(logFile, "%zu check-ins, %zu SMS sent, %d failures\n", checkins.size(), W.sms.size(), fails);

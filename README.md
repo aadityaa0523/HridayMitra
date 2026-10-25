@@ -26,7 +26,12 @@ Build cost: **₹4,243–4,397** (Monte Carlo of the parts list); the limit is �
 | False alerts per patient-month | **0.06** | 0.53 |
 | External 1,000-patient cohort: sensitivity / false alerts | **72% / 0.06** | 31% / 0.38 |
 
-- **Robustness:** it beats the weight rule in **all 46** assumption-sensitivity scenarios and in 14 of 15 stress cases. In the 15th (10% guest days) the rule catches more but fires about 30× more false alerts.
+**Hybrid engine** (rules propose, a small model trained on dev confirms; `engine/hybrid.py`): catches **86%** of episodes on held-out, external and stress cohorts at 0.09–0.19 false alerts per patient-month (budget 0.21). Full table and an open scorer: [`benchmark/LEADERBOARD.md`](benchmark/LEADERBOARD.md).
+
+- **Calibrated to real trials:** the published FAST and SCALE-HF 1 weight rules score on our external cohort 20% / 33% caught and 4.8 / 4.85 unexplained alerts per year, against the published 23% / 35% and 4.3 / 4.18.
+- **Demo video:** [`docs/demo/hridaymitra_month_demo.mp4`](docs/demo/hridaymitra_month_demo.mp4), one month of the real stool firmware driving the real Wokwi screens.
+
+- **Robustness:** it beats the weight rule in **all 52** assumption-sensitivity scenarios and in 14 of 15 stress cases. In the 15th (10% guest days) the rule catches more but fires about 30× more false alerts.
 - **Care loop:** in simulation, 92% of red alerts get a clinical review before the hospital visit, versus 27% with a single SMS.
 - **Circuit:** LTspice puts every path within 0.05% of the exact answer. A Monte Carlo of 100 stools built from 5% parts keeps 99% of readings within 2%. It also changed the design: the bias resistors are now 10 MΩ.
 - **Heart rate on real ECG:** all 15 PhysioNet BIDMC CHF records: median heart-rate error 0.15 bpm, 13 of 15 records within 0.5 bpm, 96% of 30-second windows within 5 bpm. It fails on chf12, a very noisy recording.

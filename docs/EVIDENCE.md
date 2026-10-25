@@ -52,6 +52,8 @@
 | Patient forgets the check-in | Gaps, late warning | 11:00 SMS reminder to the family; Sunday summary to the ASHA | `test_nudge_once_after_11`, `test_weekly_summary_and_fhir` |
 | Hard of hearing | Prompts missed | Seat vibration before every prompt, lights | firmware `say()` |
 | A fault in the circuit (shorted resistor or capacitor, op-amp stuck, DAC full scale) | Unsafe current through the patient | Two series coupling capacitors + current-limit resistor; every single fault within IEC 60601-1 type-BF limits (≥ 12.8× margin) | `sim/circuit/safety.py` |
+| A foot lifted off its plate during the check-in | Day lost (no leg or chest reading) | Firmware names the foot from the failed paths, waits and re-measures once; persistent lift = "no reading", never a wrong number | firmware emulator checks (left / right, recovered 577 vs 578.5 ohm) |
+| Long red-alert reasons | The 160-character SMS loses "call 108" | Reasons are cut to fit, the 108 instruction never | firmware emulator check |
 | Check-in while the charger is plugged in | Mains leakage through the patient (339 µA cheap charger, 72 mA failed charger) | CHARGE / USE switch cuts both USB wires in USE (0.19 µA); GPIO39 sense blocks measuring in CHARGE | `sim/circuit/charger_leakage.py`, firmware emulator check |
 | Riding an auto-rickshaw or bus counted as walking | Walk test looks better than it is | Steps only from a strong regular rhythm (autocorrelation ≥ 0.5); 0 false steps in synthetic vehicle vibration, fidgeting, turning in bed | `tests/test_walk.py` |
 | Loose pendant cord swinging while a frail person shuffles | Walk test under-counts (up to 23%) | Short cord / pendant under clothing (within 2.7%); same person, same cord each week, so the trend still holds | `reports/walk_accuracy.csv` |

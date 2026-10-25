@@ -56,4 +56,5 @@ Leg-reading measurement noise (0.35%) comes from `sim/circuit/measurement_error_
 - It is not real patient data and does not prove clinical accuracy. It only shows that an alert system can find the
   patterns we put in, and how it copes with mess (missing days, guests, infection, missed pills).
 - Every value marked ASSUMPTION is our guess. The test reports must show results when these guesses change.
-- Not modelled yet: atrial fibrillation, medicine changes, seasons, a calibration against published alert rates.
+- Not modelled yet: atrial fibrillation, medicine changes, seasons.
+- Calibrated against published trials (`engine/calibrate_published.py`): on the real-world cohort the FAST and SCALE-HF 1 weight rules catch 20 % and 33 % of events (published 23 % and 35 %) with 4.8 and 4.85 unexplained alerts per patient-year (published 4.3 and 4.18).

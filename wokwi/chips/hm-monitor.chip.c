@@ -8,7 +8,7 @@
 #include "gfx.inc"
 
 #define HIST 24
-static const float T = 6.5f;                          // frozen threshold (engine/frozen_params_v2.json)
+static const float T = 7.0f;                          // frozen threshold (engine/frozen_params_v3.json)
 enum { BG = 0xFF261810, BAR = 0xFF4A2E1C, TXT = 0xFFEAEAEA, DIM = 0xFF9A9A9A, GRID = 0xFF3A3A3A,
        GREEN = 0xFF4CC24C, AMBER = 0xFF1AB4F5, RED = 0xFF3B3BE8, HEAD = 0xFFFFB04A, BLUE = 0xFFE07A2C };
 

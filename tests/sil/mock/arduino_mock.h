@@ -70,7 +70,7 @@ struct World {
   long day0 = 0;                         // days since 1970 of day 0
   std::mt19937 rng{7};
   // body and sensors
-  double weight = 0; bool plateOpen = false;
+  double weight = 0; int openFoot = 0; uint64_t openFor = 0, openUntil = 0;   // 1 left / 2 right foot lifted; openFor us after the current starts (0 = all check-in)
   double seg[3][3] = {{289.25, 650, 3.39e-9}, {330, 750, 2.9e-9}, {28, 60, 30e-9}};   // leg, arm, trunk: Re, Ri, Cm
   int dacStarts = 0;                                        // times the body excitation was switched on
   double excHz = 5000, refScale = 1.0;                      // refScale != 1: a damaged reference chain
@@ -155,7 +155,8 @@ inline int analogRead(int) {
   if (W.dacOn) {
     double z = W.pin[P_SEL] ? (W.pin[12] ? 100.0 : 220.0 * W.refScale) : zPath(path, W.excHz);   // Rcal or R5 + Rcal
     v += 10 * 100e-6 * z * cos(2 * PI * W.excHz * t);         // 100 uA through the body, INA gain 10
-    if (!W.pin[P_SEL] && W.plateOpen && path == 0) v = 1.65 + 3.0 * sin(2 * PI * 50 * t);   // floating input saturates
+    bool open = W.openFoot && (!W.openFor || W.us < W.openUntil) && (path == 0 || path == (W.openFoot == 1 ? 3 : 2));
+    if (!W.pin[P_SEL] && open) v = 1.65 + 3.0 * sin(2 * PI * 50 * t);   // that foot's sense input floats: hum saturates it
   }
   return (int)constrain(lround(v / 3.3 * 4095 + gauss(2)), 0L, 4095L);
 }
@@ -167,7 +168,7 @@ enum { DAC_CHAN_0 = 0, DAC_COSINE_CLK_SRC_DEFAULT = 0, DAC_COSINE_ATTEN_DB_6 = 1
 struct dac_cosine_config_t { int chan_id, freq_hz, clk_src, atten, phase, offset; };
 inline int dac_cosine_new_channel(const dac_cosine_config_t* c, dac_cosine_handle_t* h) { W.excHz = c->freq_hz; *h = (dac_cosine_handle_t)1; return 0; }
 inline int dac_cosine_del_channel(dac_cosine_handle_t) { return 0; }
-inline int dac_cosine_start(dac_cosine_handle_t) { W.dacOn = true; W.dacStarts++; return 0; }
+inline int dac_cosine_start(dac_cosine_handle_t) { W.dacOn = true; W.dacStarts++; W.openUntil = W.us + W.openFor; return 0; }
 inline int dac_cosine_stop(dac_cosine_handle_t) { W.dacOn = false; return 0; }
 
 // ---------------- I2C: MAX30102 ----------------
