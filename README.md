@@ -10,7 +10,21 @@
 > **Monitoring, not diagnosis.** Research prototype for the Transfinitte 2026 hackathon (hardware track, problem statement by Dare 2 Dream Ventures).
 > All patient data in this repository is **synthetic** (plus public PhysioNet BIDMC ECG for heart rate). No human data was collected.
 
-**In one line:** a 90-second daily check-in on the patient's own chair, an amulet, and an offline alert engine that warns the family about **3 days before** a heart-failure hospital visit, for a build cost of about **₹4,400** (limit ₹5,000).
+## The idea: turn **any chair at home** into a heart-failure check-in
+
+<p align="center"><img src="Deliverables/concept_any_chair.webp" width="900" alt="HridayMitra concept: a weighing platform with foot electrodes under the family's own chair, and a hand sensor bar held on the lap or fixed to the armrests"></p>
+
+**No special chair to buy. No patch to wear. No smartphone needed.**
+
+- **Use the chair you already have.** A stool, a plain wooden chair, a plastic chair or an armchair: put it on our thin weighing platform. Nothing is fixed to the chair. (Not for wheeled or wobbly chairs.)
+- **Just sit, feet on the plates.** 4 stainless foot plates (heel and forefoot of each foot) and 4 load cells in the platform.
+- **Hands on the sensor bar,** held on the lap **or fixed to the chair's armrests or handles:** 4 hand strips, a fingertip pulse sensor, ✓ / ✗ / SOS buttons, a speaker and a status light.
+- **90 seconds a day.** A voice guides the elder in their language. Weight, fluid in the legs and **chest (without touching the chest)**, pulse, oxygen, sit-to-stand speed and 3 yes/no questions.
+- **It learns each person's own normal** and warns the family by **SMS about 3 days before** a hospital visit, with the reason in plain words: family → ASHA worker → PHC doctor.
+- **Kavach amulet** worn on a cord adds night breathing, sitting up at night and daily walking.
+- **₹4,402** build cost (limit ₹5,000), because the family's own chair costs nothing.
+
+**In one line:** any household chair + a weighing platform + a hand bar + an amulet = a 90-second daily check-in that warns the family about **3 days before** a heart-failure hospital visit, for about **₹4,400**.
 
 ## For judges: start here
 
@@ -18,7 +32,7 @@
 
 | Folder | Inside |
 |---|---|
-| [📁 Deliverables](Deliverables/) | Pitch video, report, storyboard, block diagram, schematics, cost report, PCB, simulation video |
+| [📁 Deliverables](Deliverables/) | Concept image (any chair), pitch video, report, storyboard, block diagram, schematics, cost report, PCB, simulation video |
 | [📁 01_Hardware_Design](01_Hardware_Design/) | Prototype photo, block diagram, 4 schematic sheets, front end with test points, power budget, routed PCB + Gerbers, parts list (₹4,402) |
 | [📁 02_Software_and_Analytics](02_Software_and_Analytics/) | Signal processing, personal-baseline alert engine, hybrid ML, firmware engine, care loop, Saathi app, a real alert SMS |
 | [📁 03_Data](03_Data/) | Synthetic dataset card, sample patients, how noise is modelled |
