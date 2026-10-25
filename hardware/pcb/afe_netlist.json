@@ -1,0 +1,316 @@
+{
+ "R1": {
+  "sym": "R",
+  "value": "10k 1%",
+  "pins": {
+   "1": "+3V3",
+   "2": "VREF_IN"
+  }
+ },
+ "R2": {
+  "sym": "R",
+  "value": "10k 1%",
+  "pins": {
+   "1": "VREF_IN",
+   "2": "GND"
+  }
+ },
+ "C1": {
+  "sym": "C",
+  "value": "10u",
+  "pins": {
+   "1": "VREF_IN",
+   "2": "GND"
+  }
+ },
+ "U1": {
+  "sym": "OPA",
+  "value": "MCP6002",
+  "pins": {
+   "3": "VREF_IN",
+   "2": "VREF",
+   "1": "VREF",
+   "5": "EXC_IN",
+   "6": "EXC_OUT",
+   "7": "EXC_OUT",
+   "8": "+3V3",
+   "4": "GND"
+  }
+ },
+ "C2": {
+  "sym": "C",
+  "value": "1u",
+  "pins": {
+   "1": "DAC_EXC",
+   "2": "EXC_IN"
+  }
+ },
+ "R3": {
+  "sym": "R",
+  "value": "100k",
+  "pins": {
+   "1": "EXC_IN",
+   "2": "VREF"
+  }
+ },
+ "C3": {
+  "sym": "C",
+  "value": "1u",
+  "pins": {
+   "1": "EXC_OUT",
+   "2": "N1"
+  }
+ },
+ "R4": {
+  "sym": "R",
+  "value": "4.7k 1%",
+  "pins": {
+   "1": "N1",
+   "2": "I_SRC"
+  }
+ },
+ "U4": {
+  "sym": "MUX4",
+  "value": "74HC4052 (current pair)",
+  "pins": {
+   "13": "I_SRC",
+   "12": "LF_FORE",
+   "14": "LH_OUT",
+   "15": "RH_OUT",
+   "11": "LH_OUT",
+   "3": "I_SNK",
+   "1": "RF_FORE",
+   "5": "RH_OUT",
+   "2": "RF_FORE",
+   "4": "LF_FORE",
+   "10": "PATH_S0",
+   "9": "PATH_S1",
+   "6": "GND",
+   "7": "GND",
+   "8": "GND",
+   "16": "+3V3"
+  }
+ },
+ "C4": {
+  "sym": "C",
+  "value": "1u",
+  "pins": {
+   "1": "I_SNK",
+   "2": "RET"
+  }
+ },
+ "R5": {
+  "sym": "R",
+  "value": "120",
+  "pins": {
+   "1": "RET",
+   "2": "NCAL"
+  }
+ },
+ "R22": {
+  "sym": "R",
+  "value": "100 0.1% (Rcal)",
+  "pins": {
+   "1": "NCAL",
+   "2": "VREF"
+  }
+ },
+ "R6": {
+  "sym": "R",
+  "value": "1k",
+  "pins": {
+   "1": "LF_HEEL_E",
+   "2": "LF_HEEL"
+  }
+ },
+ "R7": {
+  "sym": "R",
+  "value": "1k",
+  "pins": {
+   "1": "RF_HEEL_E",
+   "2": "RF_HEEL"
+  }
+ },
+ "R12": {
+  "sym": "R",
+  "value": "1k",
+  "pins": {
+   "1": "LH_IN_E",
+   "2": "LH_IN"
+  }
+ },
+ "R13": {
+  "sym": "R",
+  "value": "1k",
+  "pins": {
+   "1": "RH_IN_E",
+   "2": "RH_IN"
+  }
+ },
+ "U5": {
+  "sym": "MUX4",
+  "value": "74HC4052 (sense pair)",
+  "pins": {
+   "13": "SA",
+   "12": "LF_HEEL",
+   "14": "LH_IN",
+   "15": "RH_IN",
+   "11": "LH_IN",
+   "3": "SB",
+   "1": "RF_HEEL",
+   "5": "RH_IN",
+   "2": "RF_HEEL",
+   "4": "LF_HEEL",
+   "10": "PATH_S0",
+   "9": "PATH_S1",
+   "6": "GND",
+   "7": "GND",
+   "8": "GND",
+   "16": "+3V3"
+  }
+ },
+ "R8": {
+  "sym": "R",
+  "value": "10M",
+  "pins": {
+   "1": "SA",
+   "2": "VREF"
+  }
+ },
+ "R9": {
+  "sym": "R",
+  "value": "10M",
+  "pins": {
+   "1": "SB",
+   "2": "VREF"
+  }
+ },
+ "U3": {
+  "sym": "MUX2",
+  "value": "74HC4053 (body / reference / self-cal)",
+  "pins": {
+   "14": "INA_P",
+   "12": "SA",
+   "13": "RTAP",
+   "15": "INA_N",
+   "2": "SB",
+   "1": "VREF",
+   "11": "SEL",
+   "10": "SEL",
+   "4": "RTAP",
+   "5": "RET",
+   "3": "NCAL",
+   "9": "CAL_SEL",
+   "6": "GND",
+   "7": "GND",
+   "8": "GND",
+   "16": "+3V3"
+  }
+ },
+ "U2": {
+  "sym": "INA",
+  "value": "INA126",
+  "pins": {
+   "3": "INA_P",
+   "2": "INA_N",
+   "1": "RG1",
+   "8": "RG2",
+   "5": "VREF",
+   "6": "INA_OUT",
+   "7": "+3V3",
+   "4": "GND"
+  }
+ },
+ "R10": {
+  "sym": "R",
+  "value": "16k (15k+1k)",
+  "pins": {
+   "1": "RG1",
+   "2": "RG2"
+  }
+ },
+ "R11": {
+  "sym": "R",
+  "value": "1.5k",
+  "pins": {
+   "1": "INA_OUT",
+   "2": "Z_ADC"
+  }
+ },
+ "C5": {
+  "sym": "C",
+  "value": "10n",
+  "pins": {
+   "1": "Z_ADC",
+   "2": "GND"
+  }
+ },
+ "J1": {
+  "sym": "J8",
+  "value": "Electrodes: 4 foot plates + 4 hand strips",
+  "pins": {
+   "1": "LF_FORE",
+   "2": "LF_HEEL_E",
+   "3": "RF_FORE",
+   "4": "RF_HEEL_E",
+   "5": "LH_OUT",
+   "6": "LH_IN_E",
+   "7": "RH_OUT",
+   "8": "RH_IN_E"
+  }
+ },
+ "C6": {
+  "sym": "C",
+  "value": "100n",
+  "pins": {
+   "1": "+3V3",
+   "2": "GND"
+  }
+ },
+ "C7": {
+  "sym": "C",
+  "value": "100n",
+  "pins": {
+   "1": "+3V3",
+   "2": "GND"
+  }
+ },
+ "C8": {
+  "sym": "C",
+  "value": "100n",
+  "pins": {
+   "1": "+3V3",
+   "2": "GND"
+  }
+ },
+ "C9": {
+  "sym": "C",
+  "value": "100n",
+  "pins": {
+   "1": "+3V3",
+   "2": "GND"
+  }
+ },
+ "C13": {
+  "sym": "C",
+  "value": "100n",
+  "pins": {
+   "1": "+3V3",
+   "2": "GND"
+  }
+ },
+ "J13": {
+  "sym": "HOST",
+  "value": "to ESP32 DevKit",
+  "pins": {
+   "1": "+3V3",
+   "2": "GND",
+   "3": "DAC_EXC",
+   "4": "Z_ADC",
+   "5": "PATH_S0",
+   "6": "PATH_S1",
+   "7": "SEL",
+   "8": "CAL_SEL"
+  }
+ }
+}

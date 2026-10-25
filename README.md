@@ -24,6 +24,7 @@
 | Technical report | [Deliverables/report.pdf](Deliverables/report.pdf) |
 | User-journey storyboard | [Deliverables/user_journey_storyboard.pdf](Deliverables/user_journey_storyboard.pdf) |
 | Block diagram | [Deliverables/block_diagram.webp](Deliverables/block_diagram.webp) · production set [HM-HW-001](docs/hardware/HM-HW-001_block_diagram.pdf) |
+| PCB of the custom sensor board (2-layer, 70 × 50 mm, fully routed, 0 DRC errors) | [3D view](Deliverables/pcb_3d.png) · [Gerbers](Deliverables/pcb_gerbers.zip) · [KiCad files](hardware/pcb/) |
 | Schematics (4 sheets) and power budget | [Deliverables/schematics.pdf](Deliverables/schematics.pdf) · [HM-HW-003](docs/hardware/HM-HW-003_power_budget.pdf) |
 | Cost report (₹4,402, under ₹5,000) | [Deliverables/cost_report.pdf](Deliverables/cost_report.pdf) |
 | Working phone app (Saathi, offline, 10 languages) | [app/](app/) |
@@ -62,6 +63,46 @@ HridayMitra measures what a weight scale cannot (fluid in the legs and chest) in
 | **Offline alert engine** | Runs on the ESP32 | Personal baseline, green / amber / red, reasons in plain words |
 | **Care loop** | SMS over 2G with retries | family 1 → family 2 (30 min) → ASHA worker (2 h) → PHC doctor (6 h) |
 | **Saathi app** | Offline PWA, 10 Indian languages | Elder, family, ASHA and doctor views |
+
+## What is new here
+
+1. **Chest fluid without touching the chest.** 8 electrodes (2 per foot, 2 per hand) give legs, arms and both body sides; subtracting them isolates the trunk. No vest, no patch.
+2. **Fluid outside the cells, not just "impedance".** Readings at 5, 20 and 50 kHz are fitted with a Cole model. The ratio cancels foot position and skin temperature, the two things that break home bioimpedance.
+3. **Sit-to-stand time with no extra sensor.** The weighing platform already sees the force of standing up; we integrate it twice into the rise of the body's centre of mass and fit a smooth rise curve.
+4. **A 6-minute walk test nobody has to start.** The amulet finds the best 6 minutes of walking in the week by itself.
+5. **Two witnesses before red.** A red alert needs two independent body systems (for example fluid and heart-lungs) to agree, which is why false alerts stay at about 0.19 per patient per month.
+6. **Works with no smartphone and no internet.** The engine runs on the ESP32; alerts go by 2G SMS, family → ASHA → PHC doctor.
+
+## Using it every day (90 seconds)
+
+| Step | Elder does | Device does |
+|---|---|---|
+| 1 | Sits on their own chair at the usual time (an SMS reminder if the check-in is missed) | Platform recognises the person by weight; a guest is ignored |
+| 2 | Puts bare feet on the plates, holds the bar, finger in the cradle | Checks contact; if bad, the voice asks again ("no reading", never a made-up number) |
+| 3 | Sits still about 60 s | Weight, 8-electrode impedance at 3 frequencies, pulse and SpO₂ |
+| 4 | Answers 3 spoken questions with ✓ / ✗ | Breathless? Extra pillows? Tablets taken? |
+| 5 | Stands up | Sit-to-stand time from the platform force |
+| 6 | Sees the light: green / amber / red | Amber: check again tomorrow. Red: SMS to family with the reason |
+
+The amulet needs nothing: it is worn on a cord day and night and charges on the dock beside the chair.
+
+**Why they keep using it for months**
+- **One habit, no setup:** the same chair, the same time, 90 seconds, guided by voice in their language. No app, no reading, no charging cables to manage for the elder.
+- **Someone is watching:** a missed check-in sends a reminder, and the ASHA worker gets a Sunday summary, so a skipped week does not go unnoticed.
+- **It gives something back:** a green light and "your reading is normal" every day; a coaching tip on amber days; tablet reminders.
+- **Few false alarms:** about one false alert every 5 months per patient, so families do not learn to ignore it.
+- **Survives Indian homes:** runs on battery through power cuts, retries SMS on weak 2G, ignores guests, toe rings and lifted feet.
+
+## Is the synthetic data circular?
+
+We designed the patients, so we tested what happens when our guesses are wrong ([reports/assumption_sensitivity.csv](reports/assumption_sensitivity.csv), [reports/stress_and_ablation.csv](reports/stress_and_ablation.csv)):
+
+- **Every assumption pushed to both extremes:** the engine stays within the false-alert budget in all cases and beats the weight rule in all cases. Sensitivity moves most with how long and how fast worsening happens (30–98 %), which is honest: it depends on the disease, not on our hardware guesses.
+- **Leg reading gives no signal in weight-silent patients** (worst case): sensitivity drops from 67 % to 52 %, still above the weight rule (29 %).
+- **Real life:** 50 % of days missed, power-cut gaps, guests, wet feet, amulet worn half the time, electrodes ageing: the engine still beats the weight rule in every case except guest days, where the weight rule catches 1 point more but sends 33× more false alerts (3.2 vs 0.10 per patient-month).
+- **Remove one part at a time:** without the amulet sensitivity falls to 54 %, without impedance to 65 %, weight alone catches 1 %. Each part earns its place.
+
+This shows the method is robust to our assumptions. It does not replace a clinical study.
 
 ## How it works
 
@@ -200,12 +241,14 @@ Open the installed app once while connected and wait for "App ready offline"; it
 
 ## Hardware and firmware
 
+<p align="center"><img src="docs/hardware/HM-HW-004_pcb_3d_top.png" width="520" alt="Routed 2-layer PCB of the 8-electrode impedance front end, KiCad 3D view"></p>
+
 | Path | Contents |
 |---|---|
 | `firmware/hridaymitra_stool/` | ESP32 DevKit. 90 s check-in, HX711 weight (one HX711 for all four cells), 4 impedance paths with Goertzel, MAX30102 pulse/SpO₂, 3 questions, sit-to-stand fit, amulet scan, **the alert engine on the chip** (`engine_core.h`), SMS ladder with retries, replies and missed calls, engine state in flash, daily self-test, CHARGE / USE safety switch. Phone numbers and timings are in `config.h`. |
 | `firmware/hridaymitra_amulet/` | ESP32-C3 + MPU6050. Night breathing, sit-ups, activity, 6-minute walk (`walk_core.h`), falls, SOS, sent in the BLE advertisement (no pairing). |
 | `hardware/kicad/` | KiCad 9 schematic generated from code (ERC 0), netlist, PDF. |
-| `docs/hardware/` | HM-HW-001 block diagram, HM-HW-002 schematic set, HM-HW-003 power budget, system architecture, front-end sheet with LTspice test points. |
+| `docs/hardware/` | HM-HW-001 block diagram, HM-HW-002 schematic set, HM-HW-003 power budget, HM-HW-004 routed PCB of the impedance front end (`tools/make_pcb.py`: KiCad + Freerouting, DRC clean, Gerbers ready to order), system architecture, front-end sheet with LTspice test points. |
 | `sim/circuit/` | LTspice netlists, Monte Carlo of 100 devices, mains-hum test, spectroscopy, self-calibration, IEC 60601-1 fault analysis, charger leakage. |
 
 Safety design: two series coupling capacitors plus a current-limit resistor (every single fault within IEC 60601-1 type-BF limits, margin ≥ 12.8×), battery-only measuring, a CHARGE / USE switch that cuts both USB wires, impedance and ECG switchable off for pacemaker / ICD users.
