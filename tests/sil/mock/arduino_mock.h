@@ -77,8 +77,8 @@ struct World {
   // buttons and drawer
   std::vector<int> answers; size_t nextAnswer = 0; bool questionOpen = false; uint64_t questionAt = 0, lastRPoll = 0;
   bool pressStart = false, pressSos = false, drawerOpen = false;
-  // amulet advert: rr*10, situps, activity/4, sos
-  bool amuletNear = true; double rr = 16, situps = 0, activity = 200; bool amuletSos = false;
+  // amulet advert: rr*10, situps, activity/4, sos, best 6-minute walk steps
+  bool amuletNear = true; double rr = 16, situps = 0, activity = 200, walk6 = 0; bool amuletSos = false;
   // modem
   int batteryMv = 3950, signal = 18; bool networkDown = false;
   std::vector<SentSms> sms; std::string toModem, fromModem; std::vector<std::pair<uint64_t, std::string>> inbox;
@@ -233,8 +233,10 @@ struct BLEScan {
     delay(sec * 1000); r.d.clear();
     if (W.amuletNear) {
       uint16_t rr10 = (uint16_t)lround(W.rr * 10);
-      uint8_t b[9] = {0xFF, 0xFF, 'H', 'M', uint8_t(rr10 & 0xFF), uint8_t(rr10 >> 8), uint8_t(W.situps), uint8_t(W.activity / 4), uint8_t(W.amuletSos)};
-      r.d.push_back({std::string((char*)b, 9)});
+      uint16_t w6 = (uint16_t)W.walk6;
+      uint8_t b[11] = {0xFF, 0xFF, 'H', 'M', uint8_t(rr10 & 0xFF), uint8_t(rr10 >> 8), uint8_t(W.situps), uint8_t(W.activity / 4), uint8_t(W.amuletSos),
+                       uint8_t(w6 & 0xFF), uint8_t(w6 >> 8)};
+      r.d.push_back({std::string((char*)b, 11)});
     }
     return &r;
   }

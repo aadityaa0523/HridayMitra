@@ -109,8 +109,11 @@ int main() {
   curDay = 24; runUntil(24 * DAY + 8 * H);
   W.bpm = 70; W.spo2 = 96.5; W.rr = 16; W.situps = 0; W.activity = 200;
   doCheckin(62, Body(), {0, 0});
+  runUntil(24 * DAY + 10 * H); W.walk6 = 540;                // the Sunday walk test after the check-in: amulet reports 540 steps
   runUntil(24 * DAY + 19 * H);
   check(!smsTo(ASHA, 24 * DAY + 18 * H, 24 * DAY + 19 * H, "weekly").empty(), "Sunday 18:00: weekly summary to the ASHA");
+  check(!smsTo(ASHA, 24 * DAY + 18 * H, 24 * DAY + 19 * H, "6-min walk 540 steps ~270 m").empty(), "6-minute walk test in the weekly summary (540 steps, ~270 m)");
+  W.walk6 = 0;
   // day 25: a guest sits down in the afternoon
   curDay = 25; runUntil(25 * DAY + 8 * H); doCheckin(62.1, Body(), {0, 0});
   runUntil(25 * DAY + 15 * H);

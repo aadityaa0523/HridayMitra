@@ -1,0 +1,45 @@
+case,cadence,step_g,error_pct
+loose cord,60,0.05,-3.8
+loose cord,60,0.08,-3.1
+loose cord,60,0.15,-2.8
+loose cord,60,0.3,-2.7
+loose cord,75,0.05,-2.9
+loose cord,75,0.08,-1.7
+loose cord,75,0.15,-1.2
+loose cord,75,0.3,-1.0
+loose cord,90,0.05,-23.4
+loose cord,90,0.08,-7.5
+loose cord,90,0.15,-0.6
+loose cord,90,0.3,-0.5
+loose cord,105,0.05,-23.0
+loose cord,105,0.08,-17.7
+loose cord,105,0.15,-0.1
+loose cord,105,0.3,-0.1
+loose cord,120,0.05,-23.3
+loose cord,120,0.08,-10.2
+loose cord,120,0.15,-0.2
+loose cord,120,0.3,0.0
+snug cord,60,0.05,-2.7
+snug cord,60,0.08,-2.7
+snug cord,60,0.15,-2.7
+snug cord,60,0.3,-2.6
+snug cord,75,0.05,-1.1
+snug cord,75,0.08,-1.0
+snug cord,75,0.15,-1.0
+snug cord,75,0.3,-1.0
+snug cord,90,0.05,-0.5
+snug cord,90,0.08,-0.5
+snug cord,90,0.15,-0.5
+snug cord,90,0.3,-0.5
+snug cord,105,0.05,-0.1
+snug cord,105,0.08,-0.1
+snug cord,105,0.15,-0.1
+snug cord,105,0.3,-0.1
+snug cord,120,0.05,0.0
+snug cord,120,0.08,0.0
+snug cord,120,0.15,0.0
+snug cord,120,0.3,0.0
+not walking: sitting (30 min),,,0 steps
+not walking: fidget (30 min),,,0 steps
+not walking: auto-rickshaw (30 min),,,0 steps
+not walking: turning in bed (30 min),,,0 steps

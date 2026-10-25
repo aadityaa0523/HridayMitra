@@ -30,7 +30,7 @@ def run():
 
 def test_every_firmware_claim_passes(run):
     print(run.stdout)
-    assert run.returncode == 0 and "FAIL" not in run.stdout and run.stdout.count("PASS") >= 31
+    assert run.returncode == 0 and "FAIL" not in run.stdout and run.stdout.count("PASS") >= 32
 
 
 def test_firmware_lights_equal_python_engine(run):

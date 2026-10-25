@@ -121,6 +121,7 @@ def main():
     (stool / "diagram.json").write_text(json.dumps(stool_diagram(), indent=2), encoding="utf8")
     chips = "\n".join(f"[[chip]]\nname = '{n}'\nbinary = 'chips/{n}.chip.wasm'\n" for n in ("hm-body", "hm-max30102", "hm-sim800l", "hm-monitor"))
     (stool / "wokwi.toml").write_text(f"[wokwi]\nversion = 1\nfirmware = 'build/sketch.ino.merged.bin'\nelf = 'build/sketch.ino.elf'\n\n{chips}", encoding="utf8")
+    shutil.copy(FW / "hridaymitra_amulet/walk_core.h", amulet / "walk_core.h")
     (amulet / "sketch.ino").write_text("#define HM_WOKWI 1\n" + (FW / "hridaymitra_amulet/hridaymitra_amulet.ino").read_text(encoding="utf8"), encoding="utf8")
     (amulet / "diagram.json").write_text(json.dumps(amulet_diagram(), indent=2), encoding="utf8")
     (amulet / "wokwi.toml").write_text("[wokwi]\nversion = 1\nfirmware = 'build/sketch.ino.merged.bin'\nelf = 'build/sketch.ino.elf'\n", encoding="utf8")

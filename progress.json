@@ -79,6 +79,10 @@
     {
      "name": "Quality checks and identity gate",
      "done": 1
+    },
+    {
+     "name": "6-minute walk test (amulet steps, C++ = Python)",
+     "done": 1
     }
    ]
   },

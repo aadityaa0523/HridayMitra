@@ -6,6 +6,7 @@
   pulse_spo2(): MAX30102 red + infrared samples -> pulse (peak spacing) and SpO2 (ratio of ratios).
   breathing(): amulet chest-axis motion at night -> breaths per minute (strongest rhythm 6-40 per minute).
   situps():    amulet tilt -> number of times the person sat up at night.
+  walk6():     amulet movement -> steps in the best 6 minutes (the 6-minute walk test, same as walk_core.h).
 Each returns None with a reason when the signal is not trustworthy ("no reading" is better than a wrong number).
 The make_* functions create synthetic raw signals with a known answer, for the tests and the demo.
 """
@@ -81,6 +82,31 @@ def situps(pitch_deg, fs=1, up=60, down=30):
     return n
 
 
+def walk_window(x, lag_min=6, lag_max=30, r_min=0.5, sd_min=0.008):
+    """One 5 s window of accelerometer magnitude (g, 20 Hz) -> steps in it (0 if not walking). Walking is a strong
+    rhythm of 0.3-1.5 s per step; the step period comes from the autocorrelation. Same maths as walk_core.h."""
+    x = np.asarray(x, np.float32); n = len(x); m = x.mean(); d = x - m; v = float((d * d).mean())
+    if np.sqrt(v) < sd_min:
+        return 0.0
+    r = {L: float((d[:n - L] * d[L:]).sum()) / ((n - L) * v) for L in range(lag_min - 1, lag_max + 2)}
+    rmax = max(r[L] for L in range(lag_min, lag_max + 1))
+    if rmax < r_min:
+        return 0.0
+    for L in range(lag_min, lag_max + 1):                # first strong peak = one step (a later one may be a stride)
+        if r[L] >= r[L - 1] and r[L] >= r[L + 1] and r[L] >= 0.6 * rmax:
+            den = r[L - 1] - 2 * r[L] + r[L + 1]
+            return n / (L + (0.5 * (r[L - 1] - r[L + 1]) / den if den < 0 else 0))
+    return 0.0
+
+
+def walk6(mag, win=100, slots=72):
+    """Magnitude (g, 20 Hz) -> (total steps, best steps in any 6 minutes = 72 consecutive 5 s windows)."""
+    w = [walk_window(mag[i:i + win]) for i in range(0, len(mag) - win + 1, win)]
+    c = np.concatenate([[0], np.cumsum(w)])
+    best = max((c[i + slots] - c[i] for i in range(len(w) - slots + 1)), default=c[-1])
+    return float(c[-1]), float(best)
+
+
 # ---------- synthetic raw signals with a known answer ----------
 def make_z(z, contact_noise=2.0, hum_mv=0.0, seed=0, r5=220.0, i_ua=100, gain=10, fs=FS_Z, n=4000):
     """ADC codes for body and reference windows of a body of `z` ohms (20 ms windows by default = 1 mains cycle)."""
@@ -106,3 +132,36 @@ def make_breath(rpm, fs=10, sec=120, seed=0):
     rng = np.random.default_rng(seed)
     t = np.arange(fs * sec) / fs
     return 0.01 * np.sin(2 * np.pi * rpm / 60 * t) + rng.normal(0, 0.002, len(t))
+
+
+def make_walk(cadence, sec, amp=0.12, seed=0, sway=0.3, cord=0.02, start=0, pad=60, fs_out=20):
+    """Pendant accelerometer magnitude (g, 20 Hz) for `sec` seconds of walking at `cadence` steps per minute, with
+    `pad` s of sitting before and after. Trunk bounce once per step (amp g, 2nd harmonic), left-right sway once per
+    stride, cord swing, step-time jitter, MPU6050 10 Hz low-pass, then 20 Hz sampling. Returns (mag, true steps)."""
+    rng = np.random.default_rng(seed)
+    fs = 1000; n = int((sec + 2 * pad) * fs); t = np.arange(n) / fs
+    walking = (t >= pad + start) & (t < pad + start + sec)
+    f = cadence / 60 * (1 + 0.03 * np.cumsum(rng.normal(0, 1, n)) / np.sqrt(fs * 60))   # slow cadence drift
+    ph = 2 * np.pi * np.cumsum(f) / fs + rng.normal(0, 0.15, n).cumsum() / np.sqrt(fs)
+    a = amp * (np.sin(ph) + 0.35 * np.sin(2 * ph + 1) + sway * np.sin(ph / 2 + 0.4))
+    a += cord * np.sin(2 * np.pi * 0.9 * t + rng.uniform(0, 6)) * (1 + np.sin(ph))      # pendant swinging on its cord
+    mag = 1 + a * walking + rng.normal(0, 0.004, n)
+    b, c = butter(2, 10 / (fs / 2)); mag = filtfilt(b, c, mag)
+    true = int(round(np.sum(np.diff(np.floor(ph[walking] / (2 * np.pi))) > 0)))
+    k = fs // fs_out; return mag[rng.integers(0, k)::k], true
+
+
+def make_still(kind, sec=600, seed=0):
+    """Pendant magnitude (g, 20 Hz) for things that are NOT walking: sitting, fidgeting, riding an auto-rickshaw or bus,
+    turning in bed. The walk counter must find no steps in any of them."""
+    from scipy.signal import lfilter
+    r = np.random.default_rng(seed); n = sec * 20; t = np.arange(n) / 20; m = 1 + r.normal(0, 0.004, n)
+    if kind == "sitting":
+        return m + 0.003 * np.sin(2 * np.pi * 0.25 * t)
+    if kind == "fidget":
+        for k in r.integers(0, n - 6, 60): m[k:k + 6] += r.normal(0, 0.15, 6)
+    elif kind == "auto-rickshaw":                       # road vibration and bumps, 1-9 Hz
+        b, a = butter(2, [1 / 10, 9 / 10], "band"); m += lfilter(b, a, r.normal(0, 0.12, n))
+    elif kind == "turning in bed":
+        for k in r.integers(0, n - 60, 10): m[k:k + 60] += 0.2 * np.sin(np.linspace(0, 3 * np.pi, 60))
+    return m

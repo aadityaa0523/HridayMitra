@@ -1,7 +1,7 @@
 (export (version "E")
   (design
     (source "C:\\Users\\Aadityaa\\Hackathons\\HridayMitra\\hardware\\kicad\\hridaymitra.kicad_sch")
-    (date "2026-10-25T04:25:30+0530")
+    (date "2026-10-25T05:23:45+0530")
     (tool "Eeschema 9.0.7")
     (sheet (number "1") (name "/") (tstamps "/")
       (title_block
@@ -31,7 +31,7 @@
       (property (name "Sheetfile") (value "hridaymitra.kicad_sch"))
       (property (name "ki_keywords") (value "battery cell"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "d3caa6e0-f557-47dd-9dc2-dade11106b50"))
+      (tstamps "22678d90-ce11-4226-8946-6d219c852051"))
     (comp (ref "C1")
       (value "10u")
       (fields
@@ -44,7 +44,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "e30e2174-f015-4d40-865a-a46c6a4a2eea"))
+      (tstamps "61473bdb-fe99-4113-a2f5-23f90c35f92f"))
     (comp (ref "C2")
       (value "1u")
       (fields
@@ -57,7 +57,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "375bf338-d544-41c0-af5a-36d1b4ae8eba"))
+      (tstamps "b8d90c7d-9667-45fd-8556-54771c80b42a"))
     (comp (ref "C3")
       (value "1u")
       (fields
@@ -70,7 +70,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "12daf1f1-1f1e-45cf-8a3d-69e90055e247"))
+      (tstamps "e4c7b8ee-019d-4b4b-8941-6b89189ae292"))
     (comp (ref "C4")
       (value "1u")
       (fields
@@ -83,7 +83,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "73a197ec-ce07-4959-b2cf-7899b899238c"))
+      (tstamps "ca5959ca-6a49-4ab0-aad9-adf1b3941fed"))
     (comp (ref "C5")
       (value "10n")
       (fields
@@ -96,7 +96,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "7a812171-6731-4ec2-aeb1-a6ad8e4907dd"))
+      (tstamps "d41e3cad-6712-43d3-99db-d48a47fc6e2d"))
     (comp (ref "C6")
       (value "100n")
       (fields
@@ -109,7 +109,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "e8578bda-85fa-410d-9552-23563b28c81c"))
+      (tstamps "ee46cf84-d0b4-4f44-b1a5-cecd49fc329d"))
     (comp (ref "C7")
       (value "100n")
       (fields
@@ -122,7 +122,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "94586d59-c83e-4db1-9536-8b2380bf9e3d"))
+      (tstamps "69aafe6d-0e07-430f-88ad-81e039131c0d"))
     (comp (ref "C8")
       (value "100n")
       (fields
@@ -135,7 +135,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "a4fdec77-eb72-4eb6-be59-0f99760a89ba"))
+      (tstamps "9a05d105-fb8f-42ee-abd5-f1fe6c16ff4b"))
     (comp (ref "C9")
       (value "100n")
       (fields
@@ -148,7 +148,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "0cfbd2a6-0849-4c76-a39f-63b983a396bf"))
+      (tstamps "71684ef9-d09b-4277-a735-b8bbd8855651"))
     (comp (ref "C10")
       (value "10u")
       (fields
@@ -161,7 +161,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "f1ac8231-0e96-4695-9baf-e63481ba1bdc"))
+      (tstamps "edc77c4c-9bd6-43b8-82e9-8d43c97f1894"))
     (comp (ref "C11")
       (value "1u")
       (fields
@@ -174,7 +174,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "edb281e0-4ecd-4764-9ca7-1c4f155134ab"))
+      (tstamps "e8380735-a7e0-4b9b-83c0-21c42c4fdf85"))
     (comp (ref "C12")
       (value "1000u")
       (fields
@@ -187,7 +187,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "CP_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "8b0ef917-62d1-49e8-904e-7cdd9d000baa"))
+      (tstamps "f9514f8f-6ef9-4b61-9cae-58c1979b192f"))
     (comp (ref "C13")
       (value "100n")
       (fields
@@ -200,7 +200,7 @@
       (property (name "ki_keywords") (value "cap capacitor"))
       (property (name "ki_fp_filters") (value "C_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "e237eef1-cb04-41f8-bf74-e866d9054811"))
+      (tstamps "165cd282-5fba-41ac-ad00-936e3b7ddb3e"))
     (comp (ref "D1")
       (value "green")
       (fields
@@ -213,7 +213,7 @@
       (property (name "ki_keywords") (value "LED diode"))
       (property (name "ki_fp_filters") (value "LED* LED_SMD:* LED_THT:*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "64478a6a-aad7-44ec-a666-10e1a48ae02d"))
+      (tstamps "6e3788b4-b040-41ae-81e7-811896da7f90"))
     (comp (ref "D2")
       (value "amber")
       (fields
@@ -226,7 +226,7 @@
       (property (name "ki_keywords") (value "LED diode"))
       (property (name "ki_fp_filters") (value "LED* LED_SMD:* LED_THT:*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "f2ded838-61c6-4d44-9802-6da768e80090"))
+      (tstamps "43ecf0bb-89e8-4190-9de6-aea8b4d07481"))
     (comp (ref "D3")
       (value "red")
       (fields
@@ -239,7 +239,7 @@
       (property (name "ki_keywords") (value "LED diode"))
       (property (name "ki_fp_filters") (value "LED* LED_SMD:* LED_THT:*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "c3b9db5a-62f6-49a3-a130-d884084bd6d5"))
+      (tstamps "ee852bb9-dc75-461d-8b3e-102652e53b5f"))
     (comp (ref "D4")
       (value "1N4148 flyback")
       (fields
@@ -252,7 +252,7 @@
       (property (name "ki_keywords") (value "diode"))
       (property (name "ki_fp_filters") (value "TO-???* *_Diode_* *SingleDiode* D_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "69c06b97-1781-43f5-af24-2054022ec344"))
+      (tstamps "ff435e34-4934-404b-b014-08c4365987a8"))
     (comp (ref "J1")
       (value "Electrodes: 4 foot plates + 4 hand strips")
       (fields
@@ -265,7 +265,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "53c39e80-d6d9-4f3e-823a-5a04c43be04c"))
+      (tstamps "a4ff5140-f20e-4e23-a51a-1ce42958763d"))
     (comp (ref "J2")
       (value "MAX30102 module (finger)")
       (fields
@@ -278,7 +278,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "ee27fa1b-9e51-4035-b66d-15282447e639"))
+      (tstamps "f3792714-6922-423a-995e-61961adb176e"))
     (comp (ref "J3")
       (value "HX711 module: VCC GND DT SCK")
       (fields
@@ -291,7 +291,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "dc285a90-1abc-4142-a3be-ea7baa166939"))
+      (tstamps "52975e6e-8cac-4209-b8da-07f261237a11"))
     (comp (ref "J4")
       (value "HX711 module: E+ E- A- A+")
       (fields
@@ -304,7 +304,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "fcff6251-58ed-4578-b919-140b9a249954"))
+      (tstamps "f5d2be93-e7dc-4c68-bf81-112fab552740"))
     (comp (ref "J5")
       (value "4 load cells as one bridge")
       (fields
@@ -317,7 +317,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "468133ad-8c22-4984-ad3c-c5e43cc505ce"))
+      (tstamps "48812b46-596f-4d6d-a45d-06e2743078b4"))
     (comp (ref "J6")
       (value "PAM8403 module: 5V GND LIN RIN L+ L-")
       (fields
@@ -330,7 +330,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "5c63446b-b717-4e9f-bc9b-773a6b74e863"))
+      (tstamps "24320743-ed44-4647-98ec-da2b68fcb63b"))
     (comp (ref "J8")
       (value "SIM800L module: VCC GND TXD RXD")
       (fields
@@ -343,7 +343,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "71a95eba-2d1d-4aeb-a907-533bf7db3acc"))
+      (tstamps "be7b0b78-cfb9-416b-bdfb-fbf3dd833808"))
     (comp (ref "J9")
       (value "TP4056 module: B+ B- OUT+ OUT-")
       (fields
@@ -356,7 +356,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "10dab404-ba69-4083-9cfd-45b432c65f1a"))
+      (tstamps "10a5fdaa-daaa-46b4-af25-f2e76a2a49a0"))
     (comp (ref "J10")
       (value "MT3608 module: IN+ IN- OUT+ OUT-")
       (fields
@@ -369,7 +369,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "b08f0b61-cccc-46e3-bc82-fe0b7d97c39a"))
+      (tstamps "758b9c84-bfa3-43a8-b2ed-f5992ed0aa32"))
     (comp (ref "J11")
       (value "AD8232 (optional; off for pacemaker/ICD; LO- unused)")
       (fields
@@ -382,7 +382,7 @@
       (property (name "ki_keywords") (value "connector"))
       (property (name "ki_fp_filters") (value "Connector*:*_1x??_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "1125d392-8a51-439c-b295-5eef8224fdc1"))
+      (tstamps "c2d08fda-a377-431a-bfa3-1ff351a40b93"))
     (comp (ref "LS1")
       (value "4 ohm 3 W")
       (fields
@@ -394,7 +394,7 @@
       (property (name "Sheetfile") (value "hridaymitra.kicad_sch"))
       (property (name "ki_keywords") (value "speaker sound"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "e8fc4106-b7c2-4f9a-bd3e-64695faa6fc5"))
+      (tstamps "c7d83bc4-3651-4f62-bb6e-95c0c5d06af0"))
     (comp (ref "M1")
       (value "coin vibration motor (seat)")
       (fields
@@ -407,7 +407,7 @@
       (property (name "ki_keywords") (value "DC Motor"))
       (property (name "ki_fp_filters") (value "PinHeader*P2.54mm* TerminalBlock*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "17d197ab-ec15-403d-be66-ff00eab29ce8"))
+      (tstamps "90ee5beb-3d76-436b-aa4e-e53e93db5e6c"))
     (comp (ref "Q1")
       (value "2N2222 (vibration driver)")
       (fields
@@ -419,7 +419,7 @@
       (property (name "Sheetfile") (value "hridaymitra.kicad_sch"))
       (property (name "ki_keywords") (value "BJT"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "b144fddc-e6f2-48c6-9747-f9a4beb1b1b6"))
+      (tstamps "12153410-0b99-44a6-b5ed-c3c9e607ed93"))
     (comp (ref "R1")
       (value "10k 1%")
       (fields
@@ -432,7 +432,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "776ba9cf-2811-41f9-ac37-eb65a6c1e72a"))
+      (tstamps "a2acc839-ba56-4e88-9632-ad46abd8c921"))
     (comp (ref "R2")
       (value "10k 1%")
       (fields
@@ -445,7 +445,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "524a986e-2d88-4f7a-a1e4-e60ce7c46eff"))
+      (tstamps "435be751-b3f5-4b7b-9c89-e2275b7b1f5a"))
     (comp (ref "R3")
       (value "100k")
       (fields
@@ -458,7 +458,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "19b063d8-e681-4aad-a650-c51b54a592a4"))
+      (tstamps "80ae1c13-1359-43fb-91b9-c01b9d96878d"))
     (comp (ref "R4")
       (value "4.7k 1%")
       (fields
@@ -471,7 +471,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "6e8bcf6e-c958-4a47-879b-641bf6ecd23a"))
+      (tstamps "b1676daf-3996-4eb6-82ad-6e14d0dce7fd"))
     (comp (ref "R5")
       (value "120")
       (fields
@@ -484,7 +484,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "9fcd79d6-d8ad-408a-b53c-e052ccb9d2c5"))
+      (tstamps "307a95b2-6b5d-475e-b37d-f3f106839376"))
     (comp (ref "R6")
       (value "1k")
       (fields
@@ -497,7 +497,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "b062c49d-8a2f-48ce-b37a-2f45c05030d7"))
+      (tstamps "ce5e7f2a-855f-422d-b385-739324c9cb44"))
     (comp (ref "R7")
       (value "1k")
       (fields
@@ -510,7 +510,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "f067553b-96f5-4e8f-89be-5cdd72d94b76"))
+      (tstamps "5b5e4882-8a2b-411e-962f-5e7e5b9607e3"))
     (comp (ref "R8")
       (value "10M")
       (fields
@@ -523,7 +523,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "e67bccd6-91a4-4c53-a4d1-d374d5cf2f9b"))
+      (tstamps "f6d392ca-4371-4970-9291-33ad7f90e46e"))
     (comp (ref "R9")
       (value "10M")
       (fields
@@ -536,7 +536,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "e374aa65-8960-4753-aa1a-2c5827e8f219"))
+      (tstamps "6d815967-04f8-4907-8027-dd0966212f3e"))
     (comp (ref "R10")
       (value "16k (15k+1k)")
       (fields
@@ -549,7 +549,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "725989a0-fef7-4e3e-9658-ee7443607aaa"))
+      (tstamps "4a9d4d20-161a-4b47-bb89-da90e75d7262"))
     (comp (ref "R11")
       (value "1.5k")
       (fields
@@ -562,7 +562,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "5c8f9ea8-773b-49b5-82c5-ccf0ce1f972b"))
+      (tstamps "9cd17ea7-37d3-46fd-aea6-596dffe1c95c"))
     (comp (ref "R12")
       (value "1k")
       (fields
@@ -575,7 +575,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "efac191d-bc59-4533-8d86-5e628c98f864"))
+      (tstamps "6c1944c5-55f0-4ea3-8e5c-02ec05055ec5"))
     (comp (ref "R13")
       (value "1k")
       (fields
@@ -588,7 +588,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "86858075-a925-4cf3-ab92-cf5b8ac1016a"))
+      (tstamps "4ef635fe-f1ca-4866-abec-3bd5c2b87d1a"))
     (comp (ref "R14")
       (value "220")
       (fields
@@ -601,7 +601,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "d22a6ed7-5efc-4ac6-9abd-1f9f4dbae5a2"))
+      (tstamps "5a156233-26af-435d-8065-da6377fb1112"))
     (comp (ref "R15")
       (value "220")
       (fields
@@ -614,7 +614,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "a8ba8ac4-5f82-498e-a7e9-b0e3da15e0d2"))
+      (tstamps "e99edffc-eee3-4050-8c18-705999296f27"))
     (comp (ref "R16")
       (value "220")
       (fields
@@ -627,7 +627,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "1b2b8eeb-614f-48b7-9e58-984a2cac2702"))
+      (tstamps "352aba6a-ea4d-4640-9ff6-0b7ee38e499e"))
     (comp (ref "R17")
       (value "1k")
       (fields
@@ -640,7 +640,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "bbfdbb19-4112-44c5-bf73-fde0ea3536f7"))
+      (tstamps "075eb3eb-0084-44dc-991a-92040fb27fc0"))
     (comp (ref "R18")
       (value "2.2k")
       (fields
@@ -653,7 +653,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "4504242e-7209-4fe2-b9ac-8ac4de8f1c81"))
+      (tstamps "e7b181f5-2b5e-4593-9cad-db318ec5e10d"))
     (comp (ref "R19")
       (value "10k (on DevKit)")
       (fields
@@ -666,7 +666,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "0efb940c-a9f3-4f2a-bde4-d5a75e8d7b2c"))
+      (tstamps "25995aed-e7e2-4128-b326-ba05570224c7"))
     (comp (ref "R20")
       (value "10k")
       (fields
@@ -679,7 +679,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "a1e7ffe2-5e70-4cd8-96d5-faf4ca4b7cc3"))
+      (tstamps "6331f18d-7f56-47c4-8e65-93a359a3491c"))
     (comp (ref "R21")
       (value "1k")
       (fields
@@ -692,7 +692,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "d75ae30e-b74d-40f3-ab70-b98d435b61bf"))
+      (tstamps "0296ed4b-e250-4199-832a-9a841e79294a"))
     (comp (ref "R22")
       (value "100 0.1% (Rcal)")
       (fields
@@ -705,7 +705,7 @@
       (property (name "ki_keywords") (value "R res resistor"))
       (property (name "ki_fp_filters") (value "R_*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "a0795436-fe4a-45dc-8b66-b04e33159b95"))
+      (tstamps "9a93c05c-1c74-4a6e-bd07-a57d19e9a4cd"))
     (comp (ref "RV1")
       (value "10k volume")
       (fields
@@ -718,7 +718,7 @@
       (property (name "ki_keywords") (value "resistor variable"))
       (property (name "ki_fp_filters") (value "Potentiometer*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "dd1c2e75-20bf-4e01-938a-19648cb2e779"))
+      (tstamps "8f3215d2-7451-47ca-bb83-97ebc33c9715"))
     (comp (ref "SW1")
       (value "green button")
       (fields
@@ -730,7 +730,7 @@
       (property (name "Sheetfile") (value "hridaymitra.kicad_sch"))
       (property (name "ki_keywords") (value "switch normally-open pushbutton push-button"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "2156b15f-6633-4bb0-8c5c-7904b9fd793d"))
+      (tstamps "e6513f6a-5f8f-43d4-b380-2577a30b6cc7"))
     (comp (ref "SW2")
       (value "red button")
       (fields
@@ -742,7 +742,7 @@
       (property (name "Sheetfile") (value "hridaymitra.kicad_sch"))
       (property (name "ki_keywords") (value "switch normally-open pushbutton push-button"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "10c5443d-c757-48ce-b41e-5ccf6766eedc"))
+      (tstamps "4fef446d-0a04-4837-bd2c-1b04acd50a31"))
     (comp (ref "SW3")
       (value "SOS button")
       (fields
@@ -754,7 +754,7 @@
       (property (name "Sheetfile") (value "hridaymitra.kicad_sch"))
       (property (name "ki_keywords") (value "switch normally-open pushbutton push-button"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "4422b244-52ad-43a9-bf69-b083a63ddec2"))
+      (tstamps "e08c305f-7e4b-4380-9e86-922f0d5b0e11"))
     (comp (ref "SW4")
       (value "power switch")
       (fields
@@ -766,7 +766,7 @@
       (property (name "Sheetfile") (value "hridaymitra.kicad_sch"))
       (property (name "ki_keywords") (value "switch lever"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "a90b2251-6349-499e-ad33-ee16336ea7ab"))
+      (tstamps "e10f6add-aa05-4367-a281-efcf3b337f84"))
     (comp (ref "SW5")
       (value "tablet-drawer microswitch")
       (fields
@@ -778,7 +778,7 @@
       (property (name "Sheetfile") (value "hridaymitra.kicad_sch"))
       (property (name "ki_keywords") (value "switch normally-open pushbutton push-button"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "56f33e11-e093-4657-a066-f12dc7dcf68a"))
+      (tstamps "65c2b237-e964-44f5-80d2-c49a74a5a384"))
     (comp (ref "U1")
       (value "MCP6002")
       (fields
@@ -791,7 +791,7 @@
       (property (name "ki_keywords") (value "dual opamp"))
       (property (name "ki_fp_filters") (value "SOIC*3.9x4.9mm*P1.27mm* DIP*W7.62mm* TO*99* OnSemi*Micro8* TSSOP*3x3mm*P0.65mm* TSSOP*4.4x3mm*P0.65mm* MSOP*3x3mm*P0.65mm* SSOP*3.9x4.9mm*P0.635mm* LFCSP*2x2mm*P0.5mm* *SIP* SOIC*5.3x6.2mm*P1.27mm*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "43a08eeb-bfee-4543-a473-b06eb9ae7e93" "dd18c812-694a-4c83-8d24-060d17512f80" "137a5e62-34ab-4a9b-8457-3e745195dae3"))
+      (tstamps "4f3172a4-962a-4912-ae53-0e824e936dfe" "234c8660-b8c8-4e37-bfbd-54a74544c93b" "167d82c6-3a67-42ed-a46a-79c961ae8b37"))
     (comp (ref "U2")
       (value "INA126")
       (fields
@@ -804,7 +804,7 @@
       (property (name "ki_keywords") (value "instrumentation opamp"))
       (property (name "ki_fp_filters") (value "DIP*W7.62mm* SOIC*P1.27mm*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "95a6e7df-40fa-4d7e-bacb-1e6b62f0b637"))
+      (tstamps "cf60884d-ef61-4897-a440-3a08a242a94f"))
     (comp (ref "U3")
       (value "74HC4053 (body / reference / self-cal)")
       (fields
@@ -817,7 +817,7 @@
       (property (name "ki_keywords") (value "analog switch selector multiplexer"))
       (property (name "ki_fp_filters") (value "TSSOP*4.4x5mm*P0.65mm* DIP*W7.62* SOIC*3.9x9.9mm*P1.27mm* SO*5.3x10.2mm*P1.27mm*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "b08e597b-e194-4ec8-b476-45fa00f4a05b"))
+      (tstamps "dbda345e-1fc4-4181-a7aa-ac20dcaca7f9"))
     (comp (ref "U4")
       (value "74HC4052 (current pair)")
       (fields
@@ -830,7 +830,7 @@
       (property (name "ki_keywords") (value "analog switch selector multiplexer"))
       (property (name "ki_fp_filters") (value "TSSOP*4.4x5mm*P0.65mm* DIP*W7.62* SOIC*3.9x9.9mm*P1.27mm* SO*5.3x10.2mm*P1.27mm*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "1d5d6e40-fbd8-4e54-957c-c82c54ffcefb"))
+      (tstamps "0b4d7842-a735-4190-bad9-279cba32db07"))
     (comp (ref "U5")
       (value "74HC4052 (sense pair)")
       (fields
@@ -843,7 +843,7 @@
       (property (name "ki_keywords") (value "analog switch selector multiplexer"))
       (property (name "ki_fp_filters") (value "TSSOP*4.4x5mm*P0.65mm* DIP*W7.62* SOIC*3.9x9.9mm*P1.27mm* SO*5.3x10.2mm*P1.27mm*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "0983d674-a670-4034-ac78-34f194512da9"))
+      (tstamps "e709ac3c-b17c-4d94-8cd6-9a47f9182979"))
     (comp (ref "U6")
       (value "ESP32-WROOM-32 (DevKit)")
       (fields
@@ -856,7 +856,7 @@
       (property (name "ki_keywords") (value "RF Radio BT ESP ESP32 Espressif onboard PCB antenna"))
       (property (name "ki_fp_filters") (value "ESP32?WROOM?32*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "61d35b97-9e96-42b7-b7b7-eaa123a30d10"))
+      (tstamps "873ae681-6d08-4346-ac1c-bee2874f6908"))
     (comp (ref "U7")
       (value "3.3 V LDO (on DevKit)")
       (fields
@@ -869,7 +869,7 @@
       (property (name "ki_keywords") (value "linear regulator ldo fixed positive obsolete"))
       (property (name "ki_fp_filters") (value "SOT?223*TabPin2*"))
       (sheetpath (names "/") (tstamps "/"))
-      (tstamps "b709291b-77fd-4867-93a2-35d67c3939f6")))
+      (tstamps "0b828658-c62c-4469-8461-f19ff061fdde")))
   (libparts
     (libpart (lib "Amplifier_Instrumentation") (part "INA128")
       (description "Precision, Low Power Instrumentation Amplifier G = 1 + 50kOhm/Rg, DIP-8/SOIC-8")
