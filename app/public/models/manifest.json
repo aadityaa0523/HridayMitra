@@ -4,13 +4,13 @@
     "source": "https://alphacephei.com/vosk/models/vosk-model-small-en-in-0.4.zip",
     "license": "Apache-2.0",
     "bytes": 37468774,
-    "sha256": "31382838ba4747853b091373e9214ef6e4a7865a8d6a3f93e469d650608395dc"
+    "sha256": "207437c92764189e066726bce1808e1546e984e9f6d515c0807f9fd8dcf0cde9"
   },
   "hi": {
     "file": "/models/hi.bin",
     "source": "https://alphacephei.com/vosk/models/vosk-model-small-hi-0.22.zip",
     "license": "Apache-2.0",
     "bytes": 44371326,
-    "sha256": "1757b3be34050d14615bf00e9745bc07a1eebf525e617dcebd966bc85c0af1b8"
+    "sha256": "a53de961adfc84d6ba880d70f1190a69d7b2b27df49854e778db3f38308d0d47"
   }
 }

@@ -56,6 +56,49 @@ int main(int argc, char **argv) {
 }
 #endif
 
+#if defined(SCRIPT_BODY) || defined(SCRIPT_MONITOR) || defined(SCRIPT_PHONE)
+// Script mode (tools/make_demo_video.py): commands on stdin drive the REAL chip code; "snap <name>" saves a frame.
+//   body:    set <attr> <value> | pin <name> <0/1>        monitor: line <serial json>        phone: sms <number> <text>
+#if defined(SCRIPT_BODY)
+#include "../../wokwi/chips/hm-body.chip.c"
+#elif defined(SCRIPT_MONITOR)
+#include "../../wokwi/chips/hm-monitor.chip.c"
+#else
+#include "../../wokwi/chips/hm-sim800l.chip.c"
+#endif
+static void feedS(const char *s) { for (; *s; s++) UART_RX(UART_USER, (uint8_t)*s); }
+int main(int argc, char **argv) {
+  const char *dir = argc > 1 ? argv[1] : ".";
+#if defined(SCRIPT_BODY)
+  FBW = 180; FBH = 230;
+#elif defined(SCRIPT_MONITOR)
+  FBW = 220; FBH = 170;
+#else
+  FBW = 160; FBH = 120;
+#endif
+  chip_init();
+  static char l[4096];
+  while (fgets(l, sizeof l, stdin)) {
+    l[strcspn(l, "\r\n")] = 0;
+    char a[64], b[64]; float v;
+    if (!strncmp(l, "snap ", 5)) {
+#if defined(SCRIPT_BODY)
+      TIMERS[1].callback(TIMERS[1].user_data);                       // the chip's own redraw
+#endif
+      save(dir, l + 5);
+    }
+    else if (sscanf(l, "set %63s %f", a, &v) == 2) set_attr(a, v);
+    else if (sscanf(l, "pin %63s %f", a, &v) == 2) set_pin(a, (uint32_t)v);
+    else if (!strncmp(l, "line ", 5)) { feedS(l + 5); feedS("\n"); }
+    else if (sscanf(l, "sms %63s", b) == 1) {
+      char cmd[128]; snprintf(cmd, sizeof cmd, "AT+CMGS=\"%s\"\r", b); feedS(cmd);
+      feedS(l + 4 + strlen(b) + 1); UART_RX(UART_USER, 26);   /* "sms " + number + space */
+    }
+  }
+  return 0;
+}
+#endif
+
 #ifdef MONITOR
 #include "../../wokwi/chips/hm-monitor.chip.c"
 static void feed(const char *s) { for (; *s; s++) UART_RX(UART_USER, (uint8_t)*s); }

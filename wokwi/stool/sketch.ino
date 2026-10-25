@@ -394,8 +394,10 @@ void serviceGsm() {
 void startCareLoop(const char* who, const char* why, bool danger) {
   loopSt = Loop(); loopSt.active = true; loopSt.t0 = millis();
   strlcpy(loopSt.who, who, sizeof loopSt.who); strlcpy(loopSt.why, why, sizeof loopSt.why);
-  char msg[160];
-  snprintf(msg, sizeof msg, "HridayMitra RED for %s. Why: %s. Reply 1 checking, 2 need help, 3 fine. Not a diagnosis; breathless at rest: call 108.", who, why);
+  char msg[161];                                         // one SMS: the reasons are cut to fit, never the 108 instruction
+  const char* tail = ". Reply 1 checking, 2 help, 3 fine. Breathless at rest: call 108. Not a diagnosis.";
+  int room = 160 - (int)strlen(tail) - (int)strlen(who) - 17;
+  snprintf(msg, sizeof msg, "HridayMitra RED %s. Why: %.*s%s", who, room > 0 ? room : 0, why, tail);
   queueSms(FAMILY1, msg);
   queueSms(FAMILY1, PLAN_RED);                           // the doctor's plan as a second SMS
   if (danger) { queueSms(FAMILY2, msg); queueSms(ASHA, msg); loopSt.fam2Sent = loopSt.ashaSent = true; }
@@ -502,7 +504,13 @@ void checkin() {
   pinMode(25, OUTPUT); digitalWrite(25, HIGH);           // tells the virtual-patient chip to drive its 5 kHz signal
 #endif
   float z[4];
-  for (int p = 0; p < 4; p++) z[p] = measurePath(p);
+  for (int attempt = 0; attempt < 2; attempt++) {       // a lifted foot gets one named retry instead of a lost day
+    for (int p = 0; p < 4; p++) z[p] = measurePath(p);
+    int foot = hm::liftedFoot(z);
+    if (!foot || attempt) break;
+    say(foot == 1 ? CLIP_LIFT_LEFT : foot == 2 ? CLIP_LIFT_RIGHT : CLIP_REPLACE_FEET);
+    delay(4000);
+  }
   float ewi = NAN;
   {                                                      // self-check of the reference chain while current flows (path 0)
     float c1, c2; digitalWrite(PATH_S0, 0); digitalWrite(PATH_S1, 0); digitalWrite(SEL, 1); delay(20);

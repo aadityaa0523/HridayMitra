@@ -36,6 +36,14 @@ struct Result {
   bool guest, learning, danger, data;
 };
 
+// Which foot plate lost contact, from which of the 4 paths failed (z: legs, arms, right side, left side; NAN = failed).
+// The left foot is in the legs and left-side paths, the right foot in legs and right side. 0 none, 1 left, 2 right, 3 unclear.
+inline int liftedFoot(const float z[4]) {
+  if (!isnan(z[0])) return 0;
+  bool l = isnan(z[3]), r = isnan(z[2]);
+  return (l && !r) ? 1 : (r && !l) ? 2 : 3;
+}
+
 inline float median(float* a, int n) {
   std::sort(a, a + n);
   return n % 2 ? a[n / 2] : 0.5f * (a[n / 2 - 1] + a[n / 2]);

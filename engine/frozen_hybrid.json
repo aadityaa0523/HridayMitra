@@ -1,0 +1,41 @@
+{
+ "T_h": 4.0,
+ "thr": 0.7460830343520779,
+ "w": [
+  0.5503566882122229,
+  0.5595283249791275,
+  -0.04955249463923776,
+  0.6899762861807062,
+  -0.011392243227355995,
+  0.005114056510514777,
+  0.19305907827912805,
+  0.09939958116095625,
+  0.3144513955086012,
+  -0.22773567420935484,
+  -0.041630421704203543,
+  -0.3192687569251412,
+  -0.02397294584245039,
+  0.40234336399976794
+ ],
+ "b": -1.5972096940560185,
+ "keys": [
+  "weight_kg",
+  "leg_z_ohm",
+  "trunk_z_ohm",
+  "leg_ewi",
+  "pulse_bpm",
+  "night_rr",
+  "spo2",
+  "activity_min",
+  "standup_s",
+  "symptoms",
+  "night_situps",
+  "fam_fluid",
+  "fam_heart_lungs",
+  "fam_daily_life"
+ ],
+ "fa_budget_per_patient_month": 0.21,
+ "dev_sensitivity": 0.871,
+ "dev_false_alerts": 0.189,
+ "trained_on": "140 dev patients (benchmark/splits.json)"
+}

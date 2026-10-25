@@ -22,6 +22,8 @@ CLIPS = {  # name: (English, Hindi line for a human recording)
              "आज रविवार, चलने की जाँच का दिन है। ताबीज़ पहनकर अपनी आम चाल से छह मिनट चलिए।"),
     "use_switch": ("The stool is on charge. Please move the switch to USE, then press green.",
                    "स्टूल चार्ज पर है। स्विच को यूज़ पर कीजिए, फिर हरा दबाइए।"),
+    "lift_left": ("Your left foot is not touching its plate. Please put both feet flat.", "बायाँ पैर प्लेट पर नहीं है। दोनों पैर सीधे रखिए।"),
+    "lift_right": ("Your right foot is not touching its plate. Please put both feet flat.", "दायाँ पैर प्लेट पर नहीं है। दोनों पैर सीधे रखिए।"),
     "stand": ("Now please stand up and step off.", "अब खड़े होकर उतर जाइए।"),
     "green": ("All fine today. Thank you.", "आज सब ठीक है। धन्यवाद।"),
     "amber": ("Some signs changed. Please check again tomorrow.", "कुछ बदलाव दिखे। कल फिर जाँच कीजिए।"),
