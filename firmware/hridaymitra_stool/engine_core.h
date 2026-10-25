@@ -45,6 +45,7 @@ class Engine {
  public:
   float T = T_FROZEN;
   Engine() { reset(); }
+  const DayIn& latestGated() const { return at(n - 1); }   // today's readings after the guest/plate gates (app export)
   void reset() { n = 0; red = false; for (int i = 0; i < 3; i++) high[i] = famHigh[i] = false; hn = 0; lastLight = 0; }
 
   Result add(const DayIn& in) {

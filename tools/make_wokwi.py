@@ -109,7 +109,7 @@ def main():
     for d in (stool, amulet, stool / "chips"):
         d.mkdir(parents=True, exist_ok=True)
     (stool / "sketch.ino").write_text("#define HM_WOKWI 1\n" + (FW / "hridaymitra_stool/hridaymitra_stool.ino").read_text(encoding="utf8"), encoding="utf8")
-    for f in ("engine_core.h", "config.h"):
+    for f in ("engine_core.h", "config.h", "app_link.h"):
         shutil.copy(FW / "hridaymitra_stool" / f, stool / f)
     (stool / "voice_clips.h").write_text(beep_clips(), encoding="utf8")
     gfx = (CHIPS / "gfx.inc").read_text(encoding="utf8")

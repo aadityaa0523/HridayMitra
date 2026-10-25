@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <deque>
 #include <random>
 #include <algorithm>
 #include <functional>
@@ -58,6 +59,7 @@ class String {
   float toFloat() const { return (float)atof(s.c_str()); }
   bool startsWith(const char* p) const { return s.rfind(p, 0) == 0; }
   bool endsWith(const String& e) const { return s.size() >= e.s.size() && s.compare(s.size() - e.s.size(), e.s.size(), e.s) == 0; }
+  bool operator==(const String& o) const { return s == o.s; }
   void trim() { auto a = s.find_first_not_of(" \t\r\n"); auto b = s.find_last_not_of(" \t\r\n"); s = a == std::string::npos ? "" : s.substr(a, b - a + 1); }
 };
 
@@ -210,6 +212,10 @@ class Preferences {
   float getFloat(const char* k, float d) { return get(k, d); } void putFloat(const char* k, float v) { put(k, v); }
   long getLong(const char* k, long d) { return get(k, d); } void putLong(const char* k, long v) { put(k, v); }
   int getInt(const char* k, int d) { return get(k, d); } void putInt(const char* k, int v) { put(k, v); }
+  unsigned getUInt(const char* k, unsigned d) { return get(k, d); } void putUInt(const char* k, unsigned v) { put(k, v); }
+  unsigned long getULong(const char* k, unsigned long d) { return get(k, d); } void putULong(const char* k, unsigned long v) { put(k, v); }
+  String getString(const char* k, const char* d) { auto it = kv.find(k); return it == kv.end() ? String(d) : String((const char*)it->second.data(), (unsigned)it->second.size()); }
+  void putString(const char* k, const String& v) { kv[k] = std::vector<uint8_t>(v.s.begin(), v.s.end()); }
   size_t getBytesLength(const char* k) { auto it = kv.find(k); return it == kv.end() ? 0 : it->second.size(); }
   size_t getBytes(const char* k, void* b, size_t n) { auto& v = kv[k]; memcpy(b, v.data(), std::min(n, v.size())); return n; }
   size_t putBytes(const char* k, const void* b, size_t n) { kv[k] = std::vector<uint8_t>((const uint8_t*)b, (const uint8_t*)b + n); return n; }
@@ -243,10 +249,53 @@ struct BLEScan {
   }
   void clearResults() {}
 };
+// ---------------- BLE GATT server: the app link (app_link.h) ----------------
+struct BLECharacteristic;
+struct BLECharacteristicCallbacks { virtual ~BLECharacteristicCallbacks() {} virtual void onWrite(BLECharacteristic*) {} };
+struct BLEDescriptor { virtual ~BLEDescriptor() {} };
+struct BLE2902 : BLEDescriptor {};
+std::vector<BLECharacteristic*> bleChars;                  // every characteristic, so the test can play the app
+std::string bleRx;                                         // everything the stool notified to the app, reassembled
+struct BLECharacteristic {
+  static const uint32_t PROPERTY_READ = 1, PROPERTY_WRITE = 2, PROPERTY_NOTIFY = 4;
+  std::string uuid, value; BLECharacteristicCallbacks* cb = nullptr; bool reports = false;
+  void addDescriptor(BLEDescriptor*) {}
+  void setCallbacks(BLECharacteristicCallbacks* c) { cb = c; }
+  void setValue(const uint8_t* d, size_t n) { value.assign((const char*)d, n); }
+  void setValue(const char* v) { value = v; }
+  String getValue() { return String(value); }
+  void notify() { if (reports) bleRx += value; }
+};
+struct BLEService {
+  BLECharacteristic* createCharacteristic(const char* u, uint32_t) {
+    auto c = new BLECharacteristic(); c->uuid = u; c->reports = std::string(u).back() == '2'; bleChars.push_back(c); return c;
+  }
+  void start() {}
+};
+struct BLEServer;
+struct BLEServerCallbacks { virtual ~BLEServerCallbacks() {} virtual void onDisconnect(BLEServer*) {} };
+struct BLEServer { void setCallbacks(BLEServerCallbacks*) {} BLEService* createService(const char*) { return new BLEService(); } };
+struct BLEAdvertising { void addServiceUUID(const char*) {} void setScanResponse(bool) {} };
+inline void bleWrite(const char* uuid, const std::string& v) {   // the app writes a command
+  for (auto it = bleChars.rbegin(); it != bleChars.rend(); ++it)   // newest only: a reboot re-creates the service
+    if ((*it)->uuid == uuid && (*it)->cb) { (*it)->value = v; (*it)->cb->onWrite(*it); return; }
+}
 struct BLEDevice {
   static void init(const char*) {}
   static BLEScan* getScan() { static BLEScan s; return &s; }
+  static void setMTU(int) {}
+  static BLEServer* createServer() { return new BLEServer(); }
+  static BLEAdvertising* getAdvertising() { static BLEAdvertising a; return &a; }
+  static void startAdvertising() {}
 };
+// ---------------- FreeRTOS queue (single-threaded here) ----------------
+struct MockQueue { size_t item; std::deque<std::vector<char>> q; };
+typedef MockQueue* QueueHandle_t;
+#define pdTRUE 1
+inline QueueHandle_t xQueueCreate(int, size_t item) { auto m = new MockQueue(); m->item = item; return m; }
+inline int xQueueSend(QueueHandle_t h, const void* p, int) { h->q.emplace_back((const char*)p, (const char*)p + h->item); return 1; }
+inline int xQueueReceive(QueueHandle_t h, void* p, int) { if (h->q.empty()) return 0; memcpy(p, h->q.front().data(), h->item); h->q.pop_front(); return 1; }
+inline bool isDigit(char c) { return c >= '0' && c <= '9'; }
 
 // ---------------- clock helpers for the modem ----------------
 inline void civil(long z, int& y, int& m, int& d) {         // days since 1970 -> date (Howard Hinnant)

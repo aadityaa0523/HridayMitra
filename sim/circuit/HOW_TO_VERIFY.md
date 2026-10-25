@@ -79,7 +79,7 @@ python sim/circuit/trunk_paths.py
   | Foot position / limb / temperature +3% | **+3.0%** (a false signal) | **0.0%** |
   | Fluid inside cells +10% | 0.0% | **−2.9%** (opposite sign) |
 
-- **Accuracy:** LTspice readings are within 0.05% of the exact values. On the ESP32 the fit is an exact closed form (`hm::ewiClosedForm`), and the firmware emulator measures the index within 0.5% of the true body value.
+- **Accuracy:** LTspice readings are within 0.05% of the exact values. On the ESP32 the fit is an exact closed form (`hm::ewiClosedForm`), and the firmware emulator measures the index within 0.6% of the true body value (worst 0.51% over a simulated month).
 
 ## 8. Patient electrical safety (`python sim/circuit/safety.py`, about 2 minutes)
 - **Test:** body current with each single fault, measured at 5, 20 and 50 kHz, against IEC 60601-1 limits for type BF parts (DC 10/50 µA; AC 100/500 µA × f in kHz).
