@@ -14,6 +14,18 @@
 
 ## For judges: start here
 
+**Browse by area** (each folder has its own README with images, results and links to the code):
+
+| Folder | Inside |
+|---|---|
+| [📁 Deliverables](Deliverables/) | Pitch video, report, storyboard, block diagram, schematics, cost report, PCB, simulation video |
+| [📁 01_Hardware_Design](01_Hardware_Design/) | Prototype photo, block diagram, 4 schematic sheets, front end with test points, power budget, routed PCB + Gerbers, parts list (₹4,402) |
+| [📁 02_Software_and_Analytics](02_Software_and_Analytics/) | Signal processing, personal-baseline alert engine, hybrid ML, firmware engine, care loop, Saathi app, a real alert SMS |
+| [📁 03_Data](03_Data/) | Synthetic dataset card, sample patients, how noise is modelled |
+| [📁 04_Testing_and_Validation](04_Testing_and_Validation/) | The four PS measures with 95 % ranges, assumption and stress tests, PhysioNet real-data checks, 217 automated tests |
+| [📁 05_Simulation](05_Simulation/) | Live Wokwi, demo video, LTspice results, firmware emulator, PCB DRC |
+
+
 <p align="center"><img src="Deliverables/prototype_photo.jpg" width="320" alt="Working prototype: breadboard check-in unit on a household chair, Kavach amulet worn on a cord"></p>
 
 | Deliverable (PS requirement) | Where |

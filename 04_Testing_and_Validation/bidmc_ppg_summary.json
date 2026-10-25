@@ -1,0 +1,41 @@
+{
+ "breath_amulet": {
+  "windows": 424,
+  "reported": 424,
+  "coverage": 1.0,
+  "median_abs_err": 1.0,
+  "p90_abs_err": 3.0,
+  "within_5": 0.965,
+  "within_2": 0.823,
+  "bias": 1.07,
+  "records_median_err_over_5": [
+   "bidmc19"
+  ]
+ },
+ "breath_spectral": {
+  "windows": 424,
+  "reported": 424,
+  "coverage": 1.0,
+  "median_abs_err": 1.0,
+  "p90_abs_err": 3.0,
+  "within_5": 0.974,
+  "within_2": 0.887,
+  "bias": 0.81,
+  "records_median_err_over_5": [
+   "bidmc05"
+  ]
+ },
+ "pulse": {
+  "windows": 1696,
+  "reported": 1568,
+  "coverage": 0.925,
+  "median_abs_err": 0.91,
+  "p90_abs_err": 3.6,
+  "within_5": 0.927,
+  "within_2": 0.814,
+  "bias": 1.79,
+  "records_median_err_over_5": [
+   "bidmc47"
+  ]
+ }
+}
