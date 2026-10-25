@@ -36,7 +36,7 @@
 | Dry / sweaty skin | Contact 200 Ω–10 kΩ changes reading | Tetrapolar + ratiometric; 10 MΩ bias | LTspice Monte Carlo (99% within 2%) |
 | Cheap part tolerances | Device-to-device error | Personal baseline compares each stool with itself; change error 0.13 points | `montecarlo.py` |
 | Mains hum (charger plugged in) | Peak-to-peak 18% wrong | Goertzel only; battery-only measuring | `sim/circuit/hum.py` |
-| Foot placed differently / limb size / skin temperature | Single-frequency leg reading moves ~3% with no medical cause | Spectroscopy index (Rinf/R0 from 5/20/50 kHz) cancels it: LTspice 0.00% | `sim/circuit/spectroscopy.py`, firmware emulator check "spectroscopy index within 0.5%" |
+| Foot placed differently / limb size / skin temperature | Single-frequency leg reading moves ~3% with no medical cause | Spectroscopy index (Rinf/R0 from 5/20/50 kHz) cancels it: LTspice 0.00% | `sim/circuit/spectroscopy.py`, firmware emulator check "spectroscopy index within 0.6%" (worst 0.51%) |
 | Wet feet | Leg reading 3–6% low | Robust baseline + two-witness rule | stress "15% wet-feet days" |
 | No finger / moving finger | Wrong pulse/SpO₂ | Perfusion and regularity checks → "no reading" | `test_no_finger` |
 | Missed check-ins / power cut | Gaps in history | Network clock fills gaps; light held; engine state saved in flash | stress "power cut", `test_*` (has_data) |

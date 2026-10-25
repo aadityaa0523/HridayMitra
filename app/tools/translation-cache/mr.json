@@ -1,0 +1,2446 @@
+{
+  "brand": {
+    "source": "Saathi",
+    "value": "साथी"
+  },
+  "by": {
+    "source": "by HridayMitra",
+    "value": "हृदयमित्र यांनी"
+  },
+  "tagline": {
+    "source": "A little care. Every day.",
+    "value": "थोडी काळजी. दररोज."
+  },
+  "demo": {
+    "source": "DEMO · NO REAL PATIENT DATA",
+    "value": "डेमो · कोणताही वास्तविक रुग्ण डेटा नाही"
+  },
+  "phase": {
+    "source": "Phase 9 · Demo polish",
+    "value": "फेज 9 · डेमो पॉलिश"
+  },
+  "welcome": {
+    "source": "Your daily care companion",
+    "value": "आपला दैनंदिन काळजीचा साथीदार"
+  },
+  "intro": {
+    "source": "A familiar voice. A helping hand. Care that stays with you.",
+    "value": "एक ओळखीचा आवाज. मदतीचा हात. तुमच्या सोबत राहील अशी काळजी."
+  },
+  "choose": {
+    "source": "Choose your language",
+    "value": "तुमची भाषा निवडा"
+  },
+  "start": {
+    "source": "Open demo",
+    "value": "डेमो उघडा"
+  },
+  "listen": {
+    "source": "Listen",
+    "value": "ऐका"
+  },
+  "skip": {
+    "source": "Skip to main content",
+    "value": "मुख्य सामग्रीवर जा"
+  },
+  "home": {
+    "source": "Home",
+    "value": "घर"
+  },
+  "team": {
+    "source": "Care team",
+    "value": "काळजी संघ"
+  },
+  "settings": {
+    "source": "Settings",
+    "value": "सेटिंग्ज"
+  },
+  "greeting": {
+    "source": "Namaste,",
+    "value": "नमस्ते,"
+  },
+  "name": {
+    "source": "welcome to Saathi",
+    "value": "साथी मध्ये स्वागत आहे"
+  },
+  "today": {
+    "source": "YOUR DAILY CHECK-IN",
+    "value": "तुमचा दैनंदिन चेक-इन"
+  },
+  "checkTitle": {
+    "source": "Let’s check in together",
+    "value": "चला एकत्र चेक इन करूया"
+  },
+  "checkText": {
+    "source": "No check-in yet today. Your readings will appear here.",
+    "value": "आजही चेक-इन नाही. तुमचे वाचन येथे दिसून येईल."
+  },
+  "check": {
+    "source": "Check-in now",
+    "value": "आता चेक-इन करा"
+  },
+  "checkDetail": {
+    "source": "Your daily health routine",
+    "value": "तुमचा रोजचा आरोग्य दिनक्रम"
+  },
+  "medicines": {
+    "source": "My medicines",
+    "value": "माझी औषधे"
+  },
+  "medicineDetail": {
+    "source": "See your next dose",
+    "value": "तुमचा पुढील डोस पहा"
+  },
+  "family": {
+    "source": "Call family",
+    "value": "कुटुंबाला कॉल करा"
+  },
+  "familyDetail": {
+    "source": "Keep your people close",
+    "value": "आपल्या लोकांना जवळ ठेवा"
+  },
+  "sos": {
+    "source": "Get help",
+    "value": "मदत मिळवा"
+  },
+  "sosDetail": {
+    "source": "See emergency options",
+    "value": "आपत्कालीन पर्याय पहा"
+  },
+  "disclaimer": {
+    "source": "Monitoring, not diagnosis.",
+    "value": "देखरेख, निदान नाही."
+  },
+  "emergency": {
+    "source": "In an emergency, call 108.",
+    "value": "आपत्कालीन परिस्थितीत, 108 वर कॉल करा."
+  },
+  "routine": {
+    "source": "One small step, every day",
+    "value": "एक लहान पाऊल, दररोज"
+  },
+  "routineText": {
+    "source": "Sit comfortably. Keep your device and amulet nearby.",
+    "value": "आरामात बसा. तुमचे डिव्हाइस आणि ताबीज जवळ ठेवा."
+  },
+  "devices": {
+    "source": "Your care companions",
+    "value": "तुझी काळजी सोबती"
+  },
+  "platform": {
+    "source": "Check-in device",
+    "value": "चेक-इन डिव्हाइस"
+  },
+  "amulet": {
+    "source": "Wearable amulet",
+    "value": "घालण्यायोग्य ताबीज"
+  },
+  "notConnected": {
+    "source": "Not connected",
+    "value": "जोडलेले नाही"
+  },
+  "devicesText": {
+    "source": "Hardware pairing arrives in a later phase.",
+    "value": "हार्डवेअर जोडणी नंतरच्या टप्प्यात येते."
+  },
+  "read": {
+    "source": "Read this screen",
+    "value": "हा स्क्रीन वाचा"
+  },
+  "role": {
+    "source": "Demo role",
+    "value": "डेमो भूमिका"
+  },
+  "roleHelp": {
+    "source": "Preview the four views on this phone. These are not authenticated accounts.",
+    "value": "या फोनवरील चार दृश्यांचे पूर्वावलोकन करा. ही प्रमाणीकृत खाती नाहीत."
+  },
+  "roles.elder": {
+    "source": "Saathi",
+    "value": "साथी"
+  },
+  "roles.family": {
+    "source": "Family",
+    "value": "कुटुंब"
+  },
+  "roles.asha": {
+    "source": "ASHA",
+    "value": "आशा"
+  },
+  "roles.doctor": {
+    "source": "Doctor",
+    "value": "डॉक्टर"
+  },
+  "roleDescriptions.elder": {
+    "source": "My daily routine",
+    "value": "माझा रोजचा दिनक्रम"
+  },
+  "roleDescriptions.family": {
+    "source": "Care for loved ones",
+    "value": "प्रियजनांची काळजी घ्या"
+  },
+  "roleDescriptions.asha": {
+    "source": "Community visits",
+    "value": "समुदाय भेटी"
+  },
+  "roleDescriptions.doctor": {
+    "source": "Plans and follow-ups",
+    "value": "योजना आणि पाठपुरावा"
+  },
+  "status.unknown": {
+    "source": "Not checked yet",
+    "value": "अजून तपासले नाही"
+  },
+  "status.learning": {
+    "source": "Learning your normal",
+    "value": "आपले सामान्य शिकणे"
+  },
+  "status.green": {
+    "source": "No alert",
+    "value": "इशारा नाही"
+  },
+  "status.amber": {
+    "source": "Needs attention",
+    "value": "लक्ष देण्याची गरज आहे"
+  },
+  "status.red": {
+    "source": "Needs prompt attention",
+    "value": "तातडीने लक्ष देण्याची गरज आहे"
+  },
+  "status.locked": {
+    "source": "Records locked",
+    "value": "रेकॉर्ड लॉक केले"
+  },
+  "voice.button": {
+    "source": "Voice commands",
+    "value": "आवाज आदेश"
+  },
+  "voice.title": {
+    "source": "A familiar voice",
+    "value": "एक ओळखीचा आवाज"
+  },
+  "voice.text": {
+    "source": "Read-aloud is available when your phone has a suitable voice. Voice commands arrive in Phase 3.",
+    "value": "तुमच्या फोनला योग्य आवाज असेल तेव्हा मोठ्याने वाचा उपलब्ध आहे. व्हॉइस कमांड फेज 3 मध्ये येतात."
+  },
+  "voice.unavailable": {
+    "source": "No matching voice is available. Install an English or Hindi voice on your phone.",
+    "value": "कोणताही जुळणारा आवाज उपलब्ध नाही. तुमच्या फोनवर इंग्रजी किंवा हिंदी आवाज स्थापित करा."
+  },
+  "voice.failed": {
+    "source": "Could not play speech. Try Listen again.",
+    "value": "भाषण खेळता आले नाही. पुन्हा ऐकण्याचा प्रयत्न करा."
+  },
+  "close": {
+    "source": "Close",
+    "value": "बंद करा"
+  },
+  "pendingTitle": {
+    "source": "Coming in the next phases",
+    "value": "पुढील टप्प्यात येत आहे"
+  },
+  "checkPending": {
+    "source": "Open demo settings to unlock records and replay a check-in.",
+    "value": "रेकॉर्ड अनलॉक करण्यासाठी डेमो सेटिंग्ज उघडा आणि चेक-इन पुन्हा प्ले करा."
+  },
+  "medPending": {
+    "source": "No medicines have been added. Medicine scheduling arrives in Phase 3.",
+    "value": "कोणतीही औषधे जोडली गेली नाहीत. औषध शेड्युलिंग फेज 3 मध्ये येते."
+  },
+  "familyPending": {
+    "source": "No family contacts have been added. Contact setup arrives in a later phase.",
+    "value": "कोणतेही कुटुंब संपर्क जोडलेले नाहीत. संपर्क सेटअप नंतरच्या टप्प्यात येतो."
+  },
+  "helpTitle": {
+    "source": "Need help?",
+    "value": "मदत हवी आहे?"
+  },
+  "helpText": {
+    "source": "This demo cannot send alerts or call your family automatically.",
+    "value": "हा डेमो सूचना पाठवू शकत नाही किंवा तुमच्या कुटुंबाला आपोआप कॉल करू शकत नाही."
+  },
+  "call108": {
+    "source": "Open dialler: 108",
+    "value": "डायलर उघडा: 108"
+  },
+  "cancel": {
+    "source": "Go back",
+    "value": "परत जा"
+  },
+  "offlineReady": {
+    "source": "App ready offline",
+    "value": "ॲप ऑफलाइन तयार आहे"
+  },
+  "preparing": {
+    "source": "Preparing offline access…",
+    "value": "ऑफलाइन प्रवेश तयार करत आहे..."
+  },
+  "offline": {
+    "source": "You’re offline",
+    "value": "तुम्ही ऑफलाइन आहात"
+  },
+  "online": {
+    "source": "On this phone",
+    "value": "या फोनवर"
+  },
+  "language": {
+    "source": "Language",
+    "value": "भाषा"
+  },
+  "switchLanguage": {
+    "source": "हिन्दी",
+    "value": "हिंदी"
+  },
+  "install": {
+    "source": "Install Saathi",
+    "value": "साथी स्थापित करा"
+  },
+  "installHelp": {
+    "source": "On Android Chrome, open the menu and choose Add to Home screen. Use an HTTPS address.",
+    "value": "Android Chrome वर, मेनू उघडा आणि मुख्यपृष्ठ स्क्रीनवर जोडा निवडा. HTTPS पत्ता वापरा."
+  },
+  "installTitle": {
+    "source": "Keep Saathi close",
+    "value": "साथी जवळ ठेवा"
+  },
+  "update": {
+    "source": "An update is ready.",
+    "value": "एक अपडेट तयार आहे."
+  },
+  "reload": {
+    "source": "Update app",
+    "value": "ॲप अपडेट करा"
+  },
+  "localWarning": {
+    "source": "Preferences could not be saved. You can continue this session.",
+    "value": "प्राधान्ये जतन करणे शक्य नाही. तुम्ही हे सत्र सुरू ठेवू शकता."
+  },
+  "foundation": {
+    "source": "Your care, in one place",
+    "value": "तुमची काळजी, एकाच ठिकाणी"
+  },
+  "emptyTitle": {
+    "source": "No patients added yet",
+    "value": "अद्याप कोणतेही रुग्ण जोडलेले नाहीत"
+  },
+  "emptyText": {
+    "source": "This phase previews navigation. Patient records and care workflows come next.",
+    "value": "हा टप्पा नेव्हिगेशनचे पूर्वावलोकन करतो. रुग्णाच्या नोंदी आणि काळजी कार्यप्रवाह पुढे येतात."
+  },
+  "next": {
+    "source": "COMING NEXT",
+    "value": "पुढे येत आहे"
+  },
+  "familyNext": {
+    "source": "Loved ones, daily trends and alert responses",
+    "value": "प्रियजन, दैनंदिन ट्रेंड आणि सतर्क प्रतिसाद"
+  },
+  "ashaNext": {
+    "source": "Visit lists, offline forms and referrals",
+    "value": "भेट याद्या, ऑफलाइन फॉर्म आणि रेफरल्स"
+  },
+  "doctorNext": {
+    "source": "Patient timelines, care plans and lab results",
+    "value": "पेशंट टाइमलाइन, काळजी योजना आणि प्रयोगशाळेचे परिणाम"
+  },
+  "privacy": {
+    "source": "Demo records stay encrypted on this phone after setup.",
+    "value": "डेमो रेकॉर्ड सेटअप केल्यानंतर या फोनवर एनक्रिप्टेड राहतात."
+  },
+  "teamTitle": {
+    "source": "Care works better together",
+    "value": "काळजी एकत्र चांगले कार्य करते"
+  },
+  "teamText": {
+    "source": "Family, ASHA and doctor views share this single-phone demo.",
+    "value": "कुटुंब, ASHA आणि डॉक्टरांची दृश्ये हा एकल-फोन डेमो सामायिक करतात."
+  },
+  "noRecords": {
+    "source": "Only synthetic records are supported in this demo.",
+    "value": "या डेमोमध्ये फक्त सिंथेटिक रेकॉर्ड समर्थित आहेत."
+  },
+  "setupAgain": {
+    "source": "Show welcome screen",
+    "value": "स्वागत स्क्रीन दाखवा"
+  },
+  "learn": {
+    "source": "Made for everyday care",
+    "value": "रोजच्या काळजीसाठी बनवलेले"
+  },
+  "learnText": {
+    "source": "Big buttons. Clear words. Your preferred language.",
+    "value": "मोठी बटणे. स्पष्ट शब्द. तुमची पसंतीची भाषा."
+  },
+  "learnLabel": {
+    "source": "Simple, by design",
+    "value": "साधे, डिझाइननुसार"
+  },
+  "speechLocal": {
+    "source": "Voice availability depends on your phone’s installed language packs.",
+    "value": "आवाजाची उपलब्धता तुमच्या फोनच्या स्थापित केलेल्या भाषा पॅकवर अवलंबून असते."
+  },
+  "vault.title": {
+    "source": "Demo data & privacy",
+    "value": "डेमो डेटा आणि गोपनीयता"
+  },
+  "vault.description": {
+    "source": "Caregiver setup for this single-phone demo.",
+    "value": "या सिंगल-फोन डेमोसाठी केअरगिव्हर सेटअप."
+  },
+  "vault.locked": {
+    "source": "Your demo records are locked. Enter your PIN.",
+    "value": "तुमचे डेमो रेकॉर्ड लॉक केले आहेत. तुमचा पिन एंटर करा."
+  },
+  "vault.first": {
+    "source": "Create a PIN before loading synthetic records.",
+    "value": "सिंथेटिक रेकॉर्ड लोड करण्यापूर्वी एक पिन तयार करा."
+  },
+  "vault.pin": {
+    "source": "PIN (6–12 digits)",
+    "value": "पिन (6–12 अंक)"
+  },
+  "vault.confirm": {
+    "source": "Confirm PIN",
+    "value": "पिनची पुष्टी करा"
+  },
+  "vault.consent": {
+    "source": "I agree to store synthetic demo data on this phone.",
+    "value": "मी या फोनवर सिंथेटिक डेमो डेटा संचयित करण्यास सहमत आहे."
+  },
+  "vault.create": {
+    "source": "Create demo vault",
+    "value": "डेमो व्हॉल्ट तयार करा"
+  },
+  "vault.unlock": {
+    "source": "Unlock records",
+    "value": "रेकॉर्ड अनलॉक करा"
+  },
+  "vault.lock": {
+    "source": "Lock records",
+    "value": "लॉक रेकॉर्ड"
+  },
+  "vault.unlocked": {
+    "source": "Unlocked for this session",
+    "value": "या सत्रासाठी अनलॉक केले"
+  },
+  "vault.busy": {
+    "source": "Please wait…",
+    "value": "कृपया प्रतीक्षा करा..."
+  },
+  "vault.noRecovery": {
+    "source": "Remember your PIN. There is no recovery option yet.",
+    "value": "तुमचा पिन लक्षात ठेवा. अद्याप कोणताही पुनर्प्राप्ती पर्याय नाही."
+  },
+  "vault.load": {
+    "source": "Load five-month demo",
+    "value": "पाच महिन्यांचा डेमो लोड करा"
+  },
+  "vault.patient": {
+    "source": "Demo elder 01",
+    "value": "डेमो एल्डर 01"
+  },
+  "vault.days": {
+    "source": "{{count}} synthetic days stored",
+    "value": "{{count}} सिंथेटिक दिवस संग्रहित"
+  },
+  "vault.replayDate": {
+    "source": "Replay date",
+    "value": "रीप्ले तारीख"
+  },
+  "vault.previous": {
+    "source": "Previous day",
+    "value": "मागील दिवस"
+  },
+  "vault.next": {
+    "source": "Next day",
+    "value": "दुसऱ्या दिवशी"
+  },
+  "vault.nextRed": {
+    "source": "Next red-alert day",
+    "value": "पुढील रेड-ॲलर्ट दिवस"
+  },
+  "vault.score": {
+    "source": "Engine score",
+    "value": "इंजिन स्कोअर"
+  },
+  "vault.audit": {
+    "source": "{{count}} audit events",
+    "value": "{{count}} ऑडिट इव्हेंट"
+  },
+  "vault.eraseConfirm": {
+    "source": "Delete all demo records and the PIN from this phone.",
+    "value": "या फोनवरून सर्व डेमो रेकॉर्ड आणि पिन हटवा."
+  },
+  "vault.erase": {
+    "source": "Delete demo data",
+    "value": "डेमो डेटा हटवा"
+  },
+  "vault.failed": {
+    "source": "Could not open or save records. Check your PIN and retry.",
+    "value": "रेकॉर्ड उघडणे किंवा जतन करणे शक्य झाले नाही. तुमचा पिन तपासा आणि पुन्हा प्रयत्न करा."
+  },
+  "vault.scope": {
+    "source": "Demo roles are not verified identities. No real patient data.",
+    "value": "डेमो भूमिका सत्यापित ओळख नसतात. वास्तविक रुग्ण डेटा नाही."
+  },
+  "vault.summary": {
+    "source": "Synthetic patient summary",
+    "value": "सिंथेटिक रुग्ण सारांश"
+  },
+  "vault.historical": {
+    "source": "HISTORICAL SIMULATION · NOT TODAY’S HEALTH",
+    "value": "ऐतिहासिक सिम्युलेशन · आजचे आरोग्य नाही"
+  },
+  "vault.source": {
+    "source": "Simulated device and amulet",
+    "value": "सिम्युलेटेड डिव्हाइस आणि ताबीज"
+  },
+  "vault.missing": {
+    "source": "No measurements this day. Previous alert may remain.",
+    "value": "या दिवशी कोणतेही मोजमाप नाही. पूर्वीचा इशारा राहू शकतो."
+  },
+  "vault.guest": {
+    "source": "Possible guest: device readings excluded from scoring.",
+    "value": "संभाव्य अतिथी: स्कोअरिंगमधून डिव्हाइस वाचन वगळले."
+  },
+  "vault.plate": {
+    "source": "Foot contact reading excluded. Check electrode placement.",
+    "value": "फूट संपर्क वाचन वगळले. इलेक्ट्रोड प्लेसमेंट तपासा."
+  },
+  "vault.oxygen": {
+    "source": "Low oxygen reading triggered this simulated alert.",
+    "value": "कमी ऑक्सिजन वाचनामुळे ही सिम्युलेटेड अलर्ट ट्रिगर झाली."
+  },
+  "vault.normal": {
+    "source": "normal",
+    "value": "सामान्य"
+  },
+  "vault.noPlan": {
+    "source": "No doctor’s plan has been recorded.",
+    "value": "कोणत्याही डॉक्टरची योजना रेकॉर्ड केलेली नाही."
+  },
+  "vault.noTreatment": {
+    "source": "This demo does not suggest medicine changes.",
+    "value": "हा डेमो औषधातील बदल सुचवत नाही."
+  },
+  "vault.open": {
+    "source": "Set up demo records",
+    "value": "डेमो रेकॉर्ड सेट करा"
+  },
+  "vault.saved": {
+    "source": "Encrypted on this phone",
+    "value": "या फोनवर एनक्रिप्ट केलेले"
+  },
+  "reason.weight_kg": {
+    "source": "Weight increased",
+    "value": "वजन वाढले"
+  },
+  "reason.leg_z_ohm": {
+    "source": "Leg reading decreased",
+    "value": "लेग वाचन कमी झाले"
+  },
+  "reason.trunk_z_ohm": {
+    "source": "Chest reading decreased",
+    "value": "छातीचे वाचन कमी झाले"
+  },
+  "reason.pulse_bpm": {
+    "source": "Resting pulse increased",
+    "value": "विश्रांतीची नाडी वाढली"
+  },
+  "reason.night_rr": {
+    "source": "Night breathing increased",
+    "value": "रात्रीचा श्वास वाढला"
+  },
+  "reason.spo2": {
+    "source": "Oxygen reading decreased",
+    "value": "ऑक्सिजन वाचन कमी झाले"
+  },
+  "reason.activity_min": {
+    "source": "Activity decreased",
+    "value": "क्रियाकलाप कमी झाला"
+  },
+  "reason.standup_s": {
+    "source": "Standing took longer",
+    "value": "उभे राहण्यास जास्त वेळ लागला"
+  },
+  "reason.symptoms": {
+    "source": "Breathlessness or extra pillows reported",
+    "value": "श्वासोच्छवास किंवा अतिरिक्त उशा नोंदवल्या गेल्या"
+  },
+  "reason.night_situps": {
+    "source": "Sitting up at night",
+    "value": "रात्री उठणे"
+  },
+  "reading.weight_kg": {
+    "source": "Weight",
+    "value": "वजन"
+  },
+  "reading.pulse_bpm": {
+    "source": "Pulse",
+    "value": "नाडी"
+  },
+  "reading.spo2": {
+    "source": "Oxygen",
+    "value": "ऑक्सिजन"
+  },
+  "reading.night_rr": {
+    "source": "Night breathing",
+    "value": "रात्रीचा श्वास"
+  },
+  "reading.activity_min": {
+    "source": "Activity",
+    "value": "क्रियाकलाप"
+  },
+  "reading.leg_z_ohm": {
+    "source": "Leg reading",
+    "value": "पाय वाचणे"
+  },
+  "reading.trunk_z_ohm": {
+    "source": "Body reading",
+    "value": "शरीर वाचन"
+  },
+  "reading.standup_s": {
+    "source": "Time to stand",
+    "value": "उभे राहण्याची वेळ"
+  },
+  "reading.breathless": {
+    "source": "Breathlessness",
+    "value": "श्वास लागणे"
+  },
+  "reading.orthopnea": {
+    "source": "Extra pillows",
+    "value": "अतिरिक्त उशा"
+  },
+  "reading.night_situps": {
+    "source": "Night sitting-up count",
+    "value": "रात्री बसण्याची संख्या"
+  },
+  "unit.weight_kg": {
+    "source": "kilo",
+    "value": "किलो"
+  },
+  "unit.pulse_bpm": {
+    "source": "beats/min",
+    "value": "बीट्स/मिनिट"
+  },
+  "unit.spo2": {
+    "source": "%",
+    "value": "%"
+  },
+  "unit.night_rr": {
+    "source": "breaths/min",
+    "value": "श्वास/मि"
+  },
+  "unit.activity_min": {
+    "source": "min",
+    "value": "मि"
+  },
+  "unit.leg_z_ohm": {
+    "source": "Ω",
+    "value": "Ω"
+  },
+  "unit.trunk_z_ohm": {
+    "source": "Ω",
+    "value": "Ω"
+  },
+  "unit.standup_s": {
+    "source": "seconds",
+    "value": "सेकंद"
+  },
+  "unit.night_situps": {
+    "source": "times",
+    "value": "वेळा"
+  },
+  "elder.practice": {
+    "source": "Practice routine · synthetic patient only",
+    "value": "नियमित सराव करा · फक्त सिंथेटिक रुग्ण"
+  },
+  "elder.unlock": {
+    "source": "Ask your caregiver to unlock and load the demo first.",
+    "value": "तुमच्या काळजीवाहकाला प्रथम डेमो अनलॉक आणि लोड करण्यास सांगा."
+  },
+  "elder.tablet": {
+    "source": "Practice tablet",
+    "value": "टॅबलेटचा सराव करा"
+  },
+  "elder.notPrescription": {
+    "source": "Illustration only. This is not a prescription.",
+    "value": "केवळ चित्रण. हे प्रिस्क्रिप्शन नाही."
+  },
+  "elder.taken": {
+    "source": "Practice dose marked taken.",
+    "value": "सराव डोस घेतल्याचे चिन्हांकित केले."
+  },
+  "elder.markTaken": {
+    "source": "Taken",
+    "value": "घेतले"
+  },
+  "elder.selectDose": {
+    "source": "Open the practice medicine before marking it taken.",
+    "value": "घेतलेल्या औषधावर चिन्हांकित करण्यापूर्वी सराव औषध उघडा."
+  },
+  "elder.confirmTaken": {
+    "source": "Mark this practice dose taken?",
+    "value": "घेतलेला हा सराव डोस चिन्हांकित करा?"
+  },
+  "elder.yes": {
+    "source": "Yes",
+    "value": "होय"
+  },
+  "elder.no": {
+    "source": "No",
+    "value": "नाही"
+  },
+  "elder.questions": {
+    "source": "Daily questions",
+    "value": "रोजचे प्रश्न"
+  },
+  "elder.q1": {
+    "source": "Were you more breathless today?",
+    "value": "आज तुम्हाला जास्त दम लागला होता का?"
+  },
+  "elder.q2": {
+    "source": "Did you need extra pillows last night?",
+    "value": "तुम्हाला काल रात्री अतिरिक्त उशांची गरज होती?"
+  },
+  "elder.saved": {
+    "source": "Your practice answers are saved.",
+    "value": "तुमची सराव उत्तरे जतन केली आहेत."
+  },
+  "elder.answersScope": {
+    "source": "Practice answers stay separate from the recorded device result.",
+    "value": "सराव उत्तरे रेकॉर्ड केलेल्या डिव्हाइस निकालापासून वेगळी राहतात."
+  },
+  "elder.noQuestion": {
+    "source": "There is no question waiting for an answer.",
+    "value": "उत्तराची प्रतीक्षा करणारा कोणताही प्रश्न नाही."
+  },
+  "elder.reminder": {
+    "source": "Practice medicine reminder",
+    "value": "सराव औषध स्मरणपत्र"
+  },
+  "elder.tryAlarm": {
+    "source": "Try reminder now",
+    "value": "आता रिमाइंडर वापरून पहा"
+  },
+  "elder.snooze": {
+    "source": "Snooze 10 minutes",
+    "value": "10 मिनिटे स्नूझ करा"
+  },
+  "elder.snoozed": {
+    "source": "Reminder snoozed for ten minutes.",
+    "value": "स्मरणपत्र दहा मिनिटांसाठी स्नूझ केले."
+  },
+  "elder.pendingHelp": {
+    "source": "Practice dose missed. Caregiver notice pending on this phone.",
+    "value": "सराव डोस चुकला. या फोनवर काळजीवाहू सूचना प्रलंबित आहे."
+  },
+  "elder.foreground": {
+    "source": "Reminders work while this app is open. Closed-app alarms are not guaranteed.",
+    "value": "हे ॲप उघडे असताना स्मरणपत्रे कार्य करतात. बंद ॲप अलार्मची हमी नाही."
+  },
+  "elder.hold": {
+    "source": "Hold for 2 seconds",
+    "value": "2 सेकंद धरा"
+  },
+  "elder.cancel": {
+    "source": "Cancel",
+    "value": "रद्द करा"
+  },
+  "elder.countdown": {
+    "source": "Help options open in five seconds. Say cancel to stop.",
+    "value": "मदत पर्याय पाच सेकंदात उघडतात. थांबण्यासाठी रद्द करा म्हणा."
+  },
+  "elder.helpReady": {
+    "source": "Choose a person to call.",
+    "value": "कॉल करण्यासाठी एक व्यक्ती निवडा."
+  },
+  "elder.chooseContact": {
+    "source": "Choose a contact to open the phone dialler.",
+    "value": "फोन डायलर उघडण्यासाठी संपर्क निवडा."
+  },
+  "elder.noContacts": {
+    "source": "No contacts saved. Ask your caregiver to add them.",
+    "value": "कोणतेही संपर्क जतन केलेले नाहीत. तुमच्या काळजीवाहकाला त्यांना जोडण्यास सांगा."
+  },
+  "elder.noAuto": {
+    "source": "No call or message has been sent automatically.",
+    "value": "कोणताही कॉल किंवा संदेश स्वयंचलितपणे पाठविला गेला नाही."
+  },
+  "elder.unknown": {
+    "source": "Try saying: medicine, check-in, help, or home.",
+    "value": "असे म्हणण्याचा प्रयत्न करा: औषध, चेक-इन, मदत किंवा घर."
+  },
+  "elder.noWater": {
+    "source": "No fluid plan or intake log is available.",
+    "value": "कोणतीही द्रव योजना किंवा सेवन लॉग उपलब्ध नाही."
+  },
+  "elder.voiceHelp": {
+    "source": "Say: medicine, check-in, help, read this, or home.",
+    "value": "म्हणा: औषध, चेक-इन, मदत, हे वाचा किंवा घर."
+  },
+  "elder.packText": {
+    "source": "Install one language pack first. Downloads use about 40 MB.",
+    "value": "प्रथम एक भाषा पॅक स्थापित करा. डाउनलोड सुमारे 40 MB वापरतात."
+  },
+  "elder.packReady": {
+    "source": "Offline language pack is ready.",
+    "value": "ऑफलाइन भाषा पॅक तयार आहे."
+  },
+  "elder.packFailed": {
+    "source": "Could not install the pack. Check your connection and retry.",
+    "value": "पॅक स्थापित करू शकलो नाही. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा."
+  },
+  "elder.installPack": {
+    "source": "Install offline language pack",
+    "value": "ऑफलाइन भाषा पॅक स्थापित करा"
+  },
+  "elder.startMic": {
+    "source": "Start microphone",
+    "value": "मायक्रोफोन सुरू करा"
+  },
+  "elder.stopMic": {
+    "source": "Stop microphone",
+    "value": "मायक्रोफोन थांबवा"
+  },
+  "elder.voiceFailed": {
+    "source": "Voice is unavailable. Use the large buttons or retry.",
+    "value": "आवाज अनुपलब्ध आहे. मोठी बटणे वापरा किंवा पुन्हा प्रयत्न करा."
+  },
+  "elder.onlineVoice": {
+    "source": "Use online browser speech",
+    "value": "ऑनलाइन ब्राउझर स्पीच वापरा"
+  },
+  "elder.onlinePrivacy": {
+    "source": "Optional: browser speech may send audio to its provider.",
+    "value": "पर्यायी: ब्राउझर स्पीच त्याच्या प्रदात्याला ऑडिओ पाठवू शकतो."
+  },
+  "elder.contactSetup": {
+    "source": "Family and ASHA contacts",
+    "value": "कुटुंब आणि ASHA संपर्क"
+  },
+  "elder.contactPrivacy": {
+    "source": "Saved encrypted on this phone. Calls need cellular service.",
+    "value": "या फोनवर एन्क्रिप्टेड सेव्ह केले. कॉलसाठी सेल्युलर सेवा आवश्यक आहे."
+  },
+  "elder.contactRole": {
+    "source": "Contact role",
+    "value": "संपर्क भूमिका"
+  },
+  "elder.contactName": {
+    "source": "Contact name",
+    "value": "संपर्क नाव"
+  },
+  "elder.contactPhone": {
+    "source": "Phone number",
+    "value": "फोन नंबर"
+  },
+  "elder.family1": {
+    "source": "Family contact 1",
+    "value": "कौटुंबिक संपर्क 1"
+  },
+  "elder.family2": {
+    "source": "Family contact 2",
+    "value": "कौटुंबिक संपर्क 2"
+  },
+  "elder.saveContact": {
+    "source": "Save contact",
+    "value": "संपर्क जतन करा"
+  },
+  "elder.contactSaved": {
+    "source": "Contact saved.",
+    "value": "संपर्क जतन केला."
+  },
+  "elder.deletePacks": {
+    "source": "Delete downloaded voice packs",
+    "value": "डाउनलोड केलेले व्हॉइस पॅक हटवा"
+  },
+  "elder.packsDeleted": {
+    "source": "Downloaded voice packs deleted.",
+    "value": "डाउनलोड केलेले व्हॉइस पॅक हटवले."
+  },
+  "familyMode.locked": {
+    "source": "Unlock your household",
+    "value": "तुमचे घर अनलॉक करा"
+  },
+  "familyMode.elders": {
+    "source": "Your elders",
+    "value": "तुमचे वडील"
+  },
+  "familyMode.lastCheckin": {
+    "source": "Last check-in on replay day",
+    "value": "रिप्लेच्या दिवशी शेवटचे चेक-इन"
+  },
+  "familyMode.none": {
+    "source": "No check-in",
+    "value": "चेक-इन नाही"
+  },
+  "familyMode.noMedicines": {
+    "source": "No medicines recorded",
+    "value": "कोणतीही औषधे रेकॉर्ड केलेली नाहीत"
+  },
+  "familyMode.alertBadge": {
+    "source": "Care alert",
+    "value": "काळजी इशारा"
+  },
+  "familyMode.noResponse": {
+    "source": "Awaiting response",
+    "value": "प्रतिसादाच्या प्रतीक्षेत"
+  },
+  "familyMode.response1": {
+    "source": "I'm checking",
+    "value": "मी तपासत आहे"
+  },
+  "familyMode.response2": {
+    "source": "Need help",
+    "value": "मदत हवी आहे"
+  },
+  "familyMode.response3": {
+    "source": "Patient is fine",
+    "value": "रुग्ण बरा आहे"
+  },
+  "familyMode.addDemo": {
+    "source": "Add another demo elder",
+    "value": "आणखी एक डेमो वडील जोडा"
+  },
+  "familyMode.sharedFixture": {
+    "source": "All demo elders reuse the same synthetic history. Each has separate medicines and responses.",
+    "value": "सर्व डेमो वडील समान सिंथेटिक इतिहास पुन्हा वापरतात. प्रत्येकाची स्वतंत्र औषधे आणि प्रतिसाद आहेत."
+  },
+  "familyMode.manager": {
+    "source": "Medicine manager",
+    "value": "औषध व्यवस्थापक"
+  },
+  "familyMode.streak": {
+    "source": "Consecutive check-in days",
+    "value": "सलग चेक-इन दिवस"
+  },
+  "familyMode.takenOnDate": {
+    "source": "Doses taken on selected day",
+    "value": "निवडलेल्या दिवशी घेतलेले डोस"
+  },
+  "familyMode.pending": {
+    "source": "Local notices pending",
+    "value": "स्थानिक सूचना प्रलंबित"
+  },
+  "familyMode.viewAlert": {
+    "source": "Open care alert",
+    "value": "ओपन केअर अलर्ट"
+  },
+  "familyMode.trends": {
+    "source": "How readings changed",
+    "value": "वाचन कसे बदलले"
+  },
+  "familyMode.trendsScope": {
+    "source": "Readings up to the selected replay date. Gaps stay visible; excluded readings are not plotted.",
+    "value": "निवडलेल्या रिप्लेच्या तारखेपर्यंत वाचन. अंतर दृश्यमान राहतात; वगळलेले वाचन प्लॉट केलेले नाहीत."
+  },
+  "familyMode.chartLabel": {
+    "source": "{{name}}: minimum {{min}}, maximum {{max}}",
+    "value": "{{name}}: किमान {{min}}, कमाल {{max}}"
+  },
+  "familyMode.showReadings": {
+    "source": "Read the values",
+    "value": "मूल्ये वाचा"
+  },
+  "familyMode.date": {
+    "source": "Date",
+    "value": "तारीख"
+  },
+  "familyMode.value": {
+    "source": "Reading",
+    "value": "वाचन"
+  },
+  "familyMode.noReadings": {
+    "source": "No usable readings in this period.",
+    "value": "या कालावधीत कोणतेही वापरण्यायोग्य वाचन नाही."
+  },
+  "familyMode.adherence": {
+    "source": "Medicine calendar · 30 days",
+    "value": "औषध दिनदर्शिका · 30 दिवस"
+  },
+  "familyMode.calendarKey": {
+    "source": "Taken / scheduled doses. A dash means no schedule; green means all taken. This is a record, not a treatment recommendation.",
+    "value": "घेतले / अनुसूचित डोस. डॅश म्हणजे शेड्यूल नाही; हिरवा म्हणजे सर्व घेतले. हा एक रेकॉर्ड आहे, उपचारांची शिफारस नाही."
+  },
+  "familyMode.alertHistory": {
+    "source": "Alerts · last 30 days",
+    "value": "सूचना · शेवटचे 30 दिवस"
+  },
+  "familyMode.recorded": {
+    "source": "Response recorded",
+    "value": "प्रतिसाद रेकॉर्ड केला"
+  },
+  "familyMode.noAlerts": {
+    "source": "No care alerts in this period.",
+    "value": "या कालावधीत कोणतीही काळजी सूचना नाहीत."
+  },
+  "familyMode.reminders": {
+    "source": "Check-in and medicine reminders",
+    "value": "चेक-इन आणि औषध स्मरणपत्रे"
+  },
+  "familyMode.clockHelp": {
+    "source": "Demo clock for the selected historical day. Check at 11:00 or later to flag a missed check-in. Due doses appear in Saathi mode. While the app stays open, reminders also check each minute using India time for this replay day.",
+    "value": "निवडलेल्या ऐतिहासिक दिवसासाठी डेमो घड्याळ. चुकलेले चेक-इन ध्वजांकित करण्यासाठी 11:00 वाजता किंवा नंतर तपासा. योग्य डोस साथी मोडमध्ये दिसतात. ॲप उघडे असताना, रिमाइंडर्स या रिप्ले दिवसासाठी भारताची वेळ वापरून प्रत्येक मिनिटाला तपासतात."
+  },
+  "familyMode.demoTime": {
+    "source": "Demo time (India)",
+    "value": "डेमो वेळ (भारत)"
+  },
+  "familyMode.runReminders": {
+    "source": "Check reminders",
+    "value": "स्मरणपत्रे तपासा"
+  },
+  "familyMode.remindersChecked": {
+    "source": "Reminders checked for the selected demo day.",
+    "value": "निवडलेल्या डेमो दिवसासाठी स्मरणपत्रे तपासली."
+  },
+  "familyMode.notSent": {
+    "source": "On this phone only · not sent",
+    "value": "फक्त या फोनवर · पाठवलेले नाही"
+  },
+  "familyMode.nearby": {
+    "source": "Nearby help",
+    "value": "जवळपासची मदत"
+  },
+  "familyMode.nearbyMissing": {
+    "source": "A verified local facility directory has not been added for your village. Family and ASHA contacts can be saved in Settings.",
+    "value": "तुमच्या गावासाठी सत्यापित स्थानिक सुविधा निर्देशिका जोडली गेली नाही. कुटुंब आणि ASHA संपर्क सेटिंग्जमध्ये जतन केले जाऊ शकतात."
+  },
+  "familyMode.reportsLater": {
+    "source": "Printable reports and sharing arrive in Phase 7.",
+    "value": "मुद्रित करण्यायोग्य अहवाल आणि सामायिकरण फेज 7 मध्ये येतात."
+  },
+  "familyMode.alertTitle": {
+    "source": "Care needs attention",
+    "value": "काळजीकडे लक्ष देणे आवश्यक आहे"
+  },
+  "familyMode.why": {
+    "source": "Why this matters",
+    "value": "हे महत्त्वाचे का आहे"
+  },
+  "familyMode.whyText": {
+    "source": "Several readings can move away from the elder's usual pattern. An alert asks someone to check the person and follow their recorded clinician plan. It does not diagnose a condition.",
+    "value": "अनेक वाचन वडिलांच्या नेहमीच्या पॅटर्नपासून दूर जाऊ शकतात. ॲलर्ट एखाद्या व्यक्तीला तपासण्यासाठी आणि त्यांच्या रेकॉर्ड केलेल्या क्लिनिशियन योजनेचे अनुसरण करण्यास सांगते. हे एखाद्या स्थितीचे निदान करत नाही."
+  },
+  "familyMode.plan": {
+    "source": "Clinician's sick-day plan",
+    "value": "क्लिनिकच्या आजारी दिवसाची योजना"
+  },
+  "familyMode.practicePlan": {
+    "source": "Demonstration checklist only.",
+    "value": "केवळ प्रात्यक्षिक चेकलिस्ट."
+  },
+  "familyMode.recordedPlan": {
+    "source": "Caregiver transcription · clinician review pending. Each checked step is saved with your response.",
+    "value": "केअरगिव्हर ट्रान्सक्रिप्शन · क्लिनिशियन पुनरावलोकन प्रलंबित. प्रत्येक तपासलेली पायरी तुमच्या प्रतिसादासह जतन केली जाते."
+  },
+  "familyMode.responseScope": {
+    "source": "Your response does not clear the alert or change the device result. Delivery to the device and ASHA awaits a connection in a later phase.",
+    "value": "तुमचा प्रतिसाद इशारा साफ करत नाही किंवा डिव्हाइस परिणाम बदलत नाही. नंतरच्या टप्प्यात डिव्हाइस आणि ASHA वर वितरणाची वाट पाहत आहे."
+  },
+  "familyMode.responseSaved": {
+    "source": "Response saved. Delivery remains pending on this phone.",
+    "value": "प्रतिसाद जतन केला. या फोनवर डिलिव्हरी बाकी आहे."
+  },
+  "familyMode.callElder": {
+    "source": "Call elder",
+    "value": "वडीलांना कॉल करा"
+  },
+  "familyMode.noElderPhone": {
+    "source": "No elder phone number recorded yet.",
+    "value": "अद्याप कोणताही मोठा फोन नंबर रेकॉर्ड केलेला नाही."
+  },
+  "familyMode.addMedicine": {
+    "source": "Add medicine",
+    "value": "औषध घाला"
+  },
+  "familyMode.medicineScope": {
+    "source": "Manually copy the existing prescription. The app does not choose medicines or doses. Records belong to the synthetic elder selected above.",
+    "value": "विद्यमान प्रिस्क्रिप्शन मॅन्युअली कॉपी करा. ॲप औषधे किंवा डोस निवडत नाही. रेकॉर्ड वर निवडलेल्या सिंथेटिक एल्डरचे आहेत."
+  },
+  "familyMode.medicineName": {
+    "source": "Medicine name",
+    "value": "औषधाचे नाव"
+  },
+  "familyMode.strength": {
+    "source": "Strength from prescription",
+    "value": "प्रिस्क्रिप्शनमधून सामर्थ्य"
+  },
+  "familyMode.times": {
+    "source": "Times, separated by commas (24-hour)",
+    "value": "वेळा, स्वल्पविरामाने विभक्त केलेले (24-तास)"
+  },
+  "familyMode.food": {
+    "source": "Food instructions from prescription",
+    "value": "प्रिस्क्रिप्शनमधून अन्न सूचना"
+  },
+  "familyMode.food_before": {
+    "source": "Before food",
+    "value": "जेवण करण्यापूर्वी"
+  },
+  "familyMode.food_after": {
+    "source": "After food",
+    "value": "जेवणानंतर"
+  },
+  "familyMode.food_any": {
+    "source": "As prescribed",
+    "value": "विहित केल्याप्रमाणे"
+  },
+  "familyMode.units": {
+    "source": "Tablets per dose",
+    "value": "प्रति डोस गोळ्या"
+  },
+  "familyMode.unitsShort": {
+    "source": "tablets",
+    "value": "गोळ्या"
+  },
+  "familyMode.stock": {
+    "source": "Tablets remaining",
+    "value": "गोळ्या शिल्लक आहेत"
+  },
+  "familyMode.tabletPhoto": {
+    "source": "Tablet photo (optional)",
+    "value": "टॅब्लेट फोटो (पर्यायी)"
+  },
+  "familyMode.prescriptionPhoto": {
+    "source": "Prescription photo (optional)",
+    "value": "प्रिस्क्रिप्शन फोटो (पर्यायी)"
+  },
+  "familyMode.photoPrivacy": {
+    "source": "JPEG, PNG or WebP up to 5 MB; resized and encrypted locally. No automatic text recognition or upload.",
+    "value": "JPEG, PNG किंवा WebP 5 MB पर्यंत; स्थानिक पातळीवर आकार बदलला आणि एनक्रिप्ट केला. स्वयंचलित मजकूर ओळख किंवा अपलोड नाही."
+  },
+  "familyMode.prescriptionConfirm": {
+    "source": "I copied the medicine and schedule from the existing prescription.",
+    "value": "मी विद्यमान प्रिस्क्रिप्शनमधून औषध आणि वेळापत्रक कॉपी केले."
+  },
+  "familyMode.saveMedicine": {
+    "source": "Save medicine",
+    "value": "औषध जतन करा"
+  },
+  "familyMode.medicineSaved": {
+    "source": "Medicine saved. It is available in Saathi mode.",
+    "value": "औषध जतन केले. हे साथी मोडमध्ये उपलब्ध आहे."
+  },
+  "familyMode.invalidMedicine": {
+    "source": "Check the name, strength, unique times, dose and stock, then retry.",
+    "value": "नाव, ताकद, अद्वितीय वेळा, डोस आणि स्टॉक तपासा, नंतर पुन्हा प्रयत्न करा."
+  },
+  "familyMode.photoFailed": {
+    "source": "Could not use this photo. Choose a JPEG, PNG or WebP under 5 MB.",
+    "value": "हा फोटो वापरता आला नाही. 5 MB अंतर्गत JPEG, PNG किंवा WebP निवडा."
+  },
+  "familyMode.scheduleScope": {
+    "source": "Schedule starts on {{date}}. It does not create doses before that date.",
+    "value": "शेड्यूल {{date}} पासून सुरू होते. ते त्या तारखेपूर्वी डोस तयार करत नाही."
+  },
+  "familyMode.reviseSchedule": {
+    "source": "To correct a schedule, archive it and add the corrected prescription. Recorded taken doses remain in the calendar.",
+    "value": "वेळापत्रक दुरुस्त करण्यासाठी, ते संग्रहित करा आणि दुरुस्त केलेले प्रिस्क्रिप्शन जोडा. रेकॉर्ड केलेले डोस कॅलेंडरमध्ये राहतात."
+  },
+  "familyMode.addStock": {
+    "source": "Tablets to add",
+    "value": "जोडण्यासाठी गोळ्या"
+  },
+  "familyMode.refill": {
+    "source": "Add refill",
+    "value": "रिफिल जोडा"
+  },
+  "familyMode.archive": {
+    "source": "Archive schedule",
+    "value": "संग्रहित वेळापत्रक"
+  },
+  "familyMode.archived": {
+    "source": "Archived · recorded doses retained",
+    "value": "संग्रहित · रेकॉर्ड केलेले डोस राखून ठेवले"
+  },
+  "familyMode.chooseDose": {
+    "source": "Choose one scheduled dose, then mark it taken.",
+    "value": "एक नियोजित डोस निवडा, नंतर तो घेतला म्हणून चिन्हांकित करा."
+  },
+  "familyMode.dose_pending": {
+    "source": "Not marked taken",
+    "value": "घेतल्याचे चिन्हांकित नाही"
+  },
+  "familyMode.dose_taken": {
+    "source": "Taken",
+    "value": "घेतले"
+  },
+  "familyMode.dose_missed": {
+    "source": "Missed reminder",
+    "value": "सुटलेले स्मरणपत्र"
+  },
+  "familyMode.doseTaken": {
+    "source": "Dose marked taken. Stock updated.",
+    "value": "डोस घेतल्याचे चिन्हांकित केले. स्टॉक अद्यतनित."
+  },
+  "familyMode.confirmDose": {
+    "source": "Mark the selected dose taken?",
+    "value": "घेतलेला निवडलेला डोस चिन्हांकित करा?"
+  },
+  "familyMode.scheduledReminder": {
+    "source": "Medicine reminder. Check the selected medicine and prescription.",
+    "value": "औषध स्मरणपत्र. निवडलेले औषध आणि प्रिस्क्रिप्शन तपासा."
+  },
+  "familyMode.careDetails": {
+    "source": "Care contacts and plan",
+    "value": "काळजी संपर्क आणि योजना"
+  },
+  "familyMode.transcriptionHelp": {
+    "source": "Copy existing clinician instructions, one step per line. This is an unverified caregiver transcription until clinician review. Leave the plan empty if none exists.",
+    "value": "विद्यमान चिकित्सक सूचना कॉपी करा, प्रत्येक ओळीत एक पाऊल. हे क्लिनिशियन पुनरावलोकन होईपर्यंत असत्यापित केअरगिव्हर ट्रान्सक्रिप्शन आहे. कोणतेही अस्तित्वात नसल्यास योजना रिकामी ठेवा."
+  },
+  "familyMode.elderPhone": {
+    "source": "Elder phone number",
+    "value": "वडील फोन नंबर"
+  },
+  "familyMode.amberPlan": {
+    "source": "Amber plan steps",
+    "value": "अंबर योजना पायऱ्या"
+  },
+  "familyMode.redPlan": {
+    "source": "Red plan steps",
+    "value": "लाल योजना पायऱ्या"
+  },
+  "familyMode.planConfirm": {
+    "source": "Contact details are correct; any plan text copies existing clinician instructions.",
+    "value": "संपर्क तपशील योग्य आहेत; कोणताही प्लॅन मजकूर विद्यमान डॉक्टरांच्या सूचना कॉपी करतो."
+  },
+  "familyMode.saveCare": {
+    "source": "Save care details",
+    "value": "काळजी तपशील जतन करा"
+  },
+  "familyMode.careSaved": {
+    "source": "Care details saved with an audit entry.",
+    "value": "काळजीचे तपशील ऑडिट एंट्रीसह जतन केले आहेत."
+  },
+  "familyMode.dosesTaken": {
+    "source": "{{taken}} / {{total}} doses taken",
+    "value": "{{taken}} / {{total}} डोस घेतले"
+  },
+  "familyMode.days_one": {
+    "source": "{{count}} day",
+    "value": "{{count}} दिवस"
+  },
+  "familyMode.days_other": {
+    "source": "{{count}} days",
+    "value": "{{count}} दिवस"
+  },
+  "familyMode.refillDays_one": {
+    "source": "{{count}} full day of stock",
+    "value": "{{count}} स्टॉकचा पूर्ण दिवस"
+  },
+  "familyMode.refillDays_other": {
+    "source": "{{count}} full days of stock",
+    "value": "{{count}} पूर्ण दिवसांचा स्टॉक"
+  },
+  "familyMode.notice.missed-checkin": {
+    "source": "No check-in by 11:00",
+    "value": "11:00 पर्यंत चेक-इन नाही"
+  },
+  "familyMode.notice.missed-dose": {
+    "source": "A scheduled dose reminder was missed",
+    "value": "अनुसूचित डोस स्मरणपत्र चुकले"
+  },
+  "familyMode.notice.alert-response": {
+    "source": "Alert response awaiting delivery",
+    "value": "अलर्ट प्रतिसाद वितरणाच्या प्रतीक्षेत आहे"
+  },
+  "familyMode.alarmTitle": {
+    "source": "Medicine reminder",
+    "value": "औषध स्मरणपत्र"
+  },
+  "asha.unlock": {
+    "source": "Unlock ASHA workspace",
+    "value": "ASHA वर्कस्पेस अनलॉक करा"
+  },
+  "asha.today": {
+    "source": "ASHA visit list",
+    "value": "ASHA भेट यादी"
+  },
+  "asha.priorityHelp": {
+    "source": "Red, then amber, then check-ins missing for more than one day, then green. All dates follow the historical demo.",
+    "value": "लाल, नंतर एम्बर, नंतर चेक-इन एका दिवसापेक्षा जास्त काळ गहाळ, नंतर हिरवा. सर्व तारखा ऐतिहासिक डेमोचे अनुसरण करतात."
+  },
+  "asha.filterVillage": {
+    "source": "Filter by village",
+    "value": "गावानुसार फिल्टर करा"
+  },
+  "asha.allVillages": {
+    "source": "All villages",
+    "value": "सर्व गावे"
+  },
+  "asha.noVillage": {
+    "source": "Village not recorded",
+    "value": "गावाची नोंद नाही"
+  },
+  "asha.noHouse": {
+    "source": "House not recorded",
+    "value": "घराची नोंद नाही"
+  },
+  "asha.noReasons": {
+    "source": "No alert reasons recorded",
+    "value": "कोणतीही अलर्ट कारणे रेकॉर्ड केलेली नाहीत"
+  },
+  "asha.lastCheckin": {
+    "source": "Last recorded check-in",
+    "value": "शेवटचे रेकॉर्ड केलेले चेक-इन"
+  },
+  "asha.lastVisit": {
+    "source": "Last ASHA visit",
+    "value": "शेवटची ASHA भेट"
+  },
+  "asha.never": {
+    "source": "None recorded",
+    "value": "काहीही रेकॉर्ड केले नाही"
+  },
+  "asha.openVisit": {
+    "source": "Open visit form",
+    "value": "भेट फॉर्म उघडा"
+  },
+  "asha.noPatients": {
+    "source": "No elders match this village.",
+    "value": "या गावात कोणतेही वडील जुळत नाहीत."
+  },
+  "asha.previousVisits": {
+    "source": "Saved visits",
+    "value": "जतन केलेल्या भेटी"
+  },
+  "asha.visitSaved": {
+    "source": "Visit saved offline",
+    "value": "ऑफलाइन सेव्ह केलेली भेट"
+  },
+  "asha.seen": {
+    "source": "Seen by ASHA",
+    "value": "ASHA ने पाहिले"
+  },
+  "asha.localStop": {
+    "source": "Follow-up closed on this phone. The device light stays unchanged.",
+    "value": "या फोनवर फॉलो-अप बंद आहे. डिव्हाइस लाइट अपरिवर्तित राहतो."
+  },
+  "asha.deliveryHelp": {
+    "source": "Device/PHC delivery is pending. Nothing has been sent automatically.",
+    "value": "डिव्हाइस/PHC वितरण प्रलंबित आहे. काहीही आपोआप पाठवले गेले नाही."
+  },
+  "asha.location": {
+    "source": "Village, house and PHC contact",
+    "value": "गाव, घर आणि PHC संपर्क"
+  },
+  "asha.village": {
+    "source": "Village",
+    "value": "गाव"
+  },
+  "asha.house": {
+    "source": "House / landmark",
+    "value": "घर / खूण"
+  },
+  "asha.phcPhone": {
+    "source": "PHC phone number",
+    "value": "PHC फोन नंबर"
+  },
+  "asha.saveLocation": {
+    "source": "Save location and contact",
+    "value": "स्थान आणि संपर्क जतन करा"
+  },
+  "asha.locationSaved": {
+    "source": "Location and contact saved.",
+    "value": "स्थान आणि संपर्क जतन केला."
+  },
+  "asha.visitForm": {
+    "source": "ASHA visit form",
+    "value": "ASHA भेट फॉर्म"
+  },
+  "asha.formScope": {
+    "source": "Record observations from the visit. These do not overwrite the device readings.",
+    "value": "भेटीतील निरीक्षणे रेकॉर्ड करा. हे डिव्हाइस रीडिंग ओव्हरराईट करत नाहीत."
+  },
+  "asha.observations": {
+    "source": "Visit observations",
+    "value": "निरीक्षणांना भेट द्या"
+  },
+  "asha.systolic": {
+    "source": "BP systolic (mmHg, optional)",
+    "value": "BP सिस्टोलिक (mmHg, पर्यायी)"
+  },
+  "asha.diastolic": {
+    "source": "BP diastolic (mmHg, optional)",
+    "value": "बीपी डायस्टोलिक (mmHg, पर्यायी)"
+  },
+  "asha.visitWeight": {
+    "source": "Visit weight in kg (optional, if no check-in device)",
+    "value": "वजन किलोमध्ये भेट द्या (पर्यायी, चेक-इन डिव्हाइस नसल्यास)"
+  },
+  "asha.swelling": {
+    "source": "Ankle swelling grade",
+    "value": "घोट्याच्या सूज ग्रेड"
+  },
+  "asha.gradeHelp": {
+    "source": "Use reviewed photo references when available; otherwise drawings are illustrative. Use your training to choose a grade.",
+    "value": "उपलब्ध असताना पुनरावलोकन केलेले फोटो संदर्भ वापरा; अन्यथा रेखाचित्रे उदाहरणात्मक आहेत. ग्रेड निवडण्यासाठी तुमचे प्रशिक्षण वापरा."
+  },
+  "asha.breathless": {
+    "source": "Breathless at rest?",
+    "value": "विश्रांती घेताना श्वासोच्छवास होतो?"
+  },
+  "asha.pillows": {
+    "source": "Needed extra pillows?",
+    "value": "अतिरिक्त उशांची गरज आहे?"
+  },
+  "asha.medicinesSeen": {
+    "source": "Medicines seen at the visit",
+    "value": "भेटीत पाहिली औषधे"
+  },
+  "asha.anklePhoto": {
+    "source": "Ankle photo (optional)",
+    "value": "घोट्याचा फोटो (पर्यायी)"
+  },
+  "asha.removePhoto": {
+    "source": "Remove photo",
+    "value": "फोटो काढा"
+  },
+  "asha.notes": {
+    "source": "Visit notes",
+    "value": "नोट्स भेट द्या"
+  },
+  "asha.notesHelp": {
+    "source": "Type or dictate locally. Review the transcript before saving. Voice stops after one minute.",
+    "value": "स्थानिक पातळीवर टाइप करा किंवा हुकूम द्या. सेव्ह करण्यापूर्वी उताऱ्याचे पुनरावलोकन करा. एका मिनिटानंतर आवाज थांबतो."
+  },
+  "asha.dictate": {
+    "source": "Dictate visit notes",
+    "value": "भेट टिपा लिहा"
+  },
+  "asha.outcome": {
+    "source": "Visit outcome",
+    "value": "निकालाला भेट द्या"
+  },
+  "asha.choose": {
+    "source": "Choose an answer",
+    "value": "उत्तर निवडा"
+  },
+  "asha.referralReason": {
+    "source": "Reason for referral / follow-up",
+    "value": "रेफरल / फॉलो-अपचे कारण"
+  },
+  "asha.callScope": {
+    "source": "Choosing “Called 108” only records what happened. Calling needs a separate dialler tap.",
+    "value": "\"कॉल केलेले 108\" निवडणे केवळ काय घडले ते रेकॉर्ड करते. कॉल करण्यासाठी स्वतंत्र डायलर टॅप आवश्यक आहे."
+  },
+  "asha.saveVisit": {
+    "source": "Save visit and mark seen",
+    "value": "भेट आणि चिन्ह पाहिले जतन करा"
+  },
+  "asha.saveFailed": {
+    "source": "Could not save. Check both BP values, required answers, medicines and referral reason, then retry.",
+    "value": "जतन करू शकलो नाही. दोन्ही बीपी मूल्ये, आवश्यक उत्तरे, औषधे आणि रेफरल कारण तपासा, नंतर पुन्हा प्रयत्न करा."
+  },
+  "asha.notRecorded": {
+    "source": "Not recorded",
+    "value": "रेकॉर्ड केलेले नाही"
+  },
+  "asha.bp": {
+    "source": "Blood pressure",
+    "value": "रक्तदाब"
+  },
+  "asha.referral": {
+    "source": "Referral slip",
+    "value": "रेफरल स्लिप"
+  },
+  "asha.thirtyDays": {
+    "source": "Last 30 days at visit date",
+    "value": "भेटीच्या तारखेला शेवटचे 30 दिवस"
+  },
+  "asha.lastReading": {
+    "source": "Latest usable check-in",
+    "value": "नवीनतम वापरण्यायोग्य चेक-इन"
+  },
+  "asha.visitId": {
+    "source": "Visit reference",
+    "value": "संदर्भास भेट द्या"
+  },
+  "asha.pdfImageNote": {
+    "source": "Text is rendered as an image to preserve Hindi shaping. This PDF is not searchable or a signed clinician document.",
+    "value": "हिंदी आकार टिकवून ठेवण्यासाठी मजकूर प्रतिमा म्हणून प्रस्तुत केला जातो. ही पीडीएफ शोधण्यायोग्य किंवा स्वाक्षरी केलेला चिकित्सक दस्तऐवज नाही."
+  },
+  "asha.weekly": {
+    "source": "Weekly PHC summary",
+    "value": "साप्ताहिक PHC सारांश"
+  },
+  "asha.visitCount": {
+    "source": "Visits",
+    "value": "भेटी"
+  },
+  "asha.eldersVisited": {
+    "source": "Distinct elders visited",
+    "value": "वेगळ्या वडिलांनी भेट दिली"
+  },
+  "asha.redDayCount": {
+    "source": "Red check-in days",
+    "value": "लाल चेक-इन दिवस"
+  },
+  "asha.redElderCount": {
+    "source": "Distinct elders with red readings",
+    "value": "लाल वाचन असलेले वेगळे वडील"
+  },
+  "asha.referrals": {
+    "source": "Visits marked referred",
+    "value": "संदर्भित चिन्हांकित भेटी"
+  },
+  "asha.calls108": {
+    "source": "Visits recorded as called 108",
+    "value": "108 म्हणून रेकॉर्ड केलेल्या भेटी"
+  },
+  "asha.countScope": {
+    "source": "Seven calendar days ending on the replay date. Red counts use recorded device results; visits do not clear them.",
+    "value": "सात कॅलेंडर दिवस रिप्लेच्या तारखेला संपतात. लाल संख्या रेकॉर्ड केलेले डिव्हाइस परिणाम वापरतात; भेटी त्यांना साफ करत नाहीत."
+  },
+  "asha.reportPreview": {
+    "source": "Report content preview",
+    "value": "सामग्री पूर्वावलोकनाचा अहवाल द्या"
+  },
+  "asha.exportConsent": {
+    "source": "I reviewed this content and consent to exporting or showing it outside the encrypted vault.",
+    "value": "मी या सामग्रीचे पुनरावलोकन केले आणि ती एन्क्रिप्टेड व्हॉल्टच्या बाहेर निर्यात करण्यास किंवा दर्शविण्यास संमती दिली."
+  },
+  "asha.downloadPDF": {
+    "source": "Download PDF",
+    "value": "PDF डाउनलोड करा"
+  },
+  "asha.exportReady": {
+    "source": "PDF downloaded. Its hash is recorded in the encrypted audit trail.",
+    "value": "PDF डाउनलोड केली. त्याची हॅश एन्क्रिप्टेड ऑडिट ट्रेलमध्ये रेकॉर्ड केली आहे."
+  },
+  "asha.exportFailed": {
+    "source": "Could not prepare the export. Retry while records are unlocked.",
+    "value": "निर्यात तयार करू शकलो नाही. रेकॉर्ड अनलॉक असताना पुन्हा प्रयत्न करा."
+  },
+  "asha.sharePDF": {
+    "source": "Share PDF",
+    "value": "PDF शेअर करा"
+  },
+  "asha.shareOpened": {
+    "source": "Share request handed to the device. Delivery is not confirmed.",
+    "value": "शेअर करण्याची विनंती डिव्हाइसला दिली. वितरण पुष्टी नाही."
+  },
+  "asha.shareUnavailable": {
+    "source": "File sharing is unavailable here. Share the downloaded PDF from your phone.",
+    "value": "फाइल शेअरिंग येथे अनुपलब्ध आहे. तुमच्या फोनवरून डाउनलोड केलेली PDF शेअर करा."
+  },
+  "asha.shareCancelled": {
+    "source": "Sharing cancelled or unavailable.",
+    "value": "शेअरिंग रद्द किंवा अनुपलब्ध."
+  },
+  "asha.qrPrivacy": {
+    "source": "The QR contains an unencrypted short referral summary, not the full PDF or a secure link. Show it only to the intended care team.",
+    "value": "QR मध्ये कूटबद्ध न केलेला लहान रेफरल सारांश आहे, पूर्ण PDF किंवा सुरक्षित लिंक नाही. हे केवळ इच्छित काळजी टीमला दाखवा."
+  },
+  "asha.showQR": {
+    "source": "Show referral QR",
+    "value": "रेफरल QR दाखवा\nलहान रेफरल सारांशासह"
+  },
+  "asha.qrAlt": {
+    "source": "QR with short referral summary",
+    "value": "QR"
+  },
+  "asha.hideQR": {
+    "source": "Hide QR",
+    "value": "QR लपवा"
+  },
+  "asha.smsHelp": {
+    "source": "Review the PHC number below. Open an SMS draft to send the weekly counts using cellular SMS, even without internet. The app cannot confirm sending or delivery.",
+    "value": "खालील PHC क्रमांकाचे पुनरावलोकन करा. सेल्युलर एसएमएस वापरून साप्ताहिक संख्या पाठवण्यासाठी एसएमएस मसुदा उघडा, अगदी इंटरनेटशिवाय. ॲप पाठवण्याची किंवा वितरणाची पुष्टी करू शकत नाही."
+  },
+  "asha.openSMS": {
+    "source": "Open PHC SMS draft",
+    "value": "PHC SMS मसुदा उघडा"
+  },
+  "asha.noPHC": {
+    "source": "Enter a valid PHC number to prepare the SMS draft.",
+    "value": "SMS मसुदा तयार करण्यासाठी वैध PHC क्रमांक प्रविष्ट करा."
+  },
+  "asha.missedDays_one": {
+    "source": "{{count}} day without check-in",
+    "value": "चेक-इन शिवाय {{count}} दिवस"
+  },
+  "asha.missedDays_other": {
+    "source": "{{count}} days without check-in",
+    "value": "{{count}} दिवस चेक-इन न करता"
+  },
+  "asha.daysAgo_one": {
+    "source": "{{count}} day ago",
+    "value": "{{count}} दिवसांपूर्वी"
+  },
+  "asha.daysAgo_other": {
+    "source": "{{count}} days ago",
+    "value": "{{count}} दिवसांपूर्वी"
+  },
+  "asha.daysRecorded_one": {
+    "source": "{{count}} usable check-in day",
+    "value": "{{count}} वापरण्यायोग्य चेक-इन दिवस"
+  },
+  "asha.daysRecorded_other": {
+    "source": "{{count}} usable check-in days",
+    "value": "{{count}} वापरण्यायोग्य चेक-इन दिवस"
+  },
+  "asha.redDays_one": {
+    "source": "{{count}} red day",
+    "value": "{{count}} लाल दिवस"
+  },
+  "asha.redDays_other": {
+    "source": "{{count}} red days",
+    "value": "{{count}} लाल दिवस"
+  },
+  "asha.amberDays_one": {
+    "source": "{{count}} amber day",
+    "value": "{{count}} एम्बर डे"
+  },
+  "asha.amberDays_other": {
+    "source": "{{count}} amber days",
+    "value": "{{count}} एम्बर दिवस"
+  },
+  "asha.outcomes.fine": {
+    "source": "Fine",
+    "value": "ठीक आहे"
+  },
+  "asha.outcomes.advised": {
+    "source": "Advised",
+    "value": "सल्ला दिला"
+  },
+  "asha.outcomes.referred": {
+    "source": "Referred",
+    "value": "संदर्भित"
+  },
+  "asha.outcomes.called108": {
+    "source": "Called 108",
+    "value": "108 वर कॉल केला"
+  },
+  "asha.saveDraft": {
+    "source": "Save encrypted visit draft",
+    "value": "एन्क्रिप्ट केलेला भेट मसुदा जतन करा"
+  },
+  "asha.draftSaved": {
+    "source": "Draft saved. Unlock and reopen this elder to continue.",
+    "value": "मसुदा जतन केला. सुरू ठेवण्यासाठी हे वडील अनलॉक करा आणि पुन्हा उघडा."
+  },
+  "asha.draftRestored": {
+    "source": "Encrypted visit draft is available.",
+    "value": "एन्क्रिप्टेड भेट मसुदा उपलब्ध आहे."
+  },
+  "doctor.unlock": {
+    "source": "Unlock Doctor workspace",
+    "value": "डॉक्टर वर्कस्पेस अनलॉक करा"
+  },
+  "doctor.patients": {
+    "source": "Doctor patient list",
+    "value": "डॉक्टर रुग्णांची यादी"
+  },
+  "doctor.name": {
+    "source": "Doctor name for this demo",
+    "value": "या डेमोसाठी डॉक्टरांचे नाव"
+  },
+  "doctor.identity": {
+    "source": "Names identify demo entries only. This phone does not verify clinical credentials.",
+    "value": "नावे केवळ डेमो नोंदी ओळखतात. हा फोन क्लिनिकल क्रेडेन्शियल्सची पडताळणी करत नाही."
+  },
+  "doctor.filterPHC": {
+    "source": "Filter by PHC",
+    "value": "PHC नुसार फिल्टर करा"
+  },
+  "doctor.allPHC": {
+    "source": "All PHCs",
+    "value": "सर्व PHC"
+  },
+  "doctor.noPHC": {
+    "source": "PHC not assigned",
+    "value": "PHC नियुक्त केलेले नाही"
+  },
+  "doctor.noPatients": {
+    "source": "No patients match this PHC.",
+    "value": "कोणताही रुग्ण या PHC शी जुळत नाही."
+  },
+  "doctor.sections": {
+    "source": "Doctor sections",
+    "value": "डॉक्टर विभाग"
+  },
+  "doctor.timeline": {
+    "source": "Patient timeline",
+    "value": "रुग्णाची टाइमलाइन"
+  },
+  "doctor.plan": {
+    "source": "Care plan",
+    "value": "काळजी योजना"
+  },
+  "doctor.labs": {
+    "source": "Lab results",
+    "value": "लॅब परिणाम"
+  },
+  "doctor.notes": {
+    "source": "Consult notes",
+    "value": "टिपांचा सल्ला घ्या"
+  },
+  "doctor.training": {
+    "source": "Reviewed photo references",
+    "value": "फोटो संदर्भांचे पुनरावलोकन केले"
+  },
+  "doctor.phcAssignment": {
+    "source": "PHC assignment",
+    "value": "PHC असाइनमेंट"
+  },
+  "doctor.phcName": {
+    "source": "PHC name",
+    "value": "PHC नाव"
+  },
+  "doctor.savePHC": {
+    "source": "Save PHC assignment",
+    "value": "PHC असाइनमेंट सेव्ह करा"
+  },
+  "doctor.saved": {
+    "source": "Saved with an audit entry.",
+    "value": "ऑडिट एंट्रीसह जतन केले."
+  },
+  "doctor.planEditor": {
+    "source": "Doctor plan editor",
+    "value": "डॉक्टर योजना संपादक"
+  },
+  "doctor.planHelp": {
+    "source": "Enter the existing clinical plan. The app suggests no treatment. New versions start on the selected replay day.",
+    "value": "विद्यमान क्लिनिकल योजना प्रविष्ट करा. ॲप कोणतेही उपचार सुचवत नाही. निवडलेल्या रिप्लेच्या दिवशी नवीन आवृत्त्या सुरू होतात."
+  },
+  "doctor.dryWeight": {
+    "source": "Target dry weight (kg)",
+    "value": "लक्ष्य कोरडे वजन (किलो)"
+  },
+  "doctor.fluidLimit": {
+    "source": "Daily fluid limit (litres)",
+    "value": "दैनिक द्रव मर्यादा (लिटर)"
+  },
+  "doctor.salt": {
+    "source": "Salt advice",
+    "value": "मीठ सल्ला"
+  },
+  "doctor.followUp": {
+    "source": "Follow-up date",
+    "value": "फॉलो-अप तारीख"
+  },
+  "doctor.confirmPlan": {
+    "source": "I reviewed these instructions and want to save a new plan version.",
+    "value": "मी या सूचनांचे पुनरावलोकन केले आणि नवीन योजना आवृत्ती जतन करू इच्छितो."
+  },
+  "doctor.savePlan": {
+    "source": "Save doctor plan",
+    "value": "डॉक्टर योजना जतन करा"
+  },
+  "doctor.planSaved": {
+    "source": "Plan version saved. Family and ASHA can see it locally; device delivery is pending.",
+    "value": "योजना आवृत्ती जतन केली. कुटुंब आणि आशा हे स्थानिक पातळीवर पाहू शकतात; साधन वितरण प्रलंबित आहे."
+  },
+  "doctor.enteredBy": {
+    "source": "Doctor demo entry by {{name}}. Identity is unverified.",
+    "value": "{{name}} द्वारे डॉक्टर डेमो एंट्री. ओळख असत्यापित आहे."
+  },
+  "doctor.effectiveDate": {
+    "source": "Plan starts on",
+    "value": "योजना सुरू होईल"
+  },
+  "doctor.sensitivity": {
+    "source": "Alert sensitivity",
+    "value": "इशारा संवेदनशीलता"
+  },
+  "doctor.standard": {
+    "source": "Standard",
+    "value": "मानक"
+  },
+  "doctor.high": {
+    "source": "More sensitive",
+    "value": "अधिक संवेदनशील"
+  },
+  "doctor.sensitivityHelp": {
+    "source": "Compare the frozen engine on this synthetic history. Saving changes the app setting, not recorded device results.",
+    "value": "या सिंथेटिक इतिहासावर गोठलेल्या इंजिनची तुलना करा. सेव्ह केल्याने ॲप सेटिंग बदलते, रेकॉर्ड केलेले डिव्हाइस परिणाम नाही."
+  },
+  "doctor.preview": {
+    "source": "Synthetic what-if result",
+    "value": "सिंथेटिक काय-तर परिणाम"
+  },
+  "doctor.confirmSensitivity": {
+    "source": "Save this threshold with my name. Device update remains pending.",
+    "value": "माझ्या नावासह हा थ्रेशोल्ड जतन करा. डिव्हाइस अद्यतन प्रलंबित राहते."
+  },
+  "doctor.saveSensitivity": {
+    "source": "Save sensitivity",
+    "value": "संवेदनशीलता जतन करा"
+  },
+  "doctor.sensitivitySaved": {
+    "source": "Sensitivity changed and audited. Recorded lights are unchanged.",
+    "value": "संवेदनशीलता बदलली आणि ऑडिट केले. रेकॉर्ड केलेले दिवे अपरिवर्तित आहेत."
+  },
+  "doctor.labHelp": {
+    "source": "Copy the reported value, date and unit. No normal range or treatment advice is inferred.",
+    "value": "नोंदवलेले मूल्य, तारीख आणि युनिट कॉपी करा. कोणतीही सामान्य श्रेणी किंवा उपचार सल्ला अनुमानित नाही."
+  },
+  "doctor.labTest": {
+    "source": "Lab test",
+    "value": "प्रयोगशाळा चाचणी"
+  },
+  "doctor.resultDate": {
+    "source": "Lab date",
+    "value": "प्रयोगशाळेची तारीख"
+  },
+  "doctor.labValue": {
+    "source": "Reported value",
+    "value": "नोंदवलेले मूल्य"
+  },
+  "doctor.labUnit": {
+    "source": "Reported unit",
+    "value": "नोंदवलेले युनिट"
+  },
+  "doctor.saveLab": {
+    "source": "Save lab result",
+    "value": "प्रयोगशाळेचा निकाल जतन करा"
+  },
+  "doctor.labSaved": {
+    "source": "Lab result saved with author and audit.",
+    "value": "प्रयोगशाळेचा निकाल लेखक आणि ऑडिटसह जतन केला गेला."
+  },
+  "doctor.noLabs": {
+    "source": "No lab results recorded for this date range.",
+    "value": "या तारीख श्रेणीसाठी कोणतेही प्रयोगशाळेचे परिणाम रेकॉर्ड केलेले नाहीत."
+  },
+  "doctor.noteHelp": {
+    "source": "Notes are shared with Family and ASHA on this phone. Saved notes are append-only.",
+    "value": "नोट्स या फोनवर कुटुंब आणि ASHA सह सामायिक केल्या आहेत. जतन केलेल्या नोट्स फक्त जोडलेल्या आहेत."
+  },
+  "doctor.noteDate": {
+    "source": "Consult date",
+    "value": "सल्ला तारीख"
+  },
+  "doctor.noteText": {
+    "source": "Consult note text",
+    "value": "टीप मजकूराचा सल्ला घ्या"
+  },
+  "doctor.saveNote": {
+    "source": "Save consult note",
+    "value": "सल्ला नोट जतन करा"
+  },
+  "doctor.noteSaved": {
+    "source": "Consult note saved and shared locally.",
+    "value": "सल्ला टिपा जतन आणि स्थानिक पातळीवर शेअर."
+  },
+  "doctor.sharedNotes": {
+    "source": "Doctor's consult notes",
+    "value": "डॉक्टरांच्या सल्ला नोट्स"
+  },
+  "doctor.timelineHelp": {
+    "source": "Events end on the replay date. Recording timestamps show when this demo phone saved them. Delivery entries are local pending steps.",
+    "value": "इव्हेंट रिप्लेच्या तारखेला संपतात. रेकॉर्डिंग टाइमस्टॅम्प या डेमो फोनने ते कधी सेव्ह केले ते दाखवतात. वितरण नोंदी स्थानिक प्रलंबित पायऱ्या आहेत."
+  },
+  "doctor.filterEvents": {
+    "source": "Filter timeline events",
+    "value": "टाइमलाइन इव्हेंट फिल्टर करा"
+  },
+  "doctor.allEvents": {
+    "source": "All event types",
+    "value": "सर्व इव्हेंट प्रकार"
+  },
+  "doctor.loadEarlier": {
+    "source": "Show 20 more events",
+    "value": "आणखी 20 कार्यक्रम दाखवा"
+  },
+  "doctor.noEvents": {
+    "source": "No events of this type yet.",
+    "value": "अद्याप या प्रकारचे कोणतेही कार्यक्रम नाहीत."
+  },
+  "doctor.by": {
+    "source": "Recorded by",
+    "value": "द्वारे रेकॉर्ड केलेले"
+  },
+  "doctor.recordedAt": {
+    "source": "Saved on this phone at",
+    "value": "येथे या फोनवर जतन केले"
+  },
+  "doctor.readings": {
+    "source": "Recorded readings",
+    "value": "रेकॉर्ड केलेले वाचन"
+  },
+  "doctor.familyPlanHelp": {
+    "source": "Doctor plan text is managed in Doctor mode. You can update the contact number here.",
+    "value": "डॉक्टर योजना मजकूर डॉक्टर मोडमध्ये व्यवस्थापित केला जातो. तुम्ही येथे संपर्क क्रमांक अपडेट करू शकता."
+  },
+  "doctor.noIntakeLog": {
+    "source": "Intake has not been logged, so remaining allowance is unknown.",
+    "value": "सेवन लॉग केले गेले नाही, त्यामुळे उर्वरित भत्ता अज्ञात आहे."
+  },
+  "doctor.trainingHelp": {
+    "source": "Upload consented, clinically reviewed reference photos for grades 0–3. The named uploader attests review; the app cannot validate grading or credentials.",
+    "value": "ग्रेड 0-3 साठी संमती, वैद्यकीयदृष्ट्या पुनरावलोकन केलेले संदर्भ फोटो अपलोड करा. नामांकित अपलोडर पुनरावलोकन साक्षांकित करतो; ॲप ग्रेडिंग किंवा क्रेडेन्शियल प्रमाणित करू शकत नाही."
+  },
+  "doctor.examplePhoto": {
+    "source": "Reviewed example photo",
+    "value": "पुनरावलोकन केलेले उदाहरण फोटो"
+  },
+  "doctor.exampleSource": {
+    "source": "Source / permission reference",
+    "value": "स्त्रोत / परवानगी संदर्भ"
+  },
+  "doctor.exampleConfirm": {
+    "source": "I have permission to use this photo and reviewed its grade for training.",
+    "value": "मला हा फोटो वापरण्याची परवानगी आहे आणि प्रशिक्षणासाठी त्याच्या श्रेणीचे पुनरावलोकन केले आहे."
+  },
+  "doctor.saveExample": {
+    "source": "Save reviewed example",
+    "value": "पुनरावलोकन केलेले उदाहरण जतन करा"
+  },
+  "doctor.exampleSaved": {
+    "source": "Reference photo saved for the ASHA grade options.",
+    "value": "ASHA ग्रेड पर्यायांसाठी संदर्भ फोटो जतन केला."
+  },
+  "doctor.exampleGrade": {
+    "source": "Grade {{grade}} reference",
+    "value": "ग्रेड {{grade}} संदर्भ"
+  },
+  "doctor.reviewedBy": {
+    "source": "Review recorded by",
+    "value": "द्वारे रेकॉर्ड केलेले पुनरावलोकन"
+  },
+  "doctor.removeExample": {
+    "source": "Remove reference photo",
+    "value": "संदर्भ फोटो काढा"
+  },
+  "doctor.tests.Na": {
+    "source": "Sodium (Na)",
+    "value": "सोडियम (Na)"
+  },
+  "doctor.tests.K": {
+    "source": "Potassium (K)",
+    "value": "पोटॅशियम (K)"
+  },
+  "doctor.tests.Creatinine": {
+    "source": "Creatinine",
+    "value": "क्रिएटिनिन"
+  },
+  "doctor.tests.eGFR": {
+    "source": "eGFR",
+    "value": "eGFR"
+  },
+  "doctor.tests.NTproBNP": {
+    "source": "NT-proBNP",
+    "value": "NT-proBNP"
+  },
+  "doctor.tests.Hb": {
+    "source": "Haemoglobin (Hb)",
+    "value": "हिमोग्लोबिन (Hb)"
+  },
+  "doctor.events.checkin": {
+    "source": "Check-in",
+    "value": "चेक-इन"
+  },
+  "doctor.events.alert": {
+    "source": "Care alert",
+    "value": "काळजी इशारा"
+  },
+  "doctor.events.response": {
+    "source": "Family response",
+    "value": "कौटुंबिक प्रतिसाद"
+  },
+  "doctor.events.visit": {
+    "source": "ASHA visit",
+    "value": "ASHA भेट"
+  },
+  "doctor.events.dose": {
+    "source": "Medicine dose",
+    "value": "औषधाचा डोस"
+  },
+  "doctor.events.lab": {
+    "source": "Lab result",
+    "value": "प्रयोगशाळेचा निकाल"
+  },
+  "doctor.events.note": {
+    "source": "Consult note",
+    "value": "सल्ला टिप"
+  },
+  "doctor.events.plan": {
+    "source": "Plan version",
+    "value": "योजना आवृत्ती"
+  },
+  "doctor.events.sensitivity": {
+    "source": "Sensitivity change",
+    "value": "संवेदनशीलता बदल"
+  },
+  "doctor.events.delivery": {
+    "source": "Pending delivery step",
+    "value": "प्रलंबित वितरण चरण"
+  },
+  "doctor.pendingTypes.doctor-plan": {
+    "source": "Care plan awaiting device delivery",
+    "value": "काळजी योजना डिव्हाइस वितरणाच्या प्रतीक्षेत आहे"
+  },
+  "doctor.pendingTypes.sensitivity-update": {
+    "source": "Threshold awaiting device delivery",
+    "value": "थ्रेशोल्ड डिव्हाइस वितरणाच्या प्रतीक्षेत आहे"
+  },
+  "doctor.pendingTypes.asha-seen": {
+    "source": "ASHA acknowledgement awaiting device delivery",
+    "value": "आशा पोचपावती डिव्हाइस वितरणाच्या प्रतीक्षेत आहे"
+  },
+  "doctor.pendingTypes.alert-response": {
+    "source": "Family response awaiting delivery",
+    "value": "कुटुंबाचा प्रतिसाद वितरणाच्या प्रतीक्षेत आहे"
+  },
+  "doctor.pendingTypes.missed-checkin": {
+    "source": "Missed check-in notice",
+    "value": "चुकलेली चेक-इन सूचना"
+  },
+  "doctor.pendingTypes.missed-dose": {
+    "source": "Missed medicine notice",
+    "value": "औषधाची सूचना चुकली"
+  },
+  "doctor.pendingTypes.missed-practice-dose": {
+    "source": "Missed practice dose notice",
+    "value": "चुकलेली सराव डोस सूचना"
+  },
+  "polish.display": {
+    "source": "Display and audio",
+    "value": "डिस्प्ले आणि ऑडिओ"
+  },
+  "polish.theme": {
+    "source": "Colour theme",
+    "value": "रंगीत थीम"
+  },
+  "polish.light": {
+    "source": "Light",
+    "value": "प्रकाश"
+  },
+  "polish.dark": {
+    "source": "Dark",
+    "value": "गडद"
+  },
+  "polish.contrast": {
+    "source": "High contrast",
+    "value": "उच्च कॉन्ट्रास्ट"
+  },
+  "polish.large": {
+    "source": "Larger text",
+    "value": "मोठा मजकूर"
+  },
+  "polish.elderContrast": {
+    "source": "Elder mode always uses high contrast.",
+    "value": "एल्डर मोड नेहमी उच्च कॉन्ट्रास्ट वापरतो."
+  },
+  "polish.draft": {
+    "source": "Machine translation · needs review. Voice recognition and reports support English/Hindi.",
+    "value": "मशीन भाषांतर · पुनरावलोकन आवश्यक आहे. आवाज ओळख आणि अहवाल इंग्रजी/हिंदीला समर्थन देतात."
+  },
+  "polish.needsReview": {
+    "source": "Needs review",
+    "value": "पुनरावलोकन आवश्यक आहे"
+  },
+  "polish.audio": {
+    "source": "Hindi offline audio",
+    "value": "हिंदी ऑफलाइन ऑडिओ"
+  },
+  "polish.audioHelp": {
+    "source": "40 synthetic Hindi clips are saved with the app. They are not human recordings and need listening review.",
+    "value": "40 सिंथेटिक हिंदी क्लिप ॲपसह सेव्ह केल्या आहेत. ते मानवी रेकॉर्डिंग नाहीत आणि ऐकण्यासाठी पुनरावलोकन आवश्यक आहे."
+  },
+  "polish.playAudio": {
+    "source": "Play Hindi greeting",
+    "value": "हिंदी ग्रीटिंग प्ले करा"
+  },
+  "polish.stopAudio": {
+    "source": "Stop audio",
+    "value": "ऑडिओ थांबवा"
+  },
+  "polish.audioUnavailable": {
+    "source": "This exact message needs an installed local voice. Read the visible text or ask your caregiver.",
+    "value": "या अचूक संदेशास स्थापित स्थानिक आवाज आवश्यक आहे. दृश्यमान मजकूर वाचा किंवा आपल्या काळजीवाहू व्यक्तीला विचारा."
+  },
+  "polish.languageFailed": {
+    "source": "Could not switch language. Try again.",
+    "value": "भाषा बदलू शकलो नाही. पुन्हा प्रयत्न करा."
+  },
+  "polish.loading": {
+    "source": "Loading this view…",
+    "value": "हे दृश्य लोड करत आहे..."
+  },
+  "polish.reportLanguage": {
+    "source": "Clinical PDF output is English/Hindi only.",
+    "value": "क्लिनिकल PDF आउटपुट फक्त इंग्रजी/हिंदी आहे."
+  },
+  "polish.voiceLanguages": {
+    "source": "Voice recognition supports English and Hindi only.",
+    "value": "आवाज ओळख केवळ इंग्रजी आणि हिंदीला समर्थन देते."
+  },
+  "_meta.status": {
+    "source": "needs review",
+    "value": "पुनरावलोकन आवश्यक आहे"
+  },
+  "_meta.source": {
+    "source": "authored demo",
+    "value": "लेखक डेमो"
+  },
+  "extra.ca261a12a": {
+    "source": "Device acknowledged command.",
+    "value": "डिव्हाइसने आज्ञा स्वीकारली."
+  },
+  "extra.cc4436d38": {
+    "source": "Device rejected command.",
+    "value": "डिव्हाइसने आदेश नाकारला."
+  },
+  "extra.c84212f3b": {
+    "source": "Rejected malformed message or wrong device patient ID.",
+    "value": "नाकारलेला विकृत संदेश किंवा चुकीचा डिव्हाइस रुग्ण आयडी."
+  },
+  "extra.c95cd6162": {
+    "source": "Device disconnected. Reconnect explicitly.",
+    "value": "डिव्हाइस डिस्कनेक्ट झाले. स्पष्टपणे पुन्हा कनेक्ट करा."
+  },
+  "extra.c8d278047": {
+    "source": "Connection cancelled, unavailable, or failed. Check permissions, HTTPS and device firmware.",
+    "value": "कनेक्शन रद्द, अनुपलब्ध किंवा अयशस्वी. परवानग्या, HTTPS आणि डिव्हाइस फर्मवेअर तपासा."
+  },
+  "extra.c22b7424c": {
+    "source": "Command written. Wait for the device result; this is not a check-in completion.",
+    "value": "आज्ञा लिहिली. डिव्हाइस निकालाची प्रतीक्षा करा; हे चेक-इन पूर्णत्व नाही."
+  },
+  "extra.cfe99095f": {
+    "source": "Command could not be sent.",
+    "value": "कमांड पाठवता आली नाही."
+  },
+  "extra.c35c8cf25": {
+    "source": "Device connection",
+    "value": "डिव्हाइस कनेक्शन"
+  },
+  "extra.c61c06756": {
+    "source": "Synthetic demo only. The amulet reaches this app through the check-in device; it is not paired directly here.",
+    "value": "केवळ सिंथेटिक डेमो. चेक-इन डिव्हाइसद्वारे ताबीज या ॲपवर पोहोचते; ते येथे थेट जोडलेले नाही."
+  },
+  "extra.cf7e37f62": {
+    "source": "Unlock the vault in Settings first.",
+    "value": "प्रथम सेटिंग्जमध्ये वॉल्ट अनलॉक करा."
+  },
+  "extra.c9e7ddd60": {
+    "source": "Selected elder",
+    "value": "निवडलेले वडील"
+  },
+  "extra.c304ff7fb": {
+    "source": "None",
+    "value": "काहीही नाही"
+  },
+  "extra.cbb185583": {
+    "source": "Connection type",
+    "value": "कनेक्शन प्रकार"
+  },
+  "extra.ca9e3445f": {
+    "source": "Built-in simulator",
+    "value": "अंगभूत सिम्युलेटर"
+  },
+  "extra.c32994413": {
+    "source": "Device patient ID",
+    "value": "डिव्हाइस रुग्ण आयडी"
+  },
+  "extra.cf5ba0fec": {
+    "source": "Create a separate linked demo elder. Existing fixture records will not be overwritten. Household limit: four.",
+    "value": "वेगळा लिंक केलेला डेमो एल्डर तयार करा. विद्यमान फिक्स्चर रेकॉर्ड ओव्हरराईट केले जाणार नाहीत. घरगुती मर्यादा: चार."
+  },
+  "extra.ca0cda96d": {
+    "source": "Create linked demo elder",
+    "value": "लिंक केलेला डेमो एल्डर तयार करा"
+  },
+  "extra.cbad5c7e0": {
+    "source": "Bound ID / transport",
+    "value": "बाउंड आयडी / वाहतूक"
+  },
+  "extra.c6d2bc482": {
+    "source": "Use Chrome in a secure context. API availability does not guarantee USB-OTG support on your Android phone. No automatic reconnection or treatment commands.",
+    "value": "सुरक्षित संदर्भात Chrome वापरा. API उपलब्धता तुमच्या Android फोनवर USB-OTG सपोर्टची हमी देत ​​नाही. कोणतेही स्वयंचलित रीकनेक्शन किंवा उपचार आदेश नाहीत."
+  },
+  "extra.cfe2e59f1": {
+    "source": "Connect device",
+    "value": "डिव्हाइस कनेक्ट करा"
+  },
+  "extra.c5dd7309f": {
+    "source": "Disconnect device",
+    "value": "डिव्हाइस डिस्कनेक्ट करा"
+  },
+  "extra.c7bf69370": {
+    "source": "Connected",
+    "value": "कनेक्ट केलेले"
+  },
+  "extra.c2d1072ca": {
+    "source": "Disconnected",
+    "value": "डिस्कनेक्ट झाले"
+  },
+  "extra.ccde2d155": {
+    "source": "Simulator scenario",
+    "value": "सिम्युलेटर परिस्थिती"
+  },
+  "extra.c2b032b6": {
+    "source": "Stable",
+    "value": "स्थिर"
+  },
+  "extra.ca203711d": {
+    "source": "Worsening",
+    "value": "बिघडत आहे"
+  },
+  "extra.c2af99026": {
+    "source": "Recovery",
+    "value": "पुनर्प्राप्ती"
+  },
+  "extra.c7f6e5e93": {
+    "source": "Start test check-in",
+    "value": "चाचणी चेक-इन सुरू करा"
+  },
+  "extra.c81395975": {
+    "source": "Run device self-test",
+    "value": "डिव्हाइस स्व-चाचणी चालवा"
+  },
+  "extra.c908bdbb5": {
+    "source": "History since",
+    "value": "पासून इतिहास"
+  },
+  "extra.cad4d5404": {
+    "source": "Invalid date",
+    "value": "अवैध तारीख"
+  },
+  "extra.caba29960": {
+    "source": "Request device history",
+    "value": "डिव्हाइस इतिहासाची विनंती करा"
+  },
+  "extra.c8f44afd6": {
+    "source": "received records awaiting review (limit 200)",
+    "value": "पुनरावलोकनाच्या प्रतीक्षेत असलेले रेकॉर्ड प्राप्त झाले (मर्यादा 200)"
+  },
+  "extra.c890143a1": {
+    "source": "Received device result",
+    "value": "डिव्हाइस परिणाम प्राप्त झाला"
+  },
+  "extra.ccc752595": {
+    "source": "Date missing - enter below",
+    "value": "तारीख गहाळ आहे - खाली प्रविष्ट करा"
+  },
+  "extra.c6457f226": {
+    "source": "Date for undated legacy packet",
+    "value": "अनडेटेड लेगसी पॅकेटसाठी तारीख"
+  },
+  "extra.cf334b4bc": {
+    "source": "Undated history cannot be imported as a batch. Date must be confirmed for each legacy check-in. Conflicting same-day records are rejected.",
+    "value": "अप्रचलित इतिहास बॅच म्हणून आयात केला जाऊ शकत नाही. प्रत्येक लेगसी चेक-इनसाठी तारखेची पुष्टी करणे आवश्यक आहे. परस्परविरोधी त्याच-दिवसाच्या नोंदी नाकारल्या जातात."
+  },
+  "extra.c88dba5c9": {
+    "source": "I checked the device ID, dates and synthetic demo records.",
+    "value": "मी डिव्हाइस आयडी, तारखा आणि सिंथेटिक डेमो रेकॉर्ड तपासले."
+  },
+  "extra.cd3a3a827": {
+    "source": "Import one undated legacy packet at a time.",
+    "value": "एका वेळी एक न केलेले लेगसी पॅकेट आयात करा."
+  },
+  "extra.c7df5dd2a": {
+    "source": "Device records saved encrypted. Recorded light preserved.",
+    "value": "डिव्हाइस रेकॉर्ड एन्क्रिप्टेड जतन केले. रेकॉर्ड केलेला प्रकाश जतन केला."
+  },
+  "extra.c6c99738": {
+    "source": "Import rejected: binding, duplicate conflict, date or storage error.",
+    "value": "आयात नाकारले: बंधनकारक, डुप्लिकेट विरोधाभास, तारीख किंवा स्टोरेज त्रुटी."
+  },
+  "extra.c278738a7": {
+    "source": "Save reviewed device records",
+    "value": "पुनरावलोकन केलेले डिव्हाइस रेकॉर्ड जतन करा"
+  },
+  "extra.c5e87e6cf": {
+    "source": "Clear received records",
+    "value": "प्राप्त रेकॉर्ड साफ करा"
+  },
+  "extra.c3f294743": {
+    "source": "Received self-test",
+    "value": "स्व-चाचणी प्राप्त केली"
+  },
+  "extra.c2fce4529": {
+    "source": "Signal",
+    "value": "सिग्नल"
+  },
+  "extra.c22228632": {
+    "source": "Device reported no problems; not independently verified.",
+    "value": "डिव्हाइसने कोणतीही समस्या नोंदवली नाही; स्वतंत्रपणे सत्यापित नाही."
+  },
+  "extra.c50e6107a": {
+    "source": "Device health saved encrypted.",
+    "value": "डिव्हाइसचे आरोग्य कूटबद्ध केलेले जतन केले."
+  },
+  "extra.ce0f84bbe": {
+    "source": "Could not save device health.",
+    "value": "डिव्हाइसचे आरोग्य जतन करू शकलो नाही."
+  },
+  "extra.c8382524": {
+    "source": "Save device health event",
+    "value": "डिव्हाइस आरोग्य इव्हेंट जतन करा"
+  },
+  "extra.c4397d5ab": {
+    "source": "Paste a device JSON line",
+    "value": "डिव्हाइस JSON लाइन पेस्ट करा"
+  },
+  "extra.c9b953f7": {
+    "source": "Device JSON",
+    "value": "डिव्हाइस JSON"
+  },
+  "extra.ce8b7be5": {
+    "source": "Read pasted message",
+    "value": "पेस्ट केलेला संदेश वाचा"
+  },
+  "extra.c23209058": {
+    "source": "Saved device health",
+    "value": "सेव्ह केलेले डिव्हाइसचे आरोग्य"
+  },
+  "extra.c740d2a38": {
+    "source": "Transfer verified. Received synthetic report; not added to patient records.",
+    "value": "हस्तांतरण सत्यापित केले. सिंथेटिक अहवाल प्राप्त झाला; रुग्णांच्या नोंदींमध्ये जोडलेले नाही."
+  },
+  "extra.c781f7d96": {
+    "source": "Invalid or conflicting frame. Reset receiver and try again.",
+    "value": "अवैध किंवा विरोधाभासी फ्रेम. रिसीव्हर रीसेट करा आणि पुन्हा प्रयत्न करा."
+  },
+  "extra.c14b39fbe": {
+    "source": "Camera decode unavailable. Paste frame text below.",
+    "value": "कॅमेरा डीकोड अनुपलब्ध. फ्रेम मजकूर खाली पेस्ट करा."
+  },
+  "extra.c91b7c10e": {
+    "source": "Camera scanning unavailable or permission denied. Paste QR frame text instead.",
+    "value": "कॅमेरा स्कॅनिंग अनुपलब्ध किंवा परवानगी नाकारली. त्याऐवजी QR फ्रेम मजकूर पेस्ट करा."
+  },
+  "extra.cfd18fe0a": {
+    "source": "PDF saved in the encrypted vault. Ready to download.",
+    "value": "PDF एन्क्रिप्टेड व्हॉल्टमध्ये सेव्ह केली आहे. डाउनलोड करण्यासाठी सज्ज."
+  },
+  "extra.c29f63a8b": {
+    "source": "Could not generate or save report. Check storage and generating name.",
+    "value": "अहवाल व्युत्पन्न किंवा जतन करू शकलो नाही. स्टोरेज आणि जनरेटिंग नाव तपासा."
+  },
+  "extra.c837cd6f9": {
+    "source": "Action failed or cancelled. Your report remains on this phone.",
+    "value": "क्रिया अयशस्वी किंवा रद्द झाली. तुमचा अहवाल या फोनवर राहील."
+  },
+  "extra.c769d4ae8": {
+    "source": "Reports",
+    "value": "अहवाल"
+  },
+  "extra.cf433ba0": {
+    "source": "Unlock synthetic records in Settings first.",
+    "value": "प्रथम सेटिंग्जमध्ये सिंथेटिक रेकॉर्ड अनलॉक करा."
+  },
+  "extra.cf90cc9da": {
+    "source": "Offline synthetic reports. Unknown age, ABHA and device readings stay unrecorded. PDFs use image pages for Hindi shaping. QR transfer carries report data and charts; the receiving phone regenerates the PDF.",
+    "value": "ऑफलाइन सिंथेटिक अहवाल. अज्ञात वय, ABHA आणि डिव्हाइस वाचन रेकॉर्ड केलेले नाहीत. हिंदी आकार देण्यासाठी PDF प्रतिमा पृष्ठे वापरतात. क्यूआर ट्रान्सफरमध्ये अहवाल डेटा आणि चार्ट असतात; प्राप्त होणारा फोन PDF पुन्हा तयार करतो."
+  },
+  "extra.c28a72c99": {
+    "source": "Report type",
+    "value": "अहवाल प्रकार"
+  },
+  "extra.cb77b082f": {
+    "source": "Generating user name",
+    "value": "वापरकर्ता नाव व्युत्पन्न करत आहे"
+  },
+  "extra.c44b33403": {
+    "source": "I reviewed this synthetic report and allow export outside the encrypted app.",
+    "value": "मी या सिंथेटिक अहवालाचे पुनरावलोकन केले आणि एनक्रिप्टेड ॲपच्या बाहेर निर्यात करण्यास अनुमती दिली."
+  },
+  "extra.ccbd2ab3e": {
+    "source": "Generate and save PDF",
+    "value": "PDF व्युत्पन्न करा आणि जतन करा"
+  },
+  "extra.c91d93381": {
+    "source": "Load saved reports",
+    "value": "जतन केलेले अहवाल लोड करा"
+  },
+  "extra.ca7791c4b": {
+    "source": "Report preview",
+    "value": "अहवाल पूर्वावलोकन"
+  },
+  "extra.cedc868b5": {
+    "source": "charts included in PDF",
+    "value": "चार्ट PDF मध्ये समाविष्ट केले आहेत"
+  },
+  "extra.c643bf50b": {
+    "source": "Download PDF",
+    "value": "PDF डाउनलोड करा"
+  },
+  "extra.c118096e8": {
+    "source": "File sharing unavailable. Download PDF and share from Files.",
+    "value": "फाइल शेअरिंग अनुपलब्ध. पीडीएफ डाउनलोड करा आणि फाइल्समधून शेअर करा."
+  },
+  "extra.cff39ce6": {
+    "source": "Share PDF",
+    "value": "पीडीएफ शेअर करा"
+  },
+  "extra.cd9be4288": {
+    "source": "PDF opened. Use the PDF viewer Print menu.",
+    "value": "PDF उघडली. पीडीएफ व्ह्यूअर प्रिंट मेनू वापरा."
+  },
+  "extra.cad82b73": {
+    "source": "Open for printing",
+    "value": "छपाईसाठी उघडा"
+  },
+  "extra.c521b3332": {
+    "source": "Offline QR transfer",
+    "value": "ऑफलाइन QR हस्तांतरण"
+  },
+  "extra.c4d0f854c": {
+    "source": "Export FHIR R4 JSON",
+    "value": "FHIR R4 JSON निर्यात करा"
+  },
+  "extra.c30ba0a32": {
+    "source": "Scan every frame",
+    "value": "प्रत्येक फ्रेम स्कॅन करा"
+  },
+  "extra.c86b50f3e": {
+    "source": "Unencrypted transfer: show only to the intended recipient. SHA-256 checks corruption, not sender identity.",
+    "value": "कूटबद्ध न केलेले हस्तांतरण: केवळ इच्छित प्राप्तकर्त्याला दाखवा. SHA-256 भ्रष्टाचार तपासते, प्रेषकाची ओळख नाही."
+  },
+  "extra.cf7a5ae24": {
+    "source": "Report transfer QR frame",
+    "value": "अहवाल हस्तांतरण QR फ्रेम"
+  },
+  "extra.cd0e5e77d": {
+    "source": "Pause frames",
+    "value": "फ्रेमला विराम द्या"
+  },
+  "extra.c91898f1b": {
+    "source": "Play frames",
+    "value": "फ्रेम प्ले करा"
+  },
+  "extra.c1d59a505": {
+    "source": "Next frame",
+    "value": "पुढील फ्रेम"
+  },
+  "extra.c786dfed6": {
+    "source": "Current frame text",
+    "value": "वर्तमान फ्रेम मजकूर"
+  },
+  "extra.cd7d7a2ee": {
+    "source": "Receive offline QR report",
+    "value": "ऑफलाइन QR अहवाल प्राप्त करा"
+  },
+  "extra.c9d571484": {
+    "source": "Frames may arrive in any order. Received content is an untrusted synthetic document, never a treatment instruction.",
+    "value": "फ्रेम कोणत्याही क्रमाने येऊ शकतात. प्राप्त सामग्री एक अविश्वासू कृत्रिम दस्तऐवज आहे, कधीही उपचार सूचना नाही."
+  },
+  "extra.c3a5ba55f": {
+    "source": "Scan with camera",
+    "value": "कॅमेरासह स्कॅन करा"
+  },
+  "extra.c76ca2c10": {
+    "source": "Stop camera",
+    "value": "कॅमेरा थांबवा"
+  },
+  "extra.c45f0e3b2": {
+    "source": "Paste QR frame",
+    "value": "QR फ्रेम पेस्ट करा"
+  },
+  "extra.cc2a9b199": {
+    "source": "Add frame",
+    "value": "फ्रेम जोडा"
+  },
+  "extra.cb27e991d": {
+    "source": "Reset receiver",
+    "value": "रिसीव्हर रीसेट करा"
+  }
+}

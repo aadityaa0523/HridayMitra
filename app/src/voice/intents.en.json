@@ -1,0 +1,114 @@
+{
+  "status_today": [
+    "how am i today",
+    "my status",
+    "read my status",
+    "how is my health",
+    "today status",
+    "show my status"
+  ],
+  "start_checkin": [
+    "start check in",
+    "check in",
+    "daily questions",
+    "start my check in",
+    "begin check in",
+    "check my health"
+  ],
+  "medicine_next": [
+    "medicine",
+    "my medicine",
+    "which medicine now",
+    "next medicine",
+    "show medicines",
+    "open medicines"
+  ],
+  "medicine_taken": [
+    "i took my medicine",
+    "medicine taken",
+    "i have taken my medicine",
+    "i took the tablet",
+    "tablet taken",
+    "mark medicine taken"
+  ],
+  "call_family": [
+    "call family",
+    "call my son",
+    "call my daughter",
+    "phone family",
+    "open family contacts",
+    "call home"
+  ],
+  "call_asha": [
+    "call asha",
+    "phone asha",
+    "call my health worker",
+    "open asha contact",
+    "contact asha",
+    "asha worker"
+  ],
+  "sos": [
+    "help",
+    "help me",
+    "i need help",
+    "emergency",
+    "get help",
+    "sos"
+  ],
+  "answer_yes": [
+    "yes",
+    "yes i did",
+    "yes today",
+    "my answer is yes",
+    "that is correct",
+    "yes please"
+  ],
+  "answer_no": [
+    "no",
+    "no i did not",
+    "not today",
+    "my answer is no",
+    "that is not correct",
+    "no thank you"
+  ],
+  "water_left": [
+    "water",
+    "water left",
+    "how much water",
+    "my water allowance",
+    "remaining water",
+    "fluid allowance"
+  ],
+  "repeat": [
+    "repeat",
+    "say again",
+    "repeat that",
+    "please repeat",
+    "say that again",
+    "once again"
+  ],
+  "read_screen": [
+    "read this",
+    "read screen",
+    "read this screen",
+    "read aloud",
+    "speak this screen",
+    "tell me what is here"
+  ],
+  "go_home": [
+    "home",
+    "go home",
+    "back home",
+    "open home",
+    "main screen",
+    "take me home"
+  ],
+  "cancel": [
+    "cancel",
+    "stop",
+    "cancel help",
+    "stop calling",
+    "do not call",
+    "cancel that"
+  ]
+}

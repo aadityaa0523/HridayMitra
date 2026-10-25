@@ -1,0 +1,338 @@
+[
+  {
+    "key": "greeting",
+    "text": "नमस्ते,",
+    "url": "/audio/hi/greeting.mp3",
+    "bytes": 8832,
+    "sha256": "0f119ca86bde76b25cdadc9588515b16f392467f4e37cd09964208676ff572b0"
+  },
+  {
+    "key": "welcome",
+    "text": "आपकी रोज़ की देखभाल का साथी",
+    "url": "/audio/hi/welcome.mp3",
+    "bytes": 22080,
+    "sha256": "2f4b537ca1798a6513f2df4c69ecf1709a59bb65e5ef4292e9b9fdce9c72d347"
+  },
+  {
+    "key": "status.green",
+    "text": "कोई चेतावनी नहीं",
+    "url": "/audio/hi/status-green.mp3",
+    "bytes": 13440,
+    "sha256": "f60db44d5b2487d5b687a808e3abe4ba225cd881ed763a8c013a4449c06faa10"
+  },
+  {
+    "key": "status.amber",
+    "text": "ध्यान देने की ज़रूरत",
+    "url": "/audio/hi/status-amber.mp3",
+    "bytes": 15744,
+    "sha256": "35d2333ad76c791afb91c4d91010db00e3da3c6f14bef627c27172aa73754ad8"
+  },
+  {
+    "key": "status.red",
+    "text": "जल्दी ध्यान देने की ज़रूरत",
+    "url": "/audio/hi/status-red.mp3",
+    "bytes": 20544,
+    "sha256": "46d8a81a1e8d2590d50cb0e9c285f3f444a99b22ea045844b0581d5ac37ac73a"
+  },
+  {
+    "key": "status.learning",
+    "text": "आपका सामान्य स्तर सीख रहे हैं",
+    "url": "/audio/hi/status-learning.mp3",
+    "bytes": 23616,
+    "sha256": "31a9030068f6a1615cd2ca3722f28da6822e33819cad18b13f4779809bead408"
+  },
+  {
+    "key": "status.unknown",
+    "text": "जाँच बाकी है",
+    "url": "/audio/hi/status-unknown.mp3",
+    "bytes": 13248,
+    "sha256": "586784004aae4e3890dff8de64ff4e5a966725439ac8cb097a2146da65b87d5a"
+  },
+  {
+    "key": "elder.q1",
+    "text": "क्या आज साँस ज़्यादा फूली?",
+    "url": "/audio/hi/elder-q1.mp3",
+    "bytes": 19776,
+    "sha256": "d950ddd5d94a417bc9c5a5bd2ac7eed9b41a005beab66be853407cd8d1b0edf1"
+  },
+  {
+    "key": "elder.q2",
+    "text": "क्या रात में ज़्यादा तकिए लगे?",
+    "url": "/audio/hi/elder-q2.mp3",
+    "bytes": 20544,
+    "sha256": "7ee04e7ea0ee34a912d18a883fe96f7ab0a359b5b91baa50bb44823e2b36cef0"
+  },
+  {
+    "key": "elder.reminder",
+    "text": "अभ्यास की दवा का याद दिलाना",
+    "url": "/audio/hi/elder-reminder.mp3",
+    "bytes": 20928,
+    "sha256": "ce7c43e602bcfdd4e3a5f01e836e677dfecf180fcaf20bcf662b1b54b7aebe76"
+  },
+  {
+    "key": "elder.taken",
+    "text": "अभ्यास की खुराक ली हुई दर्ज है।",
+    "url": "/audio/hi/elder-taken.mp3",
+    "bytes": 23616,
+    "sha256": "e886f4a5dccada2b9dc627b364c3461a1c8721f618dd5042080457e649f1a76b"
+  },
+  {
+    "key": "elder.countdown",
+    "text": "पाँच सेकंड में मदद के विकल्प खुलेंगे। रोकने को रुक जाओ बोलें।",
+    "url": "/audio/hi/elder-countdown.mp3",
+    "bytes": 43584,
+    "sha256": "f5e88e09d44a6a0a673a02fdfbaaf5dd5464490012eb81dfad0a538fb5ecb71c"
+  },
+  {
+    "key": "elder.helpReady",
+    "text": "फ़ोन करने के लिए व्यक्ति चुनें।",
+    "url": "/audio/hi/elder-helpReady.mp3",
+    "bytes": 21504,
+    "sha256": "034e5fe2721ce27d956c436e4cefa2efe7934d21a312641d71e56628c06c9a07"
+  },
+  {
+    "key": "elder.unknown",
+    "text": "कहें: दवाई, जाँच शुरू करो, मदद या घर।",
+    "url": "/audio/hi/elder-unknown.mp3",
+    "bytes": 35904,
+    "sha256": "78789d344951f7da2743b566c24552611ce1a6dbe7df1a64831de16c5864b13c"
+  },
+  {
+    "key": "elder.saved",
+    "text": "आपके अभ्यास के जवाब सेव हो गए।",
+    "url": "/audio/hi/elder-saved.mp3",
+    "bytes": 23424,
+    "sha256": "ae8895bb89896b8a9b1b9e0576c3ca9660d22b2c3453b90e436f707c3722211a"
+  },
+  {
+    "key": "elder.yes",
+    "text": "हाँ",
+    "url": "/audio/hi/elder-yes.mp3",
+    "bytes": 6144,
+    "sha256": "20453032d9df4d8de95ab99a488ef36f64d600ad809e447aded4a42a875c9ed0"
+  },
+  {
+    "key": "elder.no",
+    "text": "नहीं",
+    "url": "/audio/hi/elder-no.mp3",
+    "bytes": 6720,
+    "sha256": "9b051a14a9f7c38666ce6ba79ca327974f9f7a71147e3d4f6a5adcb04aaf4f57"
+  },
+  {
+    "key": "elder.unlock",
+    "text": "पहले देखभालकर्ता से डेमो रिकॉर्ड खुलवाएँ।",
+    "url": "/audio/hi/elder-unlock.mp3",
+    "bytes": 29376,
+    "sha256": "02c031ab3fcbf2d5e4698baf2cf76a04d7098f03f1bb00035aa64e1c99469c95"
+  },
+  {
+    "key": "elder.confirmTaken",
+    "text": "क्या अभ्यास की खुराक ली हुई दर्ज करें?",
+    "url": "/audio/hi/elder-confirmTaken.mp3",
+    "bytes": 26304,
+    "sha256": "f0f68d714acf4dc4b279c66801b8c3aaed44ec3e194f76fe537dd93a33e215ef"
+  },
+  {
+    "key": "elder.selectDose",
+    "text": "पहले अभ्यास की दवा खोलें।",
+    "url": "/audio/hi/elder-selectDose.mp3",
+    "bytes": 20544,
+    "sha256": "005ce3627ccba988a868ccea483f5ce46419d517e10afdfc7c3da2a63755fa3b"
+  },
+  {
+    "key": "elder.noWater",
+    "text": "पानी की योजना या पीने का रिकॉर्ड उपलब्ध नहीं है।",
+    "url": "/audio/hi/elder-noWater.mp3",
+    "bytes": 32832,
+    "sha256": "06c53d00273d2d4173aff7d55384ee2e8a6b39b807decb6271956f78e52e0002"
+  },
+  {
+    "key": "disclaimer",
+    "text": "निगरानी, निदान नहीं।",
+    "url": "/audio/hi/disclaimer.mp3",
+    "bytes": 17280,
+    "sha256": "ac79843f90000c86e78d8b671a5a7c978f2fb5e4a023a2756488715aa4e302c4"
+  },
+  {
+    "key": "emergency",
+    "text": "आपातकाल में 108 पर फ़ोन करें।",
+    "url": "/audio/hi/emergency.mp3",
+    "bytes": 26112,
+    "sha256": "f12824f69951baa8b4851078565f0bbedd35c7203cfcf6a7d410efa4089b406f"
+  },
+  {
+    "key": "checkText",
+    "text": "आज की जाँच अभी बाकी है। नतीजे यहाँ दिखेंगे।",
+    "url": "/audio/hi/checkText.mp3",
+    "bytes": 35904,
+    "sha256": "06b44e47bf1f412b85d1838071f116631bae92bab0f1221f3d07b1f0ee9100d3"
+  },
+  {
+    "key": "routineText",
+    "text": "आराम से बैठें। जाँच उपकरण और ताबीज़ पास रखें।",
+    "url": "/audio/hi/routineText.mp3",
+    "bytes": 38208,
+    "sha256": "631d12640f237c4a3771ef7c736727d38f150473e064ef5f17e9c7bb8c1573f9"
+  },
+  {
+    "key": "familyMode.scheduledReminder",
+    "text": "दवा की याद। चुनी दवा और पर्चा जाँचें।",
+    "url": "/audio/hi/familyMode-scheduledReminder.mp3",
+    "bytes": 32256,
+    "sha256": "c142c8d66ad42f219dab81e6beaff843174275eac9c8f6623c571eacafd8b8cf"
+  },
+  {
+    "key": "familyMode.confirmDose",
+    "text": "चुनी खुराक ली गई दर्ज करें?",
+    "url": "/audio/hi/familyMode-confirmDose.mp3",
+    "bytes": 21504,
+    "sha256": "053505ee33e0316b917b248409da3a40b02584a373bd9afe7d8d2f125e16658a"
+  },
+  {
+    "key": "familyMode.doseTaken",
+    "text": "खुराक ली गई दर्ज। बची गोलियाँ अपडेट हुईं।",
+    "url": "/audio/hi/familyMode-doseTaken.mp3",
+    "bytes": 31488,
+    "sha256": "a04e0a75b178c7571f91dcfcfa0e1fa24c84a6cece867bb1d73d18853621ff14"
+  },
+  {
+    "key": "familyMode.chooseDose",
+    "text": "एक तय खुराक चुनें, फिर ली गई चिह्नित करें।",
+    "url": "/audio/hi/familyMode-chooseDose.mp3",
+    "bytes": 30720,
+    "sha256": "51296cb032802fb38844c2e87efc78e28a9bf9c759eadc9b856e74353b0e0b5b"
+  },
+  {
+    "key": "number.0",
+    "text": "शून्य",
+    "url": "/audio/hi/number-0.mp3",
+    "bytes": 7872,
+    "sha256": "d694619a84bcc463b53ece81b6466943b60efe5bb997dc71bf884e915bd600c4"
+  },
+  {
+    "key": "number.1",
+    "text": "एक",
+    "url": "/audio/hi/number-1.mp3",
+    "bytes": 6144,
+    "sha256": "54ad222c6fd3bcc714895277ed204d8e5c3ce49370dfc1e622b19805c62d73ab"
+  },
+  {
+    "key": "number.2",
+    "text": "दो",
+    "url": "/audio/hi/number-2.mp3",
+    "bytes": 5952,
+    "sha256": "8f3584dfd593cdc645fd2b29dbdee0aa59d708a5e5b6cadfdf0ae948b48c0fb5"
+  },
+  {
+    "key": "number.3",
+    "text": "तीन",
+    "url": "/audio/hi/number-3.mp3",
+    "bytes": 6720,
+    "sha256": "4fbafb411f708d79400be2f1cc7faddeea245a029f0cdc558ff8a492d0b9a0fa"
+  },
+  {
+    "key": "number.4",
+    "text": "चार",
+    "url": "/audio/hi/number-4.mp3",
+    "bytes": 6720,
+    "sha256": "579e85c5dcaa89ffe581dc8fd667586ee00c27545c254e832417df2c51c8310f"
+  },
+  {
+    "key": "number.5",
+    "text": "पाँच",
+    "url": "/audio/hi/number-5.mp3",
+    "bytes": 7872,
+    "sha256": "f50ab02531baabacbbdda95c9a36bde64d8385fb94686ffc44920fa82304bf7f"
+  },
+  {
+    "key": "number.6",
+    "text": "छह",
+    "url": "/audio/hi/number-6.mp3",
+    "bytes": 6528,
+    "sha256": "a07bb9efb857b8878ebf9c3ba758a8271a1e8c92a6c51a8a99abea7f13aaacda"
+  },
+  {
+    "key": "number.7",
+    "text": "सात",
+    "url": "/audio/hi/number-7.mp3",
+    "bytes": 7680,
+    "sha256": "dddd97e2c5e0aae508ca54e5fec17a69ee14f69bafdb215777d8d31f06454de8"
+  },
+  {
+    "key": "number.8",
+    "text": "आठ",
+    "url": "/audio/hi/number-8.mp3",
+    "bytes": 6912,
+    "sha256": "89be22d0d04bd5be458cf71739341320793afd38b793dc80db953607fdfc66c2"
+  },
+  {
+    "key": "number.9",
+    "text": "नौ",
+    "url": "/audio/hi/number-9.mp3",
+    "bytes": 5760,
+    "sha256": "e15ade5b377bee0319cbf4795b3019836ac809343b5f9936af9a89d7736daaac"
+  },
+  {
+    "key": "number.10",
+    "text": "दस",
+    "url": "/audio/hi/number-10.mp3",
+    "bytes": 7296,
+    "sha256": "e2dce1a4826be63278d3d6e4724a34ba62ae279054706a9c594947651e0b50b9"
+  },
+  {
+    "key": "vault.historical",
+    "text": "पुराना डेमो · आज की सेहत नहीं",
+    "url": "/audio/hi/vault-historical.mp3",
+    "bytes": 22464,
+    "sha256": "96a20947df75b3866937023847ca3e61fc2e2972f1b1828c951aa1b0445844a6"
+  },
+  {
+    "key": "checkin.start",
+    "text": "जाँच शुरू करने के लिए उपकरण जोड़ें।",
+    "url": "/audio/hi/checkin-start.mp3",
+    "bytes": 26112,
+    "sha256": "862af8ab2034070be2aea8bd69cf0fa1d1e2057bb1da8c0f696152526458e525"
+  },
+  {
+    "key": "checkin.sit",
+    "text": "आराम से बैठिए और स्थिर रहिए।",
+    "url": "/audio/hi/checkin-sit.mp3",
+    "bytes": 22464,
+    "sha256": "b914160103c6afc95999692f6206ab6bed7a8232f5fa204af3790eee71320f49"
+  },
+  {
+    "key": "checkin.feet",
+    "text": "दोनों नंगे पैर प्लेट पर रखिए।",
+    "url": "/audio/hi/checkin-feet.mp3",
+    "bytes": 22272,
+    "sha256": "8a6e8d7d2f71af1c0491f94381ae5b14df1e03741f3e77e19e256409f7cca907"
+  },
+  {
+    "key": "checkin.handles",
+    "text": "दोनों हैंडल पकड़िए।",
+    "url": "/audio/hi/checkin-handles.mp3",
+    "bytes": 14976,
+    "sha256": "bd4d8c3666bfc9e7cf3bb6bf7933a24609c655c7a005bf7cd47df99f82fc3923"
+  },
+  {
+    "key": "checkin.finger",
+    "text": "उँगली सेंसर पर रखिए और स्थिर रहिए।",
+    "url": "/audio/hi/checkin-finger.mp3",
+    "bytes": 26112,
+    "sha256": "cb644add4b802351fbadd01d05aae468e8e3c66f252ccb64ba1624c4a98b3d2e"
+  },
+  {
+    "key": "checkin.stand",
+    "text": "अब धीरे से खड़े होइए।",
+    "url": "/audio/hi/checkin-stand.mp3",
+    "bytes": 17664,
+    "sha256": "e1acd0905f88827fd0e2fde0a130592483f812b8818af2c28c237c1794cb459e"
+  },
+  {
+    "key": "choose.hi",
+    "text": "नमस्ते। हिंदी चुनें।",
+    "url": "/audio/hi/choose-hi.mp3",
+    "bytes": 18624,
+    "sha256": "d6be29606eb5c9e5b160d49375d468465c807f9d7286cce8df597304babe395f"
+  }
+]

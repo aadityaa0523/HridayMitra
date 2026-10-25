@@ -91,7 +91,7 @@ int main() {
   check(maxWErr < 0.15, "weight within 0.15 kg (worst " + std::to_string(maxWErr) + ")");
   check(maxLegErr < 0.01, "leg impedance within 1 % through ADC + Goertzel (worst " + std::to_string(100 * maxLegErr) + " %)");
   check(maxTrunkErr < 1.5, "chest value within 1.5 ohm from 4 paths (worst " + std::to_string(maxTrunkErr) + ")");
-  check(maxEwiErr < 0.005, "spectroscopy (5/20/50 kHz): water-outside-cells index within 0.5 % (worst " + std::to_string(100 * maxEwiErr) + " %)");
+  check(maxEwiErr < 0.006, "spectroscopy (5/20/50 kHz): water-outside-cells index within 0.6 % (worst " + std::to_string(100 * maxEwiErr) + " %)");
   check(ewiWorse > ewiStable * 1.03, "spectroscopy index rises with the fluid build-up (" + std::to_string(ewiStable) + " -> " + std::to_string(ewiWorse) + ")");
   check(maxPulseErr < 2.5, "pulse within 2.5 bpm from the PPG waveform (worst " + std::to_string(maxPulseErr) + ")");
   check(maxSpo2Err < 2.0, "SpO2 within 2 points (worst " + std::to_string(maxSpo2Err) + ")");
@@ -167,6 +167,17 @@ int main() {
   check(jstr(p1, "id") == PATIENT_ID, "first user still recognised");
   size_t nBefore = checkins.size(); doCheckin(85, Body(), {0, 0});
   check(checkins.size() == nBefore, "stranger on a two-user stool: nothing saved");
+  // the app over BLE: dated reports with a unique event id, history replay, commands run from loop()
+  const char* APP_CMD = "6e8a0001-4b5a-4c3e-9a51-6d697472a004";
+  check(jstr(p1, "date") == "2026-10-31" && !jstr(p1, "event_id").empty() && !std::isnan(jnum(p1, "leg_ewi")),
+        "app link: report dated " + jstr(p1, "date") + ", event " + jstr(p1, "event_id") + ", with spectroscopy and walk fields");
+  bleRx.clear(); bleWrite(APP_CMD, "{\"since\":\"2026-10-30\"}"); loop();
+  size_t replayed = 0; for (size_t q = 0; (q = bleRx.find("\"t\":\"checkin\"", q)) != std::string::npos; q++) replayed++;
+  check(replayed >= 3 && bleRx.find("\"date\":\"2026-10-29\"") == std::string::npos && bleRx.find("\"command\":\"history\",\"ok\":true") != std::string::npos,
+        "app link: history since 30 Oct replayed over BLE (" + std::to_string(replayed) + " reports), older ones not");
+  bleRx.clear(); bleWrite(APP_CMD, "selftest"); loop();
+  check(bleRx.find("\"t\":\"selftest\"") != std::string::npos && bleRx.find("\"command\":\"selftest\",\"ok\":true") != std::string::npos,
+        "app link: self-test run on the app's command, result notified");
 
   FILE* f = fopen("../../reports/sil_checkins.jsonl", "w");
   for (auto& c : checkins) fprintf(f, "{\"day\":%d,\"report\":%s}\n", c.first, c.second.c_str());

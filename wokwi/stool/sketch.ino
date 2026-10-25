@@ -18,6 +18,7 @@
 #include <BLEDevice.h>
 #include <BLEScan.h>
 #endif
+#include "app_link.h"                                   // BLE GATT + USB link to the HridayMitra Saathi app
 
 // ---- pins (build guide v3.1) ----
 const int HX_DT = 32, HX_SCK = 14, VOICE = 26, Z_ADC = 35, SEL = 18, PATH_S0 = 33, PATH_S1 = 27;
@@ -79,6 +80,13 @@ long daysFromCivil(int y, unsigned m, unsigned d) {      // days since 1970-01-0
   y -= m <= 2; const long era = (y >= 0 ? y : y - 399) / 400; const unsigned yoe = (unsigned)(y - era * 400);
   const unsigned doy = (153 * (m + (m > 2 ? -3 : 9)) + 2) / 5 + d - 1, doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
   return era * 146097 + (long)doe - 719468;
+}
+
+void civilFromDays(long z, char out[11]) {              // days since 1970-01-01 -> "YYYY-MM-DD" (inverse of the above)
+  z += 719468; long era = (z >= 0 ? z : z - 146096) / 146097; unsigned doe = (unsigned)(z - era * 146097);
+  unsigned yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365; long y = (long)yoe + era * 400;
+  unsigned doy = doe - (365 * yoe + yoe / 4 - yoe / 100), mp = (5 * doy + 2) / 153, d = doy - (153 * mp + 2) / 5 + 1, m = mp < 10 ? mp + 3 : mp - 9;
+  snprintf(out, 11, "%04ld-%02u-%02u", y + (m <= 2), m, d);
 }
 
 bool clockNow(long& day, int& hour, int& wday) {         // wday 0 = Sunday; false if the network has not set the clock
@@ -407,7 +415,7 @@ void selfTest() {
   if (mv < 0) probs += "SIM module not answering; ";
   if (csq >= 0 && (csq < 5 || csq == 99)) probs += "weak mobile signal; ";
   if (lastRefAmp >= 0 && lastRefAmp < 20) probs += "impedance current too low, check plates and wiring; ";
-  Serial.printf("{\"t\":\"selftest\",\"battery_mv\":%d,\"signal\":%d,\"problems\":\"%s\"}\n", mv, csq, probs.c_str());
+  hmPublishStatus(mv, csq, probs);                       // USB + app
   if (probs.length()) {
     char msg[160]; snprintf(msg, sizeof msg, "HridayMitra stool needs service: %s", probs.c_str());
     queueSms(ASHA, msg);
@@ -466,13 +474,19 @@ void runEngine(int u, const hm::DayIn& d, int tookPills) {
   if (clk && wday == 0 && u == 0 && r.light < 2) say(CLIP_WALK);   // Sunday: 6-minute walk test, the amulet counts it
   if (r.light == 2 && (!loopSt.active || millis() - loopSt.t0 > 20UL * 60 * MINUTE_MS)) startCareLoop(IDS[u], why[0] ? why : "several signs together", r.danger);
   saveUser(u);
-  Serial.printf("{\"t\":\"checkin\",\"id\":\"%s\",\"weight_kg\":%.4f,\"leg_z_ohm\":%.4f,\"trunk_z_ohm\":%.4f,\"pulse_bpm\":%.4f,"
+  char dateField[24] = "";                               // the app files reports by date and de-duplicates by event_id
+  if (clk) { char ds[11]; civilFromDays(today, ds); snprintf(dateField, sizeof dateField, "\"date\":\"%s\",", ds); }
+  unsigned long seq = hmLinkPrefs.getULong("seq", 0) + 1; hmLinkPrefs.putULong("seq", seq);
+  bool plate = !r.guest && !isnan(d.v[hm::LEG]) && isnan(U.eng.latestGated().v[hm::LEG]);   // leg reading thrown out by the plate check
+  char payload[900];
+  snprintf(payload, sizeof payload, "{\"t\":\"checkin\",%s\"event_id\":\"%s-%lu\",\"id\":\"%s\",\"weight_kg\":%.4f,\"leg_z_ohm\":%.4f,\"trunk_z_ohm\":%.4f,\"pulse_bpm\":%.4f,"
                 "\"spo2\":%.4f,\"standup_s\":%.4f,\"night_rr\":%.4f,\"night_situps\":%.4f,\"activity_min\":%.4f,\"leg_ewi\":%.5f,"
                 "\"breathless\":%.4f,\"orthopnea\":%.4f,\"took_pills\":%d,\"light\":%d,\"S\":%.4f,\"learning\":%d,\"guest\":%d,\"ref_ratio\":%.4f,"
-                "\"walk6_steps\":%.0f,\"why\":\"%s\"}\n",
-                IDS[u], d.v[hm::WEIGHT], d.v[hm::LEG], d.v[hm::TRUNK], d.v[hm::PULSE], d.v[hm::SPO2], d.v[hm::STANDUP],
+                "\"walk6_steps\":%.0f,\"plate\":%d,\"why\":\"%s\"}",
+                dateField, IDS[u], seq, IDS[u], d.v[hm::WEIGHT], d.v[hm::LEG], d.v[hm::TRUNK], d.v[hm::PULSE], d.v[hm::SPO2], d.v[hm::STANDUP],
                 d.v[hm::NIGHT_RR], d.situps, d.v[hm::ACTIVITY], d.v[hm::LEG_EWI], d.breathless, d.orthopnea, U.took[4], r.light, r.S, r.learning, r.guest, lastRefRatio,
-                u == 0 ? amulet.walk6 : NAN, why);
+                u == 0 ? amulet.walk6 : NAN, plate, why);
+  hmPublishReport(String(payload));
 }
 
 // ======================= the 90-second check-in =======================
@@ -531,7 +545,10 @@ void checkin() {
   else { say(CLIP_Q_TABLETS); a = button(20000); took = a < 0 ? -1 : (a == 1 ? 1 : 0); }
   say(CLIP_STAND);
   uint32_t t0 = millis();
-  while (millis() - t0 < 15000) { float w = kg(); if (!isnan(w) && w < 5) { d.v[hm::STANDUP] = (millis() - t0) / 1000.0f; break; } }
+  while (millis() - t0 < 15000) {
+    float w = kg();
+    if (!isnan(w) && w < 5) { float s = (millis() - t0) / 1000.0f; if (s >= 0.5f) d.v[hm::STANDUP] = s; break; }   // < 0.5 s: already up, no reading
+  }
   scanAmulet();
   d.v[hm::NIGHT_RR] = amulet.rr; d.situps = amulet.situps; d.v[hm::ACTIVITY] = amulet.activity;
   runEngine(u, d, took);
@@ -579,6 +596,7 @@ void handleUsb() {                                       // laptop commands
   String c = Serial.readStringUntil('\n'); c.trim();
   if (c == "checkin") checkin();
   else if (c == "selftest") selfTest();
+  else if (c.startsWith("{\"since\":")) { if (!hmHistoryRequest(c)) hmAck("history", false); }
   else if (c == "tare") { long s = 0; for (int i = 0; i < 10; i++) s += hxRaw(); tareCounts = s / 10; prefs.putLong("tare", tareCounts); Serial.println("{\"t\":\"ok\"}"); }
   else if (c.startsWith("cal ")) {
     float ref = c.substring(4).toFloat(); long s = 0; for (int i = 0; i < 10; i++) s += hxRaw();
@@ -615,7 +633,9 @@ void setup() {
   }
 #ifndef HM_WOKWI
   BLEDevice::init("HridayMitra-stool");
+  hmBeginLink();
 #else
+  hmBeginLink();
   if (users[0].w0 <= 0) {                                // simulator: 20 ordinary days of history so alerts can happen today
     for (int k = 0; k < 20; k++) {
       float w = sinf(k * 1.7f), z = sinf(k * 2.3f + 1);
@@ -645,6 +665,12 @@ void loop() {
     queueSms(FAMILY1, msg); queueSms(FAMILY2, msg); queueSms(ASHA, msg); delay(1000);
   }
   handleUsb();
+  String appCmd;                                         // a command from the app (BLE), run here, never in the callback
+  if (hmPollCommand(appCmd)) {
+    if (appCmd == "checkin") { hmAck("checkin", true); checkin(); }
+    else if (appCmd == "selftest") { hmAck("selftest", true); selfTest(); }
+    else if (!hmHistoryRequest(appCmd)) hmAck("unsupported", false);
+  }
   duties();
   serviceGsm();
   serviceSms();

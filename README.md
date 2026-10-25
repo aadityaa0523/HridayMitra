@@ -56,6 +56,7 @@ python run.py demo           # dashboard: patient light + voice, family SMS, ASH
 
 ## Firmware
 - `firmware/hridaymitra_stool/`: ESP32 DevKit. The 90 s check-in, HX711 weight, 4 impedance paths with Goertzel, MAX30102 pulse/SpO₂, 3 questions, stand-up time, amulet scan, **the alert engine on the chip** (`engine_core.h`, identical to the Python engine), SMS ladder with retries, replies and missed calls, engine state saved in flash. Phone numbers go in `config.h`.
+- `app/`: **HridayMitra Saathi**, the offline phone app (PWA, 10 Indian languages, voice commands, family / ASHA / doctor modes). It runs the same alert engine (v3, checked day by day against Python) and talks to the stool over BLE or USB (`firmware/hridaymitra_stool/app_link.h`). `cd app && npm ci && npm test && npm run dev`.
 - `firmware/hridaymitra_amulet/`: ESP32-C3 + MPU6050. Night breathing, night sit-ups, activity, 6-minute walk steps (`walk_core.h`), falls and SOS, sent in the BLE advertisement (no pairing).
 - Voice prompts: `python tools/make_voice_clips.py`. Recorded Hindi/Tamil WAVs in `firmware/voice/<lang>/` replace the built-in English voice.
 
