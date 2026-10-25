@@ -29,7 +29,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 
 <div class="chg"><b>What changed in v3 (cost trim, team-approved)</b>
 <ul>
-<li><b>Product parts list is now ₹4,820 at safe prices</b> (was ₹7,095), about ₹180 under the ₹5,000 limit.</li>
+<li><b>Product parts list is now ₹4,890 at safe prices</b> (was ₹7,095), about ₹110 under the ₹5,000 limit.</li>
 <li><b>One HX711 for all four load cells.</b> The 4 half-bridge cells are wired as one full bridge, the same way a bathroom scale is wired. Total weight and stand-up speed are unchanged; we lose the per-corner readings. This frees GPIO26, 27 and 33.</li>
 <li><b>Voice from the ESP32's own flash memory.</b> The DFPlayer and microSD card are gone. Prompts are stored in flash and played through the second DAC (GPIO26) into a PAM8403 amplifier and the same 4 Ω 3 W speaker.</li>
 <li><b>No boot pins used any more.</b> The path-select lines moved from GPIO12 and GPIO0 to the freed GPIO33 and GPIO27.</li>
@@ -56,7 +56,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>Under 2 min a day, no all-day patch</td><td>A seated check of about 75–90 s, plus 20 s in the evening. The amulet is worn like a pendant, not stuck on</td></tr>
 <tr><td>Local language, little reading</td><td>Voice prompts, 3 lights, big buttons</td></tr>
 <tr><td>Power cuts, weak internet</td><td>Battery, offline logic on the ESP32, SMS over 2G (not on Jio)</td></tr>
-<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,917 at the lowest prices found, ₹4,820 at safe prices</b> (section 3), about ₹180 headroom. Confirm with a real cart</td></tr>
+<tr><td>Parts under ₹5,000</td><td>Product parts list: <b>₹3,917 at the lowest prices found, ₹4,890 at safe prices</b> (section 3), about ₹110 headroom. Confirm with a real cart</td></tr>
 </table>
 <table>
 <tr><th>Warning sign</th><th>Measured by</th></tr>
@@ -117,21 +117,22 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>13</td><td>Diodes: 1N5819 Schottky ×2 (reverse-polarity protection), 1N4148 ×4 spare</td><td>6</td><td>Protection</td><td>Must</td><td class="r">10</td><td class="r">15</td><td></td></tr>
 <tr><td>14</td><td>LEDs 5 mm: green, amber, red (with the 220R resistors above)</td><td>3</td><td>Status lights</td><td>Must</td><td class="r">10</td><td class="r">15</td><td></td></tr>
 
-<tr class="sec"><td colspan="8">C. Frame, electrodes, wiring</td></tr>
-<tr class="new"><td>15</td><td>Stool: a plain sturdy plastic or steel stool, seat about 40–45 cm (≥150 kg rated). Foldable all-in-one is the product design for later</td><td>1</td><td>Body</td><td>Must</td><td class="r">250</td><td class="r">300</td><td>Local</td></tr>
-<tr><td>16</td><td>Plywood plate, about 40 × 40 cm, 12–18 mm thick</td><td>1</td><td>Weighing platform</td><td>Must</td><td class="r">80</td><td class="r">120</td><td>Local</td></tr>
+<tr class="sec"><td colspan="8">C. Weighing platform, hand sensor bar, electrodes, wiring</td></tr>
+<tr class="new"><td>15</td><td><b>No stool to buy:</b> the patient's own household chair stands on the platform (armless or with arms; never a wheeled or unstable chair)</td><td>0</td><td>Seat</td><td>Own</td><td class="r">0</td><td class="r">0</td><td>Family's chair</td></tr>
+<tr class="new"><td>16</td><td><b>Weighing platform:</b> 18 mm plywood about 60 × 75 cm (chair + feet), edges sealed and banded; 4 load cells at the corners carry it. Rated 200 kg (4 × 50 kg): users up to about 130 kg with the chair and the rising force swing</td><td>1</td><td>Shared weighing platform</td><td>Must</td><td class="r">220</td><td class="r">320</td><td>Local (estimate)</td></tr>
 <tr><td>17</td><td>M5 bolts, nuts, washers: M5 × 30 mm ×8, nuts ×8, washers ×16, plus 5 mm spacers or 3 mm plywood strips</td><td>1 set</td><td>Mount load cells</td><td>Must</td><td class="r">40</td><td class="r">60</td><td>Local</td></tr>
 <tr><td>18</td><td>Rubber feet, under the free end of each load cell</td><td>4</td><td>Floor contact</td><td>Must</td><td class="r">20</td><td class="r">30</td><td>Local</td></tr>
-<tr><td>19</td><td>PVC pipe 25 mm, 1 m, with flange and elbow</td><td>1 set</td><td>Handle post</td><td>Must</td><td class="r">100</td><td class="r">150</td><td>Local</td></tr>
+<tr class="new"><td>19</td><td><b>Hand sensor bar body:</b> 40 mm PVC pipe about 50 cm + 2 end caps; fingertip cradle (cut PVC or 3D print); 2 saddle clamps + velcro straps so it can sit on the lap <b>or be fixed to the chair's armrests / handles</b>. Carries the 4 hand strips, MAX30102, ✓ / ✗ / SOS buttons, status LEDs and speaker</td><td>1 set</td><td>Hand sensor bar</td><td>Must</td><td class="r">120</td><td class="r">180</td><td>Local (estimate)</td></tr>
+<tr class="new"><td>19b</td><td>Bar-to-platform cable: 10-core multicore about 2 m (buttons, LEDs, I²C, speaker) + 2 strain-relief glands; the hand electrodes use the shielded cable in row 21</td><td>1 set</td><td>Hand bar wiring</td><td>Must</td><td class="r">60</td><td class="r">90</td><td>Estimate</td></tr>
 <tr class="new"><td>20</td><td>Stainless-steel (304) strips: 4 foot plates about 8 × 5 cm and <b>4 hand strips about 10 × 2 cm, now all wired</b>. Round all edges</td><td>8</td><td>Electrodes (legs + lungs)</td><td>Must</td><td class="r">200</td><td class="r">220</td><td>SS304 ₹190–250/kg ✓ (IndiaMART) + cutting</td></tr>
 <tr class="new"><td>21</td><td>Shielded 4-core cable: about 3 m for the feet <b>+ 2 m up the post for the hands</b></td><td>2</td><td>Electrode wiring</td><td>Must</td><td class="r">80</td><td class="r">100</td><td></td></tr>
 <tr><td>22</td><td>Hookup wire 22 AWG: red, black, plus 2 colours, about 3 m each</td><td>1 set</td><td>Wiring</td><td>Must</td><td class="r">40</td><td class="r">50</td><td></td></tr>
-<tr><td>23</td><td>Project box about 150 × 100 × 50 mm, fixed under the seat</td><td>1</td><td>Electronics enclosure</td><td>Must</td><td class="r">60</td><td class="r">80</td><td></td></tr>
+<tr><td>23</td><td>Project box about 150 × 100 × 50 mm, fixed under the platform's front edge</td><td>1</td><td>Electronics enclosure</td><td>Must</td><td class="r">60</td><td class="r">80</td><td></td></tr>
 <tr><td>24</td><td>Breadboards, jumper wires: 2 × 830-point, M-M, M-F and F-F sets</td><td>1 set</td><td>Prototyping (demo only)</td><td>Must</td><td class="r">120</td><td class="r">200</td><td></td></tr>
 <tr><td>25</td><td>Screws, M3 standoffs, cable ties, heat-shrink, tape, velcro, hot-glue sticks</td><td>1 set</td><td>Assembly</td><td>Must</td><td class="r">60</td><td class="r">70</td><td></td></tr>
 <tr><td>26</td><td>Solder, flux (if you don't already have them)</td><td>1</td><td>Soldering (demo only)</td><td>Must</td><td class="r">0</td><td class="r">40</td><td></td></tr>
 <tr><td>27</td><td>5 V 2 A phone charger and cable (skip if you own one)</td><td>1</td><td>Power</td><td>Must</td><td class="r">0</td><td class="r">120</td><td>Counted at ₹150 in the product list</td></tr>
-<tr><td>28</td><td>Anti-slip mat on the foot area</td><td>1</td><td>Safety</td><td>Nice</td><td class="r">30</td><td class="r">40</td><td></td></tr>
+<tr class="new"><td>28</td><td>Textured anti-slip sheet over the whole platform top (cut-outs for the 4 foot plates)</td><td>1</td><td>Safety (wet feet, chair legs)</td><td>Should</td><td class="r">60</td><td class="r">90</td><td>Estimate</td></tr>
 
 <tr class="sec"><td colspan="8">D. Messaging, voice, battery</td></tr>
 <tr class="new"><td>29</td><td>SIM800L GSM module + antenna. 2G; needs 3.4–4.4 V and 2 A bursts. Use an Airtel, Vi or BSNL SIM (not Jio)</td><td>1</td><td>SMS and calls</td><td>Should</td><td class="r">150</td><td class="r">300</td><td>Verified range ✓ (Zbotic, IndiaMART)</td></tr>
@@ -146,7 +147,7 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <tr><td>35</td><td>LiPo 3.7 V 400 mAh with protection; check that the connector fits your board</td><td>1</td><td>Power</td><td>Should</td><td class="r">124</td><td class="r">124</td><td>200 mAh: Robocraze ₹124 ✓</td></tr>
 <tr class="new"><td>36</td><td>TP4056 USB-C charge module (skip if the board already charges LiPo)</td><td>1</td><td>Charging</td><td>Should</td><td class="r">49</td><td class="r">49</td><td>Probots ✓</td></tr>
 <tr><td>37</td><td>Vibration motor + BC547 + 1k + 1N4148</td><td>1 set</td><td>Haptic prompt</td><td>Nice</td><td class="r">30</td><td class="r">40</td><td></td></tr>
-<tr class="new"><td>43</td><td>Stool seat vibration: coin motor + 2N2222 + 1k + 1N4148 (prompts felt by hard-of-hearing users)</td><td>1 set</td><td>Haptic prompt</td><td>Should</td><td class="r">30</td><td class="r">40</td><td>v3.1 product feature</td></tr>
+<tr class="new"><td>43</td><td>Hand-bar vibration: coin motor + 2N2222 + 1k + 1N4148 (prompts felt in the hands by hard-of-hearing users)</td><td>1 set</td><td>Haptic prompt</td><td>Should</td><td class="r">30</td><td class="r">40</td><td>v3.1 product feature</td></tr>
 <tr class="new"><td>44</td><td>Tablet drawer: microswitch + 10k pull-up (knows if the tablet box was opened)</td><td>1 set</td><td>Medicine adherence</td><td>Should</td><td class="r">15</td><td class="r">25</td><td>v3.1 product feature</td></tr>
 <tr><td>38</td><td>Pendant case + cotton thread. Breakaway thread, no magnets (the night-clip version is still being decided)</td><td>1</td><td>Shell</td><td>Nice</td><td class="r">50</td><td class="r">80</td><td></td></tr>
 <tr><td>39</td><td>Pogo pins + contact board. Charging dock, no magnets</td><td>1 set</td><td>Dock</td><td>Nice</td><td class="r">40</td><td class="r">60</td><td></td></tr>
@@ -160,14 +161,14 @@ code { font-family: Consolas, monospace; font-size: 8pt; }
 <h3>Totals</h3>
 <table>
 <tr><th>What</th><th class="r">Low ₹</th><th class="r">Plan ₹</th><th>Note</th></tr>
-<tr><td>To buy: Must</td><td class="r">1,956</td><td class="r">2,624</td><td></td></tr>
-<tr><td>To buy: Should</td><td class="r">937</td><td class="r">1,292</td><td></td></tr>
-<tr><td>To buy: Nice</td><td class="r">240</td><td class="r">340</td><td></td></tr>
-<tr><td>To buy: Must + Should</td><td class="r">2,893</td><td class="r">3,916</td><td></td></tr>
-<tr><td>To buy: everything</td><td class="r">3,133</td><td class="r">4,256</td><td>Test rigs not counted</td></tr>
-<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,917</b></td><td class="r"><b>4,820</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹180 under ₹5,000 at safe prices</b></td></tr>
+<tr><td>To buy: Must</td><td class="r">1,936</td><td class="r">2,654</td><td></td></tr>
+<tr><td>To buy: Should</td><td class="r">1,042</td><td class="r">1,447</td><td></td></tr>
+<tr><td>To buy: Nice</td><td class="r">210</td><td class="r">300</td><td></td></tr>
+<tr><td>To buy: Must + Should</td><td class="r">2,978</td><td class="r">4,101</td><td></td></tr>
+<tr><td>To buy: everything</td><td class="r">3,188</td><td class="r">4,401</td><td>Test rigs not counted</td></tr>
+<tr class="sec"><td><b>Product parts list (for the report and the ₹5,000 rule)</b></td><td class="r"><b>3,917</b></td><td class="r"><b>4,890</b></td><td>All product parts at market price, including the owned ESP32 (₹499) and ESP32-C3 for the amulet (₹230). Excludes breadboards, solder, AD8232, the S3 Sense and test rigs. <b>~₹110 under ₹5,000 at safe prices</b></td></tr>
 </table>
-<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,820</b>, about ₹180 under ₹5,000 (including the ₹50 CHARGE / USE safety switch). How we got from ₹7,095:
+<div class="box"><b>Reading the totals honestly.</b> At the trimmed safe prices the product costs <b>₹4,890</b>, about ₹110 under ₹5,000 (including the ₹50 CHARGE / USE safety switch and the chair platform + hand sensor bar). How we got from ₹7,095:
 <ul>
 <li>price trims: load cells, counting only the resistors and capacitors used, a plain stool, typical SIM800L price, INA126, panel buttons, one perfboard, local steel</li>
 <li>one HX711 bridge instead of four sets (≈ −₹134)</li>
