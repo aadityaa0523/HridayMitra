@@ -38,7 +38,7 @@ double legTrue(const Body& b) { setBody(b); return zPath(0, 5000); }
 double trunkTrue(const Body& b) { setBody(b); return std::abs(segZ(2, 5000)); }
 
 std::string doCheckin(double kg, const Body& b, std::vector<int> answers, double extraStand = 0) {
-  setBody(b); W.weight = kg; W.sitting = true; W.standAt = 0;
+  setBody(b); W.weight = kg; W.sitting = true; W.standAt = 0; W.answersDone = false;
   W.answers = answers; W.nextAnswer = 0; W.questionOpen = false;
   size_t before = W.usbOut.size();
   W.pressStart = true; loop();
@@ -176,6 +176,10 @@ int main() {
   { bool ok = true; for (auto& m : W.sms) if (m.text.rfind("HridayMitra RED", 0) == 0 && m.text.find("no reply") == std::string::npos)
       ok = ok && m.text.size() <= 160 && m.text.find("call 108") != std::string::npos;
     check(ok, "every red SMS fits one SMS (160 chars) and keeps the 'call 108' instruction"); }
+  // sit-to-stand on the platform (the chair stands on it): rise time from the force swing, a slower rise reads slower
+  check(fabs(jnum(p1, "standup_s") - W.stsD) < 0.3, "sit-to-stand from the platform force: " + std::to_string(jnum(p1, "standup_s")) + " s for a 2.2 s rise");
+  W.stsD = 3.4; std::string slow = doCheckin(62, Body(), {0, 0}); W.stsD = 2.2;
+  check(jnum(slow, "standup_s") - jnum(p1, "standup_s") > 0.8, "slower rise reads slower: " + std::to_string(jnum(slow, "standup_s")) + " s for a 3.4 s rise");
   // the app over BLE: dated reports with a unique event id, history replay, commands run from loop()
   const char* APP_CMD = "6e8a0001-4b5a-4c3e-9a51-6d697472a004";
   check(jstr(p1, "date") == "2026-10-31" && !jstr(p1, "event_id").empty() && !std::isnan(jnum(p1, "leg_ewi")),

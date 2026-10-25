@@ -172,4 +172,54 @@ inline float ewiClosedForm(const double f[3], const double z[3]) {
   return (float)(sqrt(B / C) / sqrt(A));
 }
 
+// Sit-to-stand time on the platform (the chair stands on it, so the weight never leaves). Same maths as engine/sts.py:
+// w = person-only platform readings (kg, chair in the tare) from the "stand up" prompt, fs samples/s. The force above
+// or below body weight is the centre of mass's acceleration; integrated twice it is the rise itself. A minimum-jerk
+// rise (start, duration, height) plus a 2nd-order drift is fitted; the duration is returned, or NAN if it was not a
+// real stand (height outside 0.12-0.65 m or the fit explains less than half). hOut / qOut: fitted height and quality.
+const int STS_MAX = 200;
+inline float stsFit(const float* wIn, int n, float fs, float* hOut = nullptr, float* qOut = nullptr) {
+  if (hOut) *hOut = 0; if (qOut) *qOut = 0;
+  if (n > STS_MAX) n = STS_MAX;
+  int k0 = (int)fs > 3 ? (int)fs : 3; if (k0 > n) return NAN;
+  float first[STS_MAX]; for (int i = 0; i < k0; i++) first[i] = wIn[i];
+  double m = median(first, k0);
+  if (!(m > 20)) return NAN;
+  int end = n;
+  for (int i = 0; i < n; i++) if (wIn[i] < 0.5 * m) { end = i - (int)ceil(0.8 * fs); break; }   // stop before stepping off
+  if (end < 2 * fs) return NAN;
+  static double z[STS_MAX], t[STS_MAX], Q[3][STS_MAX], zr[STS_MAX], s[STS_MAX];
+  double v = 0, zz0 = 0;
+  for (int i = 0; i < end; i++) {                        // double integral of the acceleration
+    v += 9.81 * (wIn[i] - m) / m / fs; zz0 += v / fs; z[i] = zz0; t[i] = i / fs;
+  }
+  for (int c = 0; c < 3; c++) {                          // orthonormal basis of 1, t, t^2 (Gram-Schmidt)
+    for (int i = 0; i < end; i++) Q[c][i] = c == 0 ? 1 : (c == 1 ? t[i] : t[i] * t[i]);
+    for (int p = 0; p < c; p++) { double d = 0; for (int i = 0; i < end; i++) d += Q[c][i] * Q[p][i]; for (int i = 0; i < end; i++) Q[c][i] -= d * Q[p][i]; }
+    double nn = 0; for (int i = 0; i < end; i++) nn += Q[c][i] * Q[c][i]; nn = sqrt(nn); for (int i = 0; i < end; i++) Q[c][i] /= nn;
+  }
+  auto resid = [&](double* x) { for (int c = 0; c < 3; c++) { double d = 0; for (int i = 0; i < end; i++) d += Q[c][i] * x[i]; for (int i = 0; i < end; i++) x[i] -= d * Q[c][i]; } };
+  for (int i = 0; i < end; i++) zr[i] = z[i];
+  resid(zr);
+  double zz = 0; for (int i = 0; i < end; i++) zz += zr[i] * zr[i];
+  double bestRes = 1e300, bestD = NAN, bestH = 0;
+  for (int di = 0; di <= 108; di++) {
+    double D = 0.6 + 0.05 * di;
+    int last = end - (int)(D * fs); if (last < 1) last = 1;
+    for (int j = 0; j < last && j < end; j++) {
+      double t0 = t[j];
+      for (int i = 0; i < end; i++) { double u = (t[i] - t0) / D; u = u < 0 ? 0 : (u > 1 ? 1 : u); s[i] = u * u * u * (10 - 15 * u + 6 * u * u); }
+      resid(s);
+      double ss = 0, sz = 0; for (int i = 0; i < end; i++) { ss += s[i] * s[i]; sz += s[i] * zr[i]; }
+      if (ss <= 1e-9) continue;
+      double h = sz / ss, res = zz - h * h * ss;
+      if (res < bestRes) { bestRes = res; bestD = D; bestH = h; }
+    }
+  }
+  double q = zz > 0 ? 1 - bestRes / zz : 0;
+  if (hOut) *hOut = (float)bestH; if (qOut) *qOut = (float)q;
+  if (isnan(bestD) || bestH < 0.12 || bestH > 0.65 || q < 0.5) return NAN;
+  return (float)bestD;
+}
+
 }  // namespace hm

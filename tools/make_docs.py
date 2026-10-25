@@ -129,7 +129,7 @@ def report(n):
 <tr><td>Pacemaker / ICD</td><td>never on the plates: weight-only mode</td></tr></table></div></div>
 <h2>Cost and scale</h2>Home unit parts ₹{n['cost_lo']}–{n['cost_hi']} (Monte Carlo of the itemised list; limit ₹5,000); ≈ ₹{n['vol_lo']}–{n['vol_hi']} at 100 units; SMS ≈ ₹0.05 per patient-month. Uses the family's own chair, so nothing large to buy or store; fits ASHA-led programmes.
 <h2>Honest limits</h2><ul><li>Synthetic data shows the method works on modelled patterns, not clinical accuracy; lead time is bounded by the PS worsening window (3-10 days).</li>
-<li>Not yet built on a bench; power budget (datasheet values) needs firmware power saving for multi-day battery life; SpO₂ calibration generic; chest impedance is weak alone. With the chair standing on the platform, stand-up time needs a new method (weight shift off the seat).</li>
+<li>Not yet built on a bench; power budget (datasheet values) needs firmware power saving for multi-day battery life; SpO₂ calibration generic; chest impedance is weak alone. Sit-to-stand time comes from the platform's force swing while he rises (the chair stays on it): a physics fit, 0.14 s median error on synthetic rises, not yet bench-tested.</li>
 <li>Never on anyone with a pacemaker or ICD; battery only while measuring. Code, data, tests: github.com/aadityaa0523/HridayMitra</li></ul>
 </body></html>"""
 

@@ -76,7 +76,8 @@ struct World {
   double excHz = 5000, refScale = 1.0;                      // refScale != 1: a damaged reference chain
   double bpm = 70, spo2 = 96; bool finger = true;
   double hum_mv = 20;
-  uint64_t standAt = 0; bool sitting = false;
+  uint64_t standAt = 0; bool sitting = false, answersDone = false;
+  double stsD = 2.2, stsH = 0.35;                          // sit-to-stand: rise time (s) and centre-of-mass rise (m)
   // buttons and drawer
   std::vector<int> answers; size_t nextAnswer = 0; bool questionOpen = false; uint64_t questionAt = 0, lastRPoll = 0;
   bool pressStart = false, pressSos = false, drawerOpen = false;
@@ -101,8 +102,16 @@ inline double gauss(double sd) { std::normal_distribution<double> n(0, sd); retu
 // ---------------- GPIO: buttons, drawer, HX711 ----------------
 const int P_HX_DT = 32, P_HX_SCK = 14, P_SEL = 18, P_S0 = 33, P_S1 = 27, P_BTN_G = 4, P_BTN_R = 5, P_SOS = 15, P_DRAWER = 36;
 inline void pinMode(int, int) {}
+inline double platformKg() {                             // the chair stands on the platform and is in the tare
+  if (!W.sitting) return 0.0;
+  if (W.standAt == 0 && W.answersDone) W.standAt = W.us + 1500000;   // he starts to rise 1.5 s after the prompt
+  if (W.standAt == 0 || W.us < W.standAt) return W.weight;
+  double t = (W.us - W.standAt) / 1e6, D = W.stsD;
+  if (t < D) { double u = t / D; return W.weight * (1 + W.stsH * (60 * u - 180 * u * u + 120 * u * u * u) / (D * D) / 9.81); }
+  return t < D + 2.5 ? W.weight : 0.0;                     // standing on the plates, then steps off
+}
 inline int scaleCounts() {
-  double kg = (W.sitting && (W.standAt == 0 || W.us < W.standAt)) ? W.weight : 0.0;
+  double kg = platformKg();
   return (int)lround(kg * 21000.0 + gauss(800));          // DEFAULT_COUNTS_PER_KG, about 0.04 kg noise
 }
 inline void digitalWrite(int p, int v) {
@@ -125,7 +134,7 @@ inline int digitalRead(int p) {
       int a = W.answers[W.nextAnswer];
       if ((p == P_BTN_R && a == 1) || (p == P_BTN_G && a == 0)) {
         W.questionOpen = false; W.nextAnswer++;
-        if (W.nextAnswer == W.answers.size()) W.standAt = W.us + 6000000;   // stands up 6 s later (after the prompt)
+        if (W.nextAnswer == W.answers.size()) W.answersDone = true;          // next platform reading: the stand-up prompt
         return 0;
       }
       if (a < 0) { W.questionOpen = false; W.nextAnswer++; }

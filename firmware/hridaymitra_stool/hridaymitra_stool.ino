@@ -551,10 +551,16 @@ void checkin() {
   if (drawerToday) took = 1;                             // tablet drawer opened today: no need to ask
   else { say(CLIP_Q_TABLETS); a = button(20000); took = a < 0 ? -1 : (a == 1 ? 1 : 0); }
   say(CLIP_STAND);
-  uint32_t t0 = millis();
-  while (millis() - t0 < 15000) {
-    float w = kg();
-    if (!isnan(w) && w < 5) { float s = (millis() - t0) / 1000.0f; if (s >= 0.5f) d.v[hm::STANDUP] = s; break; }   // < 0.5 s: already up, no reading
+  {                                                      // sit-to-stand time: the chair stands on the platform, so the
+    static float sts[hm::STS_MAX]; int n = 0, off = 0;   // rise shows as force above / below body weight (hm::stsFit)
+    uint32_t t0 = millis();
+    while (n < hm::STS_MAX && millis() - t0 < 15000) {
+      while (millis() < t0 + 100UL * n) {}               // 10 samples per second (the HX711's own rate)
+      float w = kg();
+      sts[n++] = isnan(w) ? (n > 1 ? sts[n - 2] : 0) : w;
+      if (!isnan(d.v[hm::WEIGHT]) && w < 0.5f * d.v[hm::WEIGHT] && ++off >= 10) break;   // stepped off for 1 s
+    }
+    d.v[hm::STANDUP] = hm::stsFit(sts, n, 10.0f);
   }
   scanAmulet();
   d.v[hm::NIGHT_RR] = amulet.rr; d.situps = amulet.situps; d.v[hm::ACTIVITY] = amulet.activity;
