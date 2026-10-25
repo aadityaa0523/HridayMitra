@@ -25,3 +25,6 @@ tests/sil/prev_*.exe
 tests/sil/prev_*.pdb
 tests/ewi_check.exe
 tests/ewi_check.pdb
+
+# team photo used in the pitch video: kept out of the public repo
+docs/pitch_video/prototype.jpg

@@ -45,6 +45,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:
 .row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:26px}
 .row span:first-child{color:var(--mute);font-weight:500}
 .row b{font-size:30px}
+.pulse{border-radius:50%;border:5px solid #2DD4BF;box-shadow:0 0 30px rgba(45,212,191,.6)}
 svg text{font-family:'Inter Display','Inter',sans-serif}
 #progress{position:absolute;left:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--teal),var(--cyan));width:0}
 </style>
@@ -113,17 +114,17 @@ svg text{font-family:'Inter Display','Inter',sans-serif}
   <div class="abs" style="left:900px;top:170px;width:900px">
    <div class="h2" data-cue="silent:0" data-fx="up">Heart failure rarely strikes <span class="redg">without warning.</span></div>
    <div class="abs" style="left:0;top:220px">
-    <div class="kicker" style="color:var(--mute)" data-cue="silent:1" data-fx="up">Days before the hospital</div>
-    <div class="stat" style="font-size:150px;margin-top:6px" data-cue="silent:1" data-in=".2" data-fx="up">Day −<span id="daysLeft">10</span></div>
+    <div class="kicker" style="color:var(--mute)" data-cue="silent:0" data-in="1" data-fx="up">Days before the hospital</div>
+    <div class="stat" style="font-size:150px;margin-top:6px" data-cue="silent:0" data-in="1.2" data-fx="up">Day −<span id="daysLeft">10</span></div>
    </div>
    <div class="abs" style="left:0;top:520px;display:flex;flex-direction:column;gap:18px">
-    <span class="chip" data-cue="silent:2" data-fx="left">⚖ Weight creeping up · +1.3 kg</span>
-    <span class="chip" data-cue="silent:2" data-in="1.4" data-fx="left">🫁 Breathing a little faster</span>
-    <span class="chip" data-cue="silent:2" data-in="2.8" data-fx="left">🛏 Sleeping on extra pillows</span>
+    <span class="chip" data-cue="silent:1" data-in=".3" data-fx="left">⚖ Weight creeping up · +1.3 kg</span>
+    <span class="chip" data-cue="silent:1" data-in="1.6" data-fx="left">🫁 Breathing a little faster</span>
+    <span class="chip" data-cue="silent:1" data-in="2.8" data-fx="left">🛏 Sleeping on extra pillows</span>
    </div>
   </div>
   <div class="abs" id="emerg" style="inset:0;background:radial-gradient(circle at 50% 50%,#9F1239,#450A0A);opacity:0"></div>
-  <div class="center"><div class="h1" style="font-size:150px" data-cue="silent:3" data-in="2.6" data-fx="blur">EMERGENCY</div><div class="h3" style="margin-top:16px;color:#FECDD3" data-cue="silent:3" data-in="3.2" data-fx="up">Nobody noticed in time.</div></div>
+  <div class="center"><div class="h1" style="font-size:150px" data-cue="silent:2" data-in="1.5" data-fx="blur">EMERGENCY</div><div class="h3" style="margin-top:16px;color:#FECDD3" data-cue="silent:2" data-in="2" data-fx="up">Nobody noticed in time.</div></div>
  </section>
 
  <!-- ===== CHALLENGE ===== -->
@@ -131,28 +132,28 @@ svg text{font-family:'Inter Display','Inter',sans-serif}
   <div class="chapter" data-in=".2" data-fx="left"><i></i><b>01</b> The challenge</div>
   <div class="abs" style="left:80px;top:140px;right:80px">
    <div class="kicker" data-cue="challenge:0" data-fx="up">Transfinitte 2026 · Hardware track · Dare 2 Dream Ventures</div>
-   <div class="h2" style="margin-top:20px" data-cue="challenge:1" data-fx="up">Spot worsening heart failure <span class="grad">at home,</span><br><span class="grad">days early,</span> with almost no effort.</div>
+   <div class="h2" style="margin-top:20px" data-cue="challenge:0" data-in=".8" data-fx="up">Spot worsening heart failure <span class="grad">at home,</span><br><span class="grad">days early,</span> with almost no effort.</div>
   </div>
   <div class="abs" style="left:80px;right:80px;top:480px;display:flex;gap:36px">
-   <div class="card" style="flex:1;padding:44px;height:420px" data-cue="challenge:2" data-fx="up"><div class="kicker" style="color:var(--mute)">Low effort</div><div class="stat grad" style="font-size:96px;margin:18px 0 8px">&lt; 2 min</div><div class="body">a day. No sticky patch worn all day.</div></div>
-   <div class="card" style="flex:1;padding:44px;height:420px" data-cue="challenge:2" data-in="1.6" data-fx="up"><div class="kicker" style="color:var(--mute)">Real homes</div><div class="stat grad" style="font-size:96px;margin:18px 0 8px">Offline</div><div class="body">Low literacy, local language, power cuts, weak internet.</div></div>
-   <div class="card" style="flex:1;padding:44px;height:420px" data-cue="challenge:3" data-fx="up"><div class="kicker" style="color:var(--mute)">Low cost</div><div class="stat grad" style="font-size:96px;margin:18px 0 8px">&lt; ₹5,000</div><div class="body">for the parts of the home unit.</div></div>
+   <div class="card" style="flex:1;padding:44px;height:420px" data-cue="challenge:1" data-fx="up"><div class="kicker" style="color:var(--mute)">Low effort</div><div class="stat grad" style="font-size:96px;margin:18px 0 8px">&lt; 2 min</div><div class="body">a day. No sticky patch worn all day.</div></div>
+   <div class="card" style="flex:1;padding:44px;height:420px" data-cue="challenge:1" data-in="1.8" data-fx="up"><div class="kicker" style="color:var(--mute)">Real homes</div><div class="stat grad" style="font-size:96px;margin:18px 0 8px">Offline</div><div class="body">Low literacy, local language, power cuts, weak internet.</div></div>
+   <div class="card" style="flex:1;padding:44px;height:420px" data-cue="challenge:1" data-in="5" data-fx="up"><div class="kicker" style="color:var(--mute)">Low cost</div><div class="stat grad" style="font-size:96px;margin:18px 0 8px">&lt; ₹5,000</div><div class="body">for the parts of the home unit.</div></div>
   </div>
  </section>
 
  <!-- ===== WHY ===== -->
  <section class="scene" data-seg="why">
-  <div class="sub" data-cue="why:0" data-in="-.3" data-outcue="why:2" data-out="-.5">
+  <div class="sub" data-cue="why:0" data-in="-.3" data-outcue="why:1" data-out="-.5">
    <div class="center" style="flex-direction:row;gap:120px">
     <div><div class="stat redg" style="font-size:220px">1 in 3</div><div class="h3" style="color:var(--mute);margin-top:10px">caught by a weighing scale alone</div></div>
-    <div class="card" style="padding:40px 50px;text-align:left;position:relative" data-cue="why:1" data-fx="up"><div class="h3">Patches?</div><div class="body" style="margin-top:8px">Uncomfortable to wear all day.</div>
-     <div class="abs" style="left:-10px;right:-10px;top:50%;height:6px;background:var(--red);transform-origin:left" data-cue="why:1" data-in="1.2" data-fx="grow"></div></div>
+    <div class="card" style="padding:40px 50px;text-align:left;position:relative" data-cue="why:0" data-in="2.6" data-fx="up"><div class="h3">Patches?</div><div class="body" style="margin-top:8px">Uncomfortable to wear all day.</div>
+     <div class="abs" style="left:-10px;right:-10px;top:50%;height:6px;background:var(--red);transform-origin:left" data-cue="why:0" data-in="3.8" data-fx="grow"></div></div>
    </div>
   </div>
-  <div class="sub" data-cue="why:2" data-in="-.2">
-   <div class="abs" style="left:120px;top:300px;width:900px"><div class="h2" data-cue="why:2" data-fx="up">What does Ramesh already do <span class="grad">every day?</span></div>
-    <div class="h1" style="margin-top:50px" data-cue="why:3" data-fx="blur">He sits in <span class="grad">his chair.</span></div></div>
-   <svg class="abs" style="left:1150px;top:220px" width="620" height="720" viewBox="0 0 620 720" data-cue="why:3" data-in="-.6" data-fx="right"><ellipse cx="320" cy="660" rx="280" ry="22" fill="rgba(0,0,0,.35)"/><use href="#chair"/><use href="#ramesh"/></svg>
+  <div class="sub" data-cue="why:1" data-in="-.2">
+   <div class="abs" style="left:120px;top:300px;width:900px"><div class="h2" data-cue="why:1" data-fx="up">What does Ramesh already do <span class="grad">every day?</span></div>
+    <div class="h1" style="margin-top:50px" data-cue="why:1" data-in="1.2" data-fx="blur">He sits in <span class="grad">his chair.</span></div></div>
+   <svg class="abs" style="left:1150px;top:220px" width="620" height="720" viewBox="0 0 620 720" data-cue="why:1" data-in=".6" data-fx="right"><ellipse cx="320" cy="660" rx="280" ry="22" fill="rgba(0,0,0,.35)"/><use href="#chair"/><use href="#ramesh"/></svg>
   </div>
  </section>
 
@@ -172,16 +173,16 @@ svg text{font-family:'Inter Display','Inter',sans-serif}
  <!-- ===== PRODUCT (concept image) ===== -->
  <section class="scene" data-seg="product">
   <div class="chapter" data-in=".2" data-fx="left"><i></i><b>02</b> The product</div>
-  <div class="sub" data-cue="product:0" data-in="-.6" data-outcue="product:1" data-out="-.4">
-   <div class="crop" style="left:80px;top:150px;width:880px;height:880px"><img src="concept.webp" data-crop="0,0,740,770,880,880" data-kb="1,0,0,1.1,0,20"></div>
+  <div class="sub" data-cue="product:0" data-in="-.6" data-outcue="product:0" data-out="3.2">
+   <div class="crop" style="left:80px;top:150px;width:880px;height:880px"><img src="concept.webp" data-crop="0,0,740,770,880,880" data-kb="1,0,0,1.08,0,15"></div>
+  </div>
+  <div class="sub" data-cue="product:0" data-in="3.2" data-outcue="product:1" data-out="-.4">
+   <div class="crop" style="left:80px;top:290px;width:1100px;height:600px"><img src="concept.webp" data-crop="756,302,490,276,1100,620" data-kb="1,0,0,1.1,-30,10"></div>
   </div>
   <div class="sub" data-cue="product:1" data-in="-.4" data-outcue="product:2" data-out="-.4">
-   <div class="crop" style="left:80px;top:290px;width:1100px;height:600px"><img src="concept.webp" data-crop="756,302,490,276,1100,620" data-kb="1,0,0,1.12,-30,10"></div>
-  </div>
-  <div class="sub" data-cue="product:2" data-in="-.4" data-outcue="product:3" data-out="-.4">
    <div class="crop" style="left:80px;top:300px;width:1100px;height:620px"><img src="concept.webp" data-crop="756,30,490,262,1100,588" data-kb="1,0,0,1.1,20,0"></div>
   </div>
-  <div class="sub" data-cue="product:3" data-in="-.4">
+  <div class="sub" data-cue="product:2" data-in="-.4">
    <svg class="abs" style="left:280px;top:220px" width="700" height="760" viewBox="0 0 700 760">
     <path d="M190 40 Q350 420 510 40" fill="none" stroke="#94A3B8" stroke-width="6"/>
     <circle cx="350" cy="420" r="110" fill="#0F172A" stroke="#F59E0B" stroke-width="10"/>
@@ -194,12 +195,12 @@ svg text{font-family:'Inter Display','Inter',sans-serif}
   </div>
   <div class="abs" style="left:1240px;top:200px;width:600px;display:flex;flex-direction:column;gap:22px">
    <div class="h3" data-cue="product:0" data-fx="right">A weighing platform <span class="grad">under his own chair.</span></div>
-   <div class="tag" data-cue="product:1" data-fx="right"><em>4 load cells</em> · weight &amp; sit-to-stand speed</div>
-   <div class="tag" data-cue="product:1" data-in="1.6" data-fx="right"><em>4 steel foot plates</em> · heel + forefoot</div>
-   <div class="tag" data-cue="product:2" data-fx="right"><em>Lap sensor bar</em> · 4 hand strips</div>
-   <div class="tag" data-cue="product:2" data-in="2" data-fx="right"><em>Fingertip cradle</em> · pulse + SpO₂</div>
-   <div class="tag" data-cue="product:2" data-in="4" data-fx="right"><em>✓ ✗ SOS</em> buttons · speaker · status light</div>
-   <div class="tag" data-cue="product:3" data-fx="right"><em>Amulet</em> · night breathing · sitting up at night · walk test · falls · SOS</div>
+   <div class="tag" data-cue="product:0" data-in="3.4" data-fx="right"><em>4 load cells</em> · weight &amp; sit-to-stand speed</div>
+   <div class="tag" data-cue="product:0" data-in="4.6" data-fx="right"><em>4 steel foot plates</em> · heel + forefoot</div>
+   <div class="tag" data-cue="product:1" data-fx="right"><em>Lap sensor bar</em> · 4 hand strips</div>
+   <div class="tag" data-cue="product:1" data-in="2" data-fx="right"><em>Fingertip cradle</em> · pulse + SpO₂</div>
+   <div class="tag" data-cue="product:1" data-in="4" data-fx="right"><em>✓ ✗ SOS</em> buttons · speaker · status light</div>
+   <div class="tag" data-cue="product:2" data-fx="right"><em>Amulet</em> · night breathing · sitting up at night · walk test · falls · SOS</div>
   </div>
  </section>
 
@@ -245,72 +246,167 @@ svg text{font-family:'Inter Display','Inter',sans-serif}
   </div>
  </section>
 
+ <!-- ===== PROTOTYPE (real photo) ===== -->
+ <section class="scene" data-seg="proto">
+  <div class="chapter" data-in=".2" data-fx="left"><i></i><b>03</b> Our prototype</div>
+  <div class="crop" style="left:200px;top:110px;width:660px;height:880px" data-cue="proto:0" data-in=".4" data-fx="scale">
+   <div class="abs" style="inset:0;transform-origin:30% 50%" data-kb="1,0,0,1.18,30,-40">
+    <img src="prototype.jpg" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+    <div class="abs pulse" style="left:142px;top:320px;width:150px;height:150px" data-cue="proto:2" data-fx="pop"></div>
+    <div class="abs pulse" style="left:247px;top:402px;width:80px;height:80px;border-color:#22C55E" data-cue="proto:2" data-in="1.6" data-fx="pop"></div>
+    <div class="abs pulse" style="left:280px;top:208px;width:110px;height:110px;border-color:#F59E0B" data-cue="proto:2" data-in="3.4" data-fx="pop"></div>
+   </div>
+  </div>
+  <div class="abs" style="left:960px;top:200px;width:880px">
+   <div class="h2" data-cue="proto:0" data-fx="up">Not just an <span class="grad">animation.</span></div>
+   <div class="body" style="margin-top:18px" data-cue="proto:1" data-fx="up">Our first breadboard prototype, on an ordinary plastic chair.</div>
+   <div style="display:flex;flex-direction:column;gap:18px;margin-top:44px">
+    <div class="tag" data-cue="proto:2" data-fx="right"><em>Sensor board</em> resting on the lap</div>
+    <div class="tag" data-cue="proto:2" data-in="1.6" data-fx="right"><em style="color:#86EFAC">● Status light</em> glowing green</div>
+    <div class="tag" data-cue="proto:2" data-in="3.4" data-fx="right"><em style="color:#FBBF24">Amulet</em> on a cord around the neck</div>
+   </div>
+  </div>
+ </section>
+
  <!-- ===== ALERT ===== -->
  <section class="scene" data-seg="alert">
   <div class="chapter" data-in=".2" data-fx="left"><i></i><b>04</b> When it matters</div>
   <div class="abs" style="left:80px;top:110px"><div class="h2" style="font-size:56px" data-cue="alert:0" data-fx="up">It learns <span class="grad">his own normal.</span> And it notices.</div></div>
   <svg class="abs" id="chart" style="left:50px;top:200px" width="1180" height="640" viewBox="0 0 1160 660"></svg>
-  <div class="abs phone" style="left:1390px;top:170px;height:660px;padding:64px 18px 0" data-cue="alert:3" data-in=".8" data-fx="right">
+  <div class="abs phone" style="left:1390px;top:170px;height:660px;padding:64px 18px 0" data-cue="alert:1" data-in="3" data-fx="right">
    <div style="font-size:17px;color:var(--mute);text-align:center;margin-bottom:18px">SMS · Ramesh’s daughter</div>
-   <div class="sms" data-cue="alert:3" data-in="1.4" data-fx="up"><b style="color:#FB7185">HridayMitra RED</b> · Ramesh<br>Why: leg reading −5% vs normal, weight +1.3 kg, night breathing +1.4/min. Likely fluid building.<br>Reply 1 checking, 2 need help.</div>
+   <div class="sms" data-cue="alert:1" data-in="3.6" data-fx="up"><b style="color:#FB7185">HridayMitra RED</b> · Ramesh<br>Why: leg reading −5% vs normal, weight +1.3 kg, night breathing +1.4/min. Likely fluid building.<br>Reply 1 checking, 2 need help.</div>
   </div>
   <svg class="abs" style="left:80px;top:870px" width="1760" height="180" viewBox="0 0 1760 180">
-   <path d="M120 60 H1640" stroke="#334155" stroke-width="6" stroke-linecap="round" data-cue="alert:4" data-fx="fade"/>
-   <path d="M120 60 H1640" stroke="#2DD4BF" stroke-width="6" stroke-linecap="round" data-draw="alert:4,5"/>
+   <path d="M120 60 H1640" stroke="#334155" stroke-width="6" stroke-linecap="round" data-cue="alert:2" data-fx="fade"/>
+   <path d="M120 60 H1640" stroke="#2DD4BF" stroke-width="6" stroke-linecap="round" data-draw="alert:2,4"/>
    <g font-size="26" font-weight="700" fill="#F1F5F9" text-anchor="middle">
-    <g data-cue="alert:3" data-in="2" data-fx="pop"><circle cx="120" cy="60" r="34" fill="#0F172A" stroke="#2DD4BF" stroke-width="5"/><text x="120" y="70" font-size="24">1</text><text x="120" y="135">Daughter · now</text></g>
-    <g data-cue="alert:4" data-in="1.2" data-fx="pop"><circle cx="627" cy="60" r="34" fill="#0F172A" stroke="#2DD4BF" stroke-width="5"/><text x="627" y="70" font-size="24">2</text><text x="627" y="135">Family 2 · 30 min</text></g>
-    <g data-cue="alert:4" data-in="2.6" data-fx="pop"><circle cx="1134" cy="60" r="34" fill="#0F172A" stroke="#2DD4BF" stroke-width="5"/><text x="1134" y="70" font-size="24">3</text><text x="1134" y="135">ASHA worker · 2 h</text></g>
-    <g data-cue="alert:4" data-in="4.2" data-fx="pop"><circle cx="1640" cy="60" r="34" fill="#0F172A" stroke="#2DD4BF" stroke-width="5"/><text x="1640" y="70" font-size="24">4</text><text x="1640" y="135">PHC doctor · 6 h</text></g>
+    <g data-cue="alert:1" data-in="4" data-fx="pop"><circle cx="120" cy="60" r="34" fill="#0F172A" stroke="#2DD4BF" stroke-width="5"/><text x="120" y="70" font-size="24">1</text><text x="120" y="135">Daughter · now</text></g>
+    <g data-cue="alert:2" data-in="1" data-fx="pop"><circle cx="627" cy="60" r="34" fill="#0F172A" stroke="#2DD4BF" stroke-width="5"/><text x="627" y="70" font-size="24">2</text><text x="627" y="135">Family 2 · 30 min</text></g>
+    <g data-cue="alert:2" data-in="2.2" data-fx="pop"><circle cx="1134" cy="60" r="34" fill="#0F172A" stroke="#2DD4BF" stroke-width="5"/><text x="1134" y="70" font-size="24">3</text><text x="1134" y="135">ASHA worker · 2 h</text></g>
+    <g data-cue="alert:2" data-in="3.4" data-fx="pop"><circle cx="1640" cy="60" r="34" fill="#0F172A" stroke="#2DD4BF" stroke-width="5"/><text x="1640" y="70" font-size="24">4</text><text x="1640" y="135">PHC doctor · 6 h</text></g>
    </g>
   </svg>
  </section>
 
- <!-- ===== BUILT: hardware + simulation ===== -->
- <section class="scene" data-seg="built">
-  <div class="chapter" data-in=".2" data-fx="left"><i></i><b>05</b> Engineered &amp; simulated</div>
-  <div class="sub" data-cue="built:0" data-in="-.4" data-outcue="built:1" data-out="-.3"><div class="center"><div class="h1" data-cue="built:0" data-fx="blur">Designed. <span class="grad">Simulated.</span></div><div class="h3" style="color:var(--mute);margin-top:20px" data-cue="built:0" data-in=".6" data-fx="up">Before a single solder joint.</div></div></div>
-  <div class="sub" data-cue="built:1" data-in="-.3" data-outcue="built:2" data-out="-.3">
-   <div class="abs" style="left:80px;top:130px"><div class="kicker">Block diagram · KiCad schematic (ERC 0)</div></div>
-   <div class="sheet" style="left:80px;top:190px;width:860px;height:820px" data-cue="built:1" data-fx="up"><img src="../hardware/HM-HW-001_block_diagram.png" data-kb="1,0,0,1.25,0,0"></div>
-   <div class="sheet" style="left:980px;top:190px;width:860px;height:820px" data-cue="built:1" data-in="1.4" data-fx="up"><img src="../hardware/HM-HW-002_sheet2.png" data-kb="1,0,0,1.4,-60,30"></div>
-  </div>
-  <div class="sub" data-cue="built:2" data-in="-.3" data-outcue="built:3" data-out="-.3">
-   <div class="abs" style="left:80px;top:120px"><div class="kicker">LTspice · every test point</div><div class="h2" style="margin-top:10px">578.4 Ω measured vs <span class="grad">578.5 Ω exact.</span></div></div>
-   <div class="sheet" style="left:80px;top:300px;width:1760px;height:700px" data-cue="built:2" data-fx="up"><img src="../hardware/frontend_sheet.png" data-kb="1,0,0,1.35,0,-110"></div>
-  </div>
-  <div class="sub" data-cue="built:3" data-in="-.3" data-outcue="built:4" data-out="-.3">
-   <div class="abs" style="left:80px;top:120px"><div class="kicker">Monte Carlo · 100 virtual devices · 5% parts</div><div class="h2" style="margin-top:10px"><span class="grad">99%</span> of readings within 2%.</div></div>
-   <div class="sheet" style="left:80px;top:300px;width:1760px;height:500px" data-cue="built:3" data-fx="up"><img src="../../sim/circuit/montecarlo.png"></div>
-   <div class="abs card" style="left:80px;top:840px;width:1760px;height:150px;display:flex;align-items:center;gap:40px;padding:0 50px" data-cue="built:3" data-in="2" data-fx="up">
-    <div class="h3">Our own bug, caught:</div>
-    <div class="h3" style="color:var(--mute);position:relative">bias resistors 1 MΩ<div class="abs" style="left:0;right:0;top:50%;height:4px;background:var(--red);transform-origin:left" data-cue="built:3" data-in="3" data-fx="grow"></div></div>
-    <div class="h3 grad" data-cue="built:3" data-in="3.6" data-fx="left">→ 10 MΩ</div>
+ <!-- ===== SIMULATION CHAPTER ===== -->
+ <section class="scene" data-seg="simintro">
+  <div class="center">
+   <div class="kicker" data-cue="simintro:0" data-fx="up">05 · Simulation, in detail</div>
+   <div class="h1" style="margin-top:24px" data-cue="simintro:0" data-in=".2" data-fx="blur">We tried hard to <span class="redg">break it.</span></div>
+   <div style="display:flex;gap:16px;margin-top:50px">
+    <span class="chip" data-cue="simintro:0" data-in="2" data-fx="up">LTspice</span><span class="chip" data-cue="simintro:0" data-in="2.3" data-fx="up">KiCad</span><span class="chip" data-cue="simintro:0" data-in="2.6" data-fx="up">Wokwi</span><span class="chip" data-cue="simintro:0" data-in="2.9" data-fx="up">Python · SciPy · NeuroKit2</span><span class="chip" data-cue="simintro:0" data-in="3.2" data-fx="up">PhysioNet BIDMC</span>
    </div>
   </div>
-  <div class="sub" data-cue="built:4" data-in="-.3">
-   <div class="abs" style="left:80px;top:110px"><div class="kicker">Wokwi · real firmware · emulated ESP32</div><div class="h2" style="margin-top:10px;font-size:58px">A virtual patient we can <span class="redg">make sick.</span></div></div>
-   <div class="abs" style="left:360px;top:270px;width:1200px;height:675px;border-radius:20px;background:#000;box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 2px rgba(45,212,191,.4)"></div>
-   <div class="abs" style="left:0;right:0;top:975px;display:flex;justify-content:center;gap:18px"><div class="tag">One emulated month · <em>26 / 26</em> firmware checks</div><div class="tag">Every light = the tested engine</div></div>
+ </section>
+
+ <section class="scene" data-seg="ltspice">
+  <div class="chapter"><i></i><b>05.1</b> Circuit · LTspice</div>
+  <div class="abs" style="left:80px;top:120px"><div class="kicker" data-cue="ltspice:0" data-fx="up">8-electrode front end on a body model</div><div class="h2" style="margin-top:10px" data-cue="ltspice:1" data-fx="up">578.4 Ω measured vs <span class="grad">578.5 Ω exact.</span></div></div>
+  <div class="sheet" style="left:80px;top:300px;width:1120px;height:700px" data-cue="ltspice:0" data-fx="up"><img src="../hardware/frontend_sheet.png" data-kb="1,0,0,1.3,40,-90"></div>
+  <div class="sheet" style="left:1240px;top:300px;width:600px;height:220px" data-cue="ltspice:1" data-in="2" data-fx="right"><img src="../../sim/circuit/z1_results.png"></div>
+  <div class="sheet" style="left:1240px;top:545px;width:600px;height:220px" data-cue="ltspice:1" data-in="3.2" data-fx="right"><img src="../../sim/circuit/trunk_results.png"></div>
+  <div class="abs card" style="left:1240px;top:790px;width:600px;padding:26px 34px" data-cue="ltspice:1" data-in="5" data-fx="up"><div class="stat grad" style="font-size:72px">≤ 0.05%</div><div class="body" style="font-size:22px">error on every path: legs, arms, both sides</div></div>
+ </section>
+
+ <section class="scene" data-seg="mc">
+  <div class="chapter"><i></i><b>05.2</b> Monte Carlo</div>
+  <div class="abs" style="left:80px;top:120px"><div class="kicker" data-cue="mc:0" data-fx="up">100 virtual devices · 5% parts · random bodies &amp; skin</div><div class="h2" style="margin-top:10px" data-cue="mc:1" data-fx="up"><span class="grad">99%</span> of readings within 2%.</div></div>
+  <div class="sheet" style="left:80px;top:300px;width:1760px;height:500px" data-cue="mc:0" data-in=".6" data-fx="up"><img src="../../sim/circuit/montecarlo.png"></div>
+  <div class="abs card" style="left:80px;top:840px;width:1760px;height:150px;display:flex;align-items:center;gap:40px;padding:0 50px" data-cue="mc:1" data-in="3" data-fx="up">
+   <div class="h3">Our own bug, caught:</div>
+   <div class="h3" style="color:var(--mute);position:relative">bias resistors 1 MΩ<div class="abs" style="left:0;right:0;top:50%;height:4px;background:var(--red);transform-origin:left" data-cue="mc:1" data-in="6.5" data-fx="grow"></div></div>
+   <div class="h3 grad" data-cue="mc:1" data-in="7" data-fx="left">→ 10 MΩ · worst error 12% → under 2%</div>
+  </div>
+ </section>
+
+ <section class="scene" data-seg="spectro">
+  <div class="chapter"><i></i><b>05.3</b> Spectroscopy</div>
+  <div class="abs" style="left:80px;top:120px"><div class="kicker" data-cue="spectro:0" data-fx="up">5 / 20 / 50 kHz · Cole-model fit</div><div class="h2" style="margin-top:10px" data-cue="spectro:0" data-in=".4" data-fx="up">Measures <span class="grad">fluid</span>, not foot position.</div></div>
+  <div class="sheet" style="left:80px;top:300px;width:1760px;height:560px" data-cue="spectro:0" data-in=".6" data-fx="up"><img src="../../sim/circuit/spectroscopy.png"></div>
+  <div class="abs" style="left:0;right:0;top:900px;display:flex;justify-content:center;gap:18px"><div class="tag" data-cue="spectro:0" data-in="2.5" data-fx="up">Position &amp; temperature change the fluid index by <em>0.00%</em> in LTspice</div></div>
+ </section>
+
+ <section class="scene" data-seg="safety">
+  <div class="chapter"><i></i><b>05.4</b> Noise &amp; safety</div>
+  <div class="abs" style="left:80px;top:120px"><div class="h2" data-cue="safety:0" data-fx="up">Clean signal. <span class="grad">Safe for the patient.</span></div></div>
+  <div class="abs" style="left:80px;right:80px;top:300px;display:grid;grid-template-columns:1fr 1fr;gap:30px">
+   <div class="card" style="padding:40px;height:310px" data-cue="safety:0" data-in=".4" data-fx="up"><div class="kicker" style="color:var(--mute)">Mains hum · charger plugged in</div><div class="stat" style="font-size:96px;margin-top:14px"><span class="redg">18%</span> → <span class="grad">0.17%</span></div><div class="body" style="font-size:24px;margin-top:10px">peak-to-peak error vs our Goertzel filter</div></div>
+   <div class="card" style="padding:40px;height:310px" data-cue="safety:1" data-fx="up"><div class="kicker" style="color:var(--mute)">IEC 60601-1 · type BF</div><div class="stat grad" style="font-size:96px;margin-top:14px">≥ 12.8×</div><div class="body" style="font-size:24px;margin-top:10px">safety margin under every single fault (shorted part, stuck op-amp, DAC at full scale)</div></div>
+   <div class="card" style="padding:40px;height:310px" data-cue="safety:1" data-in="5" data-fx="up"><div class="kicker" style="color:var(--mute)">Charger leakage · CHARGE / USE switch</div><div class="stat" style="font-size:96px;margin-top:14px"><span class="redg">339 µA</span> → <span class="grad">0.19 µA</span></div><div class="body" style="font-size:24px;margin-top:10px">both USB wires cut while a person is measured</div></div>
+   <div class="card" style="padding:40px;height:310px" data-cue="safety:1" data-in="6.5" data-fx="up"><div class="kicker" style="color:var(--mute)">Self-calibration</div><div class="stat grad" style="font-size:96px;margin-top:14px">Rcal</div><div class="body" style="font-size:24px;margin-top:10px">precision reference checked at every check-in; drift → no numbers, service SMS</div></div>
+  </div>
+ </section>
+
+ <section class="scene" data-seg="kicad">
+  <div class="chapter"><i></i><b>05.5</b> Hardware design</div>
+  <div class="abs" style="left:80px;top:120px"><div class="kicker" data-cue="kicad:0" data-fx="up">KiCad · generated from code · ERC 0 errors</div></div>
+  <div class="sheet" style="left:80px;top:180px;width:1000px;height:820px" data-cue="kicad:0" data-in=".2" data-fx="up"><img src="../hardware/HM-HW-002_sheet2.png" data-kb="1,0,0,1.35,-40,20"></div>
+  <div class="sheet" style="left:1120px;top:180px;width:720px;height:470px" data-cue="kicad:0" data-in="2.5" data-fx="right"><img src="../hardware/HM-HW-001_block_diagram.png"></div>
+  <div class="sheet" style="left:1120px;top:680px;width:720px;height:320px" data-cue="kicad:0" data-in="5" data-fx="right"><img src="../hardware/HM-HW-003_power_budget.png"></div>
+ </section>
+
+ <section class="scene" data-seg="wokwi">
+  <div class="chapter"><i></i><b>05.6</b> Firmware · Wokwi</div>
+  <div class="abs" style="left:80px;top:110px"><div class="kicker" data-cue="wokwi:0" data-fx="up">Real firmware · emulated ESP32 · virtual patient chip</div><div class="h2" style="margin-top:10px;font-size:58px" data-cue="wokwi:0" data-in=".3" data-fx="up">A virtual patient we can <span class="redg">make sick.</span></div></div>
+  <div class="abs" style="left:360px;top:270px;width:1200px;height:675px;border-radius:20px;background:#000;box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 2px rgba(45,212,191,.4)" data-cue="wokwi:0" data-fx="scale"></div>
+  <div class="abs" style="left:0;right:0;top:975px;display:flex;justify-content:center;gap:18px"><div class="tag" data-cue="wokwi:1" data-fx="up">One emulated month · <em>26 / 26</em> firmware checks pass</div><div class="tag" data-cue="wokwi:1" data-in=".6" data-fx="up">Every light = the tested engine</div></div>
+ </section>
+
+ <section class="scene" data-seg="parity">
+  <div class="chapter"><i></i><b>05.7</b> One engine, three places</div>
+  <div class="center">
+   <div style="display:flex;align-items:center;gap:40px">
+    <div class="card" style="padding:40px 54px" data-cue="parity:0" data-in=".2" data-fx="up"><div class="h3">Python</div><div class="body" style="font-size:22px">research &amp; dashboard</div></div>
+    <div class="h1 grad" data-cue="parity:0" data-in="1" data-fx="pop">=</div>
+    <div class="card" style="padding:40px 54px" data-cue="parity:0" data-in="1.4" data-fx="up"><div class="h3">C++ on the ESP32</div><div class="body" style="font-size:22px">offline, on the chip</div></div>
+    <div class="h1 grad" data-cue="parity:0" data-in="2.2" data-fx="pop">=</div>
+    <div class="card" style="padding:40px 54px" data-cue="parity:0" data-in="2.6" data-fx="up"><div class="h3">TypeScript</div><div class="body" style="font-size:22px">Saathi phone app</div></div>
+   </div>
+   <div class="stat grad" style="margin-top:70px" data-cue="parity:0" data-in="4" data-fx="up"><span data-count="3231" data-cue="parity:0" data-in="4" data-dur="2"></span> / 3,231 days identical</div>
+  </div>
+ </section>
+
+ <section class="scene" data-seg="data">
+  <div class="chapter"><i></i><b>05.8</b> Data &amp; real ECG</div>
+  <div class="sub" data-cue="data:0" data-in="-.3" data-outcue="data:1" data-out="-.3">
+   <div class="abs" style="left:80px;top:120px"><div class="h2" style="font-size:56px">Synthetic patients, built to the rules.</div></div>
+   <div class="sheet" style="left:80px;top:250px;width:1760px;height:560px" data-cue="data:0" data-in=".4" data-fx="up"><img src="../../reports/patients_sample.png"></div>
+   <div class="abs" style="left:80px;top:850px;display:flex;gap:16px">
+    <span class="chip" data-cue="data:0" data-in="1.5" data-fx="up">200 × 60 days · PS cohort</span><span class="chip" data-cue="data:0" data-in="3" data-fx="up">1,000 × 180 days · external</span><span class="chip" data-cue="data:0" data-in="5" data-fx="up">every parameter: source or ASSUMPTION</span>
+   </div>
+  </div>
+  <div class="sub" data-cue="data:1" data-in="-.3">
+   <div class="abs" style="left:80px;top:120px"><div class="kicker">PhysioNet BIDMC congestive heart failure · 15 real ECGs</div><div class="h2" style="margin-top:10px">Heart rate off by a median of <span class="grad">0.15 bpm.</span></div></div>
+   <div class="sheet" style="left:80px;top:320px;width:1760px;height:640px" data-cue="data:1" data-in=".3" data-fx="up"><img src="../../reports/bidmc_hr_validation.png"></div>
+  </div>
+ </section>
+
+ <section class="scene" data-seg="robust">
+  <div class="chapter"><i></i><b>05.9</b> Robustness</div>
+  <div class="sheet" style="left:80px;top:150px;width:1080px;height:850px" data-cue="robust:0" data-in=".2" data-fx="up"><img src="../../reports/assumption_tornado.png"></div>
+  <div class="abs" style="left:1220px;top:200px;width:620px;display:flex;flex-direction:column;gap:30px">
+   <div class="card" style="padding:36px 40px" data-cue="robust:0" data-in="2.6" data-fx="right"><div class="stat grad"><span data-count="52" data-cue="robust:0" data-in="2.6" data-dur="1.2"></span>/52</div><div class="h3" style="font-size:30px;margin-top:10px">wrong-assumption worlds still beat the weight rule</div></div>
+   <div class="card" style="padding:36px 40px" data-cue="robust:0" data-in="5.5" data-fx="right"><div class="stat grad"><span data-count="14" data-cue="robust:0" data-in="5.5" data-dur="1"></span>/15</div><div class="h3" style="font-size:30px;margin-top:10px">stress tests: guests, power cuts, missing days, ageing electrodes</div></div>
   </div>
  </section>
 
  <!-- ===== RESULTS ===== -->
  <section class="scene" data-seg="results">
   <div class="chapter" data-in=".2" data-fx="left"><i></i><b>06</b> Results</div>
-  <div class="abs" style="left:80px;top:130px"><div class="kicker" data-cue="results:0" data-fx="up">1,000 synthetic patients · thresholds frozen before testing</div></div>
+  <div class="abs" style="left:80px;top:130px"><div class="kicker" data-cue="results:0" data-fx="up">1,000 external synthetic patients · thresholds frozen before testing</div></div>
   <div class="abs" style="left:80px;top:220px;width:1060px">
    <div class="stat grad" style="font-size:220px" data-cue="results:0" data-in=".3" data-fx="up"><span data-count="86" data-cue="results:0" data-in=".4" data-dur="2.2"></span>%</div>
    <div class="h3" data-cue="results:0" data-in="1" data-fx="up">of worsening episodes caught</div>
    <div style="margin-top:50px;display:flex;flex-direction:column;gap:26px">
-    <div data-cue="results:1" data-fx="fade"><div style="display:flex;justify-content:space-between;font-size:26px;font-weight:700;margin-bottom:10px"><span>HridayMitra</span><span class="grad">86%</span></div><div class="bar" style="width:860px;background:linear-gradient(90deg,#14B8A6,#38BDF8)" data-cue="results:1" data-fx="growbar"></div></div>
-    <div data-cue="results:1" data-in=".5" data-fx="fade"><div style="display:flex;justify-content:space-between;font-size:26px;font-weight:700;margin-bottom:10px;color:var(--mute)"><span>Weight rule (SCALE-HF)</span><span>31%</span></div><div class="bar" style="width:310px;background:#475569" data-cue="results:1" data-in=".5" data-fx="growbar"></div></div>
+    <div data-cue="results:0" data-in="2.5" data-fx="fade"><div style="display:flex;justify-content:space-between;font-size:26px;font-weight:700;margin-bottom:10px"><span>HridayMitra</span><span class="grad">86%</span></div><div class="bar" style="width:860px;background:linear-gradient(90deg,#14B8A6,#38BDF8)" data-cue="results:0" data-in="2.5" data-fx="growbar"></div></div>
+    <div data-cue="results:0" data-in="4.5" data-fx="fade"><div style="display:flex;justify-content:space-between;font-size:26px;font-weight:700;margin-bottom:10px;color:var(--mute)"><span>Weight rule (SCALE-HF)</span><span>31%</span></div><div class="bar" style="width:310px;background:#475569" data-cue="results:0" data-in="4.5" data-fx="growbar"></div></div>
    </div>
   </div>
   <div class="abs" style="left:1240px;top:220px;width:600px;display:flex;flex-direction:column;gap:26px">
-   <div class="card" style="padding:30px 40px" data-cue="results:2" data-fx="right"><div class="kicker" style="color:var(--mute)">False alarms</div><div class="stat grad" style="font-size:96px;margin-top:8px">~9× fewer</div><div class="body" style="font-size:22px">0.06 vs 0.53 per patient-month (engine on the chip)</div></div>
-   <div class="card" style="padding:30px 40px" data-cue="results:2" data-in="2.4" data-fx="right"><div class="kicker" style="color:var(--mute)">Warning</div><div class="stat grad" style="font-size:96px;margin-top:8px">~3 days</div><div class="body" style="font-size:22px">before the hospital visit (median)</div></div>
-   <div class="card" style="padding:30px 40px" data-cue="results:2" data-in="4.6" data-fx="right"><div class="kicker" style="color:var(--mute)">Internet needed</div><div class="stat grad" style="font-size:96px;margin-top:8px">None</div><div class="body" style="font-size:22px">the engine runs on the ESP32; SMS over 2G</div></div>
+   <div class="card" style="padding:30px 40px" data-cue="results:1" data-fx="right"><div class="kicker" style="color:var(--mute)">False alarms</div><div class="stat grad" style="font-size:96px;margin-top:8px">~9× fewer</div><div class="body" style="font-size:22px">0.06 vs 0.53 per patient-month (engine on the chip)</div></div>
+   <div class="card" style="padding:30px 40px" data-cue="results:1" data-in="2.6" data-fx="right"><div class="kicker" style="color:var(--mute)">Warning</div><div class="stat grad" style="font-size:96px;margin-top:8px">~3 days</div><div class="body" style="font-size:22px">before the hospital visit (median)</div></div>
+   <div class="card" style="padding:30px 40px" data-cue="results:1" data-in="4.4" data-fx="right"><div class="kicker" style="color:var(--mute)">Internet needed</div><div class="stat grad" style="font-size:96px;margin-top:8px">None</div><div class="body" style="font-size:22px">the engine runs on the ESP32; SMS over 2G</div></div>
   </div>
  </section>
 
@@ -322,9 +418,9 @@ svg text{font-family:'Inter Display','Inter',sans-serif}
   <div class="phone" style="left:450px;top:220px" data-cue="app:0" data-in=".7" data-fx="phone"><img src="app/03_saathi_red.png"></div>
   <div class="phone" style="left:780px;top:240px" data-cue="app:0" data-in="1.1" data-fx="phone"><img src="app/07_asha.png"></div>
   <div class="abs" style="left:120px;top:930px;display:flex;gap:14px"><span class="chip" data-cue="app:0" data-in="2.4" data-fx="up">10 Indian languages</span><span class="chip" data-cue="app:0" data-in="2.8" data-fx="up">Offline</span><span class="chip" data-cue="app:0" data-in="3.2" data-fx="up">Encrypted</span></div>
-  <div class="abs" style="left:1230px;top:330px;width:620px" data-cue="app:1" data-fx="right">
+  <div class="abs" style="left:1230px;top:330px;width:620px" data-cue="app:0" data-in="5" data-fx="right">
    <div class="kicker">Whole home unit</div>
-   <div class="stat grad" style="font-size:180px;margin-top:10px">₹<span data-count="4402" data-cue="app:1" data-in=".3" data-dur="2"></span></div>
+   <div class="stat grad" style="font-size:180px;margin-top:10px">₹<span data-count="4402" data-cue="app:0" data-in="5.3" data-dur="2"></span></div>
    <div class="body" style="margin-top:14px">median build cost · 100% of 20,000 price draws under ₹5,000</div>
   </div>
  </section>
@@ -399,7 +495,7 @@ const $=id=>document.getElementById(id),seg=n=>TM.segs[n];
 // breathing
 HOOKS.push(t=>{for(const id of ['breath1','breath2'])$(id).setAttribute('transform',`translate(0 ${1.5*Math.sin(t*1.6)})`)});
 // silent: days count down, fluid rises, emergency flash
-HOOKS.push(t=>{const a=C['silent:1'],z=C['silent:3']+2.4,f=clamp((t-a)/(z-a));
+HOOKS.push(t=>{const a=C['silent:0'],z=C['silent:2']+1.5,f=clamp((t-a)/(z-a));
   $('daysLeft').textContent=Math.max(0,Math.round(10-10*f));$('legFluid').setAttribute('y',900-370*f);
   $('lungL').setAttribute('opacity',.8*clamp((f-.45)/.55));$('lungR').setAttribute('opacity',.8*clamp((f-.45)/.55));
   $('emerg').style.opacity=t>z?clamp((t-z)/.3)*(.85+.15*Math.abs(Math.sin((t-z)*5))):0});
@@ -444,11 +540,11 @@ HOOKS.push(t=>{const k=(t*1.4)%1;$('w1').style.opacity=1-k;$('w2').style.opacity
   const four=mk('text',{x:X(43),y:645,fill:'#5EEAD4','font-size':28,'font-weight':800,'text-anchor':'middle'},'4 days early');
   const br=mk('path',{d:`M${X(41)} 610 V620 H${X(45)} V610`,stroke:'#5EEAD4','stroke-width':3,fill:'none'});
   // the line reaches day 34 on "amber", day 41 on "red"
-  const t0=C['alert:0'],t34=C['alert:1']+.3,t41=C['alert:3']+.3,day=t=>t<t34?34*clamp((t-t0)/(t34-t0)):t<t41?34+7*clamp((t-t34)/(t41-t34)):41+4*clamp((t-t41)/1.5);
+  const t0=C['alert:0'],t34=C['alert:0']+3.2,t41=C['alert:1']+1.3,day=t=>t<t34?34*clamp((t-t0)/(t34-t0)):t<t41?34+7*clamp((t-t34)/(t41-t34)):41+4*clamp((t-t41)/1.5);
   HOOKS.push(t=>{const dd=day(t),f=dd/(N-1);line.style.strokeDashoffset=L*(1-f);area.style.opacity=f;
     dots.forEach((c,i)=>c.style.opacity=i<=dd+.01?1:0);
-    marks[0].style.opacity=clamp((t-t34)/.4);marks[1].style.opacity=clamp((t-t41)/.4);marks[2].style.opacity=clamp((t-C['alert:5'])/.4);
-    four.style.opacity=br.style.opacity=clamp((t-C['alert:5']-.4)/.5);thr.style.opacity=.8*clamp((t-t0)/.6)});
+    marks[0].style.opacity=clamp((t-t34)/.4);marks[1].style.opacity=clamp((t-t41)/.4);marks[2].style.opacity=clamp((t-C['alert:2']-5)/.4);
+    four.style.opacity=br.style.opacity=clamp((t-C['alert:2']-5.4)/.5);thr.style.opacity=.8*clamp((t-t0)/.6)});
 })();
 HOOKS.push(t=>{
   const set=(id,x,y)=>$(id).style.transform=`translate(${x}px,${y}px)`;
