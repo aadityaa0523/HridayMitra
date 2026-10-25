@@ -1,0 +1,13 @@
+{
+ "idle_battery_mA": 130.0,
+ "checkin_battery_mA": 345.2,
+ "sms_mAh_per_day": 0.88,
+ "mAh_per_day": 3133.0,
+ "days_per_charge": 0.7,
+ "worst_peak_mA": 2345.0,
+ "rev_b_idle_battery_mA": 22.2,
+ "rev_b_mAh_per_day": 551.0,
+ "rev_b_days_per_charge": 3.9,
+ "cell": "18650 2500 mAh, 85% usable",
+ "note": "datasheet typical currents; measure on the bench"
+}
