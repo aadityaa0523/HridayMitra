@@ -52,7 +52,7 @@ h1 em { font-style: normal; color: var(--saffron); }
 /* lower band */
 .lower { display: grid; grid-template-columns: 1.04fr 0.42fr; gap: 10px; margin-top: 10px; }
 .box { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 8px 12px; }
-.box h3 { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.box h3, .box .boxh { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 .chart img { width: 100%; display: block; }
 .chart .note { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .fails { display: grid; grid-template-columns: 1fr; gap: 3px; }
@@ -86,18 +86,27 @@ footer b { color: var(--red); }
    <circle cx="15.8" cy="21" r="1.3" fill="#2b2b2b"/><circle cx="24.2" cy="21" r="1.3" fill="#2b2b2b"/><circle cx="20" cy="15.6" r="1.2" fill="#cf222e"/>
    <path d="M16.5 27 Q20 29.5 23.5 27" stroke="#7a3b2a" stroke-width="1.2" fill="none"/>
   </symbol>
-  <!-- the check-in stool, front view -->
-  <symbol id="stool" viewBox="0 0 120 100">
-   <rect x="2" y="88" width="116" height="9" rx="3" fill="#b8bec4"/>
-   <rect x="14" y="86" width="34" height="7" rx="2" fill="#dfe3e8" stroke="#8b949e"/><rect x="72" y="86" width="34" height="7" rx="2" fill="#dfe3e8" stroke="#8b949e"/>
-   <rect x="22" y="40" width="9" height="48" fill="#8a5a35"/><rect x="89" y="40" width="9" height="48" fill="#8a5a35"/>
-   <rect x="28" y="44" width="64" height="30" rx="4" fill="#a8703f"/>
-   <circle cx="60" cy="57" r="6.5" fill="var(--led, #2da44e)"/><circle cx="60" cy="57" r="10" fill="var(--led, #2da44e)" opacity=".22"/>
-   <g fill="#6b4626"><circle cx="44" cy="54" r="1.3"/><circle cx="44" cy="59" r="1.3"/><circle cx="48" cy="54" r="1.3"/><circle cx="48" cy="59" r="1.3"/></g>
-   <rect x="70" y="52" width="7" height="7" rx="2" fill="#cf222e"/><rect x="80" y="52" width="7" height="7" rx="2" fill="#2da44e"/>
-   <rect x="10" y="30" width="100" height="12" rx="5" fill="#c08552"/><rect x="10" y="30" width="100" height="4" rx="2" fill="#d79c66"/>
-   <rect x="2" y="16" width="7" height="30" rx="3" fill="#9aa3ab"/><rect x="111" y="16" width="7" height="30" rx="3" fill="#9aa3ab"/>
-   <rect x="1" y="16" width="9" height="10" rx="3" fill="#dfe3e8" stroke="#8b949e"/><rect x="110" y="16" width="9" height="10" rx="3" fill="#dfe3e8" stroke="#8b949e"/>
+  <!-- the household chair standing on the HridayMitra weighing platform -->
+  <symbol id="chair" viewBox="0 0 120 100">
+   <path d="M8 84 H112 L118 93 H2Z" fill="#3a3f45"/><rect x="2" y="93" width="116" height="5" rx="1.5" fill="#d0d5da"/><rect x="2" y="92.4" width="116" height="1.4" fill="#0b7285"/>
+   <circle cx="110" cy="95.5" r="1.3" fill="#2da44e"/>
+   <g fill="#d9dde1" stroke="#9aa3ab" stroke-width=".6"><rect x="14" y="86" width="15" height="4" rx="1"/><rect x="31" y="86" width="15" height="4" rx="1"/>
+    <rect x="74" y="86" width="15" height="4" rx="1"/><rect x="91" y="86" width="15" height="4" rx="1"/></g>
+   <rect x="30" y="2" width="5" height="54" rx="1.5" fill="#6b3f22"/><rect x="85" y="2" width="5" height="54" rx="1.5" fill="#6b3f22"/>
+   <rect x="35" y="5" width="50" height="5" rx="1.5" fill="#7a4a2a"/>
+   <g fill="#8a5a35"><rect x="43" y="10" width="3.5" height="36"/><rect x="52" y="10" width="3.5" height="36"/><rect x="61" y="10" width="3.5" height="36"/><rect x="70" y="10" width="3.5" height="36"/><rect x="79" y="10" width="3.5" height="36"/></g>
+   <rect x="35" y="44" width="50" height="4" fill="#7a4a2a"/>
+   <rect x="25" y="49" width="70" height="8" rx="2" fill="#9a6238"/><rect x="25" y="49" width="70" height="2.5" rx="1" fill="#b77b4c"/>
+   <rect x="29" y="57" width="5" height="29" fill="#6b3f22"/><rect x="86" y="57" width="5" height="29" fill="#6b3f22"/>
+  </symbol>
+  <!-- lap-held sensor bar: hand strips at both ends, fingertip cradle, check / cross / SOS, status light -->
+  <symbol id="lapbar" viewBox="0 0 84 13">
+   <rect x="0" y="2" width="84" height="10" rx="5" fill="#f8f9fa" stroke="#adb5bd" stroke-width=".7"/>
+   <rect x="0" y="2" width="9" height="10" rx="5" fill="#0b7285"/><rect x="75" y="2" width="9" height="10" rx="5" fill="#0b7285"/>
+   <g fill="#c4cad0"><rect x="11" y="4" width="4" height="6" rx="1"/><rect x="16" y="4" width="4" height="6" rx="1"/><rect x="64" y="4" width="4" height="6" rx="1"/><rect x="69" y="4" width="4" height="6" rx="1"/></g>
+   <circle cx="26" cy="7" r="2.3" fill="var(--led, #2da44e)"/><circle cx="26" cy="7" r="3.8" fill="var(--led, #2da44e)" opacity=".25"/>
+   <rect x="33" y="0" width="9" height="10" rx="2.5" fill="#24292f"/><rect x="35.5" y="1.5" width="4" height="5" rx="2" fill="#57606a"/>
+   <circle cx="48" cy="7" r="2.2" fill="#2da44e"/><circle cx="54" cy="7" r="2.2" fill="#cf222e"/><circle cx="60" cy="7" r="2.2" fill="#cf222e"/>
   </symbol>
   <symbol id="phone" viewBox="0 0 30 52"><rect x="1" y="1" width="28" height="50" rx="5" fill="#24292f"/><rect x="3.5" y="6" width="23" height="38" rx="2" fill="#e7f5ea"/>
    <rect x="11" y="47" width="8" height="2" rx="1" fill="#57606a"/></symbol>
@@ -128,11 +137,11 @@ footer b { color: var(--red); }
  <div class="who"><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="28" fill="#fde7d6"/><use href="#ramesh-head" x="9" y="6" width="40" height="40"/><path d="M12 58 Q14 44 29 44 Q44 44 46 58Z" fill="#f8f9fa" stroke="#ced4da"/></svg>
   <div><div class="n">Ramesh, 62 · the patient</div><div class="r">Heart failure, home after a hospital stay. Retired farmer, speaks Hindi, reads little, no smartphone.</div><div class="t">90 s a day · about 45 min a month</div></div></div>
  <div class="who"><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="28" fill="#dbf3f6"/><use href="#woman-head" x="9" y="6" width="40" height="40"/><path d="M12 58 Q14 44 29 44 Q44 44 46 58Z" fill="#0b7285"/></svg>
-  <div><div class="n">Sunita · family member 1</div><div class="r">His daughter-in-law. Gets the stool's SMS on a basic phone; replies 1 / 2 / 3 or a missed call.</div><div class="t">a few seconds, only when it matters</div></div></div>
+  <div><div class="n">Sunita · family member 1</div><div class="r">His daughter-in-law. Gets HridayMitra's SMS on a basic phone; replies 1 / 2 / 3 or a missed call.</div><div class="t">a few seconds, only when it matters</div></div></div>
  <div class="who"><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="28" fill="#fbe4ef"/><use href="#woman-head" x="9" y="6" width="40" height="40"/><path d="M12 58 Q14 44 29 44 Q44 44 46 58Z" fill="#c2255c"/><rect x="33" y="47" width="9" height="6" rx="1" fill="#fff"/></svg>
-  <div><div class="n">Kamla · ASHA worker</div><div class="r">Sets up the stool, gets a one-line Sunday SMS per patient, visits on red. Fits the home visits she already makes.</div><div class="t">10 min once · then on red alerts</div></div></div>
+  <div><div class="n">Kamla · ASHA worker</div><div class="r">Sets up the platform and lap bar, gets a one-line Sunday SMS per patient, visits on red. Fits the home visits she already makes.</div><div class="t">10 min once · then on red alerts</div></div></div>
  <div class="who"><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="28" fill="#e7eefc"/><use href="#woman-head" x="9" y="6" width="40" height="40"/><path d="M12 58 Q14 44 29 44 Q44 44 46 58Z" fill="#f8f9fa" stroke="#adb5bd"/><path d="M22 46 Q22 55 29 55 Q36 55 36 46" stroke="#495057" stroke-width="1.6" fill="none"/></svg>
-  <div><div class="n">Dr. Meena · PHC doctor</div><div class="r">Writes his amber / red plan once; it lives on the stool. Called only if nobody has examined him within 6 hours.</div><div class="t">5 min once · rare calls</div></div></div>
+  <div><div class="n">Dr. Meena · PHC doctor</div><div class="r">Writes his amber / red plan once; it lives on the device. Called only if nobody has examined him within 6 hours.</div><div class="t">5 min once · rare calls</div></div></div>
 </section>
 
 <!-- ======= storyboard ======= -->
@@ -142,7 +151,7 @@ footer b { color: var(--red); }
   <div class="top"><div class="num">1</div><div class="when">Day 0 · back home</div><div class="chip">once · 10 min, by the ASHA</div></div>
   <div class="scene"><svg viewBox="0 0 350 126">
    <use href="#house" x="8" y="40" width="110" height="82"/>
-   <use href="#stool" x="160" y="60" width="78" height="64"/>
+   <use href="#chair" x="128" y="26" width="104" height="88"/><use href="#lapbar" x="150" y="64" width="60" height="9"/>
    <g transform="translate(238 34)"><use href="#woman-head" x="0" y="0" width="34" height="34"/><path d="M2 92 L6 42 Q17 32 28 42 L32 92Z" fill="#c2255c"/>
     <rect x="22" y="52" width="26" height="18" rx="2" fill="#fff" stroke="#adb5bd"/><path d="M26 58 H44 M26 63 H40" stroke="#868e96" stroke-width="1.4"/></g>
    <rect x="282" y="18" width="64" height="62" rx="3" fill="#fff" stroke="#adb5bd"/><text x="287" y="30" font-size="7.5" font-weight="700" fill="#1f2328">DOCTOR'S PLAN</text>
@@ -150,23 +159,25 @@ footer b { color: var(--red); }
    <text x="287" y="63" font-size="7" fill="#cf222e">RED: extra water</text><text x="287" y="72" font-size="7" fill="#cf222e">tablet, visit PHC</text>
    <use href="#amulet" x="128" y="18" width="24" height="32"/><text x="120" y="60" font-size="8" fill="#0b7285" font-weight="700">amulet</text>
   </svg></div>
-  <p class="cap">Dr. Meena writes his plan; <b>it lives on the stool</b> and is spoken in Hindi. Kamla places the stool beside his charpai, <b>enrols him in one sitting</b> and puts the Kavach amulet on a cord around his neck.</p>
+  <p class="cap">Dr. Meena writes his plan; <b>it lives on the device</b> and is spoken in Hindi. Kamla slides the weighing platform under <b>his own chair</b>, hands him the lap bar, <b>enrols him in one sitting</b> and puts the Kavach amulet on a cord around his neck.</p>
  </div>
  <!-- 2 -->
  <div class="panel">
   <div class="top"><div class="num">2</div><div class="when">Every morning, after tea</div><div class="chip">90 seconds</div></div>
   <div class="scene"><svg viewBox="0 0 350 126">
-   <use href="#stool" x="96" y="38" width="122" height="86"/>
-   <g transform="translate(126 2)"><use href="#ramesh-head" x="16" y="0" width="34" height="34"/>
-    <path d="M14 66 L18 34 Q33 28 48 34 L52 66Z" fill="#f8f9fa" stroke="#ced4da"/><rect x="12" y="62" width="44" height="14" rx="5" fill="#e9ecef" stroke="#ced4da"/>
-    <path d="M18 40 L-18 56" stroke="var(--skin)" stroke-width="6" stroke-linecap="round"/><path d="M48 40 L82 56" stroke="var(--skin)" stroke-width="6" stroke-linecap="round"/>
-    <rect x="17" y="74" width="9" height="34" fill="var(--skin)"/><rect x="42" y="74" width="9" height="34" fill="var(--skin)"/>
-    <ellipse cx="21" cy="110" rx="9" ry="3" fill="var(--skin2)"/><ellipse cx="47" cy="110" rx="9" ry="3" fill="var(--skin2)"/></g>
-   <text x="10" y="112" font-size="8.5" fill="#57606a">bare feet on 4 plates,</text><text x="10" y="122" font-size="8.5" fill="#57606a">hands on 4 strips</text>
+   <use href="#chair" x="96" y="6" width="134" height="112"/>
+   <g transform="translate(130 0)"><use href="#ramesh-head" x="16" y="2" width="34" height="34"/>
+    <path d="M12 70 L16 36 Q33 30 50 36 L54 70Z" fill="#f8f9fa" stroke="#ced4da"/>
+    <rect x="8" y="64" width="50" height="14" rx="5" fill="#e9ecef" stroke="#ced4da"/>
+    <rect x="15" y="76" width="9" height="27" fill="var(--skin)"/><rect x="42" y="76" width="9" height="27" fill="var(--skin)"/>
+    <ellipse cx="19" cy="104" rx="8" ry="2.6" fill="var(--skin2)"/><ellipse cx="47" cy="104" rx="8" ry="2.6" fill="var(--skin2)"/>
+    <path d="M17 42 L2 62" stroke="var(--skin)" stroke-width="6" stroke-linecap="round"/><path d="M49 42 L64 62" stroke="var(--skin)" stroke-width="6" stroke-linecap="round"/></g>
+   <use href="#lapbar" x="126" y="58" width="74" height="11.5"/>
+   <text x="8" y="98" font-size="8.5" fill="#4a5259">his own chair on the</text><text x="8" y="109" font-size="8.5" fill="#4a5259">platform; bare feet on</text><text x="8" y="120" font-size="8.5" fill="#4a5259">4 plates, hands on the bar</text>
   </svg>
-  <div class="bubble l hi" style="left:232px;top:10px">नमस्ते। स्टूल पर बैठिए<br>और स्थिर रहिए।</div>
+  <div class="bubble l hi" style="left:232px;top:10px">नमस्ते। कुर्सी पर बैठिए<br>और स्थिर रहिए।</div>
   <div class="bubble l hi" style="left:232px;top:60px">क्या आज साँस ज़्यादा फूली?<br><span style="color:#cf222e">हाँ लाल</span> · <span style="color:#2da44e">नहीं हरा</span></div></div>
-  <p class="cap">Weight, <b>leg and chest fluid through 8 electrodes</b> at 3 frequencies, finger pulse and SpO₂, stand-up time, and 3 spoken yes/no questions on two big buttons. <b>Green light: "सब ठीक है".</b></p>
+  <p class="cap">Weight, <b>leg and chest fluid through 8 electrodes</b> at 3 frequencies, finger pulse and SpO₂, stand-up time, and 3 spoken yes/no questions answered on the lap bar's ✓ / ✗ buttons. <b>Green light: "सब ठीक है".</b></p>
  </div>
  <!-- 3 -->
  <div class="panel">
@@ -183,7 +194,7 @@ footer b { color: var(--red); }
    <text x="186" y="44" font-size="9" fill="#9be2e9" font-weight="700">16 breaths/min</text>
    <text x="186" y="57" font-size="9" fill="#d0ebff">sat up: 0 times</text>
   </svg></div>
-  <p class="cap">The amulet counts <b>night breathing</b> and <b>sitting up to breathe</b> (lying flat gets hard as fluid builds), detects a fall, and has an SOS button. It hands the night's summary to the stool by Bluetooth.</p>
+  <p class="cap">The amulet counts <b>night breathing</b> and <b>sitting up to breathe</b> (lying flat gets hard as fluid builds), detects a fall, and has an SOS button. It hands the night's summary to the platform by Bluetooth.</p>
  </div>
  <!-- 4 -->
  <div class="panel">
@@ -197,8 +208,8 @@ footer b { color: var(--red); }
    <text x="10" y="22" font-size="10" font-weight="800" fill="#0b7285">540 steps in 6 min</text><text x="10" y="35" font-size="8.5" fill="#57606a">counted by the amulet</text>
    <use href="#phone" x="262" y="6" width="56" height="98"/>
   </svg>
-  <div class="sms" style="left:208px;top:28px;width:128px">HridayMitra weekly P001: 7/7 check-ins, lights GGGGGGG, usual weight 64.9 kg, 6-min walk 540 steps ~270 m</div></div>
-  <p class="cap">The stool asks for a 6-minute walk; <b>the amulet counts the steps itself</b>, with no button to press. Kamla gets one line per patient every Sunday, so she knows who to visit first.</p>
+  <div class="sms" style="left:208px;top:28px;width:128px">HridayMitra weekly P001: 7/7 check-ins, 7 green 0 amber 0 red, usual weight 64.9 kg, 6-min walk 540 steps ~270 m</div></div>
+  <p class="cap">HridayMitra asks for a 6-minute walk; <b>the amulet counts the steps itself</b>, with no button to press. Kamla gets one line per patient every Sunday, so she knows who to visit first.</p>
  </div>
  <!-- 5 -->
  <div class="panel">
@@ -212,12 +223,12 @@ footer b { color: var(--red); }
      <text x="22" y="62" fill="#2da44e">✓</text><text x="50" y="62" fill="#2da44e">✓</text><text x="78" y="62" fill="#2da44e">✓</text><text x="106" y="62" fill="#cf222e" font-weight="800">✗</text><text x="134" y="62" fill="#cf222e" font-weight="800">✗</text></g></g>
   </svg>
   <div class="bubble b hi" style="left:20px;top:6px">इस हफ्ते दवा छूटी। दवा दराज़ में रखिए…</div></div>
-  <p class="cap">A microswitch in the tablet drawer records whether it opened (real data for P0189: missed on days 32, 33, 34). The stool's coaching tip: <b>keep the tablets in the drawer and take them after the check-in.</b></p>
+  <p class="cap">A microswitch in the tablet drawer records whether it opened (real data for P0189: missed on days 32, 33, 34). The voice coaching tip: <b>keep the tablets in the drawer and take them after the check-in.</b></p>
  </div>
  <!-- 6 -->
  <div class="panel amber">
   <div class="top"><div class="num" style="background:var(--amber)">6</div><div class="when">Day 34 · AMBER</div><div class="chip amber">score 4.5 · amber at 4.2</div></div>
-  <div class="scene"><svg viewBox="0 0 350 126"><use href="#stool" x="22" y="44" width="112" height="78" style="--led:#d4a72c"/>
+  <div class="scene"><svg viewBox="0 0 350 126"><use href="#chair" x="24" y="40" width="98" height="82"/><use href="#lapbar" x="38" y="72" width="70" height="11" style="--led:#d4a72c"/>
    <g transform="translate(170 8)"><rect width="170" height="108" rx="8" fill="#fff" stroke="#f0d58a"/>
     <text x="10" y="17" font-size="9" font-weight="800" fill="#8a6100">WHY (from the engine)</text>
     <text x="10" y="34" font-size="8.6" fill="#1f2328">• leg water outside cells +0.6 %</text>
@@ -231,8 +242,8 @@ footer b { color: var(--red); }
  <!-- 7 -->
  <div class="panel red">
   <div class="top"><div class="num" style="background:var(--red)">7</div><div class="when">Day 41 · RED</div><div class="chip red">score 10.4 · red at 7.0</div></div>
-  <div class="scene"><svg viewBox="0 0 350 126"><use href="#stool" x="12" y="24" width="124" height="98" style="--led:#cf222e"/>
-   <path d="M18 18 q6 -6 12 0 M118 18 q6 -6 12 0" stroke="#cf222e" stroke-width="2" fill="none"/>
+  <div class="scene"><svg viewBox="0 0 350 126"><use href="#chair" x="14" y="24" width="116" height="98"/><use href="#lapbar" x="30" y="62" width="84" height="13" style="--led:#cf222e"/>
+   <path d="M26 60 q-6 -5 0 -10 M118 60 q6 -5 0 -10" stroke="#cf222e" stroke-width="2" fill="none"/>
    <use href="#phone" x="262" y="4" width="64" height="112"/></svg>
   <div class="sms" style="left:146px;top:10px;width:192px;background:#fff1f1;border-color:#f5b5bb;color:#5c0b12">HridayMitra RED P001. Why: leg reading −5 %; weight +1.3 kg; night breathing +1.4 per min. Reply 1 checking, 2 help, 3 fine. Breathless at rest: call 108. Not a diagnosis.</div></div>
   <p class="cap">Red needs <b>two independent kinds of evidence</b> (fluid + heart-lungs here), so one wrong button can't raise it. Every SMS says <b>why</b>, fits one 160-character message and always keeps the 108 line.</p>
@@ -260,7 +271,7 @@ footer b { color: var(--red); }
 <section class="lower">
  <div class="box chart"><img src="chart.png" alt="P0189 data">
   <div class="note">Synthetic patient P0189, held-out test set, frozen engine v3 (T 7.0, chosen on training patients only). All 60 test patients: 66 % caught, 98.7 % of normal days quiet, median 3 days of warning, 0.06 false alerts per patient-month.</div></div>
- <div class="box"><h3>When things go wrong</h3><div class="fails">
+ <div class="box"><h2 class="boxh">When things go wrong</h2><div class="fails">
   <div class="fail"><b>Power cut</b><span>Runs on its battery; SMS wait in a queue.</span></div>
   <div class="fail"><b>No network</b><span>Light and voice still work; SMS retried every 10 min.</span></div>
   <div class="fail"><b>Guest sits down</b><span>Weight and legs don't match him: nothing saved.</span></div>
@@ -275,7 +286,7 @@ footer b { color: var(--red); }
 <div class="whyhead"><h2>Why Ramesh is still using it in month 6</h2><span>the PS asks: why will they keep using it for months?</span></div>
 <section class="why">
  <div class="w"><span class="ic">HABIT</span><h4>Tied to tea and tablets</h4><p>Same seat, same time, right next to the tablet drawer. A habit he already has, not a new one.</p></div>
- <div class="w"><span class="ic" style="background:var(--saffron)">EFFORT</span><h4>90 s, sitting down</h4><p>No patch on the skin, nothing to read, type, pair or charge. The stool charges itself overnight on CHARGE.</p></div>
+ <div class="w"><span class="ic" style="background:var(--saffron)">EFFORT</span><h4>90 s, sitting down</h4><p>No patch on the skin, nothing to read, type, pair or charge. The platform charges overnight on CHARGE.</p></div>
  <div class="w"><span class="ic" style="background:var(--violet)">TRUST</span><h4>Learns his normal</h4><p>Compared only with his own days 35 to 7 ago. 0.06 false alerts a month, so nobody learns to ignore it.</p></div>
  <div class="w"><span class="ic" style="background:var(--green)">CARE</span><h4>It talks back</h4><p>Hindi voice, his doctor's words, tips on salt and tablets, and a green "सब ठीक है" most days.</p></div>
  <div class="w"><span class="ic" style="background:#c2255c">ASHA</span><h4>Fits her rounds</h4><p>Sunday summary + red alerts tell Kamla whom to visit first: less guessing, same visits.</p></div>
@@ -283,5 +294,5 @@ footer b { color: var(--red); }
 </section>
 
 <footer><span><b>Monitoring, not diagnosis.</b> Synthetic data only; no human data collected. Never used on anyone with a pacemaker or ICD.</span>
- <span>HridayMitra · Transfinitte 2025 hardware track · github.com/aadityaa0523/HridayMitra</span></footer>
+ <span>HridayMitra · Transfinitte 2026 hardware track · github.com/aadityaa0523/HridayMitra</span></footer>
 </div></body></html>

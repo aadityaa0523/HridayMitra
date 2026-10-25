@@ -40,8 +40,9 @@ def chart(g, sc, L, T, amber, red, admit):
     ax.plot(d, S, color="#1c64f2", lw=2, zorder=3, label="warning score (engine)")
     ax.axhline(T, color="#d1242f", lw=1.2, ls="--", zorder=2); ax.text(1, T + 0.5, f"red threshold T = {T:g} (frozen before testing)", color="#d1242f", fontsize=8.5)
     ax.axhline(0.6 * T, color="#bf8700", lw=1, ls=":", zorder=2); ax.text(1, 0.6 * T + 0.4, "amber", color="#bf8700", fontsize=8.5)
-    ax2.plot(d, g.weight_kg - w0, color="#e16f24", lw=1.6, label="weight change (kg)")
-    ax2.plot(d, (g.leg_z_ohm / z0 - 1) * 100 / 2.5, color="#8250df", lw=1.6, label="leg reading change (% / 2.5)")
+    fill = lambda s: s.interpolate(limit_area="inside")      # days without a reading: draw the line straight across
+    ax2.plot(d, fill(g.weight_kg) - w0, color="#e16f24", lw=1.6, label="weight change (kg)")
+    ax2.plot(d, (fill(g.leg_z_ohm) / z0 - 1) * 100 / 2.5, color="#8250df", lw=1.6, label="leg reading change (% / 2.5)")
     ax.set_ylim(0, max(S.max() * 1.15, T * 1.6)); ax2.set_ylim(-3.2, 3.6)
     ax.set_xlim(-0.5, admit + 0.5); ax.set_xticks([0, 7, 14, 21, 28, 30, amber, red, admit])
     ax.set_xticklabels(["day 0", "7", "14", "21", "28", "30", str(amber), str(red), str(admit)], fontsize=8.5)
@@ -56,7 +57,7 @@ def chart(g, sc, L, T, amber, red, admit):
     for i in range(min(n, admit + 1)):
         lx.add_patch(plt.Rectangle((i - 0.45, 0), 0.9, 1, color=col[int(L[i])] if i < n else "#ccc"))
     lx.set_ylim(0, 1)
-    fig.text(0.045, 0.93, "What the stool actually saw: the stool's light every day (top), its warning score and two of its signals", fontsize=9.5, weight="bold")
+    fig.text(0.045, 0.93, "What HridayMitra actually saw: its light every day (top), its warning score and two of its signals", fontsize=9.5, weight="bold")
     top = ax.get_ylim()[1]
     ax.axvspan(31.5, 34.5, color="#eaeef2", zorder=0)
     for x, txt, c in ((33, "tablets missed\n(drawer shut)", "#57606a"), (amber, "amber", "#bf8700"), (red, "RED: SMS", "#cf222e"),
