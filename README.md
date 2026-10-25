@@ -326,7 +326,7 @@ Every synthetic-patient parameter carries a source or is marked ASSUMPTION in [`
 | `data/` | Synthetic cohorts and public BIDMC ECG |
 | `reports/` | All results (CSV, PNG, summaries) |
 | `docs/` | Report, pitch, build guide, wiring guide, evidence, decisions, app phase docs |
-| `research_notes/` | Background research that shaped the design |
+| `docs/research_notes/` | Background research that shaped the design |
 | `progress.json` | Workstream progress, rendered by `tools/progress.py` |
 
 ## Documents
