@@ -221,7 +221,6 @@ Every synthetic-patient parameter carries a source or is marked ASSUMPTION in [`
 - **Lead time.** The 2–3 day lead is mostly set by how worsening is defined (3–10 days, speeding up at the end). The sweep shows this matters more than any hardware assumption.
 - **Chest reading.** A weak signal: a +10% change stands out only after about a week of averaging, so it supports the leg and weight readings.
 - **Untested on people.** The circuit is simulated with a textbook body model and not yet compared with a bench build. SpO₂ calibration is generic.
-- **App.** Not installed or verified on a physical Android phone; draft translations and audio need human review; alarms need the app open; SMS from the app is a draft only.
 - **Safety.** Never use on anyone with a pacemaker or ICD, and measure on battery only while a person touches the electrodes.
 
 ## License
