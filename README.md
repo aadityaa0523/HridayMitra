@@ -6,67 +6,82 @@
 ![data](https://img.shields.io/badge/data-synthetic%20only-orange)
 ![status](https://img.shields.io/badge/status-research%20prototype-lightgrey)
 
-> **Monitoring, not diagnosis.** Research prototype for the Transfinitte hackathon (hardware track, PS by Dare 2 Dream Ventures).
-> All patient data in this repository is **synthetic**. No human data was collected.
+> **Monitoring, not diagnosis.** Research prototype for the Transfinitte 2026 hackathon (hardware track, problem statement by Dare 2 Dream Ventures).
+> All patient data in this repository is **synthetic** (plus public PhysioNet BIDMC ECG for heart rate). No human data was collected.
 
-**Contents:** [How it works](#how-it-works) · [Results](#results-synthetic-cohorts-threshold-frozen-on-training-patients-before-testing) · [Quick start](#quick-start-python-311-one-command-for-everything) · [Install the app on a phone](#install-the-saathi-app-on-a-phone) · [Firmware](#firmware) · [Documents](#documents) · [Reproduce](#reproduce-everything) · [Repository map](#repository-map) · [Troubleshooting](#troubleshooting) · [Honest limits](#honest-limits)
+**In one line:** a 90-second daily check-in on the patient's own chair, an amulet, and an offline alert engine that warns the family about **3 days before** a heart-failure hospital visit, for a build cost of about **₹4,400** (limit ₹5,000).
+
+**Jump to:** [The problem](#the-problem-and-the-idea) · [How it works](#how-it-works) · [Results](#results) · [Quick start](#quick-start) · [Saathi phone app](#saathi-phone-app) · [Hardware and firmware](#hardware-and-firmware) · [Simulate it](#simulate-it-no-hardware) · [Reproduce](#reproduce-everything) · [Repository map](#repository-map) · [Documents](#documents) · [Troubleshooting](#troubleshooting) · [Honest limits](#honest-limits)
+
+---
+
+## The problem and the idea
+
+Fluid builds up silently for days before a heart-failure admission. A daily weight rule catches about one event in three and floods families with false alarms. Elders will not wear sticky patches, and rural homes have power cuts, 2G and low literacy.
+
+HridayMitra measures what a weight scale cannot (fluid in the legs and chest) in the way an elder will actually accept (sit down, hands on a bar), learns each person's *own* normal, and tells the family **why** it raised an alert, by SMS, with no internet.
+
+| Part | What it is | What it measures |
+|---|---|---|
+| **Check-in set** | A weighing platform under the patient's own chair (4 load cells, 4 stainless foot plates) plus a hand sensor bar (4 hand strips, fingertip optical cradle, ✓ / ✗ / SOS buttons, speaker, status light). No chair modification; never on wheeled chairs. | Weight; 8-electrode bioimpedance spectroscopy at 5 / 20 / 50 kHz (legs, arms, both sides → chest fluid by segmental subtraction; water outside the cells from a Cole-model fit, which cancels foot position and skin temperature); pulse and SpO₂; sit-to-stand speed from the platform's force; 3 spoken yes/no questions |
+| **Kavach amulet** | ESP32-C3 + accelerometer on a breakaway cord, no magnets | Night breathing, night sit-ups, activity, a weekly 6-minute walk test (it finds the best 6 minutes itself, no button), falls, SOS |
+| **Offline alert engine** | Runs on the ESP32 | Personal baseline, green / amber / red, reasons in plain words |
+| **Care loop** | SMS over 2G with retries | family 1 → family 2 (30 min) → ASHA worker (2 h) → PHC doctor (6 h) |
+| **Saathi app** | Offline PWA, 10 Indian languages | Elder, family, ASHA and doctor views |
 
 ## How it works
 
 ```mermaid
 flowchart LR
-  A[Kavach amulet<br/>ESP32-C3 + MPU6050<br/>night breathing, activity, walk test, falls, SOS] -- BLE advertisement --> S
-  S[Check-in stool<br/>ESP32 + load cells + 8-electrode impedance + finger sensor<br/>offline alert engine] -- green / amber / red + reasons --> L[Light + voice]
-  S -- SMS over 2G --> C[Care loop<br/>family 1 → family 2 30 min → ASHA 2 h → PHC doctor 6 h]
-  S -- BLE or USB --> P[Saathi phone app<br/>PWA, 10 languages]
+  A[Kavach amulet<br/>ESP32-C3 + MPU6050] -- BLE advertisement, no pairing --> S
+  S[Check-in set<br/>ESP32 + load cells + 8-electrode impedance + finger sensor<br/>offline alert engine] -- light + voice --> E[Elder]
+  S -- SMS over 2G --> C[Care loop<br/>family 1 → family 2 → ASHA → PHC doctor]
+  S -- BLE or USB --> P[Saathi phone app]
   S -- USB, optional --> D[Laptop bridge → live dashboard]
 ```
 
-The same alert engine runs in Python (research), C++ on the chip (`engine_core.h`) and TypeScript in the app; test vectors keep all three identical.
+**The alert engine** (`engine/alert_engine.py`): each person's baseline is the median/MAD of their own days t−35..t−7. Only the worsening direction is scored. Red needs **two independent witnesses** (for example weight and leg fluid), and bad-data guards ignore guests on the platform, a toe ring bridging two plates, lifted feet and noisy fingers. The same engine exists three times and is held identical by tests:
 
-An elderly patient sits on a foldable **check-in stool** for about 90 seconds a day. It measures:
-- **weight**, through 4 load cells;
-- **leg and chest fluid**, through 8-electrode impedance (4 foot plates and 4 hand strips), with **spectroscopy at 5/20/50 kHz** on the legs: a Cole-model fit on the chip gives the share of water outside the cells, which cancels foot position and skin temperature;
-- **pulse and SpO₂**, through a finger sensor;
-- **stand-up speed**;
-- **two spoken yes/no questions**, answered with buttons.
-
-A worn **Kavach amulet** adds night breathing, night sit-ups, activity, a weekly **6-minute walk test** (no button: it finds the best 6 minutes of walking itself), falls and SOS. It syncs to the stool over Bluetooth Low Energy.
-
-An **offline alert engine** on the ESP32 learns each patient's own normal and turns green, amber or red. Each red alert gives its reasons in plain words. It sends an SMS over 2G and starts a **care loop**: family member 1 → family member 2 (30 min) → ASHA worker (2 h) → PHC doctor (6 h).
-
-Build cost: **₹4,243–4,397** (Monte Carlo of the parts list); the limit is ₹5,000.
-
-## Results (synthetic cohorts, threshold frozen on training patients before testing)
-
-| | Our engine (v3, with spectroscopy) | Weight rule (SCALE-HF comparator) |
+| Where | File | Checked by |
 |---|---|---|
-| Sensitivity, held-out patients | **66%** | 40% |
-| Specificity | 98.7% | 97.6% |
-| Median lead time before hospital visit | 3 days | 2 days |
-| False alerts per patient-month | **0.06** | 0.53 |
-| External 1,000-patient cohort: sensitivity / false alerts | **72% / 0.06** | 31% / 0.38 |
+| Python (research, dashboard) | `engine/alert_engine.py` | reference |
+| C++ on the ESP32 | `firmware/hridaymitra_stool/engine_core.h` | `tests/test_engine_parity.py`: 100% of 3,231 days |
+| TypeScript in the app | `app/src/engine/` | `app/tests/engine.test.ts` against `docs/app/engine_test_vectors.json` (2,732 comparisons) |
 
-**Hardware sheets (PS deliverable 2):** [system architecture](docs/hardware/architecture.png), every arrow labelled with what flows through it, and [front-end schematic + LTspice test points](docs/hardware/frontend_sheet.png): the wired circuit with TP1-TP7 waveforms, Z = 578.4 Ω vs 578.5 Ω exact. The KiCad schematic (ERC 0) is in `hardware/kicad/`.
+**Hybrid engine** (`engine/hybrid.py`): rules propose, a 13-weight logistic model trained on dev only must agree before red. It runs on the laptop and in the benchmark; the stool itself runs rules v3.
 
-**Hybrid engine** (rules propose, a small model trained on dev confirms; `engine/hybrid.py`): catches **86%** of episodes on held-out, external and stress cohorts at 0.09–0.19 false alerts per patient-month (budget 0.21). Full table and an open scorer: [`benchmark/LEADERBOARD.md`](benchmark/LEADERBOARD.md).
+## Results
 
-- **Calibrated to real trials:** the published FAST and SCALE-HF 1 weight rules score on our external cohort 20% / 33% caught and 4.8 / 4.85 unexplained alerts per year, against the published 23% / 35% and 4.3 / 4.18.
-- **Demo video:** [`docs/demo/hridaymitra_month_demo.mp4`](docs/demo/hridaymitra_month_demo.mp4), one month of the real stool firmware driving the real Wokwi screens.
+Synthetic cohorts; thresholds tuned on training patients, frozen, then tested once.
 
-- **Robustness:** it beats the weight rule in **all 52** assumption-sensitivity scenarios and in 14 of 15 stress cases. In the 15th (10% guest days) the rule catches more but fires about 30× more false alerts.
-- **Care loop:** in simulation, 92% of red alerts get a clinical review before the hospital visit, versus 27% with a single SMS.
-- **Circuit:** LTspice puts every path within 0.05% of the exact answer. A Monte Carlo of 100 stools built from 5% parts keeps 99% of readings within 2%. It also changed the design: the bias resistors are now 10 MΩ.
-- **Heart rate on real ECG:** all 15 PhysioNet BIDMC CHF records: median heart-rate error 0.15 bpm, 13 of 15 records within 0.5 bpm, 96% of 30-second windows within 5 bpm. It fails on chf12, a very noisy recording.
+| | Rules engine v3 | Hybrid (rules + ML) | Weight rule (SCALE-HF) |
+|---|---|---|---|
+| Sensitivity, held-out patients | **66%** | **86%** | 40% |
+| Sensitivity, external 1,000-patient cohort | **72%** | **86%** | 31% |
+| Specificity (held-out) | 98.7% | 97.9% | 97.6% |
+| False alerts per patient-month (held-out / external) | **0.06 / 0.06** | 0.19 / 0.09 | 0.53 / 0.38 |
+| Median lead time before the visit | 3 days | 3 days | 2 days |
 
-Details: `reports/phase1_summary.md`, `reports/phase2_summary.md`, `sim/circuit/HOW_TO_VERIFY.md`.
+Full tables with 95% ranges and an open scorer anyone can run: [`benchmark/LEADERBOARD.md`](benchmark/LEADERBOARD.md), [`benchmark/README.md`](benchmark/README.md).
 
-## Quick start (Python 3.11): one command for everything
+- **Calibrated to real trials.** The published FAST and SCALE-HF 1 weight rules score on our external cohort 20% / 33% caught and 4.8 / 4.85 unexplained alerts per year, against the published 23% / 35% and 4.3 / 4.18.
+- **Robust.** It beats the weight rule in all 52 assumption-sensitivity scenarios and 14 of 15 stress cases. In the 15th (10% guest days) the rule catches more but fires about 30× more false alerts.
+- **Care loop.** In simulation 92% of red alerts get a clinical review before the hospital visit, versus 27% with a single SMS.
+- **Circuit.** LTspice puts every path within 0.05% of the exact answer. A Monte Carlo of 100 stools built from 5% parts keeps 99% of readings within 2%, and it found a real design bug (bias resistors 1 MΩ → 10 MΩ).
+- **Heart rate on real ECG.** All 15 PhysioNet BIDMC CHF records: median error 0.15 bpm, 13 of 15 within 0.5 bpm. It fails on chf12, a very noisy recording.
+- **Cost.** Parts list ₹3,917 (low) to ₹4,890 (plan price). Monte Carlo of price noise: median ₹4,402, 5th–95th percentile ₹4,319–4,486, under ₹5,000 in every draw. Build cost only, no shipping.
+- **Firmware.** The whole firmware runs through an emulated month: 26/26 claims pass and every light equals the Python engine.
+
+Details: `reports/phase1_summary.md`, `reports/phase2_summary.md`, `sim/circuit/HOW_TO_VERIFY.md`, [`docs/EVIDENCE.md`](docs/EVIDENCE.md) (every problem-statement requirement → proof file, plus a failure-modes table).
+
+## Quick start
+
+Requires Python 3.11.
 
 ```bash
-python run.py setup          # install packages, make the synthetic cohorts if missing
-python run.py test           # 41 tests, incl. the real firmware run through an emulated month (26 claims) and C++ engine = Python engine
-python run.py demo           # dashboard: patient light + voice, family SMS, ASHA/doctor trends, "break it" switches
+python run.py setup     # install packages, generate the synthetic cohorts if missing
+python run.py test      # pytest suite, incl. the real firmware in an emulated month and C++ engine = Python engine
+python run.py demo      # dashboard: patient light + voice, family SMS, ASHA/doctor trends, "break it" switches
 ```
 
 | What you want | Command |
@@ -76,88 +91,134 @@ python run.py demo           # dashboard: patient light + voice, family SMS, ASH
 | Flash the stool (COM5) and the amulet (COM6) | `python run.py firmware --upload COM5 --amulet-port COM6` |
 | Log the real stool's check-ins into the dashboard | `python run.py live --port COM5` |
 | Prove the real stool decides exactly like the tested engine | `python run.py hil --port COM5` |
-| Simulate the whole stool in Wokwi: drag a "leg fluid" slider and watch the SMS arrive on a virtual phone | `python run.py wokwi`, then `wokwi/README.md` |
-| Re-run every result, rebuild every document | `python run.py reproduce`, `python run.py docs` |
+| Simulate the whole stool in Wokwi | `python run.py wokwi`, then `wokwi/README.md` |
+| Re-run every result / rebuild every document | `python run.py reproduce` / `python run.py docs` |
 | Everything | `python run.py all` |
 
-**The flow:** amulet → (BLE) → stool runs the check-in and the alert engine offline → light + voice + SMS care loop → (USB, optional) laptop bridge → live dashboard.
+In the dashboard, try patient **P0022**: slide to the red day, then tick "guest" and "toe ring" and watch the light refuse to lie.
 
-## Install the Saathi app on a phone
+## Saathi phone app
 
-The app (`app/`) is an offline-first PWA. It needs an **HTTPS origin or `localhost`** to install; plain `http://<lan-ip>` will not work.
+`app/` is **HridayMitra Saathi**: an offline-first PWA (React 18 + TypeScript + Vite, Tailwind, Workbox, Dexie) for one Android phone with role switching.
 
-**Option A: host it (any phone, any time).** Build with `cd app && npm ci && npm run build`, then upload `app/dist/` to the **root** of a static host (Netlify Drop, Vercel, Cloudflare Pages: root directory `app`, build `npm run build`, output `dist`). The app uses root-absolute paths (`/models/`, `/audio/`), so it cannot sit under a sub-path such as GitHub Pages `/HridayMitra/`. Open the URL on the phone: Android Chrome → menu → *Install app*; iPhone Safari → Share → *Add to Home Screen*.
+- **Elder mode:** big status orb, voice commands (offline Vosk packs), medicine reminders, a cancellable two-step emergency button that only opens the dialler.
+- **Family:** trends, alerts, medicines, adherence, care contacts. **ASHA:** prioritised visit list, referral PDF and QR, weekly PHC summary. **Doctor:** timeline, care plan versions, labs, consult notes, sensitivity what-if.
+- **Reports:** nine English/Hindi PDF formats, FHIR R4 JSON export, offline animated-QR transfer.
+- **Device link:** BLE GATT or Web Serial to the stool (same JSON protocol as `firmware/hridaymitra_stool/app_link.h`), plus a built-in simulator.
+- **Privacy:** records are encrypted at rest (AES-GCM, PBKDF2 PIN key). PINs are a demo mechanism, not production authentication.
+- **Languages:** 10 UI languages (extra ones flagged "machine-translated, needs review"); light, dark and high-contrast themes; 48 pre-generated Hindi audio clips.
+- **Verified:** 108 unit tests, 27 browser tests, mobile Lighthouse accessibility 100 (see `docs/app/PHASE_9.md`).
 
-**Option B: USB, no hosting (Android).** Turn on *Developer options → USB debugging*, connect the phone, then:
+```bash
+cd app
+python ../tools/prepare_voice_models.py   # optional: 82 MB voice packs, not in git
+npm ci && npm test && npm run dev
+```
+
+Node.js 22.12+. End-to-end tests: `npm run test:e2e` (Playwright, Pixel 5 viewport).
+
+### Install it on a phone
+
+A PWA installs only from **HTTPS or `localhost`**; plain `http://<lan-ip>` does not work.
+
+**Option A: host it.** `cd app && npm ci && npm run build`, then upload `app/dist/` to the **root** of a static host (Netlify Drop, or Vercel / Cloudflare Pages with root directory `app`, build `npm run build`, output `dist`). The app uses root-absolute paths (`/models/`, `/audio/`), so it cannot sit under a sub-path such as GitHub Pages `/HridayMitra/`. On the phone: Android Chrome → menu → *Install app*; iPhone Safari → Share → *Add to Home Screen*.
+
+**Option B: USB, no hosting (Android).** Enable *Developer options → USB debugging*, connect the phone, then:
 
 ```bash
 cd app && npm ci && npm run build
 npm run preview -- --port 4173          # serves the production build
 adb reverse tcp:4173 tcp:4173           # in a second terminal
-# on the phone, Chrome → http://localhost:4173 → menu → Install app
+# phone: Chrome → http://localhost:4173 → menu → Install app
 ```
 
-Open the installed app once while connected (wait for “App ready offline”) and it keeps working without the cable. Voice packs (82 MB) come from `python tools/prepare_voice_models.py` before building; install them in the app under *Voice commands*.
+Open the installed app once while connected and wait for "App ready offline"; it then works without the cable. Web Bluetooth pairing needs Chrome on Android (not iOS). Per-phase details: `app/README.md`, `docs/app/PHASE_*.md`.
 
-BLE pairing with the stool needs Chrome on Android; iOS Safari has no Web Bluetooth. Full details: [`app/README.md`](app/README.md).
+## Hardware and firmware
 
-## Firmware
-- `firmware/hridaymitra_stool/`: ESP32 DevKit. The 90 s check-in, HX711 weight, 4 impedance paths with Goertzel, MAX30102 pulse/SpO₂, 3 questions, stand-up time, amulet scan, **the alert engine on the chip** (`engine_core.h`, identical to the Python engine), SMS ladder with retries, replies and missed calls, engine state saved in flash. Phone numbers go in `config.h`.
-- `app/`: **HridayMitra Saathi**, the offline phone app (PWA, 10 Indian languages, voice commands, family / ASHA / doctor modes). It runs the same alert engine (v3, checked day by day against Python) and talks to the stool over BLE or USB (`firmware/hridaymitra_stool/app_link.h`). `cd app && npm ci && npm test && npm run dev`.
-- `firmware/hridaymitra_amulet/`: ESP32-C3 + MPU6050. Night breathing, night sit-ups, activity, 6-minute walk steps (`walk_core.h`), falls and SOS, sent in the BLE advertisement (no pairing).
-- Voice prompts: `python tools/make_voice_clips.py`. Recorded Hindi/Tamil WAVs in `firmware/voice/<lang>/` replace the built-in English voice.
+| Path | Contents |
+|---|---|
+| `firmware/hridaymitra_stool/` | ESP32 DevKit. 90 s check-in, HX711 weight (one HX711 for all four cells), 4 impedance paths with Goertzel, MAX30102 pulse/SpO₂, 3 questions, sit-to-stand fit, amulet scan, **the alert engine on the chip** (`engine_core.h`), SMS ladder with retries, replies and missed calls, engine state in flash, daily self-test, CHARGE / USE safety switch. Phone numbers and timings are in `config.h`. |
+| `firmware/hridaymitra_amulet/` | ESP32-C3 + MPU6050. Night breathing, sit-ups, activity, 6-minute walk (`walk_core.h`), falls, SOS, sent in the BLE advertisement (no pairing). |
+| `hardware/kicad/` | KiCad 9 schematic generated from code (ERC 0), netlist, PDF. |
+| `docs/hardware/` | HM-HW-001 block diagram, HM-HW-002 schematic set, HM-HW-003 power budget, system architecture, front-end sheet with LTspice test points. |
+| `sim/circuit/` | LTspice netlists, Monte Carlo of 100 devices, mains-hum test, spectroscopy, self-calibration, IEC 60601-1 fault analysis, charger leakage. |
 
-## Documents
-- `docs/HridayMitra report.pdf` (2 pages) and `docs/HridayMitra pitch deck.pdf`, plus `docs/PITCH_SCRIPT.md`. All three are regenerated from the live results.
-- `docs/EVIDENCE.md`: every PS requirement → proof file, the failure-modes table, the assumption ledger.
-- `docs/DECISIONS.md`: the starting ideas, every design decision with evidence, and the next improvements.
-- Build guide v3, wiring guide, physical build pack, block diagram: `docs/`. KiCad: `hardware/kicad/`.
+Safety design: two series coupling capacitors plus a current-limit resistor (every single fault within IEC 60601-1 type-BF limits, margin ≥ 12.8×), battery-only measuring, a CHARGE / USE switch that cuts both USB wires, impedance and ECG switchable off for pacemaker / ICD users.
+
+Voice prompts: `python tools/make_voice_clips.py`. Recorded Hindi / Tamil WAVs in `firmware/voice/<lang>/` replace the built-in English voice.
+
+## Simulate it (no hardware)
+
+- **Wokwi** (`wokwi/`): the production firmware on an emulated ESP32 with a *virtual patient* chip (drag leg fluid, chest fluid, lifted foot, mains hum), a MAX30102 chip, a monitor chip showing the engine's decision, and a SIM800L chip with a phone screen that receives the SMS ladder. Build with `python run.py wokwi`; run in the browser in two minutes, see [`wokwi/README.md`](wokwi/README.md).
+- **Software-in-the-loop** (`tests/test_firmware_sil.py`, `tests/sil/`): the same firmware compiled for the laptop and driven through a month.
+- **Demo video:** [`docs/demo/hridaymitra_month_demo.mp4`](docs/demo/hridaymitra_month_demo.mp4), one month of the stool firmware driving the Wokwi screens.
 
 ## Reproduce everything
 
 | Step | Command |
 |---|---|
-| Pretend patients (PS cohort, 200 × 60 days) | `python sim/patients/make_patients.py` |
+| Synthetic patients (PS cohort, 200 × 60 days) | `python sim/patients/make_patients.py` |
 | Real-world cohort (1,000 × 180 days) | `python sim/patients/make_patients.py --patients 1000 --days 180 --event-fraction 0.1 --seed 43 --out data/processed/realworld` |
 | Tune on training patients, freeze, test once | `python engine/leadtime_v2.py` |
 | Stress tests and ablations | `python engine/stress_and_ablation.py` |
-| Assumption sensitivity (46 cohorts) | `python engine/assumption_sensitivity.py` |
+| Assumption sensitivity | `python engine/assumption_sensitivity.py` |
+| Published-trial calibration | `python engine/calibrate_published.py` |
+| ML comparator, hybrid engine, benchmark | `python engine/ml_comparator.py`, `python engine/hybrid.py`, `python benchmark/bench.py` |
+| Score your own method | `python benchmark/score.py my_submission.csv test` |
 | Care-loop simulator | `python sim/careloop/careloop.py` |
 | Heart rate on PhysioNet BIDMC CHF | `python engine/validate_bidmc_hr.py` |
 | LTspice: legs, chest paths, Monte Carlo, hum (needs LTspice) | `python sim/circuit/trunk_paths.py`, `montecarlo.py`, `hum.py` |
 | KiCad schematic + ERC + netlist checks (needs KiCad 9) | `python tools/make_schematic.py` |
 | Block diagram, cost simulation | `python tools/make_block_diagram.py`, `python tools/cost_sim.py` |
 
+Every synthetic-patient parameter carries a source or is marked ASSUMPTION in [`data/processed/DATA.md`](data/processed/DATA.md); each ASSUMPTION was pushed low and high in the sensitivity sweep.
+
 ## Repository map
 
 | Folder | What is inside |
 |---|---|
-| `engine/` | `signals.py` (raw → numbers), `alert_engine.py` (baseline, scores, lights, reasons), `evaluate.py` (the four PS measures, no-peeking check), baselines, tuning and test scripts, frozen thresholds |
-| `sim/patients/` | synthetic patient generator; every parameter has a source or is marked ASSUMPTION |
-| `sim/circuit/` | LTspice netlists, open-and-run files, Monte Carlo, hum test, how to verify |
+| `engine/` | `signals.py` (raw → numbers), `alert_engine.py` (baseline, scores, lights, reasons), `hybrid.py`, `product.py` (sick-day plan, coaching, two users, FHIR), `sts.py` (sit-to-stand), `evaluate.py` (the four PS measures, no-peeking check), baselines, tuning scripts, frozen thresholds |
+| `benchmark/` | Open benchmark v2: fixed splits with sha256, public scorer with bootstrap ranges, 5 baselines, leaderboard |
+| `sim/patients/` | Synthetic patient generator |
+| `sim/circuit/` | LTspice netlists and analyses |
 | `sim/careloop/` | alert → family → ASHA → doctor simulator |
-| `hardware/kicad/` | schematic generated from code, ERC report, netlist, PDF |
-| `demo/` | Streamlit demo (synthetic cohort or live stool) |
-| `firmware/` | stool (ESP32) and amulet (ESP32-C3) sketches; `engine_core.h` = the engine on the chip |
-| `run.py` | one command for setup, tests, demo, live stool, firmware, results, documents |
-| `docs/` | build guide v3, wiring guide, physical build pack, block diagram, phase plan |
-| `reports/` | all results (CSV, PNG, summaries) |
-| `tests/` | pytest suite |
+| `firmware/` | Stool (ESP32) and amulet (ESP32-C3) sketches |
+| `hardware/kicad/` | Schematic, ERC report, netlist |
+| `wokwi/` | Wokwi projects and custom chips |
+| `app/` | Saathi PWA |
+| `demo/` | Streamlit dashboard |
+| `tools/` | Generators for documents, schematics, voice clips, Wokwi projects, stool bridge, cost simulation, `progress.py` |
+| `tests/` | pytest suite plus C++ parity checks |
+| `data/` | Synthetic cohorts and public BIDMC ECG |
+| `reports/` | All results (CSV, PNG, summaries) |
+| `docs/` | Report, pitch, build guide, wiring guide, evidence, decisions, app phase docs |
+| `research_notes/` | Background research that shaped the design |
+| `progress.json` | Workstream progress, rendered by `tools/progress.py` |
+
+## Documents
+
+- `docs/HridayMitra report.pdf` (2 pages) and `docs/HridayMitra pitch deck.pdf`, plus `docs/PITCH_SCRIPT.md`; regenerated from live results by `python run.py docs`.
+- [`docs/EVIDENCE.md`](docs/EVIDENCE.md): requirement traceability, failure modes and safeguards, assumption ledger.
+- [`docs/DECISIONS.md`](docs/DECISIONS.md): starting ideas, every design decision with evidence, next improvements.
+- Build guide v3, wiring guide, physical build pack, user journey storyboard, block diagram: `docs/`.
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
-| `python run.py test` cannot import packages | Use Python 3.11, then `python run.py setup` |
-| `npm run build` fails on missing `/models/*.bin` | `python tools/prepare_voice_models.py` (downloads and checks sha256) |
-| “Install app” not offered on the phone | Not HTTPS/localhost, or first load not finished; reload and wait for “App ready offline” |
-| Phone cannot reach `localhost:4173` | Re-run `adb reverse tcp:4173 tcp:4173`; confirm `adb devices` lists the phone |
-| Web Bluetooth button missing | Use Chrome on Android; Safari/iOS does not support it |
-| Firmware upload fails | Check the COM port, install the `esp32` core for `arduino-cli`, hold BOOT while flashing |
+| Imports fail in `python run.py test` | Use Python 3.11, then `python run.py setup` |
+| `npm run build` complains about missing `/models/*.bin` | `python tools/prepare_voice_models.py` (downloads and checks sha256) |
+| "Install app" not offered on the phone | Not HTTPS / localhost, or first load unfinished; reload and wait for "App ready offline" |
+| Phone cannot reach `localhost:4173` | Re-run `adb reverse tcp:4173 tcp:4173`; check `adb devices` lists the phone |
+| No Bluetooth button in the app | Use Chrome on Android; iOS Safari has no Web Bluetooth |
+| Firmware compile or upload fails | Install the `esp32` core for `arduino-cli`; check the COM port; hold BOOT while flashing if the board does not enter download mode |
 
 ## Honest limits
-- **Synthetic data:** the patient data is synthetic and calibrated to published weight-rule results. It shows the method works on the patterns we modelled; it isn't clinical accuracy.
-- **Lead time:** the 2-day lead time is mostly set by how worsening is defined (3–10 days, speeding up at the end). The assumption sweep shows this matters more than any hardware assumption.
-- **Chest reading:** it's a weak signal. A +10% change stands out only after about a week of averaging, so it supports the leg and weight readings rather than replacing them.
-- **Untested on people:** the circuit is simulated with a textbook body model and hasn't been compared with a bench build yet. The SpO₂ calibration is generic.
-- **Safety:** never use it on anyone with a pacemaker or ICD, and run on battery only while a person touches the electrodes.
+
+- **Synthetic data.** Patients are synthetic and calibrated to published weight-rule results. This shows the method works on the patterns we modelled; it is not clinical accuracy.
+- **Lead time.** The 2–3 day lead is mostly set by how worsening is defined (3–10 days, speeding up at the end). The sweep shows this matters more than any hardware assumption.
+- **Chest reading.** A weak signal: a +10% change stands out only after about a week of averaging, so it supports the leg and weight readings.
+- **Untested on people.** The circuit is simulated with a textbook body model and not yet compared with a bench build. SpO₂ calibration is generic.
+- **App.** Not installed or verified on a physical Android phone; draft translations and audio need human review; alarms need the app open; SMS from the app is a draft only.
+- **Safety.** Never use on anyone with a pacemaker or ICD, and measure on battery only while a person touches the electrodes.
