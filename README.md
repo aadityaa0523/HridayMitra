@@ -26,6 +26,8 @@ Build cost: **₹4,243–4,397** (Monte Carlo of the parts list); the limit is �
 | False alerts per patient-month | **0.06** | 0.53 |
 | External 1,000-patient cohort: sensitivity / false alerts | **72% / 0.06** | 31% / 0.38 |
 
+**Hardware sheets (PS deliverable 2):** [system architecture](docs/hardware/architecture.png), every arrow labelled with what flows through it, and [front-end schematic + LTspice test points](docs/hardware/frontend_sheet.png): the wired circuit with TP1-TP7 waveforms, Z = 578.4 Ω vs 578.5 Ω exact. The KiCad schematic (ERC 0) is in `hardware/kicad/`.
+
 **Hybrid engine** (rules propose, a small model trained on dev confirms; `engine/hybrid.py`): catches **86%** of episodes on held-out, external and stress cohorts at 0.09–0.19 false alerts per patient-month (budget 0.21). Full table and an open scorer: [`benchmark/LEADERBOARD.md`](benchmark/LEADERBOARD.md).
 
 - **Calibrated to real trials:** the published FAST and SCALE-HF 1 weight rules score on our external cohort 20% / 33% caught and 4.8 / 4.85 unexplained alerts per year, against the published 23% / 35% and 4.3 / 4.18.
