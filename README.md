@@ -14,7 +14,7 @@
 
 <p align="center"><img src="Deliverables/concept_any_chair.webp" width="900" alt="HridayMitra concept: a weighing platform with foot electrodes under the family's own chair, and a hand sensor bar held on the lap or fixed to the armrests"></p>
 
-**No special chair to buy. No patch to wear. No smartphone needed.**
+**No special chair to buy. No patch to wear.**
 
 - **Use the chair you already have.** A stool, a plain wooden chair, a plastic chair or an armchair: put it on our thin weighing platform. Nothing is fixed to the chair. (Not for wheeled or wobbly chairs.)
 - **Just sit, feet on the plates.** 4 stainless foot plates (heel and forefoot of each foot) and 4 load cells in the platform.
