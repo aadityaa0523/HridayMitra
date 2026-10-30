@@ -10,7 +10,7 @@
 > **Monitoring, not diagnosis.** Research prototype for the Transfinitte 2026 hackathon (hardware track, problem statement by Dare 2 Dream Ventures).
 > All patient data in this repository is **synthetic** (plus public PhysioNet BIDMC ECG for heart rate). No human data was collected.
 
-**In one line:** a 90-second daily check-in on the patient's own chair, an amulet, and an offline alert engine that warns the family about **3 days before** a heart-failure hospital visit, for a build cost of about **₹4,400** (limit ₹5,000).
+**In one line:** a 90-second daily check-in on the patient's own chair, an amulet, and an offline alert engine that warns the family **days before** a heart-failure hospital visit (up to **4 days** in our worked example, median 3), for a build cost of about **₹4,400**.
 
 **Jump to:** [The problem](#the-problem-and-the-idea) · [How it works](#how-it-works) · [Results](#results) · [Quick start](#quick-start) · [Saathi phone app](#saathi-phone-app) · [Hardware and firmware](#hardware-and-firmware) · [Simulate it](#simulate-it-no-hardware) · [Reproduce](#reproduce-everything) · [Repository map](#repository-map) · [Documents](#documents) · [Troubleshooting](#troubleshooting) · [Honest limits](#honest-limits)
 
@@ -70,7 +70,7 @@ Full tables with 95% ranges and an open scorer anyone can run: [`benchmark/LEADE
 - **Care loop.** In simulation 92% of red alerts get a clinical review before the hospital visit, versus 27% with a single SMS.
 - **Circuit.** LTspice puts every path within 0.05% of the exact answer. A Monte Carlo of 100 stools built from 5% parts keeps 99% of readings within 2%, and it found a real design bug (bias resistors 1 MΩ → 10 MΩ).
 - **Heart rate on real ECG.** All 15 PhysioNet BIDMC CHF records: median error 0.15 bpm, 13 of 15 within 0.5 bpm. It fails on chf12, a very noisy recording.
-- **Cost.** Parts list ₹3,917 (low) to ₹4,890 (plan price). Monte Carlo of price noise: median ₹4,402, 5th–95th percentile ₹4,319–4,486, under ₹5,000 in every draw. Build cost only, no shipping.
+- **Cost.** Parts list ₹3,917 (low) to ₹4,890 (plan price). Monte Carlo of price noise: median ₹4,402, 5th–95th percentile ₹4,319–4,486. Build cost only, no shipping.
 - **Firmware.** The whole firmware runs through an emulated month: 26/26 claims pass and every light equals the Python engine.
 
 Details: `reports/phase1_summary.md`, `reports/phase2_summary.md`, `sim/circuit/HOW_TO_VERIFY.md`, [`docs/EVIDENCE.md`](docs/EVIDENCE.md) (every problem-statement requirement → proof file, plus a failure-modes table).
@@ -141,9 +141,23 @@ Open the installed app once while connected and wait for "App ready offline"; it
 |---|---|
 | `firmware/hridaymitra_stool/` | ESP32 DevKit. 90 s check-in, HX711 weight (one HX711 for all four cells), 4 impedance paths with Goertzel, MAX30102 pulse/SpO₂, 3 questions, sit-to-stand fit, amulet scan, **the alert engine on the chip** (`engine_core.h`), SMS ladder with retries, replies and missed calls, engine state in flash, daily self-test, CHARGE / USE safety switch. Phone numbers and timings are in `config.h`. |
 | `firmware/hridaymitra_amulet/` | ESP32-C3 + MPU6050. Night breathing, sit-ups, activity, 6-minute walk (`walk_core.h`), falls, SOS, sent in the BLE advertisement (no pairing). |
-| `hardware/kicad/` | KiCad 9 schematic generated from code (ERC 0), netlist, PDF. |
-| `docs/hardware/` | HM-HW-001 block diagram, HM-HW-002 schematic set, HM-HW-003 power budget, system architecture, front-end sheet with LTspice test points. |
+| `hardware/kicad/` | KiCad 9 schematic generated from code (ERC 0), netlist, PDF, and the Rev A PCB placement (`hridaymitra_pcb_unrouted.kicad_pcb`, Specctra `hridaymitra_pcb.dsn`). |
+| `docs/hardware/` | HM-HW-001 block diagram, HM-HW-002 schematic set, HM-HW-003 power budget, HM-HW-004 PCB placement, system architecture, front-end sheet with LTspice test points. |
 | `sim/circuit/` | LTspice netlists, Monte Carlo of 100 devices, mains-hum test, spectroscopy, self-calibration, IEC 60601-1 fault analysis, charger leakage. |
+
+### PCB design (Rev A draft)
+
+![HridayMitra PCB, Rev A placement](docs/hardware/HM-HW-004_pcb_placement.png)
+
+A 2-layer, 140 × 100 mm board for the custom part (8-electrode front end + ESP32), made by `tools/make_pcb.py` from the same netlist as the KiCad schematic: every part gets a footprint, parts are grouped by function (analog front end and electrode header top-left, ESP32 with its antenna at the top edge, module headers on the right, power and the CHARGE / USE switch bottom-left, buttons, LEDs and drivers bottom-right) and four M3 mounting holes. The script writes a Specctra DSN for autorouting (Freerouting) and, given the routed `.ses`, adds the tracks, pours ground on both layers and runs DRC.
+
+Status: **placement only, routing next. Not fabricated, not yet reviewed by a layout engineer.**
+
+```bash
+python3 tools/make_pcb.py                       # needs KiCad 7+ (pcbnew Python module + footprint library)
+java -jar freerouting-1.9.0.jar -de hardware/kicad/hridaymitra_pcb.dsn -do routed.ses
+python3 tools/make_pcb.py routed.ses            # tracks + ground pour + DRC report
+```
 
 Safety design: two series coupling capacitors plus a current-limit resistor (every single fault within IEC 60601-1 type-BF limits, margin ≥ 12.8×), battery-only measuring, a CHARGE / USE switch that cuts both USB wires, impedance and ECG switchable off for pacemaker / ICD users.
 
